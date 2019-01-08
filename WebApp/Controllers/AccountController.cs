@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -20,16 +21,56 @@ namespace WebApp.Controllers
     [ApiController]
     public class AccountController: ControllerBase
     {
-        [HttpGet("login")]
-        public ActionResult Login(string name,string role)
+        [HttpPost("WebLogin")]
+        public ActionResult WebLogin(User user)
         {
+            var userEntity = TestData.Users.FirstOrDefault(a => a.Name == user.Name && a.Pwd == user.Pwd);
+            if (userEntity == null)
+            {
+                return Ok("用户名或密码错误");
+            }
             HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>()
             {
-                new Claim("name",name),
-                new Claim("role",role)
+                new Claim(ConstValues.NameClaimType,user.Name),
+                new Claim(ConstValues.RoleClaimType,userEntity.Role)
             }, CookieAuthenticationDefaults.AuthenticationScheme)));
             return Ok("login success");
         }
+
+        [HttpPost("ApiLogin")]
+        public ActionResult ApiLogin(User user)
+        {
+            var userEntity = TestData.Users.FirstOrDefault(a => a.Name == user.Name && a.Pwd == user.Pwd);
+            if (userEntity == null)
+            {
+                return Ok("用户名或密码错误");
+            }
+            var claim = new Claim[]{
+                new Claim(ConstValues.NameClaimType,user.Name),
+                new Claim(ConstValues.RoleClaimType,userEntity.Role)
+            };
+            //签名证书(秘钥，加密算法)
+            var creds = new SigningCredentials(ConstValues.IssuerSigningKey, SecurityAlgorithms.HmacSha256);
+            //生成token  [注意]需要nuget添加Microsoft.AspNetCore.Authentication.JwtBearer包，并引用System.IdentityModel.Tokens.Jwt命名空间
+            var token = new JwtSecurityToken(ConstValues.Issuer, ConstValues.Audience, claim, DateTime.Now, DateTime.Now.AddMinutes(30), creds);
+            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+        }
+
+        [HttpGet("ThirdPartLogin")]
+        public async Task ApiLogin(string authscheme)
+        {
+            var authType = HttpContext.Request.Query["authscheme"];
+            if (!string.IsNullOrEmpty(authType))
+            {
+               await HttpContext.ChallengeAsync(authType, new AuthenticationProperties() { RedirectUri = "/api/account/user" });
+            }
+            else
+            {
+                HttpContext.Response.WriteAsync("请指定第三方登录应用");
+            }
+        }
+
+
         [HttpGet("logout")]
         public ActionResult Logout()
         {
@@ -37,17 +78,14 @@ namespace WebApp.Controllers
             return Ok("Logout success");
         }
 
-        [HttpGet("user")]
+        [HttpGet("User")]
         public ActionResult User()
         {
-            var jwt = HttpContext.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme).Result;
-            var cook = HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme).Result;
-            var obj = new
-            {
-                result1=jwt.Principal?.Claims.ToList().Select(a=>new{key=a.Type,value=a.Value}),
-                result2=cook.Principal?.Claims.ToList().Select(a => new { key = a.Type, value = a.Value })
-            };
-            return Ok(JsonConvert.SerializeObject(obj));
+            var result = HttpContext.User.Claims
+                .Select(a => new {key = a.Type, value = a.Value}).ToList();
+            result.Add(new
+                    {key = "authenticateType", value = HttpContext.User.Identity?.AuthenticationType});
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
         [HttpGet("token")]
