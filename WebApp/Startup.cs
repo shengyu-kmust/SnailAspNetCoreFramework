@@ -16,12 +16,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
+using WebApp.Entity;
 
 namespace WebApp
 {
@@ -37,6 +39,12 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region 数据库配置
+            services.AddDbContext<DatabaseContext>(optionsAction =>
+            {
+                optionsAction.UseSqlServer(Configuration.GetConnectionString("DatabaseConnectString"));
+            });
+            #endregion
             services.AddMvc();
             #region 身份验证
             //约定
