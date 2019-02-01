@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -24,6 +25,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using WebApp.Entity;
+using WebApp.Model;
+using WebApp.Security;
+using WebApp.Services;
 
 namespace WebApp
 {
@@ -46,6 +50,12 @@ namespace WebApp
             });
             #endregion
             services.AddMvc();
+
+            #region 依赖注入
+
+            services.AddSingleton<PermissionModel>();
+            services.AddScoped<ResourceService>();
+            #endregion
             #region 身份验证
             //约定
             //1、身份验证以支持Jwt和cookie两种为主，先jwt再cookie验证
@@ -102,7 +112,7 @@ namespace WebApp
                         OnRemoteFailure = HandleOnRemoteFailure,
                         OnCreatingTicket = async context =>
                         {
-                        // Get the GitHub user
+                            // Get the GitHub user
                             var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
                             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
                             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -116,6 +126,21 @@ namespace WebApp
                         }
                     };
                 });
+            #endregion
+
+            #region 权限控制
+            //权限控制只要在配置IServiceCollection，不需要额外配置app管道
+            //权限控制参考：https://docs.microsoft.com/en-us/aspnet/core/security/authorization/policies?view=aspnetcore-2.2
+            //handler和requirement有几种关系：1 handler对多requirement(此时handler实现IAuthorizationHandler)；1对1（实现AuthorizationHandler<PermissionRequirement>），和多对1
+            //所有的handler都要注入到services，用services.AddSingleton<IAuthorizationHandler, xxxHandler>()，而哪个requirement用哪个handler，低层会自动匹配。最后将requirement对到policy里即可
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(ConstValues.PermissionPolicy, policy =>
+                {
+                    policy.Requirements.Add(new PermissionRequirement());
+                });
+            });
+            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
             #endregion
         }
         private async Task HandleOnRemoteFailure(RemoteFailureContext context)

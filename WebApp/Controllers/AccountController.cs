@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +23,7 @@ namespace WebApp.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController: ControllerBase
+    public class AccountController:AuthorizeBaseController
     {
         private DatabaseContext _db;
 
@@ -47,11 +49,13 @@ namespace WebApp.Controllers
         //}
 
         /// <summary>
-        /// 用户登录，返回token
+        /// 用户登录，返回token  //TODO:需考虑用户的权限发生变动时，已经颁发的token要失效
         /// </summary>
         /// <param name="user">用户信息</param>
         /// <returns></returns>
+        [Description("获取登录token")]
         [HttpPost("ApiLogin")]
+        [AllowAnonymous]
         public ActionResult ApiLogin(User user)
         {
             var userEntity = _db.Users.FirstOrDefault(a => a.LoginName == user.LoginName && a.Pwd == user.Pwd);
@@ -62,24 +66,28 @@ namespace WebApp.Controllers
 
             var userRoles = _db.UserRoleses.Include(a => a.Role).AsNoTracking().Where(a => a.UserId == userEntity.Id)
                 .ToList().Select(a => a.Role);
-            var roleName = string.Join(',', userRoles.Select(a => a.Id).ToArray());
+            var roleIds = string.Join(',', userRoles.Select(a => a.Id).ToArray());
             //签名证书(秘钥，加密算法)
             var creds = new SigningCredentials(ConstValues.IssuerSigningKey, SecurityAlgorithms.HmacSha256);
             //生成token  [注意]需要nuget添加Microsoft.AspNetCore.Authentication.JwtBearer包，并引用System.IdentityModel.Tokens.Jwt命名空间
             var jwtSecurityToken = new JwtSecurityTokenHandler();
-            var tokenValidationParameters= new TokenValidationParameters()
+            //var tokenValidationParameters= new TokenValidationParameters()
+            //{
+            //    NameClaimType = ConstValues.NameClaimType,
+            //    RoleClaimType = ConstValues.RoleClaimType,
+            //    ValidIssuer = ConstValues.Issuer,
+            //    ValidAudience = ConstValues.Audience,
+            //    IssuerSigningKey = ConstValues.IssuerSigningKey
+            //};
+            var claims = new List<Claim>()
             {
-                NameClaimType = ConstValues.NameClaimType,
-                RoleClaimType = ConstValues.RoleClaimType,
-                ValidIssuer = ConstValues.Issuer,
-                ValidAudience = ConstValues.Audience,
-                IssuerSigningKey = ConstValues.IssuerSigningKey
+                new Claim(ConstValues.NameClaimType,userEntity.Id.ToString()),
+                new Claim(ConstValues.RoleClaimType,roleIds)
             };
-
-            var token = new JwtSecurityToken(ConstValues.Issuer, ConstValues.Audience, claim, DateTime.Now, DateTime.Now.AddMinutes(30), creds);
+            var token = new JwtSecurityToken(ConstValues.Issuer, ConstValues.Audience, claims, DateTime.Now, DateTime.Now.AddMinutes(30), creds);
             return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
         }
-
+        
         [HttpGet("ThirdPartLogin")]
         public async Task ApiLogin(string authscheme)
         {

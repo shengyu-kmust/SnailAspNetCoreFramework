@@ -9,10 +9,11 @@ namespace WebApp
 {
     public class ConstValues
     {
-        public const string NameClaimType = "name";
-        public const string RoleClaimType = "name";
+        public const string NameClaimType = "name";//存储的是用户id
+        public const string RoleClaimType = "roleIds";
         public const string Issuer = "snailServer";
         public const string Audience = "snailClient";
+        public const string PermissionPolicy = "Permission";
 
         public static SecurityKey IssuerSigningKey =
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes("shengyushengyushengyu"));

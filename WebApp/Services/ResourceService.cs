@@ -1,0 +1,85 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using WebApp.Entity;
+using WebApp.Enum;
+
+namespace WebApp.Services
+{
+    public class ResourceService
+    {
+        private DatabaseContext _db;
+        private static object _lock=new Object();
+        public ResourceService(DatabaseContext db)
+        {
+            _db = db;
+        }
+
+        /// <summary>
+        /// 获所有webapi的action设置为权限资源
+        /// </summary>
+        public void InitWebapiResource()
+        {
+            var allController = Assembly.GetExecutingAssembly().ExportedTypes
+                .Where(a => a.IsSubclassOf(typeof(ControllerBase)) && !Attribute.IsDefined(a, typeof(AllowAnonymousAttribute))).ToList();
+            var resources = new List<Resource>();
+            allController.ForEach(controller =>
+            {
+                controller.GetMethods(BindingFlags.Instance |  BindingFlags.DeclaredOnly | BindingFlags.Public).Where(a=>!a.IsConstructor && !Attribute.IsDefined(a, typeof(AllowAnonymousAttribute))).ToList().ForEach(
+                    action =>
+                    {
+                        var description = ((DescriptionAttribute)action.GetCustomAttribute(typeof(DescriptionAttribute)))?.Description;
+                        var resourceKey = ResourceKeyGenerate(controller.Name, action.Name);
+                        resources.Add(new Resource()
+                        {
+                            Category = ResourceCategory.Webapi.ToString(),
+                            Description = description,
+                            Key = resourceKey,
+                            Value = resourceKey
+                        });
+                    });
+            });
+            //对resource的key做唯一限制 
+            resources = resources.GroupBy(a => a.Key).SelectMany(a=>new List<Resource>(){a.FirstOrDefault()}).ToList();
+            lock (_lock)
+            {
+                var existResourceKeys = _db.Resources.Select(a=>a.Key).ToList();
+                var canAddResources = resources.Where(a => !existResourceKeys.Contains(a.Key));
+                foreach (var canAddResource in canAddResources)
+                {
+                    _db.Resources.Add(new Resource()
+                    {
+                        Category=canAddResource.Category,
+                        CreateTime=DateTime.Now,
+                        Description=canAddResource.Description,
+                        IsValid=(int)ValidOrNot.Valid,
+                        Key=canAddResource.Key,
+                        ParentId=0,
+                        Value=canAddResource.Value,
+                        UpdateTime=DateTime.Now
+                    });
+                }
+
+                _db.SaveChanges();
+            }
+            
+        }
+
+        public static string ResourceKeyGenerate(ControllerActionDescriptor controllerActionDescriptor)
+        {
+            return ResourceKeyGenerate(controllerActionDescriptor.ControllerName,
+                controllerActionDescriptor.ActionName);
+        }
+
+        public static string ResourceKeyGenerate(string controllerName, string actionName)
+        {
+            return $"{controllerName}_{actionName}";
+        }
+    }
+}
