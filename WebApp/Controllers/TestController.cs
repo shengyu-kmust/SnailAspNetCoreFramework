@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Entity;
 
 namespace WebApp.Controllers
 {
@@ -13,6 +14,10 @@ namespace WebApp.Controllers
     [ApiController]
     public class TestController : AuthorizeBaseController
     {
+        public TestController(DatabaseContext db) : base(db)
+        {
+        }
+
         [HttpPost("M1")]
         public ActionResult M1(Model model)
         {

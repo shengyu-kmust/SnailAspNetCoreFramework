@@ -27,10 +27,10 @@ namespace WebApp.Controllers
     {
         private DatabaseContext _db;
 
-        public AccountController(DatabaseContext db)
+        public AccountController(DatabaseContext db) : base(db)
         {
-            _db = db;
         }
+       
         #region 登录
         //[HttpPost("WebLogin")]
         //public ActionResult WebLogin(User user)

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Entity;
 
 namespace WebApp.Controllers
 {
@@ -13,6 +14,7 @@ namespace WebApp.Controllers
     [ApiController]
     public class ValuesController : AuthorizeBaseController
     {
+        public ValuesController(DatabaseContext db) : base(db) { }
         [Authorize]
         // GET api/values
         [HttpGet]

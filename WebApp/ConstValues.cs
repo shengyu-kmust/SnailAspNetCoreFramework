@@ -9,7 +9,7 @@ namespace WebApp
 {
     public class ConstValues
     {
-        public const string NameClaimType = "name";//存储的是用户id
+        public const string NameClaimType = "userId";//存储的是用户id
         public const string RoleClaimType = "roleIds";
         public const string Issuer = "snailServer";
         public const string Audience = "snailClient";

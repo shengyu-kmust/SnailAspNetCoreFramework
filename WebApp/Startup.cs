@@ -24,8 +24,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
+using WebApp.Domain;
 using WebApp.Entity;
-using WebApp.Model;
 using WebApp.Security;
 using WebApp.Services;
 
