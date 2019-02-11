@@ -25,7 +25,11 @@ namespace WebApp.Controllers
             _resourceManager = resourceManager;
         }
 
-        [Description("权限初始化")]
+        /// <summary>
+        /// 资源初始化
+        /// </summary>
+        /// <returns></returns>
+        [Description("资源初始化")]
         [HttpGet("Init")]
         [AllowAnonymous]
         public ActionResult InitResource()

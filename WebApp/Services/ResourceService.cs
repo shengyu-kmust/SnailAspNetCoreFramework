@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using WebApp.Entity;
 using WebApp.Enum;
+using WebApp.Infrastructure;
 
 namespace WebApp.Services
 {
@@ -16,9 +17,11 @@ namespace WebApp.Services
     {
         private DatabaseContext _db;
         private static object _lock=new Object();
-        public ResourceService(DatabaseContext db)
+        private ResourceRepository _resourceRepository;
+        public ResourceService(DatabaseContext db, ResourceRepository resourceRepository)
         {
             _db = db;
+            _resourceRepository = resourceRepository;
         }
 
         /// <summary>
@@ -80,6 +83,39 @@ namespace WebApp.Services
         public static string ResourceKeyGenerate(string controllerName, string actionName)
         {
             return $"{controllerName}_{actionName}";
+        }
+
+        public void AddResource(string key,string value,ResourceCategory category,int parentId=0)
+        {
+            var existResource = _resourceRepository.FirstOrDefault(a => a.Key == key);
+            if (existResource!=null)
+            {
+                throw new Exception("已经有同名的资源，不能重复");
+            }
+
+            if (parentId>0)
+            {
+                var parentResourc = _resourceRepository.FirstOrDefault(a => a.ParentId == parentId);
+                if (parentResourc == null)
+                {
+                    throw new Exception("父资源不存在");
+                }
+                _resourceRepository.Add(new Resource()
+                {
+                    Category=category.ToString(),
+                    Key=key,
+                    Value=value,
+                    ParentId=parentId
+                });
+            }
+            
+
+            #region 避免父子循环
+
+            
+
+            #endregion
+
         }
     }
 }

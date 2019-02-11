@@ -10,13 +10,11 @@ namespace WebApp.Infrastructure
     /// <summary>
     /// 基础层，不应该有逻辑，只是操作数据
     /// </summary>
-    public class UserRoleRepository
+    public class UserRoleRepository:BaseRepository<UserRole>
     {
-        private DatabaseContext _db;
 
-        public UserRoleRepository(DatabaseContext db)
+        public UserRoleRepository(DatabaseContext db):base(db)
         {
-            _db = db;
         }
 
         /// <summary>
@@ -28,14 +26,14 @@ namespace WebApp.Infrastructure
         {
             roleIds.ForEach(roleId =>
             {
-                _db.UserRoleses.Add(new UserRole()
+                db.UserRoleses.Add(new UserRole()
                 {
                     RoleId=roleId,
                     UserId = userId,
                     IsValid=(int)ValidOrNot.Valid
                 });
             });
-            _db.SaveChanges();
+            db.SaveChanges();
         }
 
         public void AddUserRoles(Dictionary<int, List<int>> userRoles)
@@ -44,7 +42,7 @@ namespace WebApp.Infrastructure
             {
                 user.Value.ForEach(roleId =>
                 {
-                    _db.UserRoleses.Add(new UserRole()
+                    db.UserRoleses.Add(new UserRole()
                     {
                         UserId = user.Key,
                         RoleId = roleId,
@@ -52,7 +50,7 @@ namespace WebApp.Infrastructure
                     });
                 });
             }
-            _db.SaveChanges();
+            db.SaveChanges();
         }
     }
 }

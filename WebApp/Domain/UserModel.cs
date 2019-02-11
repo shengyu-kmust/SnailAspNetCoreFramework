@@ -6,16 +6,21 @@ using WebApp.Infrastructure;
 
 namespace WebApp.Domain
 {
+    /// <summary>
+    /// 用户模型
+    /// </summary>
     public class UserModel
     {
-        private User _user;
-        private List<Role> _userRoles;
+        private User _user;//用户的其它信息
+        private List<Role> _userRoles;//用户的所有角色
         private HashSet<int> _removeRoleIds;
         private HashSet<int> _addRoleIds;
         private DatabaseContext _db;
         private UserRoleRepository _userRoleRepository;
         private List<int> _userRoleIds;
 
+        public List<int> RemoveRoleIds => _removeRoleIds.ToList();
+        public List<int> AddRoleIds => _addRoleIds.ToList();
         public List<int> UserRoleIds
         {
             get
@@ -82,6 +87,20 @@ namespace WebApp.Domain
             CommitAddedRole();
         }
 
+        public void AddRoles(List<int> roleIds)
+        {
+            if (roleIds == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (roleIds.Count == 0)
+            {
+                return;
+            }
+            roleIds.Except(UserRoleIds).ToList().ForEach(roleId => { _addRoleIds.Add(roleId); });
+            CommitAddedRole();
+        }
         private void CommitAddedRole()
         {
             var userId = _user.Id;

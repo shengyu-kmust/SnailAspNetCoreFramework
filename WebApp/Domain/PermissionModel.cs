@@ -8,6 +8,9 @@ using WebApp.Entity;
 
 namespace WebApp.Domain
 {
+    /// <summary>
+    /// 权限模型
+    /// </summary>
     public class PermissionModel
     {
         private Hashtable _userRoleMap=new Hashtable();

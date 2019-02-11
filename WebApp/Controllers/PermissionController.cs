@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Domain;
 using WebApp.Entity;
+using WebApp.Services;
 
 namespace WebApp.Controllers
 {
@@ -18,9 +19,11 @@ namespace WebApp.Controllers
     public class PermissionController : AuthorizeBaseController
     {
         private PermissionModel _permissionModel;
-        public PermissionController(PermissionModel permissionModel,DatabaseContext db):base(db)
+        private PermissionService _permissionService;
+        public PermissionController(PermissionModel permissionModel,DatabaseContext db,PermissionService permissionService):base(db)
         {
             _permissionModel = permissionModel;
+            _permissionService = permissionService;
         }
         [HttpGet("RefreshPermission")]
         [AllowAnonymous]
@@ -30,15 +33,29 @@ namespace WebApp.Controllers
             return Ok("成功");
         }
 
+        /// <summary>
+        /// 设置角色的权限
+        /// </summary>
+        /// <param name="roleId">角色ID</param>
+        /// <param name="resourceIds">资源</param>
+        /// <returns></returns>
         public ActionResult AddPermission(int roleId, string resourceIds)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 移除角色的权限
+        /// </summary>
+        /// <param name="roleId">角色ID</param>
+        /// <param name="resourceIds">资源ID</param>
+        /// <returns></returns>
         public ActionResult RemovePermission(int roleId, string resourceIds)
         {
             throw new NotImplementedException();
         }
+
+
 
     }
 }
