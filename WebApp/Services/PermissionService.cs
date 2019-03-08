@@ -13,14 +13,17 @@ namespace WebApp.Services
     public class PermissionService
     {
         private UserRoleRepository _userRoleRepository;
+        private PermissionRepository _permissionRepository;
 
-        public PermissionService(UserRoleRepository userRoleRepository)
+        public PermissionService(UserRoleRepository userRoleRepository, PermissionRepository permissionRepository)
         {
             _userRoleRepository = userRoleRepository;
+            _permissionRepository = permissionRepository;
         }
         public void AddPermissions(int roleId, string resourceIds)
         {
-
+            //var rolePermission=_permissionRepository.Where(a=>a.)
+            throw new NotImplementedException();
         }
 
         public void RemovePermission(int roleId, string resourceIds)

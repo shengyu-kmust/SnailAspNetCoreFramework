@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Entity;
+using WebApp.Infrastructure;
 
 namespace WebApp.Controllers
 {
@@ -12,8 +13,11 @@ namespace WebApp.Controllers
     [ApiController]
     public class OrganizationController : AuthorizeBaseController
     {
-        public OrganizationController(DatabaseContext _db) : base(_db)
+        private OrganizationRepository _organizationRepository;
+        public OrganizationController(DatabaseContext db, OrganizationRepository organizationRepository) : base(db)
         {
+            _organizationRepository = organizationRepository;
+            _db = db;
         }
 
         /// <summary>
@@ -22,9 +26,21 @@ namespace WebApp.Controllers
         /// <returns></returns>
         public ActionResult GetAllOrgTree()
         {
+            //var allOrg = _organizationRepository.All();
+            //var tree=from node in allOrg
+            //        select new
+            //        {
+            //            value=node,
+            //            childs=allOrg.
+            //        }
             throw new NotImplementedException();
+
         }
 
+        private object GetChild(List<Organization> dd)
+        {
+            throw new NotImplementedException();
+        }
         /// <summary>
         /// 获取某个组织下的所有组织架构
         /// </summary>

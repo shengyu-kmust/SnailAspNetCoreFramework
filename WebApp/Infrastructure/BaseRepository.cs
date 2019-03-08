@@ -18,31 +18,31 @@ namespace WebApp.Infrastructure
         {
             this.db = db;
         }
-        public List<T> AllValid()
+        public virtual List<T> AllValid()
         {
             return db.Set<T>().Where(a => a.IsValid == (int) ValidOrNot.Valid).ToList();
         }
 
-        public List<T> All()
+        public virtual List<T> All()
         {
             return db.Set<T>().ToList();
         }
 
-        public T FirstOrDefault(Expression<Func<T,bool>> expression)
+        public virtual T FirstOrDefault(Expression<Func<T,bool>> expression)
         {
             return db.Set<T>().FirstOrDefault(expression);
         }
 
-        public List<T> Where(Expression<Func<T, bool>> expression)
+        public virtual List<T> Where(Expression<Func<T, bool>> expression)
         {
             return db.Set<T>().Where(expression).ToList();
         }
-        public void Add(T entity)
+        public virtual void Add(T entity)
         {
             db.Set<T>().Add(entity);
             db.SaveChanges();
         }
-        public void SetInvalid(int id)
+        public virtual void SetInvalid(int id)
         {
             var entity=db.Set<T>().FirstOrDefault(a => a.Id == id);
             if (entity != null)
@@ -52,7 +52,7 @@ namespace WebApp.Infrastructure
             }
         }
 
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
             var entity=db.Set<T>().FirstOrDefault(a => a.Id == id);
             if (entity != null)
@@ -62,7 +62,7 @@ namespace WebApp.Infrastructure
             }
         }
 
-        public void Update(object dto,int id)
+        public virtual void Update(object dto,int id)
         {
             var entity = db.Set<T>().FirstOrDefault(a => a.Id == id);
             if (entity != null)
