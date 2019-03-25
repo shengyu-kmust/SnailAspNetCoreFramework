@@ -36,6 +36,9 @@ ICache接口，实现redis,memcached，memoryCache等
 * 单表的查询，分页
 * 多表的简单关联查询，分页
 
-## 事务的处理
-用repository和unit of work模式
-
+## 技术选型
+###
+### 事务的处理
+用repository和unit of work模式，但repository模式用EF自带的
+### 数据库处理方式
+* 用EF做数据处理，不考虑其它的方式。
