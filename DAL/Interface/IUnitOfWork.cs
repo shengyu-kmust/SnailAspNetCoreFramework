@@ -6,9 +6,8 @@ using Remotion.Linq.Clauses;
 
 namespace DAL.Interface
 {
-    public interface IUnitOfWork:IDisposable
+    public interface IUnitOfWork:IDisposable 
     {
         Task SaveAsync();
-        Task<IRepository<TEntity>> GetRepository<TEntity>();
     }
 }

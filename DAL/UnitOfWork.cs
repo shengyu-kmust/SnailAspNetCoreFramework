@@ -24,9 +24,6 @@ namespace DAL.Interface
             return _dbContext.SaveChangesAsync();
         }
 
-        public Task<IRepository<TEntity>> GetRepository<TEntity>()
-        {
-           return new EFRepository<TEntity>();
-        }
+      
     }
 }

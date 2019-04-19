@@ -9,7 +9,7 @@ namespace DAL
         public void Test()
         {
 
-            new DbContext().Set<BaseEntity>().AsQueryable().pa
+            //new DbContext().up
         }
     }
 }

@@ -13,7 +13,7 @@ namespace DAL.Interface
     /// </remarks>
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public interface IRepository<TEntity>
+    public interface IRepository<TEntity> where TEntity:BaseEntity
     {
 
         #region 单表操作

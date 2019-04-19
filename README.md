@@ -5,8 +5,7 @@ asp.net core快速开发框架
 DTO:QueryModel,ViewModel?
 1、DDD
 2、CQRS
-# 关于几个问题
-## 项目整体结构
+## 项目整体结构设计
 采用DDD，但要根据项目的大小应用DDD的不同技术，总体是分如下几个项目
 * DAL层：数据访问层，依赖于上层的接口，为上层（如服务层及应用层）提供数据服务。同时实现IDAL的通用数据访问接口。
 * Application层：应用逻辑层，DDD模式，包含所有业务逻辑，不依赖于其它层
@@ -15,13 +14,16 @@ DTO:QueryModel,ViewModel?
 ### WEB层
 对于查询统计类型的数据操作，可直接调用DAL层
 #### 参数校验
+* 用微软的接口
 #### 输出约定
 #### 异常处理
 
 
 ### Application层
 #### 缓存
-ICache接口，实现redis,memcached，memoryCache等
+* ICache接口，实现redis,memcached，memoryCache等
+* 缓存用AOP，避免每个方法里写缓存逻辑
+* 缓存的更新用事件驱动，引入第三方组件
 #### 
 领域驱动，如果依赖其它层，依赖于对应层的接口，而不是实现
 #### AOP
