@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -13,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -49,7 +52,7 @@ namespace WebApp
                 optionsAction.UseSqlServer(Configuration.GetConnectionString("DatabaseConnectString"));
             });
             #endregion
-            services.AddMvc();
+            services.AddMvc(options => { options.Filters.Add(new GlobalExceptionFilterAttribute()); });
 
             #region 依赖注入
 
@@ -169,12 +172,35 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //开发模式用异常处理程序页
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
+                app.UseExceptionHandler(errorApp =>
+                {
+
+                    errorApp.Run(async context =>
+                    {
+                        var exceptionHandlerPathFeature =
+                            context.Features.Get<IExceptionHandlerPathFeature>();
+                        //业务异常
+                        if (exceptionHandlerPathFeature?.Error is BusinessException businessException)
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                            await context.Response.WriteAsync(businessException.Message);
+                        }
+                        else
+                        {
+
+                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                            await context.Response.WriteAsync($"服务器异常，异常时间{DateTime.Now}");
+
+                        }
+                    });
+                });
                 app.UseHsts();
             }
 

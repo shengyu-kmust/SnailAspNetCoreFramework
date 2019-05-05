@@ -15,7 +15,6 @@ namespace WebApp.Controllers
     public class ValuesController : AuthorizeBaseController
     {
         public ValuesController(DatabaseContext db) : base(db) { }
-        [Authorize]
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

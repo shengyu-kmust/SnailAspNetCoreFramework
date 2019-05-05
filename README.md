@@ -14,10 +14,14 @@ DTO:QueryModel,ViewModel?
 ### WEB层
 对于查询统计类型的数据操作，可直接调用DAL层
 #### 参数校验
-* 用微软的接口
+* 用微软的接口 **--已实现**
 #### 输出约定
+* HTTP Status Code遵照状态码的约定，20x为成功（接口已经调用成功），40x为请求错误（业务异常、未授权等），50x为服务器错误（服务器的异常）
+* 返回结果内容以实际前端要的数据格式为主，为json对象；如果是错误提示，返回的是错误内容。
 #### 异常处理
-
+* 异常处理用微软的技术，参考https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/error-handling?view=aspnetcore-2.2
+* 所有的异常都不会捕获
+* Business异常向外提示，服务器异常做拦截并向外提示，提示输出格式遵照输出约定
 
 ### Application层
 #### 缓存
@@ -35,9 +39,11 @@ DTO:QueryModel,ViewModel?
 
 ### DAL层
 封装通用的数据访问接口及实现，如用EF实现如下几个功能
+* 用面向接口编程的思想，为以后DAL层采用EF外的技术做扩展
+* 采用Repository模式
 * 单表的查询，分页
 * 多表的简单关联查询，分页
-
+* 简单的CRUD
 ## 技术选型
 ###
 ### 事务的处理
