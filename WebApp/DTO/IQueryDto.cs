@@ -12,7 +12,7 @@ namespace WebApp.DTO
     /// </summary>
     public interface IQueryDto:IValidatableObject
     {
-        Exception GeneratePredicateExpression();
+        Expression GeneratePredicateExpression();
         object Query();
     }
 }

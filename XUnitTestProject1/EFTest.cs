@@ -6,9 +6,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
+using System.Linq.Expressions;
 
 namespace XUnitTestProject1
 {
+    
     public class EFTest
     {
         [Fact]
@@ -18,7 +20,9 @@ namespace XUnitTestProject1
             using (MyDbContext db=new MyDbContext(options))
             {
                 var result=db.Students.ToList();
-                db.Students.Where()
+                Expression<Func<Student, bool>> expression = a => a.Card.CardNo == "";
+                
+                //db.Students.Where()
             }
         }
     }
@@ -37,7 +41,6 @@ namespace XUnitTestProject1
         public int Sex { get; set; }
 
         #region One-to-one
-        //public int CardId { get; set; }
         public Card Card { get; set; }
         #endregion
 

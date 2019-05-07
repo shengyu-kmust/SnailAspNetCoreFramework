@@ -12,7 +12,8 @@ DTO:QueryModel,ViewModel?
 * Web层：负责接口参数的输入及输出的所有相关处理（如参数校验，输出格式预定等）、Application/DAL层的调用。
 
 ### WEB层
-对于查询统计类型的数据操作，可直接调用DAL层
+* 负责输入输出参数处理、异常拦截、web缓存
+* 对于查询统计类型的数据操作，可直接调用DAL层
 #### 参数校验
 * 用微软的接口 **--已实现**
 #### 输出约定
@@ -24,6 +25,7 @@ DTO:QueryModel,ViewModel?
 * Business异常向外提示，服务器异常做拦截并向外提示，提示输出格式遵照输出约定
 
 ### Application层
+
 #### 缓存
 * ICache接口，实现redis,memcached，memoryCache等
 * 缓存用AOP，避免每个方法里写缓存逻辑
@@ -38,7 +40,8 @@ DTO:QueryModel,ViewModel?
 发布和订阅
 
 ### DAL层
-封装通用的数据访问接口及实现，如用EF实现如下几个功能
+* 负责所有和数据相关的操作
+* 封装通用的数据访问接口及实现，如用EF实现如下几个功能
 * 用面向接口编程的思想，为以后DAL层采用EF外的技术做扩展
 * 采用Repository模式
 * 单表的查询，分页
