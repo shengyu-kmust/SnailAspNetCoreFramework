@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,9 +11,11 @@ namespace WebApp.DTO
     /// <summary>
     /// 所有的查询条件
     /// </summary>
-    public interface IQueryDto:IValidatableObject
+    public interface IQueryDto<T>:IValidatableObject where T:BaseEntity
     {
-        Expression GeneratePredicateExpression();
-        object Query();
+        Expression<Func<T,bool>> GeneratePredicateExpression();
+        Func<IQueryable<T>, IQueryable<T>> IncludeFunc();
+        Func<IQueryable<T>, IQueryable<T>> OrderFunc();
+        Expression<Func<T, TResult>> SelectorExpression<TResult>();
     }
 }

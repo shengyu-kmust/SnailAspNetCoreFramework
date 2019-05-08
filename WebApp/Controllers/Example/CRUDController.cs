@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DAL.Sample;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Utility.Page;
 using WebApp.DTO.Sample;
+using WebApp.Services;
 
 namespace WebApp.Controllers.Example
 {
@@ -9,6 +11,7 @@ namespace WebApp.Controllers.Example
     [ApiController]
     public class CRUDController : ControllerBase
     {
+        private CRUDService<Student> CRUDService;
 
         /// <summary>
         /// 查询 
@@ -17,7 +20,7 @@ namespace WebApp.Controllers.Example
         /// <returns></returns>
         public List<StudentResultDto> Query(StudentQueryDto query)
         {
-            return null;
+            CRUDService.Query<StudentResultDto>(query)
         }
 
         /// <summary>

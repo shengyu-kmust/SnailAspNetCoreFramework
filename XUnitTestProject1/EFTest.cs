@@ -21,7 +21,9 @@ namespace XUnitTestProject1
             {
                 var result=db.Students.ToList();
                 Expression<Func<Student, bool>> expression = a => a.Card.CardNo == "";
-                
+                var entry = db.Students.add
+                entry.Property()
+                //db.Students.Include(a=>a.BirthDay).OrderBy()
                 //db.Students.Where()
             }
         }

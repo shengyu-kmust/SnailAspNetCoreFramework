@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL.Sample
 {
-    public class Student
+    public class Student:BaseEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

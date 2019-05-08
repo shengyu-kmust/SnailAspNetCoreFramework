@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Interface;
 using Microsoft.EntityFrameworkCore;
+using Utility.Page;
 
 namespace DAL
 {
@@ -28,10 +30,33 @@ namespace DAL
 
 
         #region 通用方法
+        public List<TEntity> Query<TResult>(Expression<Func<TEntity,bool>> predicate,Func<IQueryable<TEntity>,IQueryable<TEntity>> include,Expression<Func<TEntity,TResult>> selector)
+        {
+            return null;
+        }
+        public List<TEntity> Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PageResult<TEntity> Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, IPagination pagination)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<TResult> Query<TResult>(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, Expression<Func<TEntity, TResult>> selector)
+        {
+            _dbSet
+        }
+
+        public PageResult<TResult> Query<TResult>(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, IPagination pagination, Expression<Func<TEntity, TResult>> selector)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
+        #region 查询 
 
-        
         public Task<TEntity> FindAsync(params object[] keyValues)
         {
             return _dbSet.FindAsync();
@@ -62,6 +87,8 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        #endregion
+
         public Task<(List<TEntity> thisPagEntities, int totalCount)> AllAsyncPage<TKey>(PageParam<TEntity, TKey> pageParam)
         {
             throw new NotImplementedException();
@@ -77,9 +104,14 @@ namespace DAL
             throw new NotImplementedException();
         }
 
-        public Task<TEntity> UpdateAsync(TEntity entity, List<string> changeProperties)
+        public void UpdateAsync(TEntity entity, List<string> changeProperties)
         {
-            throw new NotImplementedException();
+            var entityEntry= _dbSet.Attach(entity);
+            foreach (var property in changeProperties)
+            {
+                entityEntry.Property(property).IsModified = true;
+            }
+            _dbContext.SaveChanges();
         }
 
         public Task<TEntity> RemoveAsync(TEntity entity)
@@ -91,5 +123,6 @@ namespace DAL
         {
             return _dbContext.SaveChangesAsync();
         }
-    }
+
+      }
 }

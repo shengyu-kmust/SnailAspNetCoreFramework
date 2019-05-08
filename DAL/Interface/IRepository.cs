@@ -4,6 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Utility.Page;
+
 namespace DAL.Interface
 {
     /// <summary>
@@ -86,7 +88,7 @@ namespace DAL.Interface
         /// <param name="entity">修改的实体</param>
         /// <param name="changeProperties">要修改的字段</param>
         /// <returns></returns>
-        Task<TEntity> UpdateAsync(TEntity entity, List<string> changeProperties);
+        void UpdateAsync(TEntity entity, List<string> changeProperties);
 
         #endregion
 
@@ -100,6 +102,49 @@ namespace DAL.Interface
 
         #endregion
 
+        #region 简单的crud
+
+        #region 查询
+        /// <summary>
+        /// 查询列表
+        /// </summary>
+        /// <param name="predicate">查询条件</param>
+        /// <param name="include">include条件</param>
+        /// <param name="order">order条件</param>
+        /// <returns></returns>
+        List<TEntity> Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order);
+
+        /// <summary>
+        /// 查询分页
+        /// </summary>
+        /// <param name="predicate">查询条件</param>
+        /// <param name="include">include条件</param>
+        /// <param name="order">order条件</param>
+        /// <param name="pagination">分页</param>
+        /// <returns></returns>
+        PageResult<TEntity> Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, IPagination pagination);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TResult">要返回的类型</typeparam>
+        /// <param name="predicate"></param>
+        /// <param name="include"></param>
+        /// <param name="order"></param>
+        /// <param name="selector"></param>
+        /// <returns></returns>
+        List<TResult> Query<TResult>(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, Expression<Func<TEntity, TResult>> selector);
+
+
+        PageResult<TResult> Query<TResult>(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, IPagination pagination, Expression<Func<TEntity, TResult>> selector);
+
+        #endregion
+
+        #region 修改
+
+
+        #endregion
+        #endregion
 
 
     }
