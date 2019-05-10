@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Domain;
-using WebApp.Entity;
-using WebApp.Services;
+using DAL.Domain;
+using DAL.Entity;
+using DAL.Services;
 
-namespace WebApp.Controllers
+namespace DAL.Controllers
 {
     /// <summary>
     /// 权限管理，只对角色进行授权

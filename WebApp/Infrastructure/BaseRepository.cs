@@ -5,10 +5,10 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore.Storage;
-using WebApp.Entity;
-using WebApp.Enum;
+using DAL.Entity;
+using DAL.Enum;
 
-namespace WebApp.Infrastructure
+namespace DAL.Infrastructure
 {
     public class BaseRepository<T> where T:BaseEntity
     {

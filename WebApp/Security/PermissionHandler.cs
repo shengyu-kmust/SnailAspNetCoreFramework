@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using WebApp.Domain;
+using DAL.Domain;
 
-namespace WebApp.Security
+namespace DAL.Security
 {
     /// <summary>
     /// 权限控制处理类

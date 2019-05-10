@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Utility.Page;
-using WebApp.DTO.Sample;
-using WebApp.Services;
+using DAL.DTO.Sample;
+using DAL.Services;
 
-namespace WebApp.Controllers.Example
+namespace DAL.Controllers.Example
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -20,7 +20,7 @@ namespace WebApp.Controllers.Example
         /// <returns></returns>
         public List<StudentResultDto> Query(StudentQueryDto query)
         {
-            CRUDService.Query<StudentResultDto>(query)
+            return CRUDService.Query<StudentResultDto>(query);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace WebApp.Controllers.Example
         /// <returns></returns>
         public PageResult<StudentResultDto> QueryPage(StudentQueryPageDto queryPage)
         {
-            return null;
+            return CRUDService.q
         }
     }
 

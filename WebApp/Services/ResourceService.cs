@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
-using WebApp.Entity;
-using WebApp.Enum;
-using WebApp.Infrastructure;
+using DAL.Entity;
+using DAL.Enum;
+using DAL.Infrastructure;
 
-namespace WebApp.Services
+namespace DAL.Services
 {
     public class ResourceService
     {

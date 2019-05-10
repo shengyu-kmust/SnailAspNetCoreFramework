@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WebApp.Migrations
+namespace DAL.Migrations
 {
     public partial class _20190129 : Migration
     {

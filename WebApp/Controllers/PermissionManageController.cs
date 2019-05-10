@@ -5,13 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.DTO;
-using WebApp.Entity;
-using WebApp.Enum;
-using WebApp.Infrastructure;
-using WebApp.Services;
+using DAL.DTO;
+using DAL.Entity;
+using DAL.Enum;
+using DAL.Infrastructure;
+using DAL.Services;
 
-namespace WebApp.Controllers
+namespace DAL.Controllers
 {
     /// <summary>
     /// 权限相关的所有接口

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
-namespace WebApp.Security
+namespace DAL.Security
 {
     public class AuthHandler:IAuthorizationHandler
     {

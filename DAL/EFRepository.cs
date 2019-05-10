@@ -30,28 +30,84 @@ namespace DAL
 
 
         #region 通用方法
-        public List<TEntity> Query<TResult>(Expression<Func<TEntity,bool>> predicate,Func<IQueryable<TEntity>,IQueryable<TEntity>> include,Expression<Func<TEntity,TResult>> selector)
-        {
-            return null;
-        }
         public List<TEntity> Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order)
         {
-            throw new NotImplementedException();
+            return Query(predicate, include, order, a => a);
         }
 
-        public PageResult<TEntity> Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, IPagination pagination)
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public List<TResult> Query<TResult>(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, Expression<Func<TEntity, TResult>> selector)
         {
-            _dbSet
+            var query = _dbSet.AsNoTracking();
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+            if (include != null)
+            {
+                query = include(query);
+            }
+            if (predicate!=null)
+            {
+                query = query.Where(predicate);
+            }
+            if (order!=null)
+            {
+                query = include(query);
+            }
+
+            return query.Select(selector).ToList();
         }
 
-        public PageResult<TResult> Query<TResult>(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, IPagination pagination, Expression<Func<TEntity, TResult>> selector)
+        public PageResult<TEntity> QueryPage(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, IPagination pagination)
         {
-            throw new NotImplementedException();
+            return QueryPage(predicate, include, order, pagination, a => a);
+        }
+
+        /// <summary>
+        /// 分页查询 
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="predicate"></param>
+        /// <param name="include"></param>
+        /// <param name="order"></param>
+        /// <param name="pagination"></param>
+        /// <param name="selector"></param>
+        /// <returns></returns>
+        public PageResult<TResult> QueryPage<TResult>(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, IPagination pagination, Expression<Func<TEntity, TResult>> selector)
+        {
+            var query = _dbSet.AsNoTracking();
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+            if (include != null)
+            {
+                query = include(query);
+            }
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+            if (order != null)
+            {
+                query = include(query);
+            }
+            if (pagination!=null)
+            {
+                query=(pagination.PageIndex <= 1) ? query.Take(pagination.PageSize) : query.Skip(pagination.PageSize * (pagination.PageIndex - 1)).Take(pagination.PageSize);
+            }
+            var items=query.Select(selector).ToList();
+            var total = query.Count();
+            return new PageResult<TResult>
+            {
+                Items = items,
+                PageIndex = pagination.PageIndex,
+                PageSize = pagination.PageSize,
+                Total = total
+            };
+
         }
 
         #endregion

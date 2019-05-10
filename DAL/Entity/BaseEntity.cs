@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApp.Entity
+namespace DAL.Entity
 {
     /// <summary>
     /// 实体的公共属性，如ID，创建时间，最后一次更新时间，是否有效

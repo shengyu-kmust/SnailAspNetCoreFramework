@@ -16,9 +16,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using WebApp.Entity;
+using DAL.Entity;
 
-namespace WebApp.Controllers
+namespace DAL.Controllers
 {
 
     [Route("api/[controller]")]

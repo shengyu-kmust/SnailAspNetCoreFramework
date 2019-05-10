@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApp.Entity;
-using WebApp.Enum;
+using DAL.Entity;
+using DAL.Enum;
 
-namespace WebApp.Infrastructure
+namespace DAL.Infrastructure
 {
     /// <summary>
     /// 基础层，不应该有逻辑，只是操作数据

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace WebApp.DTO
+namespace DAL.DTO
 {
     /// <summary>
     /// 所有的查询条件

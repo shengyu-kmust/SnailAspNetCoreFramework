@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApp.Domain;
-using WebApp.Infrastructure;
+using DAL.Domain;
+using DAL.Infrastructure;
 
-namespace WebApp.Services
+namespace DAL.Services
 {
     /// <summary>
     /// 权限服务，提供所有权限相关的服务，最终为应用层的接口服务

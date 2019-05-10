@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApp.Entity
+namespace DAL.Entity
 {
     public class Permission : BaseEntity
     {

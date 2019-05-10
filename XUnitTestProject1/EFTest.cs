@@ -20,9 +20,10 @@ namespace XUnitTestProject1
             using (MyDbContext db=new MyDbContext(options))
             {
                 var result=db.Students.ToList();
-                Expression<Func<Student, bool>> expression = a => a.Card.CardNo == "";
-                var entry = db.Students.add
-                entry.Property()
+                Expression<Func<Student, bool>> expression1 = a => a.Card.CardNo == "";
+                Expression<Func<Student, bool>> expression2 = a => a.Card.CardNo == "";
+                var body= Expression.AndAlso(expression1, expression2);
+                Expression.Lambda(body, Expression.Parameter(typeof(Student)));
                 //db.Students.Include(a=>a.BirthDay).OrderBy()
                 //db.Students.Where()
             }

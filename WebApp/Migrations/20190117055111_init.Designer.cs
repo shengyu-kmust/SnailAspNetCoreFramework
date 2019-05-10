@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebApp.Entity;
+using DAL.Entity;
 
-namespace WebApp.Migrations
+namespace DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
     [Migration("20190117055111_init")]

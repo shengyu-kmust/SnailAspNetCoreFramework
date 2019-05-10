@@ -114,15 +114,6 @@ namespace DAL.Interface
         /// <returns></returns>
         List<TEntity> Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order);
 
-        /// <summary>
-        /// 查询分页
-        /// </summary>
-        /// <param name="predicate">查询条件</param>
-        /// <param name="include">include条件</param>
-        /// <param name="order">order条件</param>
-        /// <param name="pagination">分页</param>
-        /// <returns></returns>
-        PageResult<TEntity> Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, IPagination pagination);
 
         /// <summary>
         /// 
@@ -136,7 +127,18 @@ namespace DAL.Interface
         List<TResult> Query<TResult>(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, Expression<Func<TEntity, TResult>> selector);
 
 
-        PageResult<TResult> Query<TResult>(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, IPagination pagination, Expression<Func<TEntity, TResult>> selector);
+        /// <summary>
+        /// 查询分页
+        /// </summary>
+        /// <param name="predicate">查询条件</param>
+        /// <param name="include">include条件</param>
+        /// <param name="order">order条件</param>
+        /// <param name="pagination">分页</param>
+        /// <returns></returns>
+        PageResult<TEntity> QueryPage(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, IPagination pagination);
+
+
+        PageResult<TResult> QueryPage<TResult>(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, IPagination pagination, Expression<Func<TEntity, TResult>> selector);
 
         #endregion
 

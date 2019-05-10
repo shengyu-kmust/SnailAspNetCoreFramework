@@ -4,15 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApp.Entity
+namespace DAL.Entity
 {
-
-    [Table("UserRole")]
-    public class UserRole:BaseEntity
+    public class UserOrg:BaseEntity
     {
         public int UserId { get; set; }
-        public int RoleId { get; set; }
-        public Role Role { get; set; }
+        public int OrgId { get; set; }
         public User User { get; set; }
+        [ForeignKey("OrgId")]
+        public Organization Org { get; set; }
     }
 }

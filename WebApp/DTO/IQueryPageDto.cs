@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Utility.Page;
 
-namespace WebApp.DTO
+namespace DAL.DTO
 {
     public interface IQueryPageDto<T>:IQueryDto<T>,IPagination where T:BaseEntity
     {

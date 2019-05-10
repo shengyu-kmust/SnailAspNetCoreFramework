@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using WebApp.Entity;
+using DAL.Entity;
 
-namespace WebApp.Domain
+namespace DAL.Domain
 {
     public class ResourceModel
     {

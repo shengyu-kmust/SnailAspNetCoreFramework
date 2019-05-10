@@ -2,9 +2,9 @@
 using DAL;
 using DAL.Interface;
 using System.Collections.Generic;
-using WebApp.DTO;
+using DAL.DTO;
 
-namespace WebApp.Services
+namespace DAL.Services
 {
     public class CRUDService<T> where T : BaseEntity
     {
@@ -16,6 +16,15 @@ namespace WebApp.Services
             var order = ((IQueryDto<T>)query).OrderFunc();
             return repository.Query(predicate, includeFunc, order);
         }
+
+        public PageResult<T> Query(IQueryDto<T> query)
+        {
+            var predicate = ((IQueryDto<T>)query).GeneratePredicateExpression();
+            var includeFunc = ((IQueryDto<T>)query).IncludeFunc();
+            var order = ((IQueryDto<T>)query).OrderFunc();
+            repository.Query
+        }
+
 
         public List<TResult> Query<TResult>(IQueryDto<T> query)
         {

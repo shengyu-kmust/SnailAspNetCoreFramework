@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Routing;
 using Remotion.Linq.Clauses;
 
-namespace WebApp.Utilities
+namespace DAL.Utilities
 {
     public class TreeBuilder<T> where T : class
     {

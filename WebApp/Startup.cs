@@ -27,12 +27,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
-using WebApp.Domain;
-using WebApp.Entity;
-using WebApp.Security;
-using WebApp.Services;
+using DAL.Domain;
+using DAL.Entity;
+using DAL.Security;
+using DAL.Services;
 
-namespace WebApp
+namespace DAL
 {
     public class Startup
     {

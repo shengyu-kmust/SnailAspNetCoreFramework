@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Utility.Page;
 
-namespace WebApp.DTO.Sample
+namespace DAL.DTO.Sample
 {
     public class StudentQueryPageDto : StudentQueryDto, IPagination
     {

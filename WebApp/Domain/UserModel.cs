@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebApp.Entity;
-using WebApp.Infrastructure;
+using DAL.Entity;
+using DAL.Infrastructure;
 
-namespace WebApp.Domain
+namespace DAL.Domain
 {
     /// <summary>
     /// 用户模型

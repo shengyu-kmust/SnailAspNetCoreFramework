@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using WebApp.Entity;
+using DAL.Entity;
 
-namespace WebApp.Domain
+namespace DAL.Domain
 {
     /// <summary>
     /// 权限模型

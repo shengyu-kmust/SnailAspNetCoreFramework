@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Security;
 
-namespace WebApp.Entity
+namespace DAL.Entity
 {
     public class DatabaseContext:DbContext
     {
+        #region 通用权限表
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoleses { get; set; }
@@ -16,6 +16,10 @@ namespace WebApp.Entity
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<UserOrg> UserOrgs { get; set; }
+        #endregion
+        #region 业务表
+
+        #endregion
 
         /// <summary>
         /// 要创建此构造函数，配合services.AddDbContext<DatabaseContext>()生成数据库

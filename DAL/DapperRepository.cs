@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Utility.Page;
 
 namespace DAL.Interface
 {
@@ -67,6 +69,31 @@ namespace DAL.Interface
         }
 
         public Task SaveAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        void IRepository<BaseEntity>.UpdateAsync(BaseEntity entity, List<string> changeProperties)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<BaseEntity> Query(Expression<Func<BaseEntity, bool>> predicate, Func<IQueryable<BaseEntity>, IQueryable<BaseEntity>> include, Func<IQueryable<BaseEntity>, IQueryable<BaseEntity>> order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PageResult<BaseEntity> Query(Expression<Func<BaseEntity, bool>> predicate, Func<IQueryable<BaseEntity>, IQueryable<BaseEntity>> include, Func<IQueryable<BaseEntity>, IQueryable<BaseEntity>> order, IPagination pagination)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<TResult> Query<TResult>(Expression<Func<BaseEntity, bool>> predicate, Func<IQueryable<BaseEntity>, IQueryable<BaseEntity>> include, Func<IQueryable<BaseEntity>, IQueryable<BaseEntity>> order, Expression<Func<BaseEntity, TResult>> selector)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PageResult<TResult> Query<TResult>(Expression<Func<BaseEntity, bool>> predicate, Func<IQueryable<BaseEntity>, IQueryable<BaseEntity>> include, Func<IQueryable<BaseEntity>, IQueryable<BaseEntity>> order, IPagination pagination, Expression<Func<BaseEntity, TResult>> selector)
         {
             throw new NotImplementedException();
         }

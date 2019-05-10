@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WebApp.Utilities;
+using DAL.Utilities;
 using Xunit;
 
 namespace XUnitTestProject1

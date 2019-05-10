@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Entity;
-using WebApp.Services;
+using DAL.Entity;
+using DAL.Services;
 
-namespace WebApp.Controllers
+namespace DAL.Controllers
 {
     /// <summary>
     /// 资源管理，系统所有能访问的webapi，菜单等资源

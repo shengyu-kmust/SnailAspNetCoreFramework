@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApp.Entity;
+using DAL.Entity;
 
-namespace WebApp.Infrastructure
+namespace DAL.Infrastructure
 {
     public class ResourceRepository:BaseRepository<Resource>
     {

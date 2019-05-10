@@ -1,4 +1,4 @@
-﻿namespace WebApp.Entity
+﻿namespace DAL.Entity
 {
     public class Resource:BaseEntity
     {

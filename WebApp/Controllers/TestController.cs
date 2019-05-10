@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Entity;
+using DAL.Entity;
 
-namespace WebApp.Controllers
+namespace DAL.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

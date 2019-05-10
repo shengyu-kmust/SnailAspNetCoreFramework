@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Entity;
-using WebApp.Infrastructure;
+using DAL.Entity;
+using DAL.Infrastructure;
 
-namespace WebApp.Controllers
+namespace DAL.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
