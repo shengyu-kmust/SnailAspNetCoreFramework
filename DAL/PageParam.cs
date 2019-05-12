@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CommonAbstract;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DAL
 {
-    public class PageParam<TEntity,TKey> where TEntity:BaseEntity
+    public class PageParam<TEntity,TKey> where TEntity:IBaseEntity
     {
         public int PageSize { set; get; }
         public int PageIndex { set; get; }

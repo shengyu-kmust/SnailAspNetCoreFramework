@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CommonAbstract;
+using System;
 
 namespace DAL.Sample
 {
-    public class Student:BaseEntity
+    public class Student:IBaseEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
