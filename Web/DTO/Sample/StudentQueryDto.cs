@@ -22,9 +22,9 @@ namespace Web.DTO.Sample
             //return expression;
             #endregion
             #region 第二种方法，适合比较简单的查询条件
-            //return SimpleEntityExpressionGenerator.GenerateAndExpressionFromDto<Student>(this); 
+            return SimpleEntityExpressionGenerator.GenerateAndExpressionFromDto<Student>(this);
             #endregion
-            return a => a.Gender == Gender.Female;
+            //return a => a.Gender == Gender.Female;
         }
 
         public Func<IQueryable<Student>, IQueryable<Student>> IncludeFunc()

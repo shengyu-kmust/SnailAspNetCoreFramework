@@ -17,6 +17,7 @@ namespace DAL.Entity
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime? BirthDay { get; set; }
+        [Column(TypeName ="nvarchar(20)")]
         public Gender? Gender { get; set; }
 
 

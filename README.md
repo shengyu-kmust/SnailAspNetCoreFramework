@@ -50,6 +50,7 @@ DTO:QueryModel,ViewModel?
 * 简单的CRUD
 #### EF的使用
 * EF执行sql语言的日志**--已实现**
+* 对于枚举类型，用EF的ValueConverter技术自动转换，约定存储在数据库里的为string类型而不是Int类型，方便理解**--已实现**
 ## 技术选型
 ###
 ### 事务的处理

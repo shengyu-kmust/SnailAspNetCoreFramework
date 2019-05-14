@@ -48,12 +48,7 @@ namespace DAL.Entity
             SetBaseEntity<User>(modelBuilder);
             SetBaseEntity<Role>(modelBuilder);
             SetBaseEntity<UserRole>(modelBuilder);
-            #region 枚举
-            //modelBuilder.Entity<Student>().Property(a => a.Gender).HasConversion(new ValueConverter<Gender, string>(
-            //    v => v.ToString(),
-            //    v => (Gender)Enum.Parse(typeof(Gender), v)));
-            modelBuilder.Entity<Student>().Property(a => a.Gender).HasConversion<int>();
-            #endregion
+           
         }
 
         /// <summary>
