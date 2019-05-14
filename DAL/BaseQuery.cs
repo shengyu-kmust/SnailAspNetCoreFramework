@@ -1,10 +1,10 @@
-﻿using DAL.Interface;
+﻿using Web.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace DAL
+namespace Web
 {
     public class BaseQuery<T> : IQuery<T>
     {

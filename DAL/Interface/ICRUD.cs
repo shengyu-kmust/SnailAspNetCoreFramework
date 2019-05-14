@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAL.Interface
+namespace Web.Interface
 {
     /// <summary>
     /// 简单CRUD接口

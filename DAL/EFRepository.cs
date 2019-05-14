@@ -1,5 +1,5 @@
 ﻿using CommonAbstract;
-using DAL.Interface;
+using Web.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,13 +8,13 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Utility.Page;
 
-namespace DAL
+namespace Web
 {
     /// <summary>
     /// 基于entityframework的数据仓储模式
     /// <remarks>由于entityframework支持多种数据库操作，因此数据仓储只实现一个EFRepository，切换数据库时只要切换DbContext的不同实现即可，代码不需要做更改</remarks>
     /// </summary>
-    public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : DefaultBaseEntity
+    public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : class,IBaseEntity
     {
         private readonly DbContext _dbContext;
         private DbSet<TEntity> _dbSet;
@@ -45,7 +45,7 @@ namespace DAL
             }
             if (order != null)
             {
-                query = include(query);
+                query = order(query);
             }
 
             return query.Select(selector).ToList();

@@ -8,6 +8,37 @@ namespace Utility
 
     public static class ExpressionExtensions
     {
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="first"></param>
+        /// <param name="cond"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public static Expression<Func<T, bool>> AndIf<T>(
+            this Expression<Func<T, bool>> first,bool cond,
+            Expression<Func<T, bool>> second)
+        {
+            if (cond)
+            {
+              return first.And(second);
+            }
+            return first;
+        }
+
+        public static Expression<Func<T, bool>> OrIf<T>(
+            this Expression<Func<T, bool>> first, bool cond,
+            Expression<Func<T, bool>> second)
+        {
+            if (cond)
+            {
+                return first.Or(second);
+            }
+            return first;
+        }
+
         /// <summary>
         /// The and.
         /// </summary>

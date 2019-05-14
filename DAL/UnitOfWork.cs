@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Interface
+namespace Web.Interface
 {
     public class UnitOfWork:IUnitOfWork
     {

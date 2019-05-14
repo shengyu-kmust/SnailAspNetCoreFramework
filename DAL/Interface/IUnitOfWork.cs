@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Remotion.Linq.Clauses;
 
-namespace DAL.Interface
+namespace Web.Interface
 {
     public interface IUnitOfWork:IDisposable 
     {

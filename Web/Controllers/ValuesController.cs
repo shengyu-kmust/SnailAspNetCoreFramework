@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DAL.Entity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class ValuesController : AuthorizeBaseController
     {
+        public ValuesController(DatabaseContext db) : base(db) { }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Utility.Utilities
+namespace Utility
 {
     /// <summary>
     /// 根据entity生成简单的表达式
@@ -14,16 +14,12 @@ namespace Utility.Utilities
     /// </summary>
     public static class SimpleEntityExpressionGenerator
     {
-        public static void Test()
-        {
-
-        }
-
         /// <summary>
         /// 根据dto对象生成简单的T表的表达式树，此表达式树只有与关系
         /// </summary>
         /// <typeparam name="T">生成哪个表T，的表达式树</typeparam>
         /// <param name="dto"></param>
+        /// <param name="extraExpression">额外的自定义条件，会以and的方式加在条件的最后</param>
         /// <returns></returns>
         public static Expression<Func<T, bool>> GenerateAndExpressionFromDto<T>(object dto,Expression<Func<T,bool>> extraExpression=null)
         {
@@ -73,7 +69,7 @@ namespace Utility.Utilities
         /// <param name="param"></param>
         /// <param name="filterExpression"></param>
         /// <returns></returns>
-        public static bool CanGenerateExpressionFromDtoProperty(List<PropertyInfo> entityPropertyInfos, PropertyInfo dtoPropertyInfo, object dtoPropertyValue, ParameterExpression param, out Expression filterExpression)
+        private static bool CanGenerateExpressionFromDtoProperty(List<PropertyInfo> entityPropertyInfos, PropertyInfo dtoPropertyInfo, object dtoPropertyValue, ParameterExpression param, out Expression filterExpression)
         {
             BinaryExpressionFilterType filterType;
             PropertyInfo entityMatchPropertyInfo;
@@ -117,7 +113,7 @@ namespace Utility.Utilities
         /// <param name="value"></param>
         /// <param name="propertyInfo"></param>
         /// <returns></returns>
-        public static bool PropertyCanAddToExpression(object propertyValue,Type propertyType)
+        private static bool PropertyCanAddToExpression(object propertyValue,Type propertyType)
         {
             if (propertyValue == null)
             {
@@ -145,7 +141,7 @@ namespace Utility.Utilities
         /// <param name="right"></param>
         /// <param name="binaryExpressionType"></param>
         /// <returns></returns>
-        public static Expression GenerateFilterBinaryExpression(Expression left, Expression right, BinaryExpressionFilterType binaryExpressionType)
+        private static Expression GenerateFilterBinaryExpression(Expression left, Expression right, BinaryExpressionFilterType binaryExpressionType)
         {
             switch (binaryExpressionType)
             {

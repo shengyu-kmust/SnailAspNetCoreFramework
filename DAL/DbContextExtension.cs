@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace DAL
+namespace Web
 {
     public static class DbContextExtension
     {

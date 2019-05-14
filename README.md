@@ -24,7 +24,8 @@ DTO:QueryModel,ViewModel?
 * 所有的异常都不会捕获
 * Business异常向外提示，服务器异常做拦截并向外提示，提示输出格式遵照输出约定
 
-### Application层
+### ApplicationCore层
+* 此项目不要依赖任何的其它项目，用干净体系结构，参考：https://docs.microsoft.com/zh-cn/dotnet/standard/modern-web-apps-azure-architecture/common-web-application-architectures
 
 #### 缓存
 * ICache接口，实现redis,memcached，memoryCache等
@@ -47,9 +48,15 @@ DTO:QueryModel,ViewModel?
 * 单表的查询，分页
 * 多表的简单关联查询，分页
 * 简单的CRUD
+#### EF的使用
+* EF执行sql语言的日志**--已实现**
 ## 技术选型
 ###
 ### 事务的处理
 用repository和unit of work模式，但repository模式用EF自带的
 ### 数据库处理方式
 * 用EF做数据处理，不考虑其它的方式。
+
+
+## 需要做的
+* 单元测试的注入

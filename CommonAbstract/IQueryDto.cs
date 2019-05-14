@@ -12,6 +12,5 @@ namespace CommonAbstract
         Expression<Func<T,bool>> GeneratePredicateExpression();
         Func<IQueryable<T>, IQueryable<T>> IncludeFunc();
         Func<IQueryable<T>, IQueryable<T>> OrderFunc();
-        Expression<Func<T, TResult>> SelectorExpression<TResult>();
     }
 }

@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApplicationCore.Enum;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Entity
 {
-    public class DatabaseContext:DbContext
+    public class DatabaseContext : DbContext
     {
         #region 通用权限表
         public DbSet<User> Users { get; set; }
@@ -19,6 +21,12 @@ namespace DAL.Entity
         #endregion
         #region 业务表
 
+        #endregion
+
+        #region 示例
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Card> Cards { get; set; }
         #endregion
 
         /// <summary>
@@ -40,6 +48,12 @@ namespace DAL.Entity
             SetBaseEntity<User>(modelBuilder);
             SetBaseEntity<Role>(modelBuilder);
             SetBaseEntity<UserRole>(modelBuilder);
+            #region 枚举
+            //modelBuilder.Entity<Student>().Property(a => a.Gender).HasConversion(new ValueConverter<Gender, string>(
+            //    v => v.ToString(),
+            //    v => (Gender)Enum.Parse(typeof(Gender), v)));
+            modelBuilder.Entity<Student>().Property(a => a.Gender).HasConversion<int>();
+            #endregion
         }
 
         /// <summary>
@@ -47,7 +61,7 @@ namespace DAL.Entity
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="modelBuilder"></param>
-        private void SetBaseEntity<T>(ModelBuilder modelBuilder) where T:BaseEntity
+        private void SetBaseEntity<T>(ModelBuilder modelBuilder) where T : BaseEntity
         {
             modelBuilder.Entity<T>().Property(a => a.CreateTime).HasDefaultValue(DateTime.Now)
                 .ValueGeneratedOnAddOrUpdate();
@@ -59,4 +73,3 @@ namespace DAL.Entity
 
     }
 }
-    

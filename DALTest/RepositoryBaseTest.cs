@@ -1,14 +1,11 @@
-﻿using DAL;
+﻿using CommonAbstract;
 using DAL.Entity;
-using DAL.Interface;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Web;
 
 namespace DALTest
 {
-    public abstract class RepositoryBaseTest<T> where T:BaseEntity
+    public abstract class RepositoryBaseTest<T> where T:DefaultBaseEntity
     {
         public IRepository<T> Repository { get; set; }
         public DbContext DbContext { get; set; }
