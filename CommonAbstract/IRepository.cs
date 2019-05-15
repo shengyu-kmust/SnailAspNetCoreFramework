@@ -38,13 +38,18 @@ namespace CommonAbstract
         /// <param name="selector"></param>
         /// <returns></returns>
         PageResult<TResult> QueryPage<TResult>(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> include, Func<IQueryable<TEntity>, IQueryable<TEntity>> order, IPagination pagination, Expression<Func<TEntity, TResult>> selector);
+
         /// <summary>
         /// 修改指定字段
         /// </summary>
         /// <param name="entity">修改的实体</param>
         /// <param name="changeProperties">要修改的字段</param>
         /// <returns></returns>
-        void UpdateAsync(TEntity entity, List<string> changeProperties);
+        void Update(TEntity entity, List<string> changeProperties);
+
+        void Add(TEntity entity);
+
+        void Delete(TEntity entity);
 
     }
 }

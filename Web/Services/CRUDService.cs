@@ -6,7 +6,7 @@ using Utility.Page;
 
 namespace Web.Services
 {
-    public class CRUDService<T> where T : IBaseEntity
+    public class CRUDService<T> where T : IBaseEntity,new()
     {
         private IRepository<T> _repository;
         public CRUDService(IRepository<T> repository)
@@ -29,6 +29,23 @@ namespace Web.Services
             return _repository.QueryPage(predicate, includeFunc, order, new DefaultPagination() { PageIndex = query.PageIndex, PageSize = query.PageIndex }, selector);
         }
 
+        public void Update(ISaveDto<T> saveDto)
+        {
+            var entity = saveDto.ConvertToEntity();
+            var changeProperties = saveDto.GetUpdateProperties();
+            _repository.Update(entity, changeProperties);
+        }
 
+        public void Add(ISaveDto<T> saveDto)
+        {
+            var entity= saveDto.ConvertToEntity();
+            _repository.Add(entity);
+        }
+
+        public void Delete(object id)
+        {
+            var entity = new T();
+
+        }
     }
 }

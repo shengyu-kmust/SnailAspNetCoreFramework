@@ -88,13 +88,25 @@ namespace Web
         }
 
 
-        public void UpdateAsync(TEntity entity, List<string> changeProperties)
+        public void Update(TEntity entity, List<string> changeProperties)
         {
             var entityEntry = _dbSet.Attach(entity);
             foreach (var property in changeProperties)
             {
                 entityEntry.Property(property).IsModified = true;
             }
+            _dbContext.SaveChanges();
+        }
+
+        public void Add(TEntity entity)
+        {
+            _dbSet.Add(entity);
+            _dbContext.SaveChanges();
+        }
+
+        public void Delete(TEntity entity)
+        {
+            _dbSet.Remove(entity);
             _dbContext.SaveChanges();
         }
     }
