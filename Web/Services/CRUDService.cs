@@ -6,6 +6,10 @@ using Utility.Page;
 
 namespace Web.Services
 {
+    /// <summary>
+    /// 通用CRUD服务，做为
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class CRUDService<T> where T : IBaseEntity,new()
     {
         private IRepository<T> _repository;
@@ -44,7 +48,10 @@ namespace Web.Services
 
         public void Delete(object id)
         {
-            var entity = new T();
+            if (typeof(T).GetInterface(nameof(IEntityId<>)))
+            {
+                ((IEntityId<>)(new T())).Id = 1;
+            }
 
         }
     }

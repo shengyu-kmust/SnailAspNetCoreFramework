@@ -7,7 +7,7 @@ using Web.Services;
 
 namespace Web.Controllers.Example
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class CRUDController : ControllerBase
     {
@@ -33,6 +33,12 @@ namespace Web.Controllers.Example
         public PageResult<StudentResultDto> QueryPage(StudentQueryPageDto queryPage)
         {
             return null;
+        }
+
+        [HttpPost]
+        public object Update(StudentSaveDto saveDto)
+        {
+            return saveDto;
         }
     }
 
