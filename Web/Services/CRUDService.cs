@@ -46,13 +46,9 @@ namespace Web.Services
             _repository.Add(entity);
         }
 
-        public void Delete(object id)
+        public void Delete(params object[] keyValues)
         {
-            if (typeof(T).GetInterface(nameof(IEntityId<>)))
-            {
-                ((IEntityId<>)(new T())).Id = 1;
-            }
-
+            _repository.Delete(keyValues);
         }
     }
 }

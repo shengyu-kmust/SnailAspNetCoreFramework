@@ -50,6 +50,8 @@ namespace CommonAbstract
         void Add(TEntity entity);
 
         void Delete(TEntity entity);
+        void Delete(params object[] keyValues);
+        TEntity Find(params object[] keyValues);
 
     }
 }

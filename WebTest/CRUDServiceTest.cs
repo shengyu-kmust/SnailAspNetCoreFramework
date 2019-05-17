@@ -23,19 +23,13 @@ namespace WebTest
             try
             {
                 CRUDService<Student> cRUDService = new CRUDService<Student>(Repository);
-                var query = new StudentQueryDto();
-
-                var result = cRUDService.Query(query, a => new StudentTestResult
+                var saveDto = new StudentSaveDto()
                 {
-                    Id = a.Id,
-                    Name = a.Name,
-                    Gender = a.Gender,
-                    CardId = a.Card.Id,
-                    CardNo = a.Card.CardNo,
-                    TeamId = a.Team.Id,
-                    TeamName = a.Team.Name
-                });
-                //var result = cRUDService.Query(query, a => a);
+                    Id = 1,
+                    Gender=Gender.Female
+                };
+
+                cRUDService.Update(saveDto);
             }
             catch (Exception ex)
             {

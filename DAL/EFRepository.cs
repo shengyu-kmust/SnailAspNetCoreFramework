@@ -48,7 +48,7 @@ namespace Web
                 query = order(query);
             }
 
-            return query.Select(selector).ToList();
+            return query.AsNoTracking().Select(selector).ToList();
         }
 
         
@@ -75,8 +75,8 @@ namespace Web
             {
                 query = (pagination.PageIndex <= 1) ? query.Take(pagination.PageSize) : query.Skip(pagination.PageSize * (pagination.PageIndex - 1)).Take(pagination.PageSize);
             }
-            var items = query.Select(selector).ToList();
-            var total = query.Count();
+            var items = query.AsNoTracking().Select(selector).ToList();
+            var total = query.AsNoTracking().Count();
             return new PageResult<TResult>
             {
                 Items = items,
@@ -90,7 +90,7 @@ namespace Web
 
         public void Update(TEntity entity, List<string> changeProperties)
         {
-            var entityEntry = _dbSet.Attach(entity);
+            var entityEntry = _dbContext.Entry(entity);
             foreach (var property in changeProperties)
             {
                 entityEntry.Property(property).IsModified = true;
@@ -109,5 +109,26 @@ namespace Web
             _dbSet.Remove(entity);
             _dbContext.SaveChanges();
         }
+        public void Delete(params object[] keyValues)
+        {
+            var entity = _dbSet.Find(keyValues);
+            if (typeof(TEntity).GetInterface(nameof(IEntitySoftDelete)) == null)
+            {
+                _dbSet.Remove(entity);
+            }
+            else
+            {
+                ((IEntitySoftDelete)entity).IsDeleted = true;
+                Update(entity, new List<string> { nameof(IEntitySoftDelete.IsDeleted) });
+            }
+            Delete(entity);
+        }
+        #region 查找单个
+        public TEntity Find(params object[] keyValues)
+        {
+            return _dbSet.Find(keyValues);
+
+        }
+        #endregion
     }
 }
