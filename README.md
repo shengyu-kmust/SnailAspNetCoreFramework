@@ -27,18 +27,19 @@ DTO:QueryModel,ViewModel?
 ### ApplicationCore层
 * 此项目不要依赖任何的其它项目，用干净体系结构，参考：https://docs.microsoft.com/zh-cn/dotnet/standard/modern-web-apps-azure-architecture/common-web-application-architectures
 
-#### 缓存
-* ICache接口，实现redis,memcached，memoryCache等
+### 缓存
+* ICache接口，实现redis,memcached，memoryCache等，可考虑用easycaching
 * 缓存用AOP，避免每个方法里写缓存逻辑
 * 缓存的更新用事件驱动，引入第三方组件
-#### 
+####领域驱动
 领域驱动，如果依赖其它层，依赖于对应层的接口，而不是实现
-#### AOP
-* 日志、缓存的AOP切入
-#### 内存表
+### AOP
+* 日志、缓存的AOP切入，考虑用aspectcore
+### 内存表
 * 将不常变动的、数据量比较小的表存储在内存里（不是缓存，是对象），并用事件驱动的思想同步最新的数据
-#### 事件
-发布和订阅
+### 事件
+* 发布和订阅
+* 用cap
 
 ### DAL层
 * 负责所有和数据相关的操作
