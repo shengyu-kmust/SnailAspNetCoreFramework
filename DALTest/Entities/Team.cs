@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CommonAbstract;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DALTest.Entities
 {
-   public class Team
+   public class Team: IBaseEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

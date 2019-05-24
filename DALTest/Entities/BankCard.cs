@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CommonAbstract;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DALTest.Entities
 {
-    public class BankCard
+    public class BankCard: IBaseEntity
     {
         public int Id { get; set; }
         public string BankCardNo { get; set; }

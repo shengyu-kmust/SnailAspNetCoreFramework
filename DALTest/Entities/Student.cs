@@ -1,15 +1,16 @@
-﻿using System;
+﻿using CommonAbstract;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DALTest.Entities
 {
-    public class Student
+    public class Student:IBaseEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime BirthDay { get; set; }
-        public int TeamId { get; set; }
+        public int? TeamId { get; set; }
 
         #region 导航属性
         /// <summary>
