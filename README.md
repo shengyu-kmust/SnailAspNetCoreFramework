@@ -7,6 +7,7 @@ DTO:QueryModel,ViewModel?
 2、CQRS
 ## 项目整体结构设计
 采用DDD，但要根据项目的大小应用DDD的不同技术，总体是分如下几个项目
+* CommonAbstract：抽象接口层
 * DAL层：数据访问层，依赖于上层的接口，为上层（如服务层及应用层）提供数据服务。同时实现IDAL的通用数据访问接口。
 * Application层：应用逻辑层，DDD模式，包含所有业务逻辑，不依赖于其它层
 * Web层：负责接口参数的输入及输出的所有相关处理（如参数校验，输出格式预定等）、Application/DAL层的调用。
@@ -18,9 +19,9 @@ DTO:QueryModel,ViewModel?
 #### 参数校验
 * 用微软的接口 **--已实现**
 #### 输出约定
-* HTTP Status Code遵照状态码的约定，20x为成功（接口已经调用成功），40x为请求错误（业务异常、未授权等），50x为服务器错误（服务器的异常）
-* 返回结果内容以实际前端要的数据格式为主，为json对象；如果是错误提示，返回的是错误内容。
-#### 异常处理
+* HTTP Status Code遵照状态码的约定，20x为成功（接口已经调用成功），40x为请求错误（业务异常、未授权等），50x为服务器错误（服务器的异常） **--已实现**
+* 返回结果内容以实际前端要的数据格式为主，为json对象；如果是错误提示，返回的是错误内容。 **--已实现**
+#### 异常处理  **--已实现**
 * 异常处理用微软的技术，参考https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/error-handling?view=aspnetcore-2.2
 * 所有的异常都不会捕获
 * Business异常向外提示，服务器异常做拦截并向外提示，提示输出格式遵照输出约定
@@ -65,3 +66,4 @@ DTO:QueryModel,ViewModel?
 
 ## 需要做的
 * 单元测试的注入
+* service层应该不在web层里，而是applicationcore

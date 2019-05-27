@@ -1,4 +1,6 @@
-﻿using DAL.Entity;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using DAL.Entity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -18,6 +20,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -35,9 +38,10 @@ namespace Web
         }
 
         public IConfiguration Configuration { get; }
+        public IContainer ApplicationContainer { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             #region 数据库配置
             services.AddDbContext<DatabaseContext>(optionsAction =>
@@ -46,12 +50,7 @@ namespace Web
             });
             #endregion
             services.AddMvc(options => { options.Filters.Add(new GlobalExceptionFilterAttribute()); });
-
-            #region 依赖注入
-
-            services.AddSingleton<PermissionModel>();
-            services.AddScoped<ResourceService>();
-            #endregion
+           
             #region 身份验证
             //约定
             //1、身份验证以支持Jwt和cookie两种为主，先jwt再cookie验证
@@ -138,6 +137,25 @@ namespace Web
             });
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
             #endregion
+
+            #region 依赖注入
+            #region asp.net core自带的依赖注入，在此用自带的注入写法，注入到serviceCollection里
+            services.AddSingleton<PermissionModel>();
+            services.AddScoped<ResourceService>();
+            #endregion
+            #region 集成autofac
+            var builder = new ContainerBuilder();
+            builder.Populate(services);//将asp.net core 自带的依赖注入，已经注册的组件，注册到autofac里
+            //下面写autofac的组件注入
+            //用assembly scan的方式批量注入
+            var ass = Assembly.GetExecutingAssembly();
+            builder.RegisterAssemblyTypes(ass).Where(a => a.Name.EndsWith("Service")).AsImplementedInterfaces().AsSelf().PropertiesAutowired();
+            #endregion
+            //返回serviceProvider。此方法的默认是不返回的，和autofac集成后，而修改成返回IServiceProvider对象
+            this.ApplicationContainer = builder.Build();
+            return new AutofacServiceProvider(this.ApplicationContainer);
+            #endregion
+
         }
         private async Task HandleOnRemoteFailure(RemoteFailureContext context)
         {
