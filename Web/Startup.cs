@@ -32,6 +32,9 @@ using Web.Security;
 using Web.Services;
 using NJsonSchema;
 using NSwag.AspNetCore;
+using EasyCaching.Core;
+using EasyCaching.InMemory;
+
 namespace Web
 {
     public class Startup
@@ -145,6 +148,33 @@ namespace Web
             #region 依赖注入
             #region 注入swagger
             services.AddSwaggerDocument();
+            #endregion
+            #region 注入easyCaching
+            services.AddEasyCaching(option=> {
+                //配置方式一：用config配置
+                option.UseInMemory(Configuration, "default", "easycaching:inmemory");
+
+                //配置方式一：用代码的方式配置
+                option.UseInMemory(config =>
+                {
+                    config.DBConfig = new InMemoryCachingOptions
+                    {
+                        // scan time, default value is 60s
+                        ExpirationScanFrequency = 60,
+                        // total count of cache items, default value is 10000
+                        SizeLimit = 100
+                    };
+                    // the max random second will be added to cache's expiration, default value is 120
+                    config.MaxRdSecond = 0;
+                    // whether enable logging, default is false
+                    config.EnableLogging = false;
+                    // mutex key's alive time(ms), default is 5000
+                    config.LockMs = 5000;
+                    // when mutex key alive, it will sleep some time, default is 300
+                    config.SleepMs = 300;
+                }, "default");
+
+            });
             #endregion
             #region asp.net core自带的依赖注入，在此用自带的注入写法，注入到serviceCollection里
             services.AddSingleton<PermissionModel>();

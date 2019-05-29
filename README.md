@@ -25,7 +25,7 @@ DTO:QueryModel,ViewModel?
 * 异常处理用微软的技术，参考https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/error-handling?view=aspnetcore-2.2
 * 所有的异常都不会捕获
 * Business异常向外提示，服务器异常做拦截并向外提示，提示输出格式遵照输出约定
-#### swagger
+#### swagger **--已实现**
 * 用NSwagger 
 ### ApplicationCore层
 * 此项目不要依赖任何的其它项目，用干净体系结构，参考：https://docs.microsoft.com/zh-cn/dotnet/standard/modern-web-apps-azure-architecture/common-web-application-architectures
