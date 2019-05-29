@@ -44,8 +44,10 @@ DTO:QueryModel,ViewModel?
 ### 事件
 * 发布和订阅
 * 用cap
-### 日志处理
+### 日志处理 **--已实现**
 * 用nlog
+### command bus
+用Mediatr 
 ### DAL层
 * 负责所有和数据相关的操作
 * 封装通用的数据访问接口及实现，如用EF实现如下几个功能

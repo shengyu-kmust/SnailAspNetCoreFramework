@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Autofac.Extras.DynamicProxy;
 using DAL.Entity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -24,7 +25,9 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Web.Controllers.Example;
 using Web.Domain;
+using Web.Interceptor;
 using Web.Security;
 using Web.Services;
 
@@ -146,10 +149,19 @@ namespace Web
             #region 集成autofac
             var builder = new ContainerBuilder();
             builder.Populate(services);//将asp.net core 自带的依赖注入，已经注册的组件，注册到autofac里
+            #region autofac组件注入
             //下面写autofac的组件注入
             //用assembly scan的方式批量注入
-            var ass = Assembly.GetExecutingAssembly();
-            builder.RegisterAssemblyTypes(ass).Where(a => a.Name.EndsWith("Service")).AsImplementedInterfaces().AsSelf().PropertiesAutowired();
+            var assembly = Assembly.GetExecutingAssembly();
+            //builder.RegisterAssemblyTypes(assembly).Where(a => a.Name.EndsWith("Service")).AsImplementedInterfaces().AsSelf().PropertiesAutowired().EnableInterfaceInterceptors();
+            //builder.RegisterAssemblyTypes(assembly).Where(a => a.Name.EndsWith("Interceptor"));// interceptor type registration
+
+            builder.RegisterType<AopService>().As<IAopService>().EnableInterfaceInterceptors();
+            builder.RegisterType<LogInterceptor>();
+
+            //interceptor注入
+
+            #endregion
             #endregion
             //返回serviceProvider。此方法的默认是不返回的，和autofac集成后，而修改成返回IServiceProvider对象
             this.ApplicationContainer = builder.Build();
