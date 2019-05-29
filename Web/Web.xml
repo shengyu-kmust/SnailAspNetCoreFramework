@@ -1,0 +1,344 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Web</name>
+    </assembly>
+    <members>
+        <member name="M:Web.Controllers.AccountController.ApiLogin(DAL.Entity.User)">
+            <summary>
+            用户登录，返回token  //TODO:需考虑用户的权限发生变动时，已经颁发的token要失效
+            </summary>
+            <param name="user">用户信息</param>
+            <returns></returns>
+        </member>
+        <member name="T:Web.Controllers.Example.Aop2Service">
+            <summary>
+            autofac只注册了以service结尾的，命名要注意一下
+            </summary>
+        </member>
+        <member name="M:Web.Controllers.Example.CRUDController.Query(Web.DTO.Sample.StudentQueryDto)">
+            <summary>
+            查询 
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.Example.CRUDController.QueryPage(Web.DTO.Sample.StudentQueryPageDto)">
+            <summary>
+            分页查询 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.Example.SwaggerController.TestPost(Web.Controllers.Example.SwaggerInputDto)">
+            <summary>
+            swagger测试接口
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.Example.SwaggerController.TestGet">
+            <summary>
+            swagger测试接口
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Web.Controllers.Example.SwaggerInputDto">
+            <summary>
+            这是输入参数
+            </summary>
+        </member>
+        <member name="P:Web.Controllers.Example.SwaggerInputDto.IntValue">
+            <summary>
+            int类型的值
+            </summary>
+        </member>
+        <member name="P:Web.Controllers.Example.SwaggerInputDto.stringValue">
+            <summary>
+            string类型的值
+            </summary>
+        </member>
+        <member name="P:Web.Controllers.Example.SwaggerInputDto.DtValue">
+            <summary>
+            datetime类型的值
+            </summary>
+        </member>
+        <member name="T:Web.Controllers.Example.SwaggerOutputDto">
+            <summary>
+            这是输出参数
+            </summary>
+        </member>
+        <member name="P:Web.Controllers.Example.SwaggerOutputDto.IntValue">
+            <summary>
+            int类型的值
+            </summary>
+        </member>
+        <member name="P:Web.Controllers.Example.SwaggerOutputDto.stringValue">
+            <summary>
+            string类型的值
+            </summary>
+        </member>
+        <member name="P:Web.Controllers.Example.SwaggerOutputDto.DtValue">
+            <summary>
+            datetime类型的值
+            </summary>
+        </member>
+        <member name="M:Web.Controllers.OrganizationController.GetAllOrgTree">
+            <summary>
+            获取所有的组织架构
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.OrganizationController.GetOrgChildTree(System.Int32)">
+            <summary>
+            获取某个组织下的所有组织架构
+            </summary>
+            <param name="orgId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.OrganizationController.GetOrgAllUser(System.Int32)">
+            <summary>
+            获取某个组织架构下的所有人员，包含了它的子架构的人员
+            </summary>
+            <param name="orgId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.OrganizationController.GetOrgUsersExceptChild(System.Int32)">
+            <summary>
+            获取只属于某个组织架构下的所有人员，但不包含它的子架构的人员
+            </summary>
+            <param name="orgId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.OrganizationController.AddUsers(System.String,System.Int32)">
+            <summary>
+            将某些用户增加到某个部门
+            </summary>
+            <param name="userIds"></param>
+            <param name="orgId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.OrganizationController.RemoveUsers(System.String,System.Int32)">
+            <summary>
+            将用户从某个部门移除
+            </summary>
+            <param name="userIds"></param>
+            <param name="orgId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.OrganizationController.MoveUsers(System.String,System.Int32)">
+            <summary>
+            将人员从某些部分移动到另一个部门
+            </summary>
+            <param name="userOrgIds">要移动的关系id，多个关系以英文逗号隔开</param>
+            <param name="orgId">要移动到哪个部门</param>
+            <returns></returns>
+        </member>
+        <member name="T:Web.Controllers.PermissionController">
+            <summary>
+            权限管理，只对角色进行授权
+            </summary>
+        </member>
+        <member name="M:Web.Controllers.PermissionController.AddPermission(System.Int32,System.String)">
+            <summary>
+            设置角色的权限
+            </summary>
+            <param name="roleId">角色ID</param>
+            <param name="resourceIds">资源</param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PermissionController.RemovePermission(System.Int32,System.String)">
+            <summary>
+            移除角色的权限
+            </summary>
+            <param name="roleId">角色ID</param>
+            <param name="resourceIds">资源ID</param>
+            <returns></returns>
+        </member>
+        <member name="T:Web.Controllers.PermissionManageController">
+            <summary>
+            权限相关的所有接口
+            </summary>
+        </member>
+        <member name="M:Web.Controllers.PermissionManageController.AddPermission(System.Int32,System.String)">
+            <summary>
+            设置角色的权限
+            </summary>
+            <param name="roleId">角色ID</param>
+            <param name="resourceIds">资源</param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PermissionManageController.RemovePermission(System.Int32,System.String)">
+            <summary>
+            移除角色的权限
+            </summary>
+            <param name="roleId">角色ID</param>
+            <param name="resourceIds">资源ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PermissionManageController.RoleAllPermission(System.Int32)">
+            <summary>
+            获取角色所有的权限
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PermissionManageController.AddRolesToUsers(System.Int32,System.String)">
+            <summary>
+            设置用户的角色
+            </summary>
+            <param name="userIds"></param>
+            <param name="roleIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PermissionManageController.RemoveRolesFromUsers(System.Int32,System.String)">
+            <summary>
+            删除用户的角色
+            </summary>
+            <param name="userIds"></param>
+            <param name="roleIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PermissionManageController.InitResource">
+            <summary>
+            资源初始化
+            </summary>
+            <remarks>将所有的webapi设置为权限资源</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PermissionManageController.AllResource">
+            <summary>
+            获取所有的资源
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PermissionManageController.AddResource(System.String,System.String,System.String,System.Int32)">
+            <summary>
+            添加受保护资源 
+            </summary>
+            <param name="name"></param>
+            <param name="resourceType"></param>
+            <param name="resourceAddress"></param>
+            <param name="parentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PermissionManageController.DeleteResource(System.Int32)">
+            <summary>
+            删除受保护资源 
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Web.Controllers.ResourceController">
+            <summary>
+            资源管理，系统所有能访问的webapi，菜单等资源
+            </summary>
+        </member>
+        <member name="M:Web.Controllers.ResourceController.InitResource">
+            <summary>
+            资源初始化
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Web.Controllers.UserRoleController">
+            <summary>
+            用户角色授权，授予某些用户某些角色
+            </summary>
+        </member>
+        <member name="M:Web.Controllers.UserRoleController.AddRolesToUsers(System.String,System.String)">
+            <summary>
+            设置用户的角色
+            </summary>
+            <param name="userIds"></param>
+            <param name="roleIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.UserRoleController.RemoveRolesFromUsers(System.String,System.String)">
+            <summary>
+            删除用户的角色
+            </summary>
+            <param name="userIds"></param>
+            <param name="roleIds"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Web.Domain.PermissionModel">
+            <summary>
+            权限模型
+            </summary>
+        </member>
+        <member name="T:Web.Domain.UserModel">
+            <summary>
+            用户模型
+            </summary>
+        </member>
+        <member name="M:Web.Domain.UserModel.AddRole(DAL.Entity.Role)">
+            <summary>
+            向用户增加角色的逻辑
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Web.DTO.ICommandDto">
+            <summary>
+            增加、修改的传入对象继承此接口
+            </summary>
+        </member>
+        <member name="P:Web.DTO.ResourceDTO.ResourceType">
+            <summary>
+            资源分为菜单、接口（操作类的按钮本质上也是接口类型）
+            </summary>
+        </member>
+        <member name="P:Web.DTO.ResourceDTO.ResourceAddress">
+            <summary>
+            资源地址，可以菜单地址、接口地址
+            </summary>
+        </member>
+        <member name="P:Web.DTO.ResourceDTO.Name">
+            <summary>
+            资源名称
+            </summary>
+        </member>
+        <member name="P:Web.DTO.ResourceDTO.ParentId">
+            <summary>
+            父ID
+            </summary>
+        </member>
+        <member name="T:Web.Infrastructure.UserRoleRepository">
+            <summary>
+            基础层，不应该有逻辑，只是操作数据
+            </summary>
+        </member>
+        <member name="M:Web.Infrastructure.UserRoleRepository.AddUserRoles(System.Int32,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            
+            </summary>
+            <param name="userId"></param>
+            <param name="roleIds"></param>
+        </member>
+        <member name="T:Web.Security.PermissionHandler">
+            <summary>
+            权限控制处理类
+            </summary>
+        </member>
+        <member name="T:Web.Services.CRUDService`1">
+            <summary>
+            通用CRUD服务，做为
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Web.Services.PermissionService">
+            <summary>
+            权限服务，提供所有权限相关的服务，最终为应用层的接口服务
+            </summary>
+        </member>
+        <member name="M:Web.Services.ResourceService.InitWebapiResource">
+            <summary>
+            获所有webapi的action设置为权限资源
+            </summary>
+        </member>
+        <member name="F:Web.Utilities.TreeBuilder`1._childPredicate">
+            <summary>
+            第一个T:parent
+            第二个T:child
+            </summary>
+        </member>
+    </members>
+</doc>
