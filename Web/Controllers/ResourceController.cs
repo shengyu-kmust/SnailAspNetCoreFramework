@@ -9,7 +9,6 @@ namespace Web.Controllers
     /// <summary>
     /// 资源管理，系统所有能访问的webapi，菜单等资源
     /// </summary>
-    [Route("api/[controller]")]
     [ApiController]
     public class ResourceController : AuthorizeBaseController
     {

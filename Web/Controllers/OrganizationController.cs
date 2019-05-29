@@ -6,7 +6,6 @@ using Web.Infrastructure;
 
 namespace Web.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class OrganizationController : AuthorizeBaseController
     {

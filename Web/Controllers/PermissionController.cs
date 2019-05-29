@@ -10,7 +10,6 @@ namespace Web.Controllers
     /// <summary>
     /// 权限管理，只对角色进行授权
     /// </summary>
-    [Route("api/[controller]")]
     [ApiController]
     public class PermissionController : AuthorizeBaseController
     {

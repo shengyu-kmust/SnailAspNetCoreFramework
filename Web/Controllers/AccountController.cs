@@ -18,7 +18,6 @@ using System.Threading.Tasks;
 namespace Web.Controllers
 {
 
-    [Route("api/[controller]")]
     [ApiController]
     public class AccountController:AuthorizeBaseController
     {

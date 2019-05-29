@@ -8,7 +8,6 @@ namespace Web.Controllers
     /// <summary>
     /// 用户角色授权，授予某些用户某些角色
     /// </summary>
-    [Route("api/[controller]")]
     [ApiController]
     public class UserRoleController : AuthorizeBaseController
     {

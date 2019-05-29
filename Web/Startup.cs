@@ -30,7 +30,8 @@ using Web.Domain;
 using Web.Interceptor;
 using Web.Security;
 using Web.Services;
-
+using NJsonSchema;
+using NSwag.AspNetCore;
 namespace Web
 {
     public class Startup
@@ -142,6 +143,9 @@ namespace Web
             #endregion
 
             #region 依赖注入
+            #region 注入swagger
+            services.AddSwaggerDocument();
+            #endregion
             #region asp.net core自带的依赖注入，在此用自带的注入写法，注入到serviceCollection里
             services.AddSingleton<PermissionModel>();
             services.AddScoped<ResourceService>();
@@ -226,7 +230,8 @@ namespace Web
                 });
                 app.UseHsts();
             }
-
+            app.UseSwagger();
+            app.UseSwaggerUi3();
             app.UseAuthentication();
             app.UseMvc();
         }

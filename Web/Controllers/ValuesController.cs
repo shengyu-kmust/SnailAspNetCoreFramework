@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace Web.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : AuthorizeBaseController
     {
