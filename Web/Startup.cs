@@ -34,6 +34,7 @@ using NJsonSchema;
 using NSwag.AspNetCore;
 using EasyCaching.Core;
 using EasyCaching.InMemory;
+using MediatR;
 
 namespace Web
 {
@@ -175,6 +176,10 @@ namespace Web
                 }, "default");
 
             });
+            #endregion
+            #region 注入mediatr
+            services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
+
             #endregion
             #region asp.net core自带的依赖注入，在此用自带的注入写法，注入到serviceCollection里
             services.AddSingleton<PermissionModel>();

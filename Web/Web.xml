@@ -340,5 +340,17 @@
             第二个T:child
             </summary>
         </member>
+        <member name="M:OrPMS.Web.Controllers.V2.MediatorController.TestRequest">
+            <summary>
+            测试mediator的request模式是否正常
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OrPMS.Web.Controllers.V2.MediatorController.TestNotify">
+            <summary>
+            测试mediator的notification模式是否正常
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>
