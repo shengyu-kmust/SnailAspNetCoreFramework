@@ -35,6 +35,9 @@ using NSwag.AspNetCore;
 using EasyCaching.Core;
 using EasyCaching.InMemory;
 using MediatR;
+using CommonAbstract;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace Web
 {
@@ -184,6 +187,13 @@ namespace Web
             #region asp.net core自带的依赖注入，在此用自带的注入写法，注入到serviceCollection里
             services.AddSingleton<PermissionModel>();
             services.AddScoped<ResourceService>();
+            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+            services.AddSingleton(typeof(IListDataCaching<,>), provider=>
+            {
+                var db=provider.GetService<DbContext>();
+                db
+                return new ListDataCaching<string, string>();
+            });
             #endregion
             #region 集成autofac
             var builder = new ContainerBuilder();
@@ -197,9 +207,6 @@ namespace Web
 
             builder.RegisterType<AopService>().As<IAopService>().EnableInterfaceInterceptors();
             builder.RegisterType<LogInterceptor>();
-
-            //interceptor注入
-
             #endregion
             #endregion
             //返回serviceProvider。此方法的默认是不返回的，和autofac集成后，而修改成返回IServiceProvider对象

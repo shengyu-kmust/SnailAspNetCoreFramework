@@ -31,7 +31,7 @@ DTO:QueryModel,ViewModel?
 * 此项目不要依赖任何的其它项目，用干净体系结构，参考：https://docs.microsoft.com/zh-cn/dotnet/standard/modern-web-apps-azure-architecture/common-web-application-architectures
 
 ### 缓存
-* ICache接口，实现redis,memcached，memoryCache等，可考虑用easycaching
+* ICache接口，实现redis,memcached，memoryCache等，可考虑用easycaching。经对easycaching的分析，决定不采用。
 * 缓存用AOP，避免每个方法里写缓存逻辑
 * 缓存的更新用事件驱动，引入第三方组件
 ### 领域驱动
@@ -47,8 +47,8 @@ DTO:QueryModel,ViewModel?
 * 用cap或是用mediator
 ### 日志处理 **--已实现**
 * 用nlog
-### command bus
-用Mediatr 
+### command bus **--已实现**
+* 用Mediatr 
 ### DAL层
 * 负责所有和数据相关的操作
 * 封装通用的数据访问接口及实现，如用EF实现如下几个功能
