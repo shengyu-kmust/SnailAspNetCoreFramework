@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommonAbstract
+namespace ApplicationCore.Abstract
 {
     public interface ISaveDto<T> where T:IBaseEntity
     {

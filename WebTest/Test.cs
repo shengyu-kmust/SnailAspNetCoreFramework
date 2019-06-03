@@ -1,4 +1,4 @@
-﻿using CommonAbstract;
+﻿using ApplicationCore.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +10,7 @@ namespace WebTest
     {
         public void Method()
         {
-            IListDataCaching<string, string> a = new ListDataCaching<string, string>(() => new Dictionary<string, string>(), i => "");
-            IListDataCaching<string, string> b = new ListDataCaching<string, string>();
+           
         }
     }
 }

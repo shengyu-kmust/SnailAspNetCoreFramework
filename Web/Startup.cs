@@ -35,7 +35,7 @@ using NSwag.AspNetCore;
 using EasyCaching.Core;
 using EasyCaching.InMemory;
 using MediatR;
-using CommonAbstract;
+using ApplicationCore.Abstract;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
@@ -188,12 +188,7 @@ namespace Web
             services.AddSingleton<PermissionModel>();
             services.AddScoped<ResourceService>();
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
-            services.AddSingleton(typeof(IListDataCaching<,>), provider=>
-            {
-                var db=provider.GetService<DbContext>();
-                db
-                return new ListDataCaching<string, string>();
-            });
+            services.AddSingleton(typeof(IListDataCaching<,>),typeof(ListDataCaching<,>));
             #endregion
             #region 集成autofac
             var builder = new ContainerBuilder();

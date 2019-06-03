@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace CommonAbstract
+namespace ApplicationCore.Abstract
 {
     /// <summary>
     /// 所有的查询条件

@@ -1,5 +1,5 @@
 ﻿using ApplicationCore.Enum;
-using CommonAbstract;
+using ApplicationCore.Abstract;
 using DAL.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;

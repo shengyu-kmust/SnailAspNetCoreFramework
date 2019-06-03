@@ -1,4 +1,4 @@
-﻿using CommonAbstract;
+﻿using ApplicationCore.Abstract;
 using Web.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;

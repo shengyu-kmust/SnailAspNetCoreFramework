@@ -1,4 +1,4 @@
-﻿using CommonAbstract;
+﻿using ApplicationCore.Abstract;
 using DAL.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

@@ -1,4 +1,4 @@
-﻿using CommonAbstract;
+﻿using ApplicationCore.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Text;

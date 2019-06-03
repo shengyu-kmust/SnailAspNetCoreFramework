@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommonAbstract
+namespace ApplicationCore.Abstract
 {
     public abstract class DefaultBaseEntity : IBaseEntity,IEntityId<Guid>, IEntitySoftDelete, IEntityAudit<Guid>
     {

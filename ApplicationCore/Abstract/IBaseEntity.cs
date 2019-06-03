@@ -1,4 +1,4 @@
-﻿namespace CommonAbstract
+﻿namespace ApplicationCore.Abstract
 {
     public interface IBaseEntity
     {

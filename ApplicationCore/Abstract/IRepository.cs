@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Utility.Page;
-namespace CommonAbstract
+namespace ApplicationCore.Abstract
 {
     /// <summary>
     /// 数据仓库接口

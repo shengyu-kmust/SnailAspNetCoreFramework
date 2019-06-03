@@ -1,6 +1,6 @@
 ﻿using Utility.Page;
 
-namespace CommonAbstract
+namespace ApplicationCore.Abstract
 {
     public interface IQueryPageDto<T> :IQueryDto<T>,IPagination where T:IBaseEntity
     {

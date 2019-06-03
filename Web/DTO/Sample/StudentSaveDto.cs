@@ -1,5 +1,5 @@
 ﻿using ApplicationCore.Enum;
-using CommonAbstract;
+using ApplicationCore.Abstract;
 using DAL.Entity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;

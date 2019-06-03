@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CommonAbstract
+namespace ApplicationCore.Abstract
 {
     public class ListDataCaching<TKey, TValue> : IListDataCaching<TKey, TValue>
     {
@@ -13,11 +15,6 @@ namespace CommonAbstract
         public Dictionary<TKey, TValue> KeyValuePairs => _keyValuePairs;
         public List<TValue> Values => _keyValuePairs.Values.ToList();//对外只读，这是只读属性
         
-        public ListDataCaching()
-        {
-
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -65,5 +62,42 @@ namespace CommonAbstract
             _keyValuePairs.Remove(key);
         }
 
+    }
+
+    public class DefaultEntityDataCachingFuncProvider<TKey,TValue> where TValue: class ,IEntityId<TKey>
+    {
+        private IServiceProvider _serviceProvider;
+        public DefaultEntityDataCachingFuncProvider(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+        public Dictionary<TKey,TValue> GetAll()
+        {
+            var dics = new Dictionary<TKey, TValue>();
+            using (DbContext db= _serviceProvider.GetService<DbContext>())
+            {
+                db.Set<TValue>().AsNoTracking().ToList().ForEach(a =>
+                {
+                    dics.Add(a.Id, a);
+                });
+            } 
+            return dics;
+        }
+        public TValue GetSingle(TKey key)
+        {
+            using (DbContext db = _serviceProvider.GetService<DbContext>())
+            {
+                return db.Set<TValue>().Find(key);
+            }
+        }
+    }
+
+
+    public static class ListDataCachingExtension {
+        public static IServiceCollection AddListDataCaching(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton(typeof(IListDataCaching<,>),typeof(ListDataCaching<,>));
+            return serviceCollection;
+        }
     }
 }

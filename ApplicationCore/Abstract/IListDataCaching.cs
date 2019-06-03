@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommonAbstract
+namespace ApplicationCore.Abstract
 {
     /// <summary>
     /// 列表数据缓存，用于缓存应用不常列表数据，如整表数据
