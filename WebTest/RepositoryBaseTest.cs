@@ -1,5 +1,5 @@
 ﻿using ApplicationCore.Abstract;
-using DAL.Entity;
+using ApplicationCore.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;

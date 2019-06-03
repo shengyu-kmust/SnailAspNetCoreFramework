@@ -1,4 +1,4 @@
-﻿using DAL.Entity;
+﻿using ApplicationCore.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;

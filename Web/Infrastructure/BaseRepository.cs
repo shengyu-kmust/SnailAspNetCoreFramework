@@ -1,10 +1,10 @@
-﻿using AutoMapper;
-using DAL.Entity;
+﻿using ApplicationCore.Entity;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using ApplicationCore.Enum;
+
 namespace Web.Infrastructure
 {
     public class BaseRepository<T> where T:BaseEntity
@@ -17,7 +17,7 @@ namespace Web.Infrastructure
         }
         public virtual List<T> AllValid()
         {
-            return db.Set<T>().Where(a => a.IsValid == (int) ValidOrNot.Valid).ToList();
+            return db.Set<T>().Where(a => a.IsDeleted == false).ToList();
         }
 
         public virtual List<T> All()
@@ -44,7 +44,7 @@ namespace Web.Infrastructure
             var entity=db.Set<T>().FirstOrDefault(a => a.Id == id);
             if (entity != null)
             {
-                entity.IsValid = (int) ValidOrNot.Invalid;
+                entity.IsDeleted = false;
                 db.SaveChanges();
             }
         }

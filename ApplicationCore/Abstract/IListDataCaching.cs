@@ -7,15 +7,14 @@ namespace ApplicationCore.Abstract
     /// <summary>
     /// 列表数据缓存，用于缓存应用不常列表数据，如整表数据
     /// </summary>
-    public interface IListDataCaching<TKey,TValue>
+    public interface IEntityCaching<TKey,TValue> where TValue : class, IEntityId<TKey>
     {
-        
-        ///// <summary>
-        ///// 返回所有的列表
-        ///// </summary>
-        ///// <returns></returns>
-        //List<T> Values();
-        //void Update(T value, object key);
-        
+        Dictionary<TKey, TValue> KeyValuePairs { get; }
+        List<TValue> Values { get; }
+
+        void Remove(TKey key);
+        void AddOrUpdate(TKey key);
+        void AddOrUpdate(TKey key, TValue value);
+        void Refresh();
     }
 }

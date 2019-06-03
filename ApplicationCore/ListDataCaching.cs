@@ -7,33 +7,52 @@ using System.Text;
 
 namespace ApplicationCore.Abstract
 {
-    public class ListDataCaching<TKey, TValue> : IListDataCaching<TKey, TValue>
+    public class EntityCaching<TKey, TValue> : IEntityCaching<TKey, TValue> where TValue:class,IEntityId<TKey>
     {
         private Dictionary<TKey, TValue> _keyValuePairs;
-        private Func<Dictionary<TKey, TValue>> _loadAllFunc;
-        private Func<TKey, TValue> _getSingleFunc;
         public Dictionary<TKey, TValue> KeyValuePairs => _keyValuePairs;
         public List<TValue> Values => _keyValuePairs.Values.ToList();//对外只读，这是只读属性
-        
+        private IServiceProvider _serviceProvider;
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
         public TValue this[TKey i]=>_keyValuePairs[i];//这是只读索引的快捷写法，参考：https://docs.microsoft.com/zh-cn/dotnet/csharp/programming-guide/indexers/index
-        public ListDataCaching(Func<Dictionary<TKey, TValue>> loadAllFunc, Func<TKey, TValue> getSingleFunc)
+        public EntityCaching(IServiceProvider serviceProvider)
         {
-            _loadAllFunc = loadAllFunc;
-            _getSingleFunc = getSingleFunc;
-            _keyValuePairs = _loadAllFunc();
+            _serviceProvider = serviceProvider;
+            loadAll();
         }
+
+        private void loadAll()
+        {
+            _keyValuePairs = new Dictionary<TKey, TValue>();
+            using (DbContext db = _serviceProvider.GetService<DbContext>())
+            {
+                db.Set<TValue>().AsNoTracking().ToList().ForEach(a =>
+                {
+                    _keyValuePairs.Add(a.Id, a);
+                });
+            }
+        }
+
+        private TValue Find(TKey key)
+        {
+            using (DbContext db = _serviceProvider.GetService<DbContext>())
+            {
+                return db.Set<TValue>().Find(key);
+            }
+        }
+
 
         /// <summary>
         /// 刷新
         /// </summary>
         public void Refresh()
         {
-            _keyValuePairs = _loadAllFunc();
+            loadAll();
         }
 
         /// <summary>
@@ -54,49 +73,20 @@ namespace ApplicationCore.Abstract
         public void AddOrUpdate(TKey key)
         {
             _keyValuePairs.Remove(key);
-            _keyValuePairs.Add(key,_getSingleFunc(key));
+            _keyValuePairs.Add(key, Find(key));
         }
 
         public void Remove(TKey key)
         {
             _keyValuePairs.Remove(key);
         }
-
     }
 
-    public class DefaultEntityDataCachingFuncProvider<TKey,TValue> where TValue: class ,IEntityId<TKey>
+    public static class EntityCachingExtension
     {
-        private IServiceProvider _serviceProvider;
-        public DefaultEntityDataCachingFuncProvider(IServiceProvider serviceProvider)
+        public static IServiceCollection AddEntityCaching(this IServiceCollection serviceCollection)
         {
-            _serviceProvider = serviceProvider;
-        }
-        public Dictionary<TKey,TValue> GetAll()
-        {
-            var dics = new Dictionary<TKey, TValue>();
-            using (DbContext db= _serviceProvider.GetService<DbContext>())
-            {
-                db.Set<TValue>().AsNoTracking().ToList().ForEach(a =>
-                {
-                    dics.Add(a.Id, a);
-                });
-            } 
-            return dics;
-        }
-        public TValue GetSingle(TKey key)
-        {
-            using (DbContext db = _serviceProvider.GetService<DbContext>())
-            {
-                return db.Set<TValue>().Find(key);
-            }
-        }
-    }
-
-
-    public static class ListDataCachingExtension {
-        public static IServiceCollection AddListDataCaching(this IServiceCollection serviceCollection)
-        {
-            serviceCollection.AddSingleton(typeof(IListDataCaching<,>),typeof(ListDataCaching<,>));
+            serviceCollection.AddSingleton(typeof(IEntityCaching<,>),typeof(IEntityCaching<,>));
             return serviceCollection;
         }
     }

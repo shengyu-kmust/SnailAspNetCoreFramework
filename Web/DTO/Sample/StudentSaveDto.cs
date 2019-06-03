@@ -1,10 +1,9 @@
-﻿using ApplicationCore.Enum;
-using ApplicationCore.Abstract;
-using DAL.Entity;
+﻿using ApplicationCore.Abstract;
+using ApplicationCore.Entity;
+using ApplicationCore.Enum;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Web.DTO.Sample
 {

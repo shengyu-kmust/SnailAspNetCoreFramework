@@ -1,5 +1,4 @@
-﻿using ApplicationCore.Enum;
-using DAL.Entity;
+﻿using ApplicationCore.Entity;
 using System.Collections.Generic;
 
 namespace Web.Infrastructure
@@ -25,9 +24,9 @@ namespace Web.Infrastructure
             {
                 db.UserRoleses.Add(new UserRole()
                 {
-                    RoleId=roleId,
+                    RoleId = roleId,
                     UserId = userId,
-                    IsValid=(int)ValidOrNot.Valid
+                    IsDeleted = false
                 });
             });
             db.SaveChanges();
@@ -43,7 +42,7 @@ namespace Web.Infrastructure
                     {
                         UserId = user.Key,
                         RoleId = roleId,
-                        IsValid = (int)ValidOrNot.Valid
+                       IsDeleted=false
                     });
                 });
             }

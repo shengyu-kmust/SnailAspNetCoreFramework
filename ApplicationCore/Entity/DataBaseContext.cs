@@ -6,7 +6,7 @@ using ApplicationCore.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DAL.Entity
+namespace ApplicationCore.Entity
 {
     public class DatabaseContext : DbContext
     {
@@ -62,7 +62,7 @@ namespace DAL.Entity
                 .ValueGeneratedOnAddOrUpdate();
             modelBuilder.Entity<T>().Property(a => a.UpdateTime).HasDefaultValue(DateTime.Now)
                 .ValueGeneratedOnAddOrUpdate();
-            modelBuilder.Entity<T>().Property(a => a.IsValid).HasDefaultValue(1)
+            modelBuilder.Entity<T>().Property(a => a.IsDeleted).HasDefaultValue(false)
                 .ValueGeneratedOnAddOrUpdate();
         }
 

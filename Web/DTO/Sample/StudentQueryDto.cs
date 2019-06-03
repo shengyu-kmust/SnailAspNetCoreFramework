@@ -1,6 +1,6 @@
 ﻿using ApplicationCore.Enum;
 using ApplicationCore.Abstract;
-using DAL.Entity;
+using ApplicationCore.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;

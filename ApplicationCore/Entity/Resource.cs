@@ -1,4 +1,4 @@
-﻿namespace DAL.Entity
+﻿namespace ApplicationCore.Entity
 {
     public class Resource:BaseEntity
     {

@@ -1,7 +1,7 @@
 using Web.Services;
 using System;
 using Xunit;
-using DAL.Entity;
+using ApplicationCore.Entity;
 using ApplicationCore.Abstract;
 using System.Linq;
 using System.Linq.Expressions;

@@ -1,4 +1,5 @@
-﻿using DAL.Entity;
+﻿using ApplicationCore.Entity;
+using ApplicationCore.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -7,7 +8,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using ApplicationCore.Enum;
 using Web.Infrastructure;
 
 namespace Web.Services
@@ -60,7 +60,7 @@ namespace Web.Services
                         Category=canAddResource.Category,
                         CreateTime=DateTime.Now,
                         Description=canAddResource.Description,
-                        IsValid=(int)ValidOrNot.Valid,
+                        IsDeleted=false,
                         Key=canAddResource.Key,
                         ParentId=0,
                         Value=canAddResource.Value,

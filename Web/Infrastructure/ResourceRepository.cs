@@ -1,4 +1,4 @@
-﻿using DAL.Entity;
+﻿using ApplicationCore.Entity;
 
 namespace Web.Infrastructure
 {

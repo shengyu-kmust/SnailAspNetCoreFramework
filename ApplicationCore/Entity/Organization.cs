@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DAL.Entity
+namespace ApplicationCore.Entity
 {
     public class Organization:BaseEntity
     {

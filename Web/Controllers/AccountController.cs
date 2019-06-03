@@ -1,4 +1,4 @@
-﻿using DAL.Entity;
+﻿using ApplicationCore.Entity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

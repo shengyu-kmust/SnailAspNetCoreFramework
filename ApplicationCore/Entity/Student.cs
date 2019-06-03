@@ -1,15 +1,13 @@
-﻿using ApplicationCore.Enum;
-using ApplicationCore.Abstract;
+﻿using ApplicationCore.Abstract;
+using ApplicationCore.Enum;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 /// <summary>
 /// 1、请不要删除此实体，对于EF的用法，会用此实体做示例及用法说明，在开发正式应用时才删除
 /// 2、举例如何用EF的convention模式（推荐）
 /// </summary>
-namespace DAL.Entity
+namespace ApplicationCore.Entity
 {
     [Table("Student")]
     public class Student:IBaseEntity

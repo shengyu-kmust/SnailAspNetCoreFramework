@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
-using DAL.Entity;
+using ApplicationCore.Entity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -61,7 +61,7 @@ namespace Web
             });
             #endregion
             services.AddMvc(options => { options.Filters.Add(new GlobalExceptionFilterAttribute()); });
-           
+
             #region 身份验证
             //约定
             //1、身份验证以支持Jwt和cookie两种为主，先jwt再cookie验证
@@ -154,7 +154,8 @@ namespace Web
             services.AddSwaggerDocument();
             #endregion
             #region 注入easyCaching
-            services.AddEasyCaching(option=> {
+            services.AddEasyCaching(option =>
+            {
                 //配置方式一：用config配置
                 option.UseInMemory(Configuration, "default", "easycaching:inmemory");
 
@@ -188,8 +189,12 @@ namespace Web
             services.AddSingleton<PermissionModel>();
             services.AddScoped<ResourceService>();
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
-            services.AddSingleton(typeof(IListDataCaching<,>),typeof(ListDataCaching<,>));
             #endregion
+
+            #region 注入整表缓存
+            //services.AddEntityCaching();
+            #endregion
+
             #region 集成autofac
             var builder = new ContainerBuilder();
             builder.Populate(services);//将asp.net core 自带的依赖注入，已经注册的组件，注册到autofac里
@@ -202,6 +207,7 @@ namespace Web
 
             builder.RegisterType<AopService>().As<IAopService>().EnableInterfaceInterceptors();
             builder.RegisterType<LogInterceptor>();
+            builder.RegisterGeneric(typeof(EntityCaching<,>)).As(typeof(IEntityCaching<,>)).SingleInstance();
             #endregion
             #endregion
             //返回serviceProvider。此方法的默认是不返回的，和autofac集成后，而修改成返回IServiceProvider对象
