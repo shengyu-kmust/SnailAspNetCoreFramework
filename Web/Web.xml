@@ -4,7 +4,7 @@
         <name>Web</name>
     </assembly>
     <members>
-        <member name="M:Web.Controllers.AccountController.ApiLogin(DAL.Entity.User)">
+        <member name="M:Web.Controllers.AccountController.ApiLogin(ApplicationCore.Entity.User)">
             <summary>
             用户登录，返回token  //TODO:需考虑用户的权限发生变动时，已经颁发的token要失效
             </summary>
@@ -269,7 +269,7 @@
             用户模型
             </summary>
         </member>
-        <member name="M:Web.Domain.UserModel.AddRole(DAL.Entity.Role)">
+        <member name="M:Web.Domain.UserModel.AddRole(ApplicationCore.Entity.Role)">
             <summary>
             向用户增加角色的逻辑
             </summary>

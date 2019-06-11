@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DALTest", "DALTest\DALTest.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTest", "WebTest\WebTest.csproj", "{FBE95146-1BEB-4F41-990D-CDF03ABAFB53}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationCoreTest", "ApplicationCoreTest\ApplicationCoreTest.csproj", "{286F54EE-D8B0-465C-8D37-0388267FFC9F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{FBE95146-1BEB-4F41-990D-CDF03ABAFB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBE95146-1BEB-4F41-990D-CDF03ABAFB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBE95146-1BEB-4F41-990D-CDF03ABAFB53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{286F54EE-D8B0-465C-8D37-0388267FFC9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{286F54EE-D8B0-465C-8D37-0388267FFC9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{286F54EE-D8B0-465C-8D37-0388267FFC9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{286F54EE-D8B0-465C-8D37-0388267FFC9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +76,7 @@ Global
 		{D2E298A0-9AF1-4BB9-A0B0-E7EC3399806A} = {03BCE4F3-8A4A-4AF2-819B-A6ABF9B07348}
 		{5CFCC734-6C90-4104-81DF-CE1D1038F0DF} = {03BCE4F3-8A4A-4AF2-819B-A6ABF9B07348}
 		{FBE95146-1BEB-4F41-990D-CDF03ABAFB53} = {03BCE4F3-8A4A-4AF2-819B-A6ABF9B07348}
+		{286F54EE-D8B0-465C-8D37-0388267FFC9F} = {03BCE4F3-8A4A-4AF2-819B-A6ABF9B07348}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {812541AA-DEA7-4F89-8FF5-FF77920406EA}

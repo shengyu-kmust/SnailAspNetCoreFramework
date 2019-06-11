@@ -38,6 +38,8 @@ using MediatR;
 using ApplicationCore.Abstract;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using System.Diagnostics;
 
 namespace Web
 {
@@ -294,11 +296,11 @@ namespace Web
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
+                //下面是vs模板对spa应用的默认配置，推荐关闭，改用 webpack-dev-server + api proxy 来提高开发速度
+                //if (env.IsDevelopment())
+                //{
+                //    spa.UseReactDevelopmentServer(npmScript: "start");
+                //}
             });
         }
     }
