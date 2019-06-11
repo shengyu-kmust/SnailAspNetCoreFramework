@@ -1,14 +1,13 @@
 ﻿using ApplicationCore.Abstract;
-using Web.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Utility.Page;
+using Web.Interface;
 
-namespace Web
+namespace DAL
 {
     /// <summary>
     /// 基于entityframework的数据仓储模式

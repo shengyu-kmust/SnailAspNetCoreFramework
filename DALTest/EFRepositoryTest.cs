@@ -1,9 +1,6 @@
-﻿using DALTest.Entities;
-using System;
-using System.Collections.Generic;
+﻿using DAL;
+using DALTest.Entities;
 using System.Linq;
-using System.Text;
-using Web;
 using Xunit;
 
 namespace DALTest

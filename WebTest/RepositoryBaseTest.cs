@@ -1,11 +1,10 @@
 ﻿using ApplicationCore.Abstract;
 using ApplicationCore.Entity;
+using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging.Debug;
-using Web;
 
 namespace WebTest
 {

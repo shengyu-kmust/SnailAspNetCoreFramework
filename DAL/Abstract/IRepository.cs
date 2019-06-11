@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Utility.Page;
-namespace ApplicationCore.Abstract
+
+namespace DAL.Abstract
 {
     /// <summary>
     /// 数据仓库接口
@@ -13,9 +13,8 @@ namespace ApplicationCore.Abstract
     /// </remarks>
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public interface IRepository<TEntity> where TEntity : IBaseEntity
+    public interface IRepository<TEntity> where TEntity : class
     {
-
 
         /// <summary>
         /// 查询并返回指定类型列表
