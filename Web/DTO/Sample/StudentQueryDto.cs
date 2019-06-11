@@ -9,7 +9,7 @@ using Utility;
 
 namespace Web.DTO.Sample
 {
-    public class StudentQueryDto : IQueryDto<Student>
+    public class StudentQueryDto : IQuery<Student>
     {
         [QueryFilterType(nameof(Name),BinaryExpressionFilterType.Contain)]
         public string Name { get; set; }

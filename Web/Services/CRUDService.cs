@@ -17,7 +17,7 @@ namespace Web.Services
         {
             _repository = repository;
         }
-        public List<TResult> Query<TResult>(IQueryDto<T> query, Expression<Func<T, TResult>>  selector)
+        public List<TResult> Query<TResult>(IQuery<T> query, Expression<Func<T, TResult>>  selector)
         {
             var predicate = query.GeneratePredicateExpression();
             var includeFunc = query.IncludeFunc();
@@ -25,7 +25,7 @@ namespace Web.Services
             return _repository.Query(predicate, includeFunc, order, selector);
         }
 
-        public PageResult<TResult> QueryPage<TResult>(IQueryPageDto<T> query, Expression<Func<T, TResult>> selector)
+        public PageResult<TResult> QueryPage<TResult>(IQueryPage<T> query, Expression<Func<T, TResult>> selector)
         {
             var predicate = query.GeneratePredicateExpression();
             var includeFunc = query.IncludeFunc();

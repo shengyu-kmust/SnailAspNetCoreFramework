@@ -38,6 +38,8 @@ using MediatR;
 using ApplicationCore.Abstract;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using System.Diagnostics;
 
 namespace Web
 {
@@ -62,6 +64,13 @@ namespace Web
             #endregion
             services.AddMvc(options => { options.Filters.Add(new GlobalExceptionFilterAttribute()); });
 
+            #region 前端界面配置
+            // In production, the front end files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
+            #endregion
             #region 身份验证
             //约定
             //1、身份验证以支持Jwt和cookie两种为主，先jwt再cookie验证
@@ -273,10 +282,26 @@ namespace Web
                 });
                 app.UseHsts();
             }
+            //静态文件
+            app.UseStaticFiles();
+            //spa前端静态文件
+            app.UseSpaStaticFiles();
+
             app.UseSwagger();
             app.UseSwaggerUi3();
             app.UseAuthentication();
             app.UseMvc();
+
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+                //下面是vs模板对spa应用的默认配置，推荐关闭，改用 webpack-dev-server + api proxy 来提高开发速度
+                //if (env.IsDevelopment())
+                //{
+                //    spa.UseReactDevelopmentServer(npmScript: "start");
+                //}
+            });
         }
     }
 }

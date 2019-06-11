@@ -11,6 +11,7 @@ namespace DALTest.Entities
         public string Name { get; set; }
         public DateTime BirthDay { get; set; }
         public int? TeamId { get; set; }
+        public string AddedField { get; set; }
 
         #region 导航属性
         /// <summary>

@@ -46,7 +46,7 @@ namespace DAL
             {
                 query = order(query);
             }
-
+            //注意，selector可以是Expression<Func<T,bool>>或是Func<T,bool>，如果是表达式树（前者），则生成的sql会根据需求生成表的部分字段、或关联其它表，ef的projection(即根据select里的字段自动include相关的表)会启作用；如果是委托（后者），ef的projection不起作用，生成的sql只是单表的所有字段。
             return query.AsNoTracking().Select(selector).ToList();
         }
 
@@ -74,6 +74,8 @@ namespace DAL
             {
                 query = (pagination.PageIndex <= 1) ? query.Take(pagination.PageSize) : query.Skip(pagination.PageSize * (pagination.PageIndex - 1)).Take(pagination.PageSize);
             }
+
+            //注意，selector可以是Expression<Func<T,bool>>或是Func<T,bool>，如果是表达式树（前者），则生成的sql会根据需求生成表的部分字段、或关联其它表，ef的projection(即根据select里的字段自动include相关的表)会启作用；如果是委托（后者），ef的projection不起作用，生成的sql只是单表的所有字段。
             var items = query.AsNoTracking().Select(selector).ToList();
             var total = query.AsNoTracking().Count();
             return new PageResult<TResult>
@@ -127,6 +129,15 @@ namespace DAL
         {
             return _dbSet.Find(keyValues);
 
+        }
+
+        public TEntity FirstOrDefault(Expression<Func<TEntity,bool>> predicate)
+        {
+            return _dbSet.AsNoTracking().FirstOrDefault(predicate);
+        }
+        public TEntity FirstOrDefault()
+        {
+            return _dbSet.AsNoTracking().FirstOrDefault();
         }
         #endregion
     }
