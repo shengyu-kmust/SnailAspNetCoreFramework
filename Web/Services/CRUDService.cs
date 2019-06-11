@@ -17,15 +17,16 @@ namespace Web.Services
         {
             _repository = repository;
         }
-        public List<TResult> Query<TResult>(IQuery<T> query, Expression<Func<T, TResult>>  selector)
+        public List<TResult> Query<TResult>(IQuery<T,TResult> query)
         {
             var predicate = query.GeneratePredicateExpression();
             var includeFunc = query.IncludeFunc();
             var order = query.OrderFunc();
+            var selector = query.SelectorExpression();
             return _repository.Query(predicate, includeFunc, order, selector);
         }
 
-        public PageResult<TResult> QueryPage<TResult>(IQueryPage<T> query, Expression<Func<T, TResult>> selector)
+        public PageResult<TResult> QueryPage<TResult>(IQueryPage<T,TResult> query, Expression<Func<T, TResult>> selector)
         {
             var predicate = query.GeneratePredicateExpression();
             var includeFunc = query.IncludeFunc();

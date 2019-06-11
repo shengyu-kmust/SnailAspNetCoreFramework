@@ -12,9 +12,6 @@
     
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>F:\mywork\SnailAspNetCoreFramework\Web\Web.xml</DocumentationFile>
-  </PropertyGroup>
 
   <ItemGroup>
     <!--SPA的配置-->

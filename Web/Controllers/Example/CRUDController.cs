@@ -20,10 +20,7 @@ namespace Web.Controllers.Example
         /// <returns></returns>
         public List<StudentResultDto> Query(StudentQueryDto query)
         {
-            return CRUDService.Query<StudentResultDto>(query,a=>new StudentResultDto {
-                Id=a.Id,
-                Name=a.Name
-            });
+            return CRUDService.Query(query);
         }
 
         /// <summary>

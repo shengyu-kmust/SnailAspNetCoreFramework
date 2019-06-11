@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DALTest", "DALTest\DALTest.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTest", "WebTest\WebTest.csproj", "{FBE95146-1BEB-4F41-990D-CDF03ABAFB53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationCoreTest", "ApplicationCoreTest\ApplicationCoreTest.csproj", "{286F54EE-D8B0-465C-8D37-0388267FFC9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationCoreTest", "ApplicationCoreTest\ApplicationCoreTest.csproj", "{286F54EE-D8B0-465C-8D37-0388267FFC9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +65,10 @@ Global
 		{FBE95146-1BEB-4F41-990D-CDF03ABAFB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBE95146-1BEB-4F41-990D-CDF03ABAFB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBE95146-1BEB-4F41-990D-CDF03ABAFB53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{286F54EE-D8B0-465C-8D37-0388267FFC9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{286F54EE-D8B0-465C-8D37-0388267FFC9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{286F54EE-D8B0-465C-8D37-0388267FFC9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{286F54EE-D8B0-465C-8D37-0388267FFC9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

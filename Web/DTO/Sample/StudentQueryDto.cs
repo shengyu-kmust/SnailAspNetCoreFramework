@@ -9,7 +9,7 @@ using Utility;
 
 namespace Web.DTO.Sample
 {
-    public class StudentQueryDto : IQuery<Student>
+    public class StudentQueryDto : IQuery<Student,StudentResultDto>
     {
         [QueryFilterType(nameof(Name),BinaryExpressionFilterType.Contain)]
         public string Name { get; set; }
@@ -35,6 +35,20 @@ namespace Web.DTO.Sample
         public Func<IQueryable<Student>, IQueryable<Student>> OrderFunc()
         {
             return a => a.OrderBy(i => i.Id);
+        }
+
+        public Expression<Func<Student, StudentResultDto>> SelectorExpression()
+        {
+            return a => new StudentResultDto
+            {
+                BirthDay = a.BirthDay,
+                Card = a.Card,
+                Gender = a.Gender,
+                Id = a.Id,
+                Name = a.Name,
+                Team = a.Team,
+                TeamId = a.TeamId
+            };
         }
     }
 }
