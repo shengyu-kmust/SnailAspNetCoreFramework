@@ -18,8 +18,9 @@ namespace ApplicationCoreTest
         private DbContext _db;
         public ICRUDServiceTest()
         {
-            _db = DatabaseDbContextHelper.GetInMemoryDbContext();//从helper里获取dbcontext
-            //_db = DatabaseDbContextHelper.GetSqlServerDbContext();//从helper里获取dbcontext
+            // 下面可以切换是用内存数据库和是sqlserver数据库
+            //_db = DatabaseDbContextHelper.GetInMemoryDbContext();//从helper里获取dbcontext
+            _db = DatabaseDbContextHelper.GetSqlServerDbContext();//从helper里获取dbcontext
             var repository = new EFRepository<Student>(_db);
             _crudService = new CRUDService<Student>(repository);
         }
@@ -28,44 +29,40 @@ namespace ApplicationCoreTest
         /// 查询,结果为单表数据
         /// </summary>
         [Fact]
-        public void Query_SingleTable_Test()
+        public void Query_SingleTableResult_Test()
         {
             var studentQuery = new StudentQuery();
-            var result=_crudService.Query(studentQuery, a => a);
+            var result=_crudService.Query(studentQuery);
         }
 
         /// <summary>
         /// 查询，结果为多表数据
         /// </summary>
         [Fact]
-        public void Query_MultiTable_Test()
+        public void Query_MultiTableResult_Test()
         {
             var studentQuery = new StudentQuery();
-            var result = _crudService.Query(studentQuery, a => new {
-                a.BankCards,
-                a.identityCard.CardNo,
-                a.Name,
-                a.Id,
-                a.BirthDay,
-                TeamName=a.Team.Name
-            });
+
+            //匿名类型结果
+            var anonymousResult = _crudService.Query(studentQuery);
+
+            //具体类型结果
+            Expression<Func<Student, object>> selector = a => new StudentResultDto
+            {
+                Id = a.Id,
+                BirthDay = a.BirthDay,
+                Name = a.Name,
+                TeamId = a.Team.Id,
+                TeamName = a.Team.Name
+            };
+            var objectResult = _crudService.Query(studentQuery);
         }
 
         [Fact]
         public void QueryPage_Test()
         {
             var studentQueryPage = new StudentQueryPage() { PageIndex = 1, PageSize = 2 };
-            var result1 = _crudService.QueryPage(studentQueryPage, a => a);
-            var result2 = _crudService.QueryPage(studentQueryPage, a => new
-            {
-                a.BankCards,
-                a.identityCard.CardNo,
-                a.Name,
-                a.Id,
-                a.BirthDay
-            }
-            );
-            
+            var result = _crudService.QueryPage(studentQueryPage);
         }
 
         [Fact]
@@ -110,7 +107,7 @@ namespace ApplicationCoreTest
         /// <summary>
         /// 查询dto
         /// </summary>
-        internal class StudentQuery : IQuery<Student>
+        internal class StudentQuery : IQuery<Student, StudentResultDto>
         {
             public Expression<Func<Student, bool>> GeneratePredicateExpression()
             {
@@ -127,11 +124,16 @@ namespace ApplicationCoreTest
             {
                 return a => a.OrderBy(i => i.Name);
             }
-            public static StudentResultDto Convert(Student student)
+            public Expression<Func<Student, StudentResultDto>> SelectorExpression()
             {
-                return new StudentResultDto
+                return a => new StudentResultDto
                 {
 
+                    Id = a.Id,
+                    BirthDay = a.BirthDay,
+                    Name = a.Name,
+                    TeamId = a.Team.Id,
+                    TeamName = a.Team.Name
                 };
             }
         }
@@ -151,7 +153,7 @@ namespace ApplicationCoreTest
         /// <summary>
         /// 分页查询 
         /// </summary>
-        internal class StudentQueryPage : StudentQuery, IQueryPage<Student>
+        internal class StudentQueryPage : StudentQuery, IQueryPage<Student,StudentResultDto>
         {
             public int PageSize { get;set;}
             public int PageIndex { get;set;}

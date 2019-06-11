@@ -17,11 +17,12 @@ namespace ApplicationCore
         {
             _repository = repository;
         }
-        public List<TResult> Query<TResult>(IQuery<T> query, Expression<Func<T, TResult>>  selector)
+        public List<TResult> Query<TResult>(IQuery<T, TResult> query)
         {
             var predicate = query.GeneratePredicateExpression();
             var includeFunc = query.IncludeFunc();
             var order = query.OrderFunc();
+            var selector = query.SelectorExpression();
             return _repository.Query(predicate, includeFunc, order, selector);
         }
         //public List<TResult> Query<TResult>(IQuery<T> query, Func<T, TResult> selector)
@@ -32,11 +33,12 @@ namespace ApplicationCore
         //    return _repository.Query(predicate, includeFunc, order, selector);
         //}
 
-        public PageResult<TResult> QueryPage<TResult>(IQueryPage<T> query, Expression<Func<T, TResult>> selector)
+        public PageResult<TResult> QueryPage<TResult>(IQueryPage<T, TResult> query)
         {
             var predicate = query.GeneratePredicateExpression();
             var includeFunc = query.IncludeFunc();
             var order = query.OrderFunc();
+            var selector = query.SelectorExpression();
             return _repository.QueryPage(predicate, includeFunc, order, new DefaultPagination() { PageIndex = query.PageIndex, PageSize = query.PageSize }, selector);
         }
 

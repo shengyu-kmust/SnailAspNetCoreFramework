@@ -2,7 +2,7 @@
 
 namespace ApplicationCore.Abstract
 {
-    public interface IQueryPage<T> :IQuery<T>,IPagination where T:IBaseEntity
+    public interface IQueryPage<T,TResult> :IQuery<T,TResult>,IPagination where T:IBaseEntity
     {
 
     }

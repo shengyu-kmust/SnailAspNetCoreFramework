@@ -42,7 +42,7 @@ namespace ApplicationCore.Abstract
         /// <param name="query">查询对象</param>
         /// <param name="selector">selector对象</param>
         /// <returns>返回TResult类型的列表</returns>
-        List<TResult> Query<TResult>(IQuery<T> query, Expression<Func<T, TResult>> selector);
+        List<TResult> Query<TResult>(IQuery<T, TResult> query);
         //List<TResult> Query<TResult>(IQuery<T> query, Func<T, TResult> selector);
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace ApplicationCore.Abstract
         /// <param name="query">分页查询对象</param>
         /// <param name="selector"></param>
         /// <returns></returns>
-        PageResult<TResult> QueryPage<TResult>(IQueryPage<T> query, Expression<Func<T, TResult>> selector);
+        PageResult<TResult> QueryPage<TResult>(IQueryPage<T, TResult> query);
         //PageResult<TResult> QueryPage<TResult>(IQueryPage<T> query, Func<T, TResult> selector);
     }
 }
