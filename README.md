@@ -40,11 +40,11 @@ DTO:QueryModel,ViewModel?
 * 日志、缓存的AOP切入，考虑用autofac
 ### IOC **--已实现**
 * 用autofac
-### 内存表
+### 内存表 **--已实现**
 * 将不常变动的、数据量比较小的表存储在内存里（不是缓存，是对象），并用事件驱动的思想同步最新的数据
 ### 事件
 * 发布和订阅
-* 用cap或是用mediator
+* 用cap或是用mediator，暂时用mediator，因为cap为分布式，在中小项目上是用不着的
 ### 日志处理 **--已实现**
 * 用nlog
 ### command bus **--已实现**
@@ -67,6 +67,9 @@ DTO:QueryModel,ViewModel?
 ### 数据库处理方式
 * 用EF做数据处理，不考虑其它的方式。
 
+
+### 前端界面
+* 放入到web项目里，用spa的方式
 
 ## 需要做的
 * 单元测试的注入

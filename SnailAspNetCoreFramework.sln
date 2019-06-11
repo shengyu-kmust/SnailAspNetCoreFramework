@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{84620691-301D-448B-B65F-E7CB738B35E8}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		autofac.md = autofac.md
 		nlog.md = nlog.md
 		README.md = README.md
+		spa.md = spa.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTestProject1", "XUnitTestProject1\XUnitTestProject1.csproj", "{D2E298A0-9AF1-4BB9-A0B0-E7EC3399806A}"

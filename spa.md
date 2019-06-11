@@ -1,0 +1,1 @@
+* 在asp.net core用spa做前端界面，参考的是vs项目模板里的react模板，此模板会对csproj文件已经startup文件做一些配置
