@@ -5,7 +5,7 @@
     <AssemblyName>Web</AssemblyName>
     
     <!--如下是在asp.net core里用spa的配置，-->
-    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <!--<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>-->
     <!--spa的根目录-->
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
@@ -19,11 +19,6 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-    <Folder Include="ClientApp\" />
   </ItemGroup>
 
   <ItemGroup>
