@@ -57,6 +57,9 @@ DTO:QueryModel,ViewModel?
 * 单表的查询，分页
 * 多表的简单关联查询，分页
 * 简单的CRUD
+### automapper
+* 引用automapper做对象的赋值转换
+* 实现基于expression的objectmapper类，用于简单的对象赋值，弥补automapper的配置复杂、用反射的性能低下的缺点
 #### EF的使用
 * EF执行sql语言的日志**--已实现**
 * 对于枚举类型，用EF的ValueConverter技术自动转换，约定存储在数据库里的为string类型而不是Int类型，方便理解**--已实现**
