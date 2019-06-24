@@ -1,7 +1,9 @@
 ﻿using DALTest.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DALTest
@@ -24,6 +26,11 @@ namespace DALTest
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region 配置表的结构
+            var stringToArrayConvert = new ValueConverter<List<string>, string>(a => string.Join(",", a), a => a.Split(",",StringSplitOptions.RemoveEmptyEntries).ToList());
+            modelBuilder.Entity<Student>().Property(e => e.Gender).HasConversion<int>();
+            modelBuilder.Entity<Student>().Property(e => e.Clubs).HasConversion(stringToArrayConvert);
+            #endregion
 
             modelBuilder.Entity<Team>().HasData(
                new Team { Id = 1, Name = "一班" },
@@ -48,6 +55,7 @@ namespace DALTest
                           );
 
         }
+
 
 
         
