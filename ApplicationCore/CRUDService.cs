@@ -1,87 +1,79 @@
 ﻿using ApplicationCore.Abstract;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using Utility;
 using Utility.Page;
 
 namespace ApplicationCore
 {
-    /// <summary>
-    /// 通用CRUD服务，做为
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class CRUDService<T> : ICRUDService<T> where T : IBaseEntity,new()
+    public class CRUDService<TEntity, Source> : ICRUDService<TEntity, Source> where TEntity:IBaseEntity
     {
-        private IRepository<T> _repository;
-        public CRUDService(IRepository<T> repository)
+        private IMapper _mapper;
+        private IQueryable<Source> _querySource;
+        public CRUDService<TEntity, Source>()
         {
-            _repository = repository;
-        }
-        public List<TResult> Query<TResult>(IQuery<T, TResult> query)
-        {
-            var predicate = query.GeneratePredicateExpression();
-            var includeFunc = query.IncludeFunc();
-            var order = query.OrderFunc();
-            var selector = query.SelectorExpression();
-            return _repository.Query(predicate, includeFunc, order, selector);
-        }
-        //public List<TResult> Query<TResult>(IQuery<T> query, Func<T, TResult> selector)
-        //{
-        //    var predicate = query.GeneratePredicateExpression();
-        //    var includeFunc = query.IncludeFunc();
-        //    var order = query.OrderFunc();
-        //    return _repository.Query(predicate, includeFunc, order, selector);
-        //}
-
-        public PageResult<TResult> QueryPage<TResult>(IQueryPage<T, TResult> query)
-        {
-            var predicate = query.GeneratePredicateExpression();
-            var includeFunc = query.IncludeFunc();
-            var order = query.OrderFunc();
-            var selector = query.SelectorExpression();
-            return _repository.QueryPage(predicate, includeFunc, order, new DefaultPagination() { PageIndex = query.PageIndex, PageSize = query.PageSize }, selector);
-        }
-
-        //public PageResult<TResult> QueryPage<TResult>(IQueryPage<T> query,Func<T, TResult> selector)
-        //{
-        //    var predicate = query.GeneratePredicateExpression();
-        //    var includeFunc = query.IncludeFunc();
-        //    var order = query.OrderFunc();
-        //    return _repository.QueryPage(predicate, includeFunc, order, new DefaultPagination() { PageIndex = query.PageIndex, PageSize = query.PageSize }, selector);
-        //}
-
-        public void Update(ISaveDto<T> saveDto)
-        {
-            var entity = saveDto.ConvertToEntity();
-            var changeProperties = saveDto.GetUpdateProperties();
-            _repository.Update(entity, changeProperties);
-        }
-
-        public void Add(ISaveDto<T> saveDto)
-        {
-            var entity= saveDto.ConvertToEntity();
-            _repository.Add(entity);
-        }
-
-        public void Delete(params object[] keyValues)
-        {
-            _repository.Delete(keyValues);
-        }
-
-        public T Find(params object[] keyValues)
-        {
-            return _repository.Find(keyValues);
 
         }
-
-        public T FirstOrDefault(Expression<Func<T, bool>> predicate)
+        public TResult Add<TResult, TSaveDto>(TSaveDto save)
         {
-            return _repository.FirstOrDefault(predicate);
+            throw new NotImplementedException();
         }
 
-        public T FirstOrDefault()
+        public void Add<TSaveDto>(TSaveDto saveDto)
         {
-            return _repository.FirstOrDefault();
+            throw new NotImplementedException();
+        }
+
+        public void Delete(object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<TResult> Query<TResult, TQueryDto>(TQueryDto queryDto)
+        {
+            IQueryable<Source> source= _querySource;
+            // 查询条件
+            if (queryDto is IPredicateConvert<TQueryDto,Source> predicateConvert)
+            {
+                source=_querySource.Where(predicateConvert.GetExpression());
+            }
+            else
+            {
+                source = _querySource.Where(SimpleEntityExpressionGenerator.GenerateAndExpressionFromDto<Source>(queryDto));
+            }
+
+
+            // 结果映射
+            throw new NotImplementedException();
+        }
+
+        public PageResult<TResult> QueryPage<TResult, TQueryDto>(TQueryDto queryDto) where TQueryDto : IPagination
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetQuerySource(IQueryable<Source> querySource)
+        {
+            _querySource = querySource;
+        }
+
+        public TResult Single<TResult>(object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TResult Update<TResult, TSaveDto>(TSaveDto save)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update<TSaveDto>(TSaveDto saveDto)
+        {
+            throw new NotImplementedException();
         }
     }
+
 }
