@@ -5,13 +5,12 @@ using System.Text;
 
 namespace DALTest.Entities
 {
-    public class Student:IBaseEntity
+    public class Student:IEntityId<int>
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime BirthDay { get; set; }
         public int? TeamId { get; set; }
-        public string AddedField { get; set; }
         /// <summary>
         /// 用value-conversions，参考：https://docs.microsoft.com/zh-cn/ef/core/modeling/value-conversions
         /// 枚举示例

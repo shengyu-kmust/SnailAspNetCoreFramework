@@ -49,6 +49,11 @@ namespace ApplicationCore.Abstract
         /// <param name="changeProperties">要修改的字段</param>
         /// <returns></returns>
         void Update(TEntity entity, List<string> changeProperties);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        void Update(TEntity entity);
 
         /// <summary>
         /// 增加实体

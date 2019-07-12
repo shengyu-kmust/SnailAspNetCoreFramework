@@ -88,7 +88,6 @@ namespace DAL
 
         }
 
-
         public void Update(TEntity entity, List<string> changeProperties)
         {
             var entityEntry = _dbContext.Entry(entity);
@@ -99,9 +98,16 @@ namespace DAL
             _dbContext.SaveChanges();
         }
 
+        public void Update(TEntity entity)
+        {
+            _dbContext.Update(entity);
+            _dbContext.SaveChanges();
+        }
+
+
         public void Add(TEntity entity)
         {
-            _dbSet.Add(entity);
+            var add=_dbSet.Add(entity);
             _dbContext.SaveChanges();
         }
 
@@ -142,3 +148,4 @@ namespace DAL
         #endregion
     }
 }
+
