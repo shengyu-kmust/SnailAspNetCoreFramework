@@ -28,6 +28,8 @@ namespace ApplicationCoreTest
             {
                 a.CreateMap<Student, StudentResultDto>();
                 a.CreateMap<StudentResultDto, Student>();
+                a.CreateMap<Student, Student>();
+                a.CreateMap<StudentResultDto, StudentResultDto>();
             }).CreateMapper();
             _studentService = new StudentService(mapper,_db, new EFRepository<Student>(_db));
         }
@@ -37,7 +39,7 @@ namespace ApplicationCoreTest
         {
             try
             {
-                var result = _studentService.QueryPage<StudentResultDto, StudentQueryDto>(new StudentQueryDto() { Name = "周晶" });
+                var result = _studentService.QueryPage<StudentResultDto, StudentQueryDto>(new StudentQueryDto() { Name = "张三" });
             }
             catch (Exception ex)
             {
@@ -58,18 +60,27 @@ namespace ApplicationCoreTest
             }
             public override void InitQuerySource()
             {
-                _querySource = _mapper.ProjectTo<StudentResultDto>(_db.Students);
+                //_querySource = _mapper.ProjectTo<Student>(_db.Students);
+                _querySource = _db.Students.Select(a => new StudentResultDto()
+                {
+                    BirthDay = a.BirthDay,
+                    Id = a.Id,
+                    Name = a.Name,
+                    TeamId = a.TeamId
+                });
             }
         }
         #endregion
 
         #region Dto
-        public class StudentResultDto:Student
+        public class StudentResultDto
         {
-            public string TeamName { get; set; }
-            public string CardNo { get; set; }
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public DateTime BirthDay { get; set; }
+            public int? TeamId { get; set; }
         }
-        public class StudentQueryDto : IPagination, IPredicateConvert<StudentQueryDto,StudentResultDto>
+        public class StudentQueryDto : IPagination, IPredicateConvert<StudentQueryDto, StudentResultDto>
         {
             public int PageSize { get; set; }
             public int PageIndex { get; set; }
@@ -77,7 +88,7 @@ namespace ApplicationCoreTest
 
             public Expression<Func<StudentResultDto, bool>> GetExpression()
             {
-                return a => a.Name == "周晶" && 1==1;
+                return a => a.Name == "张三" && 1==1;
             }
         }
 
