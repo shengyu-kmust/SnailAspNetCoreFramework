@@ -1,5 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Engines;
+using Org.BouncyCastle.Crypto.Generators;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.OpenSsl;
+using Org.BouncyCastle.Security;
+using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -12,48 +17,18 @@ namespace Utility
 	/// </summary>
 	public class RSAHelper
     {
-        private readonly RSA _privateKeyRsaProvider;
-        private readonly RSA _publicKeyRsaProvider;
-        private readonly HashAlgorithmName _hashAlgorithmName;
-        private readonly Encoding _encoding;
-
-        /// <summary>
-        /// 实例化RSAHelper
-        /// </summary>
-        /// <param name="rsaType">加密算法类型 RSA SHA1;RSA2 SHA256 密钥长度至少为2048;</param>
-        /// <param name="encoding">编码类型</param>
-        /// <param name="privateKey">私钥，只支持openssl生成的私钥、或是PKCS1标准的私钥</param>
-        /// <param name="publicKey">公钥，只支持openssl生成的公钥、或是PKCS1标准的公钥</param>
-        public RSAHelper(RSAType rsaType, Encoding encoding, string privateKey, string publicKey = null)
-        {
-            _encoding = encoding;
-            if (!string.IsNullOrEmpty(privateKey))
-            {
-                _privateKeyRsaProvider = CreateRsaProviderFromPrivateKey(privateKey);
-            }
-
-            if (!string.IsNullOrEmpty(publicKey))
-            {
-                _publicKeyRsaProvider = CreateRsaProviderFromPublicKey(publicKey);
-            }
-
-            _hashAlgorithmName = rsaType == RSAType.RSA ? HashAlgorithmName.SHA1 : HashAlgorithmName.SHA256;
-        }
-
         #region 使用私钥签名
 
         /// <summary>
-        /// 使用私钥签名
+        /// 使用私钥签名,并返回base64格式的签名
         /// </summary>
         /// <param name="data">原始数据</param>
         /// <returns></returns>
-        public string Sign(string data)
+        public static string Sign(string data, string privatePemKey)
         {
-            byte[] dataBytes = _encoding.GetBytes(data);
-
-            var signatureBytes = _privateKeyRsaProvider.SignData(dataBytes, _hashAlgorithmName, RSASignaturePadding.Pkcs1);
-
-            return Convert.ToBase64String(signatureBytes);
+            var rsa = RSACryptoServiceProvider.Create();
+            rsa.ImportParameters(GetRSAParametersFromFromPrivatePem(privatePemKey));
+            return Convert.ToBase64String(rsa.SignData(Encoding.UTF8.GetBytes(data), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1));
         }
 
         #endregion
@@ -64,246 +39,237 @@ namespace Utility
         /// 使用公钥验证签名
         /// </summary>
         /// <param name="data">原始数据</param>
-        /// <param name="sign">签名</param>
+        /// <param name="sign">签名的base64格式数据</param>
         /// <returns></returns>
-        public bool Verify(string data, string sign)
+        public static bool Verify(string data, string sign, string publicPemKey)
         {
-            byte[] dataBytes = _encoding.GetBytes(data);
-            byte[] signBytes = Convert.FromBase64String(sign);
-
-            var verify = _publicKeyRsaProvider.VerifyData(dataBytes, signBytes, _hashAlgorithmName, RSASignaturePadding.Pkcs1);
-
-            return verify;
-        }
-
-        #endregion
-
-        #region 解密
-
-        public string Decrypt(string cipherText)
-        {
-            if (_privateKeyRsaProvider == null)
-            {
-                throw new Exception("_privateKeyRsaProvider is null");
-            }
-            return Encoding.UTF8.GetString(_privateKeyRsaProvider.Decrypt(Convert.FromBase64String(cipherText), RSAEncryptionPadding.Pkcs1));
+            var rsa = RSACryptoServiceProvider.Create();
+            rsa.ImportParameters(GetRSAParametersFromFromPublicPem(publicPemKey));
+            return rsa.VerifyData(Encoding.UTF8.GetBytes(data), Convert.FromBase64String(sign), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
         }
 
         #endregion
 
         #region 加密
 
-        public string Encrypt(string text)
+
+        /// <summary>
+        /// 根据pem格式的key和明文，加密。此方法用的是BouncyCastle，因此公钥/私钥都能用于加密/解密
+        /// </summary>
+        /// <param name="pemKey">pem格式的key，可以为publicKey或是privateKey</param>
+        /// <param name="inBuf">明文的byte[]</param>
+        /// <returns></returns>
+        public static byte[] EncryptByPemKey(string pemKey, byte[] inBuf)
         {
-            if (_publicKeyRsaProvider == null)
+            var pemReader = new PemReader(new StringReader(pemKey));
+            var rsaEngine = new RsaEngine();
+            var pemObject = pemReader.ReadObject();
+            if (pemObject is AsymmetricKeyParameter publicPara)
             {
-                throw new Exception("_publicKeyRsaProvider is null");
+                //如果pemKey为公钥
+                rsaEngine.Init(true, publicPara);
+
             }
-            return Convert.ToBase64String(_publicKeyRsaProvider.Encrypt(Encoding.UTF8.GetBytes(text), RSAEncryptionPadding.Pkcs1));
+            else if (pemObject is AsymmetricCipherKeyPair keyPair)
+            {
+                //如果pemKey为私钥
+                rsaEngine.Init(true, keyPair.Private);
+
+            }
+            return rsaEngine.ProcessBlock(inBuf, 0, inBuf.Length);
+        }
+
+        /// <summary>
+        /// 根据密钥加密明文，并返回bs64格式的密文
+        /// </summary>
+        /// <param name="pemKey">密钥，可以是公钥或私钥</param>
+        /// <param name="plainText">明文</param>
+        /// <returns>bs64格式的密文</returns>
+        public static string EncryptByPemKey(string pemKey, string plainText)
+        {
+            return Convert.ToBase64String(EncryptByPemKey(pemKey, Encoding.UTF8.GetBytes(plainText)));
+        }
+
+        /// <summary>
+        /// 根据pem格式的publicKey加密，此用的是RSACryptoServiceProvider，微软考虑到安全性，约定只有公钥能进行加密
+        /// </summary>
+        /// <param name="publicPemKey"></param>
+        /// <param name="inBuf"></param>
+        /// <returns></returns>
+        public static byte[] EncryptByPublicPemKey(string publicPemKey, byte[] inBuf)
+        {
+            var para = GetRSAParametersFromFromPublicPem(publicPemKey);
+            var rsa = RSACryptoServiceProvider.Create();
+            rsa.ImportParameters(para);
+            return rsa.Encrypt(inBuf, RSAEncryptionPadding.Pkcs1);//大多数用的是pkcs1方式，考虑和其它系统或平台的兼容，用此方式
+        }
+
+        /// <summary>
+        /// 根据公钥加密明文，并返回bs64格式的密文
+        /// </summary>
+        /// <param name="privatePemKey">公钥</param>
+        /// <param name="cipherText">明文</param>
+        /// <returns>bs64格式的密文</returns>
+        public static string EncryptByPublicPemKey(string publicPemKey, string plainText)
+        {
+            return Convert.ToBase64String(EncryptByPublicPemKey(publicPemKey, Encoding.UTF8.GetBytes(plainText)));
+        }
+        #endregion
+
+
+        #region 解密
+
+
+        /// <summary>
+        /// 根据pem格式的key和明文，解密。此方法用的是BouncyCastle，因此公钥/私钥都能用于加密/解密
+        /// </summary>
+        /// <param name="pemKey">pem格式的key，可以为publicKey或是privateKey</param>
+        /// <param name="inBuf">密文的byte[]</param>
+        /// <returns></returns>
+        public static byte[] DecryptByPemKey(string pemKey, byte[] inBuf)
+        {
+            var pemReader = new PemReader(new StringReader(pemKey));
+            var rsaEngine = new RsaEngine();
+            var pemObject = pemReader.ReadObject();
+            if (pemObject is AsymmetricKeyParameter publicPara)
+            {
+                //如果pemKey为公钥
+                rsaEngine.Init(false, publicPara);
+
+            }
+            else if (pemObject is AsymmetricCipherKeyPair keyPair)
+            {
+                //如果pemKey为私钥
+                rsaEngine.Init(false, keyPair.Private);
+
+            }
+            return rsaEngine.ProcessBlock(inBuf, 0, inBuf.Length);
+        }
+
+        /// <summary>
+        /// 根据密钥解密bs64格式的密文
+        /// </summary>
+        /// <param name="pemKey">密钥，可以是公钥或私钥</param>
+        /// <param name="cipherText">bs64格式的密文</param>
+        /// <returns>明文</returns>
+        public static string DecryptByPemKey(string pemKey, string cipherText)
+        {
+            return Encoding.UTF8.GetString(DecryptByPemKey(pemKey, Convert.FromBase64String(cipherText)));
+        }
+
+
+
+        /// <summary>
+        /// 根据pem格式的privateKey加密，此用的是RSACryptoServiceProvider，微软考虑到安全性，约定只有私钥能进行加密
+        /// </summary>
+        /// <param name="publicPemKey"></param>
+        /// <param name="inBuf"></param>
+        /// <returns></returns>
+        public static byte[] DecryptByPrivatePemKey(string privatePemKey, byte[] inBuf)
+        {
+            var para = GetRSAParametersFromFromPrivatePem(privatePemKey);
+            var rsa = RSACryptoServiceProvider.Create();
+            rsa.ImportParameters(para);
+            return rsa.Decrypt(inBuf, RSAEncryptionPadding.Pkcs1);//大多数用的是pkcs1方式，考虑和其它系统或平台的兼容，用此方式
+        }
+
+        /// <summary>
+        /// 根据私钥解密出bs64格式的密文
+        /// </summary>
+        /// <param name="privatePemKey">私钥</param>
+        /// <param name="cipherText">密文</param>
+        /// <returns></returns>
+        public static string DecryptByPrivatePemKey(string privatePemKey, string cipherText)
+        {
+            return Encoding.UTF8.GetString(DecryptByPrivatePemKey(privatePemKey, Convert.FromBase64String(cipherText)));
+        }
+        #endregion
+
+
+        #region 生成rsa公私钥对
+        /// <summary>
+        /// 生成pem格式的公私钥
+        /// </summary>
+        /// <param name="strength"></param>
+        /// <returns></returns>
+        public static (string publicKey, string privateKey) GeneratePemRsaKeys(int strength = 2048)
+        {
+            var gen = new RsaKeyPairGenerator();
+            gen.Init(new KeyGenerationParameters(new SecureRandom(), strength));
+            var pair = gen.GenerateKeyPair();
+            var pubPemW = new PemWriter(new StringWriter());
+            var priPemW = new PemWriter(new StringWriter());
+            pubPemW.Writer.Flush(); pubPemW.WriteObject(pair.Public);
+            priPemW.Writer.Flush(); priPemW.WriteObject(pair.Private);
+            var publicKey = pubPemW.Writer.ToString();
+            var privateKey = priPemW.Writer.ToString();
+            return (publicKey, privateKey);
         }
 
         #endregion
 
-        #region 使用私钥创建RSA实例
+        #region 根据pem格式的key生成RSAParameters
 
-        public static RSAParameters CreateRSAParametersFromPrivateKey(string privateKey)
+        /// <summary>
+        /// 根据pem字符串得到私钥
+        /// </summary>
+        /// <param name="privatePem"></param>
+        /// <returns></returns>
+        public static RSAParameters GetRSAParametersFromFromPrivatePem(string privatePem)
         {
-            var privateKeyBits = Convert.FromBase64String(privateKey);
-            var rsaParameters = new RSAParameters();
-
-            using (BinaryReader binr = new BinaryReader(new MemoryStream(privateKeyBits)))
+            using (var privateKeyTextReader = new StringReader(privatePem))
             {
-                byte bt = 0;
-                ushort twobytes = 0;
-                twobytes = binr.ReadUInt16();
-                if (twobytes == 0x8130)
-                    binr.ReadByte();
-                else if (twobytes == 0x8230)
-                    binr.ReadInt16();
-                else
-                    throw new Exception("Unexpected value read binr.ReadUInt16()");
-
-                twobytes = binr.ReadUInt16();
-                if (twobytes != 0x0102)
-                    throw new Exception("Unexpected version");
-
-                bt = binr.ReadByte();
-                if (bt != 0x00)
-                    throw new Exception("Unexpected value read binr.ReadByte()");
-
-                rsaParameters.Modulus = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.Exponent = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.D = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.P = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.Q = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.DP = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.DQ = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.InverseQ = binr.ReadBytes(GetIntegerSize(binr));
-            }
-            return rsaParameters;
-        }
-        public RSA CreateRsaProviderFromPrivateKey(string privateKey)
-        {
-            var rsa = RSA.Create();
-            var rsaParameters=CreateRSAParametersFromPrivateKey(privateKey);
-            rsa.ImportParameters(rsaParameters);
-            return rsa;
-        }
-
-        #endregion
-
-        #region 使用公钥创建RSA实例
-        public static RSAParameters CreateRSAParametersFromPublicKey(string publicKey)
-        {
-            // encoded OID sequence for  PKCS #1 rsaEncryption szOID_RSA_RSA = "1.2.840.113549.1.1.1"
-            byte[] seqOid = { 0x30, 0x0D, 0x06, 0x09, 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x01, 0x05, 0x00 };
-            byte[] seq = new byte[15];
-
-            var x509Key = Convert.FromBase64String(publicKey);
-            // ---------  Set up stream to read the asn.1 encoded SubjectPublicKeyInfo blob  ------
-            using (MemoryStream mem = new MemoryStream(x509Key))
-            {
-                using (BinaryReader binr = new BinaryReader(mem))  //wrap Memory Stream with BinaryReader for easy reading
+                var readObject = new PemReader(privateKeyTextReader).ReadObject();
+                if (readObject is AsymmetricCipherKeyPair keyPair)
                 {
-                    byte bt = 0;
-                    ushort twobytes = 0;
-
-                    twobytes = binr.ReadUInt16();
-                    if (twobytes == 0x8130) //data read as little endian order (actual data order for Sequence is 30 81)
-                        binr.ReadByte();    //advance 1 byte
-                    else if (twobytes == 0x8230)
-                        binr.ReadInt16();   //advance 2 bytes
-                    else
-                        throw new Exception("can not convert public key string to RSAPrameters");
-
-                    seq = binr.ReadBytes(15);       //read the Sequence OID
-                    if (!CompareBytearrays(seq, seqOid))    //make sure Sequence for OID is correct
-                        throw new Exception("can not convert public key string to RSAPrameters");
-
-                    twobytes = binr.ReadUInt16();
-                    if (twobytes == 0x8103) //data read as little endian order (actual data order for Bit String is 03 81)
-                        binr.ReadByte();    //advance 1 byte
-                    else if (twobytes == 0x8203)
-                        binr.ReadInt16();   //advance 2 bytes
-                    else
-                        throw new Exception("can not convert public key string to RSAPrameters");
-
-                    bt = binr.ReadByte();
-                    if (bt != 0x00)     //expect null byte next
-                        throw new Exception("can not convert public key string to RSAPrameters");
-
-                    twobytes = binr.ReadUInt16();
-                    if (twobytes == 0x8130) //data read as little endian order (actual data order for Sequence is 30 81)
-                        binr.ReadByte();    //advance 1 byte
-                    else if (twobytes == 0x8230)
-                        binr.ReadInt16();   //advance 2 bytes
-                    else
-                        throw new Exception("can not convert public key string to RSAPrameters");
-
-                    twobytes = binr.ReadUInt16();
-                    byte lowbyte = 0x00;
-                    byte highbyte = 0x00;
-
-                    if (twobytes == 0x8102) //data read as little endian order (actual data order for Integer is 02 81)
-                        lowbyte = binr.ReadByte();  // read next bytes which is bytes in modulus
-                    else if (twobytes == 0x8202)
+                    var privateKeyParams = ((RsaPrivateCrtKeyParameters)keyPair.Private);
+                    var parms = new RSAParameters
                     {
-                        highbyte = binr.ReadByte(); //advance 2 bytes
-                        lowbyte = binr.ReadByte();
-                    }
-                    else
-                        throw new Exception("can not convert public key string to RSAPrameters");
-                    byte[] modint = { lowbyte, highbyte, 0x00, 0x00 };   //reverse byte order since asn.1 key uses big endian order
-                    int modsize = BitConverter.ToInt32(modint, 0);
-
-                    int firstbyte = binr.PeekChar();
-                    if (firstbyte == 0x00)
-                    {   //if first byte (highest order) of modulus is zero, don't include it
-                        binr.ReadByte();    //skip this null byte
-                        modsize -= 1;   //reduce modulus buffer size by 1
-                    }
-
-                    byte[] modulus = binr.ReadBytes(modsize);   //read the modulus bytes
-
-                    if (binr.ReadByte() != 0x02)            //expect an Integer for the exponent data
-                    throw new Exception("can not convert public key string to RSAPrameters");
-
-                    int expbytes = (int)binr.ReadByte();        // should only need one byte for actual exponent data (for all useful values)
-                    byte[] exponent = binr.ReadBytes(expbytes);
-
-                    // ------- create RSACryptoServiceProvider instance and initialize with public key -----
-                    RSAParameters rsaKeyInfo = new RSAParameters
-                    {
-                        Modulus = modulus,
-                        Exponent = exponent
+                        Modulus = privateKeyParams.Modulus.ToByteArrayUnsigned(),
+                        P = privateKeyParams.P.ToByteArrayUnsigned(),
+                        Q = privateKeyParams.Q.ToByteArrayUnsigned(),
+                        DP = privateKeyParams.DP.ToByteArrayUnsigned(),
+                        DQ = privateKeyParams.DQ.ToByteArrayUnsigned(),
+                        InverseQ = privateKeyParams.QInv.ToByteArrayUnsigned(),
+                        D = privateKeyParams.Exponent.ToByteArrayUnsigned(),
+                        Exponent = privateKeyParams.PublicExponent.ToByteArrayUnsigned()
                     };
-                    return rsaKeyInfo;
+                    return parms;
+                }
+                else
+                {
+                    throw new Exception("传入的pem不是私钥");
+                }
+            }
+        }
 
+        /// <summary>
+        /// 根据pem字符串得到公钥
+        /// </summary>
+        /// <param name="publicPem"></param>
+        /// <returns></returns>
+        public static RSAParameters GetRSAParametersFromFromPublicPem(string publicPem)
+        {
+            using (var publicKeyTextReader = new StringReader(publicPem))
+            {
+                var readObject = new PemReader(publicKeyTextReader).ReadObject();
+                if (readObject is RsaKeyParameters publicKeyParam)
+                {
+                    var parms = new RSAParameters
+                    {
+                        Modulus = publicKeyParam.Modulus.ToByteArrayUnsigned(),
+                        Exponent = publicKeyParam.Exponent.ToByteArrayUnsigned()
+                    };
+                    return parms;
+                }
+                else
+                {
+                    throw new Exception("传入的pem不是公钥");
                 }
 
             }
         }
-
-        public RSA CreateRsaProviderFromPublicKey(string publicKey)
-        {
-            var rsaKeyInfo = CreateRSAParametersFromPublicKey(publicKey);
-            var rsa = RSA.Create();
-            rsa.ImportParameters(rsaKeyInfo);
-            return rsa;
-        }
-
         #endregion
-
-        #region 导入密钥算法
-
-        private static int GetIntegerSize(BinaryReader binr)
-        {
-            byte bt = 0;
-            int count = 0;
-            bt = binr.ReadByte();
-            if (bt != 0x02)
-                return 0;
-            bt = binr.ReadByte();
-
-            if (bt == 0x81)
-                count = binr.ReadByte();
-            else
-            if (bt == 0x82)
-            {
-                var highbyte = binr.ReadByte();
-                var lowbyte = binr.ReadByte();
-                byte[] modint = { lowbyte, highbyte, 0x00, 0x00 };
-                count = BitConverter.ToInt32(modint, 0);
-            }
-            else
-            {
-                count = bt;
-            }
-
-            while (binr.ReadByte() == 0x00)
-            {
-                count -= 1;
-            }
-            binr.BaseStream.Seek(-1, SeekOrigin.Current);
-            return count;
-        }
-
-        private static bool CompareBytearrays(byte[] a, byte[] b)
-        {
-            if (a.Length != b.Length)
-                return false;
-            int i = 0;
-            foreach (byte c in a)
-            {
-                if (c != b[i])
-                    return false;
-                i++;
-            }
-            return true;
-        }
-
-        #endregion
-
     }
 
     /// <summary>

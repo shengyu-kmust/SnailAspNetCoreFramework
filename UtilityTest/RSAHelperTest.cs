@@ -1,8 +1,14 @@
+using Org.BouncyCastle.OpenSsl;
 using System;
+using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using Utility;
 using Xunit;
-using System.Security.Cryptography;
+using Org.BouncyCastle.Crypto.Engines;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Crypto;
+
 namespace UtilityTest
 {
     public class RSAHelperTest
@@ -24,88 +30,48 @@ l8dlhmj98ky66Gi487ECQA4gogfEZPufI89KoFmXY/omkS9CQq4E/2qAwj1jMeAY
 nTh2gDqXP90ULGlNwAV51qUdh5dBvtztELTSmuibGxwDL0hkPUKwh/P2aOkVuzsv
 +FvnKsEDzjPfxbsQADl1Dybafn91Ng2PTTagskEOlFPwAiG/cPTG/KkYft2w99GH
 MIQ2Zqt1URicVzy+/QIDAQAB";
-        public RSAHelper rsa;
+        public string privateKeyPem = @"-----BEGIN RSA PRIVATE KEY-----
+MIICWwIBAAKBgQCmRrRnPotdRCXK8E8Lzzd48vgjleUjZJRGwtYv0HE9uHsZhBzf
+UncJ2YGYMQ97IHle41cD4FMcg3W/JVg0FvHojyEj/tKCIH5ADaUbHhRrixAfDEjC
+Kg4SITUWxSVyfhijv1GTmX2Dx4wgcL56j/slpuUJfBUKaamcGVEmV1F7XwIDAQAB
+AoGAKXEJ2YmfFnm7qZ7HNLxKqRx1d/kOCQoyYoiA9Z3P+4AVPkDNKWPWQ2Awiov/
+vcJUPbAPqempDTw+hot6NlFZrSN4kQT3myWvnYw/ruHJ0XMKMaix1oO6jrIxEa+C
+TF7lPPCDxuG7WQMq+U2rmJ7jE+Ipw+EgPXaN1s/Kf0db2zECQQDgkW6cLzK54YKR
+b46P0HLZqY2H99VjtPIlSYf9xlo9HfviIx9fPPctyHCr8swq6C6ScUooThO9pdbK
+awmtaBOjAkEAvYyY/lJvwrmnI0so6olB3yO6gMgtGlZ0MrdOcs0WqvcFr3fgAGpy
+WzLcvVpEoIKbN7i1CCtqy480x3cRod6VFQJAOXCZhTOBWxA2cHLDWT+tEMWQoPWg
+TDeNNEJhmWSx0i4oLkhjjt2uL7S0NRcOZ+8pcmWt3S9TV0/i57WHLSaQ1wJABUFV
+qI9ui86L5L2bt8zwZ5hc/l8OaRGGjTVp1mL7QugwXyoKqthIrWCeoB1Vk8GrPgM/
++acCgfxJcVJKydsa9QJAK6SA/bDNk2+Bn+edrrHQKcEsrQYiaa9PbQ0Z2VqeRxNO
+fJZuRoT2uHsj7kJN0x/pIpvB/gRhwMAvoJWW5EgcpA==
+-----END RSA PRIVATE KEY-----";
+        public string publicKeyPem = @"-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCmRrRnPotdRCXK8E8Lzzd48vgj
+leUjZJRGwtYv0HE9uHsZhBzfUncJ2YGYMQ97IHle41cD4FMcg3W/JVg0FvHojyEj
+/tKCIH5ADaUbHhRrixAfDEjCKg4SITUWxSVyfhijv1GTmX2Dx4wgcL56j/slpuUJ
+fBUKaamcGVEmV1F7XwIDAQAB
+-----END PUBLIC KEY-----";
         public RSAHelperTest()
         {
-            rsa = new RSAHelper(RSAType.RSA, Encoding.UTF8, privateKey, publicKey);
         }
 
+        #region rsa public key and private key
         [Fact]
-        public void EncryptAndDecrypt()
+        public void KeyTest1()
         {
+
             try
             {
-                var enStr = rsa.Encrypt("zhoujing");
-                var deStr = rsa.Decrypt(enStr);
+                var keys = RSAHelper.GeneratePemRsaKeys();
+                var text = privateKeyPem;
+                var isv=RSAHelper.Verify(text, RSAHelper.Sign(text, keys.privateKey), keys.publicKey);
             }
             catch (Exception ex)
             {
+
             }
         }
 
-        [Fact]
-        public void SignAndVerify()
-        {
-            try
-            {
-                var signStr = rsa.Sign("zhoujing");
-                var verify = rsa.Verify("zhoujing", signStr);
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        [Fact]
-        public void Rsa()
-        {
-            try
-            {
-                var rsa = RSACryptoServiceProvider.Create();
-                var rsaPara = rsa.ExportParameters(true);
-                var enStr = Convert.ToBase64String(rsa.Encrypt(Encoding.UTF8.GetBytes("zhoujing"), RSAEncryptionPadding.Pkcs1));
-                var deStr = Encoding.UTF8.GetString(rsa.Decrypt(Convert.FromBase64String(enStr), RSAEncryptionPadding.Pkcs1));
-                var sign = rsa.SignData(Encoding.UTF8.GetBytes("zhoujing"), HashAlgorithmName.SHA1, RSASignaturePadding.Pkcs1);
-                var isVerify = rsa.VerifyData(Encoding.UTF8.GetBytes("zhoujing"), sign, HashAlgorithmName.SHA1, RSASignaturePadding.Pkcs1);
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-      
-
-        [Fact]
-        public void Rsa2()
-        {
-            try
-            {
-                var priRsa = RSACryptoServiceProvider.Create(RSAHelper.CreateRSAParametersFromPrivateKey(privateKey));
-                var pubRsa = RSACryptoServiceProvider.Create(RSAHelper.CreateRSAParametersFromPublicKey(publicKey));
-                var enStr = Convert.ToBase64String(pubRsa.Encrypt(Encoding.UTF8.GetBytes("zhoujing"), RSAEncryptionPadding.Pkcs1));
-                var deStr = Encoding.UTF8.GetString(priRsa.Decrypt(Convert.FromBase64String(enStr), RSAEncryptionPadding.Pkcs1));
-                var sign = priRsa.SignData(Encoding.UTF8.GetBytes("zhoujing"), HashAlgorithmName.SHA1, RSASignaturePadding.Pkcs1);
-                var isVerify = pubRsa.VerifyData(Encoding.UTF8.GetBytes("zhoujing"), sign, HashAlgorithmName.SHA1, RSASignaturePadding.Pkcs1);
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        [Fact]
-        public void Rsa3()
-        {
-            try
-            {
-
-                var enStr = rsa.Encrypt("zhoujing");
-                var deStr = rsa.Decrypt(enStr);
-                var sign = rsa.Sign("zhoujing");
-                var isVerify = rsa.Verify("zhoujing", sign);
-            }
-            catch (Exception ex)
-            {
-            }
-        }
+        #endregion
     }
 }
