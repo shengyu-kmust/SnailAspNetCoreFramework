@@ -74,7 +74,7 @@ namespace Web
             #region 身份验证
             //约定
             //1、身份验证以支持Jwt和cookie两种为主，先jwt再cookie验证
-            //2、支持第三方openid connect登录，但第三方登录成功后，如果是web应用，则同时登录到cookie验证，如果是webapi应用，续在第三方登录成功后从系统获取jwt做后续的api调用
+            //2、支持第三方openid connect登录，但第三方登录成功后，如果是web应用，则同时登录到cookie验证，如果是webapi应用，需在第三方登录成功后从系统获取jwt做后续的api调用
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(
                     CookieAuthenticationDefaults.AuthenticationScheme, options =>

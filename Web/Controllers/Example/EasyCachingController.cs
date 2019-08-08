@@ -1,10 +1,6 @@
 ﻿using EasyCaching.Core;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Web.Controllers.Example
 {
@@ -20,7 +16,6 @@ namespace Web.Controllers.Example
         [HttpGet]
         public DateTime GetDateTimeCached()
         {
-            
             if (!_easyCachingProvider.Exists("GetDateTimeCached"))
             {
                 _easyCachingProvider.Set("GetDateTimeCached", DateTime.Now, new TimeSpan(0, 0, 5));

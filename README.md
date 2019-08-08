@@ -11,7 +11,7 @@ DTO:QueryModel,ViewModel?
 * DAL层：数据访问层，依赖于上层的接口，为上层（如服务层及应用层）提供数据服务。同时实现IDAL的通用数据访问接口。
 * Application层：应用逻辑层，DDD模式，包含所有业务逻辑，不依赖于其它层
 * Web层：负责接口参数的输入及输出的所有相关处理（如参数校验，输出格式预定等）、Application/DAL层的调用。
-
+### 通用数据权限及验证
 ### WEB层
 * 负责输入输出参数处理、异常拦截、web缓存
 * 对于查询统计类型的数据操作，可直接调用DAL层
@@ -31,9 +31,9 @@ DTO:QueryModel,ViewModel?
 * 此项目不要依赖任何的其它项目，用干净体系结构，参考：https://docs.microsoft.com/zh-cn/dotnet/standard/modern-web-apps-azure-architecture/common-web-application-architectures
 
 ### 缓存
-* ICache接口，实现redis,memcached，memoryCache等，可考虑用easycaching。经对easycaching的分析，决定不采用。
-* 缓存用AOP，避免每个方法里写缓存逻辑
-* 缓存的更新用事件驱动，引入第三方组件
+* ICache接口，实现redis,memcached，memoryCache等，可考虑用easycaching。
+* 缓存用AOP，避免每个方法里写缓存逻辑。easycaching+autofac
+* 缓存的更新用事件驱动，引入第三方组件。easycaching+cap
 ### 领域驱动
 领域驱动，如果依赖其它层，依赖于对应层的接口，而不是实现
 ### AOP **--已实现**
@@ -44,7 +44,7 @@ DTO:QueryModel,ViewModel?
 * 将不常变动的、数据量比较小的表存储在内存里（不是缓存，是对象），并用事件驱动的思想同步最新的数据
 ### 事件
 * 发布和订阅
-* 用cap或是用mediator，暂时用mediator，因为cap为分布式，在中小项目上是用不着的
+* 用cap，可在分布式和单应用间切换
 ### 日志处理 **--已实现**
 * 用nlog
 ### command bus **--已实现**
@@ -77,3 +77,5 @@ DTO:QueryModel,ViewModel?
 ## 需要做的
 * 单元测试的注入
 * service层应该不在web层里，而是applicationcore
+
+### 多语言
