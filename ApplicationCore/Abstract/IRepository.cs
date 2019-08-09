@@ -82,5 +82,6 @@ namespace ApplicationCore.Abstract
         TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
         TEntity FirstOrDefault();
 
+        List<TEntity> GetAll();
     }
 }

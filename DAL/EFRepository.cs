@@ -145,6 +145,11 @@ namespace DAL
         {
             return _dbSet.AsNoTracking().FirstOrDefault();
         }
+
+        public List<TEntity> GetAll()
+        {
+            return _dbSet.AsNoTracking().ToList();
+        }
         #endregion
     }
 }
