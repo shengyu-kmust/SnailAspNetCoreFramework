@@ -12,8 +12,18 @@ namespace ApplicationCore.Abstract
     {
     }
 
+    public interface IDefalutEntityId : IDefaultIdField
+    {
+
+    }
+
     public interface IIdField<T>
     {
         T Id { get; set; }
+    }
+
+    public interface IDefaultIdField:IIdField<Guid>
+    {
+        Guid Id { get; set; }
     }
 }
