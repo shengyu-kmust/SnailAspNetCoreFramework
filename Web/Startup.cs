@@ -215,6 +215,7 @@ namespace Web
             //builder.RegisterAssemblyTypes(assembly).Where(a => a.Name.EndsWith("Interceptor"));// interceptor type registration
 
             builder.RegisterType<AopService>().As<IAopService>().EnableInterfaceInterceptors();
+            builder.RegisterType<Aop2Service>().EnableClassInterceptors();
             builder.RegisterType<LogInterceptor>();
             builder.RegisterGeneric(typeof(EntityCaching<,>)).As(typeof(IEntityCaching<,>)).SingleInstance();
             #endregion
