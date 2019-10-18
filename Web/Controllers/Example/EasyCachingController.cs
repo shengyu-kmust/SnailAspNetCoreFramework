@@ -9,9 +9,11 @@ namespace Web.Controllers.Example
     public class EasyCachingController : ControllerBase
     {
         private IEasyCachingProvider _easyCachingProvider;
-        public EasyCachingController(IEasyCachingProvider easyCachingProvider)
+        private IEasyCachingProviderFactory _easyCachingProviderFactory;
+        public EasyCachingController(IEasyCachingProvider easyCachingProvider,IEasyCachingProviderFactory easyCachingProviderFactory)
         {
             _easyCachingProvider = easyCachingProvider;
+            _easyCachingProviderFactory = easyCachingProviderFactory;
         }
         [HttpGet]
         public DateTime GetDateTimeCached()
@@ -21,6 +23,14 @@ namespace Web.Controllers.Example
                 _easyCachingProvider.Set("GetDateTimeCached", DateTime.Now, new TimeSpan(0, 0, 5));
             }
             return _easyCachingProvider.Get<DateTime>("GetDateTimeCached").Value;
+        }
+
+        [HttpGet]
+        public DateTime GetDateTimeCached2()
+        {
+            var memoryCache=_easyCachingProviderFactory.GetCachingProvider("memoryCache");
+            var distributedCache = _easyCachingProviderFactory.GetCachingProvider("redisCache");
+            return memoryCache.Get<DateTime>("key").Value;
         }
     }
 }
