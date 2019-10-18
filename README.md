@@ -53,7 +53,7 @@ DTO:QueryModel,ViewModel?
 * 负责所有和数据相关的操作
 * 封装通用的数据访问接口及实现，如用EF实现如下几个功能
 * 用面向接口编程的思想，为以后DAL层采用EF外的技术做扩展
-* 采用Repository模式
+* 采用Repository模式，其实EF本身就是一个Repository模式，但为了统一在数据库访问操作这一层进行拦截并应用自己的逻辑，再用自己的Repository对EF进行一个封装
 * 单表的查询，分页
 * 多表的简单关联查询，分页
 * 简单的CRUD
