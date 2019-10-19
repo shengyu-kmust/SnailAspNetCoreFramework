@@ -6,7 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Security
 {
-    public class PermissionRequirement:IAuthorizationRequirement
+    public class PermissionRequirement : AuthorizationHandler<PermissionRequirement>, IAuthorizationRequirement
     {
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
