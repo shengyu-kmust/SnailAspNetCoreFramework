@@ -56,6 +56,17 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            #region option配置
+            services.AddOptions<Student>("optionBuilderStudent").Configure(a =>
+            {
+                a.Id = 100;
+                a.Name = "optionBuilderStudent name";
+            });
+            services.Configure<Student>("configBuilderStudent", a=> { a.Name = "configBuilderStudent"; a.Id = 101; });
+            services.Configure<Student>(Configuration.GetSection("studentData"));
+            #endregion
+
+
             #region 数据库配置
             services.AddDbContext<DatabaseContext>(optionsAction =>
             {

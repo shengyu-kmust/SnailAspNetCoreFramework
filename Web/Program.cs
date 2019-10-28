@@ -36,7 +36,22 @@ namespace Web
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+            WebHost.CreateDefaultBuilder(args).ConfigureAppConfiguration(config => {
+                // 下面配置IConfiguration的来源，IConfiguration其实就是从一个Dictionary<string,string>里取值
+                // 由于从数据库里取配置时，不好对数据库变更后要更新Config，所以约定如果配置是从数据库里取的，统一从数据库里取
+                // 约定不会变更的配置从json文件里配置，否则从数据库里配置
+                //config.SetBasePath(Directory.GetCurrentDirectory());
+                //config.AddInMemoryCollection(new List<KeyValuePair<string,string>> { });
+                //config.AddJsonFile(
+                //    "json_array.json", optional: false, reloadOnChange: false);
+                //config.AddJsonFile(
+                //    "starship.json", optional: false, reloadOnChange: false);
+                //config.AddXmlFile(
+                //    "tvshow.xml", optional: false, reloadOnChange: false);
+                //config.AddEFConfiguration(
+                //    options => options.UseInMemoryDatabase("InMemoryDb"));
+                //config.AddCommandLine(args);
+            })
                 .UseStartup<Startup>().ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
