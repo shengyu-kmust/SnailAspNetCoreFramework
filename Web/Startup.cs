@@ -40,6 +40,8 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using System.Diagnostics;
+using Hangfire;
+using Hangfire.SqlServer;
 
 namespace Web
 {
@@ -62,7 +64,7 @@ namespace Web
                 a.Id = 100;
                 a.Name = "optionBuilderStudent name";
             });
-            services.Configure<Student>("configBuilderStudent", a=> { a.Name = "configBuilderStudent"; a.Id = 101; });
+            services.Configure<Student>("configBuilderStudent", a => { a.Name = "configBuilderStudent"; a.Id = 101; });
             services.Configure<Student>(Configuration.GetSection("studentData"));
             #endregion
 
@@ -216,6 +218,7 @@ namespace Web
             #endregion
 
             #region 集成autofac
+            //参考 https://autofaccn.readthedocs.io/zh/latest/integration/aspnetcore.html
             var builder = new ContainerBuilder();
             builder.Populate(services);//将asp.net core 自带的依赖注入，已经注册的组件，注册到autofac里
             #region autofac组件注入
@@ -229,13 +232,39 @@ namespace Web
             builder.RegisterType<Aop2Service>().EnableClassInterceptors();
             builder.RegisterType<LogInterceptor>();
             builder.RegisterGeneric(typeof(EntityCaching<,>)).As(typeof(IEntityCaching<,>)).SingleInstance();
-            #endregion
+
             #endregion
             //返回serviceProvider。此方法的默认是不返回的，和autofac集成后，而修改成返回IServiceProvider对象
             this.ApplicationContainer = builder.Build();
-            return new AutofacServiceProvider(this.ApplicationContainer);
+      
             #endregion
 
+
+            #endregion
+
+            #region 定时任务
+            services.AddHangfire(configuration => configuration
+           .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+           .UseSimpleAssemblyNameTypeSerializer()
+           .UseRecommendedSerializerSettings()
+           .UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection"), new SqlServerStorageOptions
+           {
+               //也可以换成mysql
+               CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+               SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+               QueuePollInterval = TimeSpan.Zero,
+               UseRecommendedIsolationLevel = true,
+               UsePageLocksOnDequeue = true,
+               DisableGlobalLocks = true
+           }));
+            services.AddHangfireServer();
+
+            GlobalConfiguration.Configuration.UseAutofacActivator(builder.Build());//参考 https://github.com/HangfireIO/Hangfire.Autofac
+
+            BackgroundJob.Enqueue<HangfireService>(a => a.Init());//初始化创建所有定时任务
+
+            #endregion
+            return new AutofacServiceProvider(this.ApplicationContainer);
         }
         private async Task HandleOnRemoteFailure(RemoteFailureContext context)
         {
