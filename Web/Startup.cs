@@ -328,6 +328,12 @@ namespace Web
             //spa前端静态文件
             app.UseSpaStaticFiles();
 
+            // hangfire前端界面的访问控制
+            app.UseHangfireDashboard(options: new DashboardOptions
+            {
+                Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
+            });
+
             app.UseSwagger();
             app.UseSwaggerUi3();
             app.UseAuthentication();
