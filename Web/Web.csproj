@@ -49,6 +49,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Snail.FileStore">
+      <HintPath>..\..\Snail\Snail\Snail.FileStore\bin\Debug\netstandard2.0\Snail.FileStore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
