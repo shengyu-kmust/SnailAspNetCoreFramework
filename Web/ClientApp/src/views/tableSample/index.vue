@@ -1,7 +1,8 @@
 <template>
   <div>
     <p>table示例</p>
-    <el-table
+    <snail-table :columns="columns" :data="tableData" />
+    <!-- <el-table
       :data="tableData"
       style="width: 100%"
     >
@@ -20,24 +21,56 @@
         label="日期"
       />
       <el-table-column
-        prop="select"
-        label="下拉"
-        :formatter="selectFormat"
+        v-bind="bindtest"
       />
       <el-table-column
         prop="multiselect"
         label="多下拉"
+        :formatter="selectFormat"
       />
-    </el-table>
+    </el-table> -->
   </div>
 </template>
 <script>
 import { getList } from '@/api/table'
+import SnailTable from '@/components/Table/SnailTable'
 export default {
+  components: {
+    SnailTable
+  },
   data() {
     return {
       tableData: [],
-      list: [{ key: 'yes', value: '是' }, { key: 'yes', value: '是' }]
+      list: [{ key: 'yes', value: '是' }, { key: 'no', value: '否' }],
+      columns: [
+        {
+          fieldName: 'string',
+          label: '字符串'
+        },
+        {
+          fieldName: 'int',
+          label: '数字'
+        },
+        {
+          fieldName: 'datetime',
+          label: '时间'
+        },
+        {
+          fieldName: 'select',
+          label: '选择'
+        },
+        {
+          fieldName: 'multiselect',
+          label: '选择'
+        }
+      ],
+      bindtest: {
+        prop: 'select',
+        label: '下拉',
+        formatter: function(row) {
+          return 'formatter test'
+        }
+      }
     }
   },
   created() {
@@ -45,15 +78,17 @@ export default {
       console.log(res.data)
       this.tableData = res.data
     })
+    this.columns.find(a => a.fieldName == 'select').keyValues = this.list
+    this.columns.find(a => a.fieldName == 'multiselect').keyValues = this.list
+    console.log('created')
   },
   methods: {
-    selectFormat(val) {
-      if (Array.isArray(val)) {
-        return this.list.filter(a => val.indexOf(a.key) > -1).map(val => val.value).join(',')
+    selectFormat(row, column, cellValue) {
+      if (Array.isArray(cellValue)) {
+        return this.list.filter(a => cellValue.indexOf(a.key) > -1).map(val => val.value).join(',')
       } else {
-        return this.list.find(a => a.key === val.select).value
+        return this.list.find(a => a.key === cellValue).value
       }
-    //   return 'test'
     }
   }
 }
