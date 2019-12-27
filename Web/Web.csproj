@@ -44,7 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DAL\DAL.csproj" />
     <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 
@@ -58,6 +57,10 @@
     <Content Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Filter\" />
   </ItemGroup>
 
   <!--SPA的配置，在每次编译前，确保node已经安装，相关的npm包也已经安装-->

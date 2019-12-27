@@ -19,11 +19,7 @@ export default {
     }
   },
   watch: {
-    $route(route) {
-      // if you go to the redirect page, do not update the breadcrumbs
-      if (route.path.startsWith('/redirect/')) {
-        return
-      }
+    $route() {
       this.getBreadcrumb()
     }
   },

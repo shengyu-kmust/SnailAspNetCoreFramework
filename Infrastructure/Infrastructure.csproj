@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Snail.Core">
+      <HintPath>..\..\Snail\Snail\Snail.Core\bin\Debug\netstandard2.0\Snail.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Snail.CRUD">
+      <HintPath>..\..\Snail\Snail\Snail.CRUD\bin\Debug\netstandard2.0\Snail.CRUD.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

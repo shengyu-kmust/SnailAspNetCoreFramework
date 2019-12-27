@@ -1,16 +1,13 @@
+// 这是mockjs的用法，mockjs是对XHR的拦截，不会由浏览器发出请求
 import Mock from 'mockjs'
 import { param2Obj } from '../src/utils'
 
 import user from './user'
-import role from './role'
-import article from './article'
-import search from './remote-search'
+import table from './table'
 
 const mocks = [
   ...user,
-  ...role,
-  ...article,
-  ...search
+  ...table
 ]
 
 // for front mock
