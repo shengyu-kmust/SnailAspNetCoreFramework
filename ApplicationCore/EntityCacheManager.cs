@@ -121,19 +121,19 @@ namespace ApplicationCore
         }
     }
 
-    public interface IEntityCacheManager
-    {
-        List<TCacheItem> GetAll<TEntity, TCacheItem>() where TEntity : class;
-        List<TEntity> GetAll<TEntity>() where TEntity : class;
+        public interface IEntityCacheManager
+        {
+            List<TCacheItem> GetAll<TEntity, TCacheItem>() where TEntity : class;
+            List<TEntity> GetAll<TEntity>() where TEntity : class;
 
-        void ReLoadAll<TEntity, TCacheItem>() where TEntity : class;
-        void ReLoadAll<TEntity>() where TEntity : class;
+            void ReLoadAll<TEntity, TCacheItem>() where TEntity : class;
+            void ReLoadAll<TEntity>() where TEntity : class;
 
-        void UpdateEntityCacheItem<TEntity, TCacheItem, TKey>(TKey key) where TEntity : class where TCacheItem : class, IIdField<TKey>;
+            void UpdateEntityCacheItem<TEntity, TCacheItem, TKey>(TKey key) where TEntity : class where TCacheItem : class, IIdField<TKey>;
 
-        void UpdateEntityCacheItem<TEntity, TKey>(TKey key) where TEntity : class, IIdField<TKey>;
+            void UpdateEntityCacheItem<TEntity, TKey>(TKey key) where TEntity : class, IIdField<TKey>;
 
-    }
+        }
 
     public interface IEntityCacheUpdateEventHandler
     {
