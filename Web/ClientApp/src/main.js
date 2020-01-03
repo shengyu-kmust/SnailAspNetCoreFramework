@@ -11,10 +11,14 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
+import setVm from '@/utils/setVm'
+setVm(Vue)
 
 import '@/icons' // icon
 import '@/permission' // permission control
 
+// 下面开始注册全局组件
+import '@/utils/registerComponent'
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

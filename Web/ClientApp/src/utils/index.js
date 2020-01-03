@@ -105,3 +105,19 @@ export function param2Obj(url) {
       '"}'
   )
 }
+
+/**
+ *
+ * @param {*} keyValues
+ * @param {*} value
+ */
+export function keyValueFormart(keyValues, key, keyField = 'key', valueField = 'value', split = ',') {
+  if (!keyValues) {
+    return key
+  }
+  if (Array.isArray(key)) {
+    return keyValues.filter(a => key.indexOf(a[keyField]) > -1).map(a => a[valueField]).join(split)
+  } else {
+    return keyValues.find(a => a[keyField] == key)[valueField]
+  }
+}

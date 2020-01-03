@@ -53,7 +53,10 @@ export default {
         },
         {
           fieldName: 'datetime',
-          label: '时间'
+          label: '时间',
+          formatter: function(row, column, value) {
+            return value.substr(0, 10)
+          }
         },
         {
           fieldName: 'select',
