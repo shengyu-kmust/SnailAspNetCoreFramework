@@ -155,7 +155,7 @@ export default {
         };
     },
     computed: {},
-    methods: {
+methods: {
         search() {
             this.$refs.searchForm.searchHandler();
         },

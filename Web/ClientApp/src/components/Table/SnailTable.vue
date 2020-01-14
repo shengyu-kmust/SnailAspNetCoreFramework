@@ -1,44 +1,27 @@
 <template>
-  <el-table :data="data">
-    <template v-for="column in columns">
-      <el-table-column
-        :prop="column.fieldName"
-        :label="column.label"
-        :formatter="column.formatter || formatter"
-      />
-
+  <el-table
+    ref="table"
+    :data="rows"
+    :highlight-current-row="highlightCurrentRow"
+    @current-change="(currentRow)=>emitEventHandler('current-change',currentRow)"
+    @selection-change="(selecttion)=>emitEventHandler('selection-change',selecttion)"
+    @row-click="(row, column, event)=>emitEventHandler('row-click',row, column, event)"
+  >
+    <el-table-column v-if="multiSelect" type="selection"></el-table-column>
+    <el-table-column v-if="showTableIndex" type="index" width="50">
+      <template slot="header">序号</template>
+    </el-table-column>
+    <template v-for="(field,index) in fields">
+      <el-table-column :key="index" :prop="field.name" :label="field.label" v-bind="field" />
     </template>
   </el-table>
 </template>
 
 <script>
+import { TableBaseMixin } from './tableBase.js'
 export default {
   name: 'SnailTable',
-  props: {
-    columns: Array,
-    data: Array
-  },
-  methods: {
-    formatter(row, column, cellValue) {
-      console.log('formatter')
-      var keyValues = this.columns.find(a => a.fieldName === column.property).keyValues
-      if (keyValues) {
-        if (Array.isArray(cellValue)) {
-          return keyValues.filter(a => cellValue.indexOf(a.key) > -1).map(val => val.value).join(',')
-        } else {
-          return keyValues.find(a => a.key === cellValue).value
-        }
-      } else {
-        return cellValue
-      }
-    },
-    selectFormat(row, column, cellValue) {
-      if (Array.isArray(cellValue)) {
-        return this.list.filter(a => cellValue.indexOf(a.key) > -1).map(val => val.value).join(',')
-      } else {
-        return this.list.find(a => a.key === cellValue).value
-      }
-    }
-  }
+  mixins: [TableBaseMixin]
+
 }
 </script>

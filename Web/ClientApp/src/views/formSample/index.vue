@@ -1,29 +1,5 @@
 <template>
   <div>
-    <!-- <el-form size="mini" label-position="top">
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item label="测试字段">
-            <el-select />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="测试字段">
-            <el-date-picker />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="测试字段">
-            <el-input />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="测试字段">
-            <el-input />
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form> -->
     <snail-form :fields="fields" :data="data" />
     <button @click="getData" />
   </div>
@@ -45,20 +21,20 @@ export default {
       },
       fields: [
         {
-          fieldName: 'str',
-          fieldType: 'input',
+          name: 'str',
+          type: 'input',
           span: 12,
           label: '字段类型'
         },
         {
-          fieldName: 'date',
-          fieldType: 'date',
+          name: 'date',
+          type: 'date',
           span: 12,
           label: '时间'
         },
         {
-          fieldName: 'select',
-          fieldType: 'select',
+          name: 'select',
+          type: 'select',
           span: 8,
           label: '时间'
         }

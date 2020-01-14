@@ -1,7 +1,7 @@
 /**
- * Created by PanJiaChen on 16/11/18.
+ * 工具方法
+ *
  */
-
 /**
  * Parse the time to string
  * @param {(Object|string|number)} time
@@ -118,6 +118,12 @@ export function keyValueFormart(keyValues, key, keyField = 'key', valueField = '
   if (Array.isArray(key)) {
     return keyValues.filter(a => key.indexOf(a[keyField]) > -1).map(a => a[valueField]).join(split)
   } else {
-    return keyValues.find(a => a[keyField] == key)[valueField]
+    var item = keyValues.find(a => a[keyField] === key)
+    if (item) {
+      return item[valueField]
+    } else {
+      return key
+    }
   }
 }
+
