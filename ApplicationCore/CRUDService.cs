@@ -21,7 +21,7 @@ namespace ApplicationCore
 
         public TEntity Add<TSaveDto>(TSaveDto saveDto) where TSaveDto : IIdField<TKey>
         {
-            if (saveDto.Id == default)
+            if (saveDto.Id.Equals(default(TKey)))
             {
                 saveDto.Id = IdGenerator.GeneratorId<TKey>();
             }
@@ -38,7 +38,7 @@ namespace ApplicationCore
         }
         public TEntity Update<TSaveDto>(TSaveDto saveDto) where TSaveDto : IIdField<TKey>
         {
-            if (saveDto.Id == default)
+            if (saveDto.Id.Equals(default(TKey)))
             {
                 throw new Exception("修改时，必须转入id");
             }

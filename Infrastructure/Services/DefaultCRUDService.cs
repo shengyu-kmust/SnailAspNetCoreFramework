@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Snail.Core.Entity;
 using Snail.CRUD;
-using Snail.DAL;
 
 namespace Infrastructure.Services
 {
@@ -11,7 +9,7 @@ namespace Infrastructure.Services
         private IQueryableSourceService _queryableSourceService;
         private readonly IHttpContextAccessor _context;
 
-        public DefaultCRUDService(UniversalQueueContext db, IMapper mapper, IQueryableSourceService queryableSourceService, IHttpContextAccessor context) : base(db, mapper)
+        public DefaultCRUDService(AppDbContext db, IMapper mapper, IQueryableSourceService queryableSourceService, IHttpContextAccessor context) : base(db, mapper)
         {
             _queryableSourceService = queryableSourceService;
             _context = context;
@@ -20,7 +18,7 @@ namespace Infrastructure.Services
 
         public override void InitQuerySource()
         {
-            QuerySource = _queryableSourceService.GetQueryable<TQuerySource>(db as UniversalQueueContext);
+            QuerySource = _queryableSourceService.GetQueryable<TQuerySource>(db as AppDbContext);
         }
 
         public override string GetCurrentUserId()

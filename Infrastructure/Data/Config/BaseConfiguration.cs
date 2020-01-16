@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Snail.Core.Entity;
 
 namespace Infrastructure.Data.Config
@@ -8,14 +7,15 @@ namespace Infrastructure.Data.Config
     {
         public void Config<TEntity>(EntityTypeBuilder<TEntity> builder) where TEntity:class
         {
+
             if (typeof(IEntityId<string>).IsAssignableFrom(typeof(TEntity)))
             {
-                builder.Property("Id").HasColumnType("varchar(50)");
+                builder.Property("Id").HasMaxLength(50);
                 builder.HasKey("Id");
             }
             if (typeof(IEntitySoftDelete).IsAssignableFrom(typeof(TEntity)))
             {
-                builder.Property("IsDeleted").HasColumnType("int").HasConversion<int>();
+                builder.Property("IsDeleted").HasConversion<int>();
             }
             if (typeof(IEntityAudit<string>).IsAssignableFrom(typeof(TEntity)))
             {

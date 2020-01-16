@@ -64,7 +64,8 @@ namespace Web.Infrastructure
             var entity = db.Set<T>().FirstOrDefault(a => a.Id == id);
             if (entity != null)
             {
-                Mapper.Map(dto, entity);
+                
+                //Mapper.Map(dto, entity);
             }
             db.SaveChanges();
         }

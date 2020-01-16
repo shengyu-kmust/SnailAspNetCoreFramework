@@ -1,7 +1,12 @@
-﻿using Autofac;
+﻿using ApplicationCore.Abstract;
+using ApplicationCore.Entity;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
-using ApplicationCore.Entity;
+using EasyCaching.InMemory;
+using Hangfire;
+using Hangfire.SqlServer;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,10 +19,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using System;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -30,18 +35,6 @@ using Web.Domain;
 using Web.Interceptor;
 using Web.Security;
 using Web.Services;
-using NJsonSchema;
-using NSwag.AspNetCore;
-using EasyCaching.Core;
-using EasyCaching.InMemory;
-using MediatR;
-using ApplicationCore.Abstract;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using System.Diagnostics;
-using Hangfire;
-using Hangfire.SqlServer;
 
 namespace Web
 {
@@ -75,7 +68,8 @@ namespace Web
                 optionsAction.UseSqlServer(Configuration.GetConnectionString("DatabaseConnectString"));
             });
             #endregion
-            services.AddMvc(options => { options.Filters.Add(new GlobalExceptionFilterAttribute()); });
+
+            services.AddControllers(options => { options.Filters.Add(new GlobalExceptionFilterAttribute()); });//3.1模板的mvc
 
             #region 前端界面配置
             // In production, the front end files will be served from this directory
@@ -150,7 +144,7 @@ namespace Web
 
                             var user = JObject.Parse(await response.Content.ReadAsStringAsync());
 
-                            context.RunClaimActions(user);
+                            //context.RunClaimActions(user);
                         }
                     };
                 });
@@ -290,7 +284,7 @@ namespace Web
             context.HandleResponse();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //开发模式用异常处理程序页
             if (env.IsDevelopment())
@@ -323,6 +317,8 @@ namespace Web
                 });
                 app.UseHsts();
             }
+            app.UseHttpsRedirection();
+
             //静态文件
             app.UseStaticFiles();
             //spa前端静态文件
@@ -336,8 +332,16 @@ namespace Web
 
             app.UseSwagger();
             app.UseSwaggerUi3();
-            app.UseAuthentication();
             app.UseMvc();
+            #region 3.1模板 的mvc
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+            #endregion
 
 
             app.UseSpa(spa =>

@@ -21,7 +21,6 @@ namespace Web.Controllers
     [ApiController]
     public class AccountController:AuthorizeBaseController
     {
-        private DatabaseContext _db;
 
         public AccountController(DatabaseContext db) : base(db)
         {
@@ -111,7 +110,7 @@ namespace Web.Controllers
         }
 
         [HttpGet("User")]
-        public ActionResult User()
+        public new ActionResult User()
         {
             var result = HttpContext.User.Claims
                 .Select(a => new {key = a.Type, value = a.Value}).ToList();

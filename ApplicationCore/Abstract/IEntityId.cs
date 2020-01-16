@@ -24,6 +24,6 @@ namespace ApplicationCore.Abstract
 
     public interface IDefaultIdField:IIdField<Guid>
     {
-        Guid Id { get; set; }
+        new Guid Id { get; set; }
     }
 }

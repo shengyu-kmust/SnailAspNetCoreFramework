@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 
@@ -20,7 +21,7 @@ namespace Web
             try
             {
                 logger.Debug("应用正在启动...");
-                CreateWebHostBuilder(args).Build().Run();
+                CreateHostBuilder(args).Build().Run();
 
             }
             catch (Exception ex)
@@ -35,8 +36,11 @@ namespace Web
             }
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).ConfigureAppConfiguration(config => {
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            }).ConfigureAppConfiguration(config => {
                 // 下面配置IConfiguration的来源，IConfiguration其实就是从一个Dictionary<string,string>里取值
                 // 由于从数据库里取配置时，不好对数据库变更后要更新Config，所以约定如果配置是从数据库里取的，统一从数据库里取
                 // 约定不会变更的配置从json文件里配置，否则从数据库里配置
@@ -51,8 +55,7 @@ namespace Web
                 //config.AddEFConfiguration(
                 //    options => options.UseInMemoryDatabase("InMemoryDb"));
                 //config.AddCommandLine(args);
-            })
-                .UseStartup<Startup>().ConfigureLogging(logging =>
+            }).ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
                     logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);

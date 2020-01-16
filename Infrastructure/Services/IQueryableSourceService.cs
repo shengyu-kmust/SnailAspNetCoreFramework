@@ -1,19 +1,17 @@
-﻿using ApplicationCore.Dtos;
-using ApplicationCore.Dtos.Queue;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
+using Snail.Core;
+using Snail.Core.Entity;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using AutoMapper.QueryableExtensions;
-using AutoMapper;
-using Snail.Core;
-using Microsoft.EntityFrameworkCore;
-using Snail.Core.Entity;
 
 namespace Infrastructure.Services
 {
     public interface IQueryableSourceService
     {
-        IQueryable<TSource> GetQueryable<TSource>(UniversalQueueContext db);
+        IQueryable<TSource> GetQueryable<TSource>(AppDbContext db);
     }
     /// <summary>
     /// 注册成做成单例
@@ -22,7 +20,7 @@ namespace Infrastructure.Services
     {
         private IServiceProvider _serviceProvider;
         private IMapper _mapper;
-        private ConcurrentDictionary<string, Func<UniversalQueueContext, IQueryable>> queryableDics=new ConcurrentDictionary<string, Func<UniversalQueueContext, IQueryable>>();
+        private ConcurrentDictionary<string, Func<AppDbContext, IQueryable>> queryableDics=new ConcurrentDictionary<string, Func<AppDbContext, IQueryable>>();
         public QueryableSourceService(IServiceProvider serviceProvider,IMapper mapper)
         {
             _serviceProvider = serviceProvider;
@@ -34,7 +32,7 @@ namespace Infrastructure.Services
             queryableDics.GetOrAdd(nameof(QueueResultDto), QueryableOfQueueResult);
 
         }
-        public IQueryable<TSource> GetQueryable<TSource>(UniversalQueueContext db)
+        public IQueryable<TSource> GetQueryable<TSource>(AppDbContext db)
         {
             IQueryable queryable;
             switch (typeof(TSource).Name)
@@ -57,27 +55,27 @@ namespace Infrastructure.Services
             return (IQueryable<TSource>)queryable;
         }
 
-        public IQueryable<TEntity> GetEntityQueryable<TEntity>(UniversalQueueContext db) where TEntity: class,IEntityId<string>
+        public IQueryable<TEntity> GetEntityQueryable<TEntity>(AppDbContext db) where TEntity: class,IEntityId<string>
         {
             return db.Set<TEntity>().AsNoTracking();
         }
 
         #region 定义用于CRUD操作的查询功能的IQueryable
-        private IQueryable<ConfigSourceDto> QueryableOfConfigSource(UniversalQueueContext db)
+        private IQueryable<ConfigSourceDto> QueryableOfConfigSource(AppDbContext db)
         {
             return _mapper.ProjectTo<ConfigSourceDto>(db.Config.AsNoTracking().Where(a => !a.IsDeleted).AsQueryable());
         }
-        private IQueryable<QueueResultDto> QueryableOfQueueResult(UniversalQueueContext db)
+        private IQueryable<QueueResultDto> QueryableOfQueueResult(AppDbContext db)
         {
             return null;
         }
 
-        private IQueryable<TemplateSourceDto> QueryableOfTemplateSource(UniversalQueueContext db)
+        private IQueryable<TemplateSourceDto> QueryableOfTemplateSource(AppDbContext db)
         {
             return _mapper.ProjectTo<TemplateSourceDto>(db.Template.AsNoTracking().Where(a => !a.IsDeleted).AsQueryable());
         }
 
-        private IQueryable<DeviceSourceDto> QueryableOfDeviceSource(UniversalQueueContext db)
+        private IQueryable<DeviceSourceDto> QueryableOfDeviceSource(AppDbContext db)
         {
             return _mapper.ProjectTo<DeviceSourceDto>(db.Device.AsNoTracking().Where(a => !a.IsDeleted).AsQueryable());
         }
