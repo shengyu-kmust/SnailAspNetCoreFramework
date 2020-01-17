@@ -11,7 +11,7 @@ namespace Web.Domain
     /// </summary>
     public class UserModel
     {
-        private User _user;//用户的其它信息
+        private SampleEntity _user;//用户的其它信息
         private List<Role> _userRoles;//用户的所有角色
         private HashSet<int> _removeRoleIds;
         private HashSet<int> _addRoleIds;
@@ -36,7 +36,7 @@ namespace Web.Domain
                 }
             }
         }
-        public UserModel(User user, DatabaseContext db)
+        public UserModel(SampleEntity user, DatabaseContext db)
         {
             _user = user;
             _db = db;

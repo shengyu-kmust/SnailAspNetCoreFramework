@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ApplicationCore.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace Infrastructure
@@ -11,8 +12,8 @@ namespace Infrastructure
         {
         }
 
-        //public virtual DbSet<Called> Called { get; set; }
-       
+        public virtual DbSet<SampleEntity> SampleEntity { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

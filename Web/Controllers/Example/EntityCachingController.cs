@@ -10,14 +10,14 @@ namespace Web.Controllers.Example
     [ApiController]
     public class EntityCachingController : ControllerBase
     {
-        private IEntityCaching<int, User> _userCaching;
-        public EntityCachingController(IEntityCaching<int,User> userCaching)
+        private IEntityCaching<int, SampleEntity> _userCaching;
+        public EntityCachingController(IEntityCaching<int,SampleEntity> userCaching)
         {
             _userCaching = userCaching;
         }
 
         [HttpGet]
-        public List<User> GetAllUserByCaching()
+        public List<SampleEntity> GetAllUserByCaching()
         {
             return _userCaching.Values;
         }

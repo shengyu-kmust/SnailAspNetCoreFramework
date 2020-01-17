@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ApplicationCore.Enum
 {
-    public enum Gender
+    public enum EGender
     {
         /// <summary>
         /// 男

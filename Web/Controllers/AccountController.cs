@@ -51,7 +51,7 @@ namespace Web.Controllers
         [Description("获取登录token")]
         [HttpPost("ApiLogin")]
         [AllowAnonymous]
-        public ActionResult ApiLogin(User user)
+        public ActionResult ApiLogin(SampleEntity user)
         {
             var userEntity = _db.Users.FirstOrDefault(a => a.LoginName == user.LoginName && a.Pwd == user.Pwd);
             if (userEntity == null)

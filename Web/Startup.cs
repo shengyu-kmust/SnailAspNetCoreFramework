@@ -1,6 +1,4 @@
-﻿using ApplicationCore.Abstract;
-using ApplicationCore.Entity;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
 using EasyCaching.InMemory;

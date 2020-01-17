@@ -15,7 +15,7 @@ namespace Web.DTO.Sample
         [BindNever]
         public string Name { get; set; }
         public DateTime? BirthDay { get; set; }
-        public Gender? Gender { get; set; }
+        public EGender? Gender { get; set; }
 
         public Student ConvertToEntity()
         {

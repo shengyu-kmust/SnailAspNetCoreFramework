@@ -48,7 +48,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
-    <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>
