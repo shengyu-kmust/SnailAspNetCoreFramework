@@ -18,33 +18,33 @@ namespace Web.Controllers
     public class ConfigController : ControllerBase
     {
         private IConfiguration _configuration;
-        private IOptionsMonitor<Student> _optionsMonitor;
-        private IOptionsSnapshot<Student> _optionsSnapshot;
-        private IOptionsMonitor<Student> _namedOptionsMonitor;
-        public ConfigController(IConfiguration configuration,IOptionsMonitor<Student> optionsMonitor,IOptionsSnapshot<Student> optionsSnapshot,IOptionsMonitor<Student> namedOptionsMonitor)
-        {
-            _configuration = configuration;
-            _optionsMonitor = optionsMonitor;
-            _optionsSnapshot = optionsSnapshot;
-            _namedOptionsMonitor = namedOptionsMonitor;
-        }
+        //private IOptionsMonitor<Student> _optionsMonitor;
+        //private IOptionsSnapshot<Student> _optionsSnapshot;
+        //private IOptionsMonitor<Student> _namedOptionsMonitor;
+        //public ConfigController(IConfiguration configuration,IOptionsMonitor<Student> optionsMonitor,IOptionsSnapshot<Student> optionsSnapshot,IOptionsMonitor<Student> namedOptionsMonitor)
+        //{
+        //    _configuration = configuration;
+        //    _optionsMonitor = optionsMonitor;
+        //    _optionsSnapshot = optionsSnapshot;
+        //    _namedOptionsMonitor = namedOptionsMonitor;
+        //}
 
-        [HttpGet]
-        public JsonResult GetConfig(string configName)
-        {
-            return new JsonResult(_configuration[configName]);
-        }
+        //[HttpGet]
+        //public JsonResult GetConfig(string configName)
+        //{
+        //    return new JsonResult(_configuration[configName]);
+        //}
 
-        [HttpGet]
-        public JsonResult GetOption()
-        {
-            return new JsonResult(new
-            {
-                optionsMonitor= _optionsMonitor,
-                optionsSnapshot = _optionsSnapshot,
-                namedOptionsMonitor1 = _namedOptionsMonitor.Get("optionBuilderStudent"),
-                namedOptionsMonitor2 = _namedOptionsMonitor.Get("configBuilderStudent"),
-            });
-        }
+        //[HttpGet]
+        //public JsonResult GetOption()
+        //{
+        //    return new JsonResult(new
+        //    {
+        //        optionsMonitor= _optionsMonitor,
+        //        optionsSnapshot = _optionsSnapshot,
+        //        namedOptionsMonitor1 = _namedOptionsMonitor.Get("optionBuilderStudent"),
+        //        namedOptionsMonitor2 = _namedOptionsMonitor.Get("configBuilderStudent"),
+        //    });
+        //}
     }
 }

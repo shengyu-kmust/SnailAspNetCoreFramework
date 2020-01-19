@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Entity;
 using AutoMapper;
+using Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace Web.Infrastructure
 {
     public class BaseRepository<T> where T:BaseEntity
     {
-        public DatabaseContext db;
+        public AppDbContext db;
 
-        public BaseRepository(DatabaseContext db)
+        public BaseRepository(AppDbContext db)
         {
             this.db = db;
         }

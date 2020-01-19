@@ -21,6 +21,24 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Compile Remove="Controllers\PermissionController.cs" />
+    <Compile Remove="Domain\PermissionModel.cs" />
+    <Compile Remove="Domain\ResourceModel.cs" />
+    <Compile Remove="Domain\UserModel.cs" />
+    <Compile Remove="DTO\Sample\ISaveDto.cs" />
+    <Compile Remove="DTO\Sample\StudentQueryDto.cs" />
+    <Compile Remove="DTO\Sample\StudentQueryPageDto.cs" />
+    <Compile Remove="DTO\Sample\StudentResultDto.cs" />
+    <Compile Remove="DTO\Sample\StudentSaveDto.cs" />
+    <Compile Remove="Infrastructure\BaseRepository.cs" />
+    <Compile Remove="Infrastructure\OrganizationRepository.cs" />
+    <Compile Remove="Infrastructure\PermissionRepository.cs" />
+    <Compile Remove="Infrastructure\ResourceRepository.cs" />
+    <Compile Remove="Infrastructure\UserRoleRepository.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="4.5.0" />
@@ -48,9 +66,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Snail.Common">
+      <HintPath>..\..\Snail\Snail\Snail.CRUD\bin\Debug\netstandard2.0\Snail.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Snail.Core">
+      <HintPath>..\..\Snail\Snail\Snail.Core\bin\Debug\netstandard2.0\Snail.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Snail.FileStore">
       <HintPath>..\..\Snail\Snail\Snail.FileStore\bin\Debug\netstandard2.0\Snail.FileStore.dll</HintPath>
     </Reference>
@@ -63,7 +88,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Domain\" />
+    <Folder Include="DTO\Sample\" />
     <Folder Include="Filter\" />
+    <Folder Include="Infrastructure\" />
   </ItemGroup>
 
   <!--SPA的配置，在每次编译前，确保node已经安装，相关的npm包也已经安装-->

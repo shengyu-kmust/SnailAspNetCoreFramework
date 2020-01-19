@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entity;
+using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +9,9 @@ namespace Web.Controllers
     [Route("api/[controller]/[action]")]
     public class AuthorizeBaseController : ControllerBase
     {
-        public DatabaseContext _db;
+        public AppDbContext _db;
 
-        public AuthorizeBaseController(DatabaseContext db)
+        public AuthorizeBaseController(AppDbContext db)
         {
             _db = db;
         }

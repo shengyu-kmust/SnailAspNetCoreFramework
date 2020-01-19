@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entity;
+using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +8,7 @@ namespace Web.Controllers
     [ApiController]
     public class TestController : AuthorizeBaseController
     {
-        public TestController(DatabaseContext db) : base(db)
+        public TestController(AppDbContext db) : base(db)
         {
         }
 

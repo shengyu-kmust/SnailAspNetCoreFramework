@@ -1,20 +1,22 @@
-﻿using ApplicationCore.Entity;
+﻿using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using Web.Infrastructure;
 
 namespace Web.Controllers
 {
     [ApiController]
     public class OrganizationController : AuthorizeBaseController
     {
-        private OrganizationRepository _organizationRepository;
-        public OrganizationController(DatabaseContext db, OrganizationRepository organizationRepository) : base(db)
+        public OrganizationController(AppDbContext db) : base(db)
         {
-            _organizationRepository = organizationRepository;
-            _db = db;
         }
+
+        //private OrganizationRepository _organizationRepository;
+        //public OrganizationController(AppDbContext db, OrganizationRepository organizationRepository) : base(db)
+        //{
+        //    _organizationRepository = organizationRepository;
+        //    _db = db;
+        //}
 
         /// <summary>
         /// 获取所有的组织架构
@@ -33,10 +35,10 @@ namespace Web.Controllers
 
         }
 
-        private object GetChild(List<Organization> dd)
-        {
-            throw new NotImplementedException();
-        }
+        //private object GetChild(List<Organization> dd)
+        //{
+        //    throw new NotImplementedException();
+        //}
         /// <summary>
         /// 获取某个组织下的所有组织架构
         /// </summary>

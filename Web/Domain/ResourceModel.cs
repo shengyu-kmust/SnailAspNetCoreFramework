@@ -6,27 +6,27 @@ namespace Web.Domain
 {
     public class ResourceModel
     {
-        private Resource _resource;
+        //private Resource _resource;
 
-        public ResourceModel(int id)
-        {
+        //public ResourceModel(int id)
+        //{
 
-        }
+        //}
 
-        public ResourceModel(string resourceKey)
-        {
+        //public ResourceModel(string resourceKey)
+        //{
 
-        }
+        //}
 
-        public static ResourceModel CreateResourceModel(int id)
-        {
-            return new ResourceModel(id);
-        }
+        //public static ResourceModel CreateResourceModel(int id)
+        //{
+        //    return new ResourceModel(id);
+        //}
 
-        public List<Role> AllPermissionRoles()
-        {
-            throw new NotImplementedException();
-        }
+        //public List<Role> AllPermissionRoles()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
     }
 }

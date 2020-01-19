@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entity;
+using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,7 +16,7 @@ namespace Web.Controllers
     {
         private PermissionModel _permissionModel;
         private PermissionService _permissionService;
-        public PermissionController(PermissionModel permissionModel,DatabaseContext db,PermissionService permissionService):base(db)
+        public PermissionController(PermissionModel permissionModel, AppDbContext db,PermissionService permissionService):base(db)
         {
             _permissionModel = permissionModel;
             _permissionService = permissionService;

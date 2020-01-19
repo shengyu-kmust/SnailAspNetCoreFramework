@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entity;
+using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -7,7 +8,7 @@ namespace Web.Controllers
     [ApiController]
     public class ValuesController : AuthorizeBaseController
     {
-        public ValuesController(DatabaseContext db) : base(db) { }
+        public ValuesController(AppDbContext db) : base(db) { }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

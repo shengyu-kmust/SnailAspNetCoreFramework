@@ -1,7 +1,4 @@
-﻿using ApplicationCore.Abstract;
-using ApplicationCore.Entity;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers.Example
 {
@@ -10,16 +7,16 @@ namespace Web.Controllers.Example
     [ApiController]
     public class EntityCachingController : ControllerBase
     {
-        private IEntityCaching<int, SampleEntity> _userCaching;
-        public EntityCachingController(IEntityCaching<int,SampleEntity> userCaching)
-        {
-            _userCaching = userCaching;
-        }
+        //private IEntityCaching<int, SampleEntity> _userCaching;
+        //public EntityCachingController(IEntityCaching<int,SampleEntity> userCaching)
+        //{
+        //    _userCaching = userCaching;
+        //}
 
-        [HttpGet]
-        public List<SampleEntity> GetAllUserByCaching()
-        {
-            return _userCaching.Values;
-        }
+        //[HttpGet]
+        //public List<SampleEntity> GetAllUserByCaching()
+        //{
+        //    return _userCaching.Values;
+        //}
     }
 }

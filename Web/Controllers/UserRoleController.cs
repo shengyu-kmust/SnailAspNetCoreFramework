@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entity;
+using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -11,7 +12,7 @@ namespace Web.Controllers
     [ApiController]
     public class UserRoleController : AuthorizeBaseController
     {
-        public UserRoleController(DatabaseContext db) : base(db) { }
+        public UserRoleController(AppDbContext db) : base(db) { }
 
         /// <summary>
         /// 设置用户的角色

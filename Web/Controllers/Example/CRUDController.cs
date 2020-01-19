@@ -1,9 +1,5 @@
-﻿using ApplicationCore.Entity;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using Utility.Page;
-using Web.DTO.Sample;
-using Web.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using Snail.Core;
 
 namespace Web.Controllers.Example
 {
@@ -11,32 +7,32 @@ namespace Web.Controllers.Example
     [ApiController]
     public class CRUDController : ControllerBase
     {
-        private CRUDService<Student> CRUDService;
+        //private CRUDService<Student> CRUDService;
 
         /// <summary>
         /// 查询 
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        public List<StudentResultDto> Query(StudentQueryDto query)
-        {
-            return CRUDService.Query(query);
-        }
+        //public List<StudentResultDto> Query(StudentQueryDto query)
+        //{
+        //    //return CRUDService.Query(query);
+        //}
 
         /// <summary>
         /// 分页查询 
         /// </summary>
         /// <returns></returns>
-        public PageResult<StudentResultDto> QueryPage(StudentQueryPageDto queryPage)
-        {
-            return null;
-        }
+        //public PageResult<StudentResultDto> QueryPage(StudentQueryPageDto queryPage)
+        //{
+        //    return null;
+        //}
 
-        [HttpPost]
-        public object Update(StudentSaveDto saveDto)
-        {
-            return saveDto;
-        }
+        //[HttpPost]
+        //public object Update(StudentSaveDto saveDto)
+        //{
+        //    return saveDto;
+        //}
     }
 
 

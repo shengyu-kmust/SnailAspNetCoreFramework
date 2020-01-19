@@ -4,6 +4,7 @@ using Autofac.Extras.DynamicProxy;
 using EasyCaching.InMemory;
 using Hangfire;
 using Hangfire.SqlServer;
+using Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -17,19 +18,21 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
+using Snail.Common;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Security.Claims;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Web.Controllers.Example;
-using Web.Domain;
 using Web.Interceptor;
 using Web.Security;
 using Web.Services;
@@ -50,33 +53,36 @@ namespace Web
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             #region option配置
-            services.AddOptions<Student>("optionBuilderStudent").Configure(a =>
-            {
-                a.Id = 100;
-                a.Name = "optionBuilderStudent name";
-            });
-            services.Configure<Student>("configBuilderStudent", a => { a.Name = "configBuilderStudent"; a.Id = 101; });
-            services.Configure<Student>(Configuration.GetSection("studentData"));
+            // 示例如下 
+            //services.AddOptions<Student>("optionBuilderStudent").Configure(a =>
+            //{
+            //    a.Id = 100;
+            //    a.Name = "optionBuilderStudent name";
+            //});
+            //services.Configure<Student>("configBuilderStudent", a => { a.Name = "configBuilderStudent"; a.Id = 101; });
+            //services.Configure<Student>(Configuration.GetSection("studentData"));
             #endregion
 
 
             #region 数据库配置
-            services.AddDbContext<DatabaseContext>(optionsAction =>
+            services.AddDbContext<AppDbContext>(optionsAction =>
             {
-                optionsAction.UseSqlServer(Configuration.GetConnectionString("DatabaseConnectString"));
+                var dbType = Configuration.GetSection("DbSetting")["DbType"];
+                var connectString= Configuration.GetSection("DbSetting")["ConnectionString"];
+                if (dbType.Equals("MySql",StringComparison.OrdinalIgnoreCase))
+                {
+                    optionsAction.UseMySql(connectString);
+                }else
+                {
+                    optionsAction.UseSqlServer(connectString);
+
+                }
             });
             #endregion
 
-            services.AddControllers(options => { options.Filters.Add(new GlobalExceptionFilterAttribute()); });//3.1模板的mvc
-
-            #region 前端界面配置
-            // In production, the front end files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
-            #endregion
             #region 身份验证
+            var authenticationSetting= Configuration.GetValue<AuthenticationSetting>("AuthenticationSetting");
+            services.Configure<AuthenticationSetting>(Configuration.GetSection("authenticationOptions"));
             //约定
             //1、身份验证以支持Jwt和cookie两种为主，先jwt再cookie验证
             //2、支持第三方openid connect登录，但第三方登录成功后，如果是web应用，则同时登录到cookie验证，如果是webapi应用，需在第三方登录成功后从系统获取jwt做后续的api调用
@@ -84,8 +90,10 @@ namespace Web
                 .AddCookie(
                     CookieAuthenticationDefaults.AuthenticationScheme, options =>
                     {
-                        options.AccessDeniedPath = new PathString("/test/AccessDeniedPath");
-                        options.LoginPath = new PathString("/test/LoginPath");
+                       
+                        options.AccessDeniedPath = authenticationSetting.AccessDeniedPath;
+                        options.LoginPath = authenticationSetting.LoginPath;
+                        options.ExpireTimeSpan= authenticationSetting.ExpireTimeSpan;
                         options.ForwardDefaultSelector = context =>
                         {
                             string authorization = context.Request.Headers["Authorization"];
@@ -102,13 +110,25 @@ namespace Web
                     })
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
+                    SecurityKey key;
+                    if (authenticationSetting.IsAsymmetric)
+                    {
+                        key = new RsaSecurityKey(RSAHelper.GetRSAParametersFromFromPublicPem(authenticationSetting.RsaPublicKey));
+                    }
+                    else
+                    {
+                        key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSetting.SymmetricSecurityKey));
+                    }
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        NameClaimType = ConstValues.NameClaimType,
-                        RoleClaimType = ConstValues.RoleClaimType,
+                        
+                        NameClaimType = ConstValues.UserId,
+                        RoleClaimType = ConstValues.RoleIds,
                         ValidIssuer = ConstValues.Issuer,
                         ValidAudience = ConstValues.Audience,
-                        IssuerSigningKey = ConstValues.IssuerSigningKey
+                        IssuerSigningKey = key,
+                        ValidateIssuer = false,
+                        ValidateAudience = false
                     };
                 })
                 .AddOAuth("GitHub", "Github", o =>
@@ -148,6 +168,16 @@ namespace Web
                 });
             #endregion
 
+            services.AddControllers(options => { options.Filters.Add(new GlobalExceptionFilterAttribute()); });//3.1模板的mvc
+
+            #region 前端界面配置
+            // In production, the front end files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
+            #endregion
+       
             #region 权限控制
             //权限控制只要在配置IServiceCollection，不需要额外配置app管道
             //权限控制参考：https://docs.microsoft.com/en-us/aspnet/core/security/authorization/policies?view=aspnetcore-2.2
@@ -200,7 +230,6 @@ namespace Web
 
             #endregion
             #region asp.net core自带的依赖注入，在此用自带的注入写法，注入到serviceCollection里
-            services.AddSingleton<PermissionModel>();
             services.AddScoped<ResourceService>();
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             #endregion
@@ -223,7 +252,6 @@ namespace Web
             builder.RegisterType<AopService>().As<IAopService>().EnableInterfaceInterceptors();
             builder.RegisterType<Aop2Service>().EnableClassInterceptors();
             builder.RegisterType<LogInterceptor>();
-            builder.RegisterGeneric(typeof(EntityCaching<,>)).As(typeof(IEntityCaching<,>)).SingleInstance();
 
             #endregion
             //返回serviceProvider。此方法的默认是不返回的，和autofac集成后，而修改成返回IServiceProvider对象
@@ -282,7 +310,7 @@ namespace Web
             context.HandleResponse();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             //开发模式用异常处理程序页
             if (env.IsDevelopment())
