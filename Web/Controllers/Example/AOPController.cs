@@ -34,7 +34,7 @@ namespace Web.Controllers.Example
         }
 
         [HttpGet]
-        public async Task TestAsync()
+        public async Task Test2Async()
         {
             await _aopService.TestAsync();
         }

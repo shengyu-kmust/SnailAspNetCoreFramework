@@ -22,8 +22,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 using Snail.Common;
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -47,10 +50,11 @@ namespace Web
         }
 
         public IConfiguration Configuration { get; }
-        public IContainer ApplicationContainer { get; private set; }
-
+        public ILifetimeScope AutofacContainer { get; private set; }
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        // ConfigureServices is where you register dependencies. This gets
+        // called by the runtime before the ConfigureContainer method, below.
+        public void ConfigureServices(IServiceCollection services)
         {
             #region option配置
             // 示例如下 
@@ -68,11 +72,12 @@ namespace Web
             services.AddDbContext<AppDbContext>(optionsAction =>
             {
                 var dbType = Configuration.GetSection("DbSetting")["DbType"];
-                var connectString= Configuration.GetSection("DbSetting")["ConnectionString"];
-                if (dbType.Equals("MySql",StringComparison.OrdinalIgnoreCase))
+                var connectString = Configuration.GetSection("DbSetting")["ConnectionString"];
+                if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))
                 {
                     optionsAction.UseMySql(connectString);
-                }else
+                }
+                else
                 {
                     optionsAction.UseSqlServer(connectString);
 
@@ -81,8 +86,10 @@ namespace Web
             #endregion
 
             #region 身份验证
-            var authenticationSetting= Configuration.GetValue<AuthenticationSetting>("AuthenticationSetting");
-            services.Configure<AuthenticationSetting>(Configuration.GetSection("authenticationOptions"));
+
+            var authenticationSetting = new AuthenticationSetting();
+            Configuration.Bind("authenticationSetting", authenticationSetting);
+            services.Configure<AuthenticationSetting>(Configuration.GetSection("AuthenticationSetting"));
             //约定
             //1、身份验证以支持Jwt和cookie两种为主，先jwt再cookie验证
             //2、支持第三方openid connect登录，但第三方登录成功后，如果是web应用，则同时登录到cookie验证，如果是webapi应用，需在第三方登录成功后从系统获取jwt做后续的api调用
@@ -90,10 +97,10 @@ namespace Web
                 .AddCookie(
                     CookieAuthenticationDefaults.AuthenticationScheme, options =>
                     {
-                       
+                        options.Cookie.Name = "auth";
                         options.AccessDeniedPath = authenticationSetting.AccessDeniedPath;
                         options.LoginPath = authenticationSetting.LoginPath;
-                        options.ExpireTimeSpan= authenticationSetting.ExpireTimeSpan;
+                        options.ExpireTimeSpan = authenticationSetting.ExpireTimeSpan!=default? authenticationSetting.ExpireTimeSpan:new TimeSpan(0,1,0);
                         options.ForwardDefaultSelector = context =>
                         {
                             string authorization = context.Request.Headers["Authorization"];
@@ -121,7 +128,7 @@ namespace Web
                     }
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        
+
                         NameClaimType = ConstValues.UserId,
                         RoleClaimType = ConstValues.RoleIds,
                         ValidIssuer = ConstValues.Issuer,
@@ -177,7 +184,7 @@ namespace Web
                 configuration.RootPath = "ClientApp/build";
             });
             #endregion
-       
+
             #region 权限控制
             //权限控制只要在配置IServiceCollection，不需要额外配置app管道
             //权限控制参考：https://docs.microsoft.com/en-us/aspnet/core/security/authorization/policies?view=aspnetcore-2.2
@@ -195,7 +202,29 @@ namespace Web
 
             #region 依赖注入
             #region 注入swagger
-            services.AddSwaggerDocument();
+            services.AddOpenApiDocument(conf=> {
+                conf.Description = "change the description";
+                conf.DocumentName = "change the document name";
+                conf.GenerateExamples = true;
+                conf.Title = "change the title";
+                conf.PostProcess = document =>
+                 {
+                     document.Schemes.Add(OpenApiSchema.Https);
+                     document.Schemes.Add(OpenApiSchema.Http);
+                     document.SecurityDefinitions.Add(
+                           "Jwt认证",
+                           new OpenApiSecurityScheme
+                           {
+                               Type = OpenApiSecuritySchemeType.Http,
+                               Name = "Authorization",//token会放到header的authorization里
+                               In = OpenApiSecurityApiKeyLocation.Header,
+                               Description = "请输入 : JWT token",
+                               Scheme = "bearer"//定义bearer，不能改
+                           });
+                     document.Security.Add(new OpenApiSecurityRequirement { { "Jwt认证", new string[0] } });
+
+                 };
+            }); // add OpenAPI v3 document
             #endregion
             #region 注入easyCaching
             services.AddEasyCaching(option =>
@@ -238,26 +267,7 @@ namespace Web
             //services.AddEntityCaching();
             #endregion
 
-            #region 集成autofac
-            //参考 https://autofaccn.readthedocs.io/zh/latest/integration/aspnetcore.html
-            var builder = new ContainerBuilder();
-            builder.Populate(services);//将asp.net core 自带的依赖注入，已经注册的组件，注册到autofac里
-            #region autofac组件注入
-            //下面写autofac的组件注入
-            //用assembly scan的方式批量注入
-            var assembly = Assembly.GetExecutingAssembly();
-            //builder.RegisterAssemblyTypes(assembly).Where(a => a.Name.EndsWith("Service")).AsImplementedInterfaces().AsSelf().PropertiesAutowired().EnableInterfaceInterceptors();
-            //builder.RegisterAssemblyTypes(assembly).Where(a => a.Name.EndsWith("Interceptor"));// interceptor type registration
 
-            builder.RegisterType<AopService>().As<IAopService>().EnableInterfaceInterceptors();
-            builder.RegisterType<Aop2Service>().EnableClassInterceptors();
-            builder.RegisterType<LogInterceptor>();
-
-            #endregion
-            //返回serviceProvider。此方法的默认是不返回的，和autofac集成后，而修改成返回IServiceProvider对象
-            this.ApplicationContainer = builder.Build();
-      
-            #endregion
 
 
             #endregion
@@ -279,13 +289,35 @@ namespace Web
            }));
             services.AddHangfireServer();
 
-            GlobalConfiguration.Configuration.UseAutofacActivator(builder.Build());//参考 https://github.com/HangfireIO/Hangfire.Autofac
 
-            BackgroundJob.Enqueue<HangfireService>(a => a.Init());//初始化创建所有定时任务
 
             #endregion
-            return new AutofacServiceProvider(this.ApplicationContainer);
         }
+
+        // ConfigureContainer is where you can register things directly
+        // with Autofac. This runs after ConfigureServices so the things
+        // here will override registrations made in ConfigureServices.
+        // Don't build the container; that gets done for you by the factory.
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            // Register your own things directly with Autofac, like:
+            //下面写autofac的组件注入
+            //用assembly scan的方式批量注入
+            var assembly = Assembly.GetExecutingAssembly();
+            //builder.RegisterAssemblyTypes(assembly).Where(a => a.Name.EndsWith("Service")).AsImplementedInterfaces().AsSelf().PropertiesAutowired().EnableInterfaceInterceptors();
+            //builder.RegisterAssemblyTypes(assembly).Where(a => a.Name.EndsWith("Interceptor"));// interceptor type registration
+
+            builder.RegisterType<AopService>().As<IAopService>().EnableInterfaceInterceptors();
+            builder.RegisterType<Aop2Service>().EnableClassInterceptors();
+            builder.RegisterType<LogInterceptor>();
+
+
+            //BackgroundJob.Enqueue<HangfireService>(a => a.Init());//初始化创建所有定时任务// .net 3.1后不能这么用  // todo
+            //GlobalConfiguration.Configuration.UseAutofacActivator(builder.Build());//参考 https://github.com/HangfireIO/Hangfire.Autofac
+
+        }
+
+
         private async Task HandleOnRemoteFailure(RemoteFailureContext context)
         {
             context.Response.StatusCode = 500;
@@ -309,9 +341,20 @@ namespace Web
 
             context.HandleResponse();
         }
+
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostEnvironment env)
+        // Configure is where you add middleware. This is called after
+        // ConfigureContainer. You can use IApplicationBuilder.ApplicationServices
+        // here if you need to resolve things from the container.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            // If, for some reason, you need a reference to the built container, you
+            // can use the convenience extension method GetAutofacRoot.
+            this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+
+
             //开发模式用异常处理程序页
             if (env.IsDevelopment())
             {
@@ -343,6 +386,10 @@ namespace Web
                 });
                 app.UseHsts();
             }
+
+   
+
+
             app.UseHttpsRedirection();
 
             //静态文件
@@ -350,15 +397,15 @@ namespace Web
             //spa前端静态文件
             app.UseSpaStaticFiles();
 
+            app.UseAuthentication();
+
             // hangfire前端界面的访问控制
             app.UseHangfireDashboard(options: new DashboardOptions
             {
                 Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
             });
+           
 
-            app.UseSwagger();
-            app.UseSwaggerUi3();
-            app.UseMvc();
             #region 3.1模板 的mvc
             app.UseRouting();
             app.UseAuthorization();
@@ -367,6 +414,14 @@ namespace Web
                 endpoints.MapControllers();
             });
 
+            #endregion
+
+            #region swag
+            //* 如果出现如下错误：Fetch errorundefined / swagger / v1 / swagger.json
+            //* 解决：原因是swagger 的api在解析时出错，在chrome f12看具体请求swagger.json的错误，解决
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
+            //app.UseReDoc();
             #endregion
 
 

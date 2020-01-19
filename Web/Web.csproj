@@ -43,6 +43,7 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="4.5.0" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="BouncyCastle.NetCore" Version="1.8.5" />
     <PackageReference Include="Castle.Core.AsyncInterceptor" Version="1.7.0" />
     <PackageReference Include="EasyCaching.InMemory" Version="0.8.4" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.7.8" />

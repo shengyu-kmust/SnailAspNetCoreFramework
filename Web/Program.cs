@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -36,8 +37,23 @@ namespace Web
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// * autofac对.net core 3.1的集成和2.2是有区别的，
+        /// 
+        /// </remarks>
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
+            Host.CreateDefaultBuilder(args)
+            //// ASP.NET Core 3.0+:
+            // The UseServiceProviderFactory call attaches the
+            // Autofac provider to the generic hosting mechanism.
+            .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+            .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
             }).ConfigureAppConfiguration(config => {
