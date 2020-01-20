@@ -17,6 +17,9 @@ using Web.Security;
 
 namespace Web.Controllers.Example
 {
+    /// <summary>
+    /// 用户登录授权
+    /// </summary>
 
     [Route("api/[controller]/[action]")]
     [ApiController]

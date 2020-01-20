@@ -23,7 +23,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using NSwag;
-using NSwag.Generation.Processors.Security;
 using Snail.Common;
 using System;
 using System.Linq;
@@ -36,6 +35,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Web.Controllers.Example;
+using Web.Hubs;
 using Web.Interceptor;
 using Web.Security;
 using Web.Services;
@@ -44,9 +44,12 @@ namespace Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _environment;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            _environment =environment;
         }
 
         public IConfiguration Configuration { get; }
@@ -91,7 +94,7 @@ namespace Web
             Configuration.Bind("authenticationSetting", authenticationSetting);
             services.Configure<AuthenticationSetting>(Configuration.GetSection("AuthenticationSetting"));
             //约定
-            //1、身份验证以支持Jwt和cookie两种为主，先jwt再cookie验证
+            //1、身份验证以支持Jwt和cookie两种为主，优先jwt再cookie验证，只用一种验证
             //2、支持第三方openid connect登录，但第三方登录成功后，如果是web应用，则同时登录到cookie验证，如果是webapi应用，需在第三方登录成功后从系统获取jwt做后续的api调用
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(
@@ -175,7 +178,29 @@ namespace Web
                 });
             #endregion
 
-            services.AddControllers(options => { options.Filters.Add(new GlobalExceptionFilterAttribute()); });//3.1模板的mvc
+            #region MVC
+            //3.1模板的mvc
+            services.AddControllers(options => {
+                options.Filters.Add(new GlobalExceptionFilterAttribute()); //MVC的异常处理，只会处理业务类异常，其它异常用管道拦截
+            }).ConfigureApiBehaviorOptions(options => {
+                options.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    // 配置模型参数校验的返回结果，默认只要contoller上加上ApiController后，会以默认的400状态和错误结构返回，这里进行处理，统一返回BusinessException，并在ExceptionFilter这一层进行拦截处理
+                    // 参考:https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.1#automatic-http-400-responses
+                    var errorContext = string.Join(",", actionContext.ModelState.Values
+                        .SelectMany(a => a.Errors.Select(b => b.ErrorMessage))
+                        .ToArray());
+                    throw new BusinessException($"参数验证失败：{errorContext}");
+                };
+            });
+
+            #endregion
+
+            #region signalr
+            services.AddSignalR();
+            #endregion
+
+
 
             #region 前端界面配置
             // In production, the front end files will be served from this directory
@@ -209,8 +234,6 @@ namespace Web
                 conf.Title = "change the title";
                 conf.PostProcess = document =>
                  {
-                     document.Schemes.Add(OpenApiSchema.Https);
-                     document.Schemes.Add(OpenApiSchema.Http);
                      document.SecurityDefinitions.Add(
                            "Jwt认证",
                            new OpenApiSecurityScheme
@@ -232,25 +255,25 @@ namespace Web
                 //配置方式一：用config配置
                 option.UseInMemory(Configuration, "default", "easycaching:inmemory");
 
-                //配置方式一：用代码的方式配置
-                option.UseInMemory(config =>
-                {
-                    config.DBConfig = new InMemoryCachingOptions
-                    {
-                        // scan time, default value is 60s
-                        ExpirationScanFrequency = 60,
-                        // total count of cache items, default value is 10000
-                        SizeLimit = 100
-                    };
-                    // the max random second will be added to cache's expiration, default value is 120
-                    config.MaxRdSecond = 0;
-                    // whether enable logging, default is false
-                    config.EnableLogging = false;
-                    // mutex key's alive time(ms), default is 5000
-                    config.LockMs = 5000;
-                    // when mutex key alive, it will sleep some time, default is 300
-                    config.SleepMs = 300;
-                }, "default");
+                //配置方式二：用代码的方式配置
+                //option.UseInMemory(config =>
+                //{
+                //    config.DBConfig = new InMemoryCachingOptions
+                //    {
+                //        // scan time, default value is 60s
+                //        ExpirationScanFrequency = 60,
+                //        // total count of cache items, default value is 10000
+                //        SizeLimit = 100
+                //    };
+                //    // the max random second will be added to cache's expiration, default value is 120
+                //    config.MaxRdSecond = 0;
+                //    // whether enable logging, default is false
+                //    config.EnableLogging = false;
+                //    // mutex key's alive time(ms), default is 5000
+                //    config.LockMs = 5000;
+                //    // when mutex key alive, it will sleep some time, default is 300
+                //    config.SleepMs = 300;
+                //}, "default");
 
             });
             #endregion
@@ -266,6 +289,7 @@ namespace Web
             #region 注入整表缓存
             //services.AddEntityCaching();
             #endregion
+            services.AddMemoryCache();
 
 
 
@@ -290,8 +314,18 @@ namespace Web
             services.AddHangfireServer();
 
 
-
             #endregion
+
+            //开发环境时，打开分析工具
+            if (_environment.IsDevelopment())
+            {
+                //访问示例：http://localhost:5000/profiler/results
+                // 参考：https://miniprofiler.com/dotnet/HowTo/ProfileEFCore
+                services.AddMiniProfiler(options => { options.RouteBasePath = "/profiler"; }).AddEntityFramework();
+            }
+
+            services.AddHttpContextAccessor();//注册，IHttpContextAccessor，在任何地方可以通过此对象获取httpcontext，从而获取单前用户
+
         }
 
         // ConfigureContainer is where you can register things directly
@@ -358,6 +392,7 @@ namespace Web
             //开发模式用异常处理程序页
             if (env.IsDevelopment())
             {
+                app.UseMiniProfiler();
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -377,20 +412,24 @@ namespace Web
                         }
                         else
                         {
-
                             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                             await context.Response.WriteAsync($"服务器异常，异常时间{DateTime.Now}");
-
                         }
                     });
                 });
+                
+
+                //HTTP严格传输安全 让网站可以通知浏览器它不应该再使用HTTP加载该网站，而是自动转换该网站的所有的HTTP链接至更安全的HTTPS。它包含在HTTP的协议头 Strict-Transport-Security 中，在服务器返回资源时带上,换句话说，它告诉浏览器将URL协议从HTTP更改为HTTPS（会更安全），并要求浏览器对每个请求执行此操作。
+                //正式环境官方建议用UseHsts和UseHttpsRedirection，
+                // 如果反方代理服务器，如ngix已经有配置过http重定向https或是设置hsts，则不需要设置这两句
+                //参考: https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-3.1&tabs=visual-studio
                 app.UseHsts();
             }
 
-   
 
 
-            app.UseHttpsRedirection();
+
+            app.UseHttpsRedirection();//将所有的http重定向https
 
             //静态文件
             app.UseStaticFiles();
@@ -411,6 +450,7 @@ namespace Web
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<TestHub>("/chat");
                 endpoints.MapControllers();
             });
 
@@ -419,7 +459,15 @@ namespace Web
             #region swag
             //* 如果出现如下错误：Fetch errorundefined / swagger / v1 / swagger.json
             //* 解决：原因是swagger 的api在解析时出错，在chrome f12看具体请求swagger.json的错误，解决
-            app.UseOpenApi();
+            app.UseOpenApi(config =>
+            {
+                config.PostProcess = (document, req) =>
+                {
+                    //下面是向swag怎加https和http的两种方式
+                    document.Schemes.Add(OpenApiSchema.Https);
+                    document.Schemes.Add(OpenApiSchema.Http);
+                };
+            });
             app.UseSwaggerUi3();
             //app.UseReDoc();
             #endregion

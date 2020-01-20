@@ -5,14 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Services\DefaultCRUDService.cs" />
-    <Compile Remove="Services\IQueryableSourceService.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.0" />
   </ItemGroup>
 
@@ -20,13 +21,9 @@
     <Reference Include="Snail.Core">
       <HintPath>..\..\Snail\Snail\Snail.Core\bin\Debug\netstandard2.0\Snail.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Snail.CRUD">
-      <HintPath>..\..\Snail\Snail\Snail.CRUD\bin\Debug\netstandard2.0\Snail.CRUD.dll</HintPath>
+    <Reference Include="Snail.DAL">
+      <HintPath>..\..\Snail\Snail\Snail.DAL\bin\Debug\netstandard2.0\Snail.DAL.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

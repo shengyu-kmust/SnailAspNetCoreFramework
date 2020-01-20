@@ -19,8 +19,8 @@ namespace Infrastructure.Data.Config
             }
             if (typeof(IEntityAudit<string>).IsAssignableFrom(typeof(TEntity)))
             {
-                builder.Property("CreaterId").HasMaxLength(50);
-                builder.Property("UpdaterId").HasMaxLength(50);
+                builder.Property("Creater").HasMaxLength(50);
+                builder.Property("Updater").HasMaxLength(50);
             }
         }
     }
