@@ -6,7 +6,7 @@ namespace Web.Controllers
 {
     public class SampleController : CRUDController<SampleEntity, SampleSourceDto, SampleResultDto, SampleSaveDto, SampleQueryDto>
     {
-        public SampleController(ICRUDService<SampleEntity, string> CRUDService) : base(CRUDService)
+        public SampleController(ICRUDService<SampleEntity, SampleSourceDto, string> CRUDService) : base(CRUDService)
         {
         }
     }

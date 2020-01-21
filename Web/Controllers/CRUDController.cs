@@ -7,28 +7,41 @@ using System.Linq;
 
 namespace Web.Controllers
 {
+    /// <summary>
+    /// 通用CRUD接口
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TSource"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <typeparam name="TSaveDto"></typeparam>
+    /// <typeparam name="TQueryDto"></typeparam>
     [ApiController]
     [Route("api/[Controller]/[Action]")]
-    public class CRUDController<TEntity,TSource,TResult,TSaveDto,TQueryDto>: ControllerBase where TEntity: class,IEntityId<string> where TSaveDto:IIdField<string> where TQueryDto:IIdField<string>,IPagination,new() where TResult:class
+    public class CRUDController<TEntity,TSource,TResult,TSaveDto,TQueryDto>: ControllerBase 
+        where TEntity : class, IEntityId<string> 
+        where TSource : class
+        where TSaveDto : IIdField<string>
+        where TResult : class
+        where TQueryDto : IIdField<string>,IPagination,new()
     {
-        private ICRUDService<TEntity, string> _CRUDService;
-        public CRUDController(ICRUDService<TEntity, string> CRUDService)
+        private ICRUDService<TEntity, TSource,string> _CRUDService;
+        public CRUDController(ICRUDService<TEntity, TSource, string> CRUDService)
         {
             _CRUDService = CRUDService;
         }
         [HttpPost]
-        public TResult Save(TSaveDto saveDto)
+        public virtual TResult Save(TSaveDto saveDto) 
         {
-            TEntity device;
+            TEntity entity;
             if (string.IsNullOrEmpty(saveDto.Id))
             {
-                device = _CRUDService.Add(saveDto);
+                entity = _CRUDService.Add(saveDto);
             }
             else
             {
-                device = _CRUDService.Update(saveDto);
+                entity = _CRUDService.Update(saveDto);
             }
-            return _CRUDService.Query<TResult, TQueryDto>(new TQueryDto { Id = device.Id }).FirstOrDefault();
+            return _CRUDService.Query<TResult, TQueryDto>(new TQueryDto { Id = entity.Id }).FirstOrDefault();
         }
 
         [HttpGet]

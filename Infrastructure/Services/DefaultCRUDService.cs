@@ -1,30 +1,49 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Snail.Core.Entity;
+using Snail.Core.Interface;
 using Snail.DAL;
+using System.Linq;
+using System.Collections.Concurrent;
+using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
-    public class DefaultCRUDService<TEntity, TQuerySource> : EFCRUDService<TEntity, TQuerySource, string> where TEntity : class, IEntityId<string>
+    public class DefaultCRUDService<TEntity, TSource,TKey> : EFCRUDService<TEntity, TSource, TKey> where TEntity : class, IEntityId<TKey> where TSource:class
     {
-        private IQueryableSourceService _queryableSourceService;
-        private readonly IHttpContextAccessor _context;
-
-        public DefaultCRUDService(AppDbContext db, IMapper mapper, IQueryableSourceService queryableSourceService, IHttpContextAccessor context) : base(db, mapper)
+        private static ConcurrentDictionary<string, Func<AppDbContext, IQueryable>> queryableDics=new ConcurrentDictionary<string, Func<AppDbContext, IQueryable>>();
+        public DefaultCRUDService(AppDbContext db, IMapper mapper, IApplicationContext context) : base(db, mapper, context)
         {
-            _queryableSourceService = queryableSourceService;
-            _context = context;
-            InitQuerySource();
         }
 
-        public override void InitQuerySource()
+        static DefaultCRUDService()
         {
-            QuerySource = _queryableSourceService.GetQueryable<TQuerySource>(db as AppDbContext);
+            #region 这里初始化CRUD的查询源
+            //queryableDics.TryAdd("ss", dd);
+
+            #endregion
         }
 
-        public override string GetCurrentUserId()
+        public override IQueryable<TSource> GetQueryableSource()
         {
-            return _context?.HttpContext?.User?.Identity?.Name??"admin";// todo:验证httpcontext user
+            var key = nameof(TSource);
+            if (queryableDics.ContainsKey(key))
+            {
+                return (IQueryable<TSource>)queryableDics[key](db as AppDbContext);
+            }
+            else
+            {
+                return mapper.ProjectTo<TSource>(db.Set<TEntity>().AsNoTracking());
+            }
         }
+
+        #region 这里定义通用CRUD的查询源，定义好后加到DefaultCRUDService静态构造函数里
+        //public static IQueryable<string> dd(AppDbContext db)
+        //{
+        //    return null;
+        //}
+        #endregion
+
     }
 }

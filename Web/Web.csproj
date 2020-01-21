@@ -74,7 +74,7 @@
 
   <ItemGroup>
     <Reference Include="Snail.Common">
-      <HintPath>..\..\Snail\Snail\Snail.CRUD\bin\Debug\netstandard2.0\Snail.Common.dll</HintPath>
+      <HintPath>..\..\Snail\Snail\Snail.Common\bin\Debug\netstandard2.0\Snail.Common.dll</HintPath>
     </Reference>
     <Reference Include="Snail.Core">
       <HintPath>..\..\Snail\Snail\Snail.Core\bin\Debug\netstandard2.0\Snail.Core.dll</HintPath>
