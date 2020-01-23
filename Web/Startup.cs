@@ -1,10 +1,13 @@
-﻿using Autofac;
+﻿using ApplicationCore.Entity;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
+using AutoMapper;
 using EasyCaching.InMemory;
 using Hangfire;
 using Hangfire.SqlServer;
 using Infrastructure;
+using Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -24,6 +27,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using NSwag;
 using Snail.Common;
+using Snail.Core.Interface;
 using System;
 using System.Linq;
 using System.Net;
@@ -326,6 +330,8 @@ namespace Web
 
             services.AddHttpContextAccessor();//注册，IHttpContextAccessor，在任何地方可以通过此对象获取httpcontext，从而获取单前用户
 
+
+            services.AddAutoMapper(typeof(Startup).Assembly);
         }
 
         // ConfigureContainer is where you can register things directly
@@ -344,7 +350,7 @@ namespace Web
             builder.RegisterType<AopService>().As<IAopService>().EnableInterfaceInterceptors();
             builder.RegisterType<Aop2Service>().EnableClassInterceptors();
             builder.RegisterType<LogInterceptor>();
-
+            builder.RegisterGeneric(typeof(DefaultCRUDService<,,>)).As(typeof(ICRUDService<,,>)).InstancePerLifetimeScope();
 
             //BackgroundJob.Enqueue<HangfireService>(a => a.Init());//初始化创建所有定时任务// .net 3.1后不能这么用  // todo
             //GlobalConfiguration.Configuration.UseAutofacActivator(builder.Build());//参考 https://github.com/HangfireIO/Hangfire.Autofac

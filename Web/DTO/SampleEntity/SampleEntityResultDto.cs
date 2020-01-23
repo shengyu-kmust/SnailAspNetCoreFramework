@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Web.DTO.Sample
 {
-    public class SampleEntityResultDto : IIdField<string>
+    public class SampleEntityResultDto : BaseDto
     {
         public string Id { get; set; }
     }

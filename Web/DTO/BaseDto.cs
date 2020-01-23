@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Web.DTO.Sample
+namespace Web.DTO
 {
-    public class SampleEntitySaveDto : BaseDto
+    public class BaseDto : IDto, IIdField<string>
     {
         public string Id { get; set; }
     }
