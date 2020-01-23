@@ -27,11 +27,11 @@
     <Compile Remove="Domain\PermissionModel.cs" />
     <Compile Remove="Domain\ResourceModel.cs" />
     <Compile Remove="Domain\UserModel.cs" />
-    <Compile Remove="DTO\Sample\ISaveDto.cs" />
-    <Compile Remove="DTO\Sample\StudentQueryDto.cs" />
-    <Compile Remove="DTO\Sample\StudentQueryPageDto.cs" />
-    <Compile Remove="DTO\Sample\StudentResultDto.cs" />
-    <Compile Remove="DTO\Sample\StudentSaveDto.cs" />
+    <Compile Remove="DTO\SampleEntity\ISaveDto.cs" />
+    <Compile Remove="DTO\SampleEntity\StudentQueryDto.cs" />
+    <Compile Remove="DTO\SampleEntity\StudentQueryPageDto.cs" />
+    <Compile Remove="DTO\SampleEntity\StudentResultDto.cs" />
+    <Compile Remove="DTO\SampleEntity\StudentSaveDto.cs" />
     <Compile Remove="Infrastructure\BaseRepository.cs" />
     <Compile Remove="Infrastructure\OrganizationRepository.cs" />
     <Compile Remove="Infrastructure\PermissionRepository.cs" />
@@ -63,6 +63,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.2.1" />
+    <PackageReference Include="Snail.Common" Version="1.0.1" />
+    <PackageReference Include="Snail.Core" Version="1.0.1" />
+    <PackageReference Include="Snail.DAL" Version="1.0.1" />
+    <PackageReference Include="Snail.FileStore" Version="1.0.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
   </ItemGroup>
@@ -70,18 +74,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Snail.Common">
-      <HintPath>..\..\Snail\Snail\Snail.Common\bin\Debug\netstandard2.0\Snail.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Snail.Core">
-      <HintPath>..\..\Snail\Snail\Snail.Core\bin\Debug\netstandard2.0\Snail.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Snail.FileStore">
-      <HintPath>..\..\Snail\Snail\Snail.FileStore\bin\Debug\netstandard2.0\Snail.FileStore.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>

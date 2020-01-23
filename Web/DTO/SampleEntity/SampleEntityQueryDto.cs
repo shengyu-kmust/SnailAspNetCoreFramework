@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Web.DTO.Sample
 {
-    public class SampleQueryDto : IIdField<string>,IPagination
+    public class SampleEntityQueryDto : IIdField<string>,IPagination
     {
         public string Id { get; set; }
         public int PageSize { get;set; }

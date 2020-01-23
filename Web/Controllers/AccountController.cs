@@ -94,7 +94,7 @@ namespace Web.Controllers
             }
             else
             {
-                HttpContext.Response.WriteAsync("请指定第三方登录应用");
+                await HttpContext.Response.WriteAsync("请指定第三方登录应用");
             }
         }
 

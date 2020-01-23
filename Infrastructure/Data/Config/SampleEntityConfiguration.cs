@@ -12,6 +12,7 @@ namespace Infrastructure.Data.Config
 
             builder.ToTable("SampleEntity");
             builder.Property(a => a.Gender).HasConversion<int>();
+            builder.Property(a => a.Name).HasMaxLength(100);
             
         }
     }

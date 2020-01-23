@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Web.DTO.Sample
 {
-    public class SampleSourceDto
+    public class SampleEntitySourceDto
     {
     }
 }

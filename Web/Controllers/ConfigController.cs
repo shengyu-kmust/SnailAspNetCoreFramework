@@ -17,7 +17,7 @@ namespace Web.Controllers
     [Route("api/[controller]/[action]")]
     public class ConfigController : ControllerBase
     {
-        private IConfiguration _configuration;
+        //private IConfiguration _configuration;
         //private IOptionsMonitor<Student> _optionsMonitor;
         //private IOptionsSnapshot<Student> _optionsSnapshot;
         //private IOptionsMonitor<Student> _namedOptionsMonitor;
