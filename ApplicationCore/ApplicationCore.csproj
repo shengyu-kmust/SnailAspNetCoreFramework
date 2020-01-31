@@ -13,11 +13,18 @@
 
   <ItemGroup>
     <Folder Include="Dtos\" />
+    <Folder Include="Service\" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Snail.Common">
+      <HintPath>..\..\Snail\Snail.Common\bin\Debug\netstandard2.0\Snail.Common.dll</HintPath>
+    </Reference>
     <Reference Include="Snail.Core">
-      <HintPath>..\..\Snail\Snail\Snail.Core\bin\Debug\netstandard2.0\Snail.Core.dll</HintPath>
+      <HintPath>..\..\Snail\Snail.Core\bin\Debug\netstandard2.0\Snail.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Snail.DAL">
+      <HintPath>..\..\Snail\Snail.DAL\bin\Debug\netstandard2.0\Snail.DAL.dll</HintPath>
     </Reference>
   </ItemGroup>
 

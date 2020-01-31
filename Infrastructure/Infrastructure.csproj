@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="DotNetCore.CAP" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
@@ -15,19 +17,23 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Snail.Core">
-      <HintPath>..\..\Snail\Snail\Snail.Core\bin\Debug\netstandard2.0\Snail.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Snail.DAL">
-      <HintPath>..\..\Snail\Snail\Snail.DAL\bin\Debug\netstandard2.0\Snail.DAL.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Snail.Common">
+      <HintPath>..\..\Snail\Snail.Common\bin\Debug\netstandard2.0\Snail.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Snail.Core">
+      <HintPath>..\..\Snail\Snail.Core\bin\Debug\netstandard2.0\Snail.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Snail.DAL">
+      <HintPath>..\..\Snail\Snail.DAL\bin\Debug\netstandard2.0\Snail.DAL.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

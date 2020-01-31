@@ -1,6 +1,8 @@
-﻿namespace Web.Services
+﻿using DotNetCore.CAP;
+
+namespace Web.Services
 {
-    public class ResourceService
+    public class ResourceService:ICapSubscribe
     {
         //private DatabaseContext _db;
         //private static object _lock=new Object();
@@ -104,5 +106,11 @@
         //    #endregion
 
         //}
+
+        [CapSubscribe("ResourceService_service_event_test")]
+        public void EventBusReTest()
+        {
+
+        }
     }
 }

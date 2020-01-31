@@ -83,3 +83,10 @@ DTO:QueryModel,ViewModel?
 * service层应该不在web层里，而是applicationcore
 
 ### 多语言
+
+
+
+## 各技术细节
+### CAP
+* CAP的原始实现是对autofac的支持不是太好，本项目里编写SnailCapConsumerServiceSelector来做处理
+* CAP原生对Controller和非Controller的处理不一样，Controller只要在方法上加上CapSubscribe特性就行，而埋Controller要在类上实现ICapSubscribe接口，并在方法上加上CapSubscribe特性

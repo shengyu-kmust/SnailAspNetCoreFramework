@@ -1,9 +1,9 @@
-﻿using ApplicationCore.Entity;
+﻿using ApplicationCore.Abstracts;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
 using AutoMapper;
-using EasyCaching.InMemory;
+using DotNetCore.CAP.Internal;
 using Hangfire;
 using Hangfire.SqlServer;
 using Infrastructure;
@@ -21,12 +21,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using NSwag;
+using Savorboard.CAP.InMemoryMessageQueue;
 using Snail.Common;
+using Snail.Core;
 using Snail.Core.Interface;
 using System;
 using System.Linq;
@@ -58,9 +61,12 @@ namespace Web
 
         public IConfiguration Configuration { get; }
         public ILifetimeScope AutofacContainer { get; private set; }
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // ConfigureServices is where you register dependencies. This gets
-        // called by the runtime before the ConfigureContainer method, below.
+
+        /// <summary>
+        /// * 这个方法用于依赖注入，会由系统自动调用，并在ConfigureContainer方法前调用
+        /// * 约定，由于用了autofac，所有的依赖注入优先用autofac（即在ConfigureContainer里进行注册），这个方法里只注册非自己写的服务，如授权，MVC，signalr等，自己写的service类，统一用autofac注册
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             #region option配置
@@ -204,8 +210,6 @@ namespace Web
             services.AddSignalR();
             #endregion
 
-
-
             #region 前端界面配置
             // In production, the front end files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -229,30 +233,30 @@ namespace Web
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
             #endregion
 
-            #region 依赖注入
-            #region 注入swagger
-            services.AddOpenApiDocument(conf=> {
+            #region swagger
+            services.AddOpenApiDocument(conf => {
                 conf.Description = "change the description";
                 conf.DocumentName = "change the document name";
                 conf.GenerateExamples = true;
                 conf.Title = "change the title";
                 conf.PostProcess = document =>
-                 {
-                     document.SecurityDefinitions.Add(
-                           "Jwt认证",
-                           new OpenApiSecurityScheme
-                           {
-                               Type = OpenApiSecuritySchemeType.Http,
-                               Name = "Authorization",//token会放到header的authorization里
+                {
+                    document.SecurityDefinitions.Add(
+                          "Jwt认证",
+                          new OpenApiSecurityScheme
+                          {
+                              Type = OpenApiSecuritySchemeType.Http,
+                              Name = "Authorization",//token会放到header的authorization里
                                In = OpenApiSecurityApiKeyLocation.Header,
-                               Description = "请输入 : JWT token",
-                               Scheme = "bearer"//定义bearer，不能改
+                              Description = "请输入 : JWT token",
+                              Scheme = "bearer"//定义bearer，不能改
                            });
-                     document.Security.Add(new OpenApiSecurityRequirement { { "Jwt认证", new string[0] } });
+                    document.Security.Add(new OpenApiSecurityRequirement { { "Jwt认证", new string[0] } });
 
-                 };
+                };
             }); // add OpenAPI v3 document
             #endregion
+
             #region 注入easyCaching
             services.AddEasyCaching(option =>
             {
@@ -278,34 +282,25 @@ namespace Web
                 //    // when mutex key alive, it will sleep some time, default is 300
                 //    config.SleepMs = 300;
                 //}, "default");
-
             });
             #endregion
-            #region 注入mediatr
-            services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
 
+            #region mediatr
+            services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
             #endregion
-            #region asp.net core自带的依赖注入，在此用自带的注入写法，注入到serviceCollection里
+            #region 依赖注入，asp.net core自带的依赖注入，在此用自带的注入写法，注入到serviceCollection里
+
             services.AddScoped<ResourceService>();
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             #endregion
-
-            #region 注入整表缓存
-            //services.AddEntityCaching();
-            #endregion
             services.AddMemoryCache();
-
-
-
-
-            #endregion
 
             #region 定时任务
             services.AddHangfire(configuration => configuration
            .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
            .UseSimpleAssemblyNameTypeSerializer()
            .UseRecommendedSerializerSettings()
-           .UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection"), new SqlServerStorageOptions
+           .UseSqlServerStorage(Configuration.GetValue<string>("DbSetting:ConnectionString"), new SqlServerStorageOptions
            {
                //也可以换成mysql
                CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
@@ -329,32 +324,39 @@ namespace Web
             }
 
             services.AddHttpContextAccessor();//注册，IHttpContextAccessor，在任何地方可以通过此对象获取httpcontext，从而获取单前用户
-
-
+            
+            // automapper
             services.AddAutoMapper(typeof(Startup).Assembly);
+
+            #region 增加cap
+            services.TryAddSingleton<IConsumerServiceSelector, SnailCapConsumerServiceSelector>();//默认的ConsumerServiceSelector实现不支持和autofac的完美结合，需用microsoft di进行服务注册后再调用service.AddCap。但用autofac后，所有的服务注册是在autofac里，即在下面的ConfigureContainer里，为了让cap知道事件和事件的处理方法，重写IConsumerServiceSelector的实现，SnailCapConsumerServiceSelector
+            services.AddCap(option =>
+            {
+                option.UseInMemoryStorage();//用内存消息存储和队列 
+                option.UseInMemoryMessageQueue();
+                option.UseDashboard();//启用dashboard，默认路径为xxx/cap
+            });
+            #endregion
+
+
         }
 
-        // ConfigureContainer is where you can register things directly
-        // with Autofac. This runs after ConfigureServices so the things
-        // here will override registrations made in ConfigureServices.
-        // Don't build the container; that gets done for you by the factory.
+        /// <summary>
+        /// * 用autofac进行注册
+        /// * 此方法在ConfigureServices后被调用，并会覆盖之前已经注册的服务
+        /// * 此方法不要build contrainer，autofac会自动build
+        /// </summary>
+        /// <param name="builder"></param>
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            // Register your own things directly with Autofac, like:
-            //下面写autofac的组件注入
-            //用assembly scan的方式批量注入
-            var assembly = Assembly.GetExecutingAssembly();
-            //builder.RegisterAssemblyTypes(assembly).Where(a => a.Name.EndsWith("Service")).AsImplementedInterfaces().AsSelf().PropertiesAutowired().EnableInterfaceInterceptors();
-            //builder.RegisterAssemblyTypes(assembly).Where(a => a.Name.EndsWith("Interceptor"));// interceptor type registration
-
-            builder.RegisterType<AopService>().As<IAopService>().EnableInterfaceInterceptors();
-            builder.RegisterType<Aop2Service>().EnableClassInterceptors();
-            builder.RegisterType<LogInterceptor>();
-            builder.RegisterGeneric(typeof(DefaultCRUDService<,,>)).As(typeof(ICRUDService<,,>)).InstancePerLifetimeScope();
-
+            //下面写autofac的组件注入，推荐用module的方式注册，不要全写在这里。
+ 
             //BackgroundJob.Enqueue<HangfireService>(a => a.Init());//初始化创建所有定时任务// .net 3.1后不能这么用  // todo
             //GlobalConfiguration.Configuration.UseAutofacActivator(builder.Build());//参考 https://github.com/HangfireIO/Hangfire.Autofac
 
+
+            //注册所有的service
+            builder.RegisterAssemblyModules(typeof(IService).Assembly, typeof(AppDbContext).Assembly, typeof(Startup).Assembly);
         }
 
 

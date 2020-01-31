@@ -40,12 +40,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="4.5.0" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="BouncyCastle.NetCore" Version="1.8.5" />
     <PackageReference Include="Castle.Core.AsyncInterceptor" Version="1.7.0" />
+    <PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.0.1" />
+    <PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="3.0.1" />
     <PackageReference Include="EasyCaching.InMemory" Version="0.8.4" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.7.8" />
     <PackageReference Include="HangFire.Autofac" Version="2.3.1" />
@@ -64,10 +67,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.2.1" />
-    <PackageReference Include="Snail.Common" Version="1.0.1" />
-    <PackageReference Include="Snail.Core" Version="1.0.1" />
-    <PackageReference Include="Snail.DAL" Version="1.0.1" />
-    <PackageReference Include="Snail.FileStore" Version="1.0.1" />
+    <PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
   </ItemGroup>
@@ -84,9 +84,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AutoFacModule\" />
     <Folder Include="Domain\" />
     <Folder Include="Infrastructure\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Snail.Common">
+      <HintPath>..\..\Snail\Snail.Common\bin\Debug\netstandard2.0\Snail.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Snail.Core">
+      <HintPath>..\..\Snail\Snail.Core\bin\Debug\netstandard2.0\Snail.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Snail.DAL">
+      <HintPath>..\..\Snail\Snail.DAL\bin\Debug\netstandard2.0\Snail.DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="Snail.FileStore">
+      <HintPath>..\..\Snail\Snail.FileStore\bin\Debug\netstandard2.0\Snail.FileStore.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <!--SPA的配置，在每次编译前，确保node已经安装，相关的npm包也已经安装-->

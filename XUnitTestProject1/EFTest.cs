@@ -1,32 +1,19 @@
-using DinkToPdf;
+using Infrastructure;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using Xunit;
-using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace XUnitTestProject1
 {
-    
+
     public class EFTest
     {
         [Fact]
         public void Test()
         {
-            var options= new DbContextOptionsBuilder<MyDbContext>().UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Test;Trusted_Connection=True;").Options;
-            using (MyDbContext db=new MyDbContext(options))
-            {
-                var result=db.Students.ToList();
-                Expression<Func<Student, bool>> expression1 = a => a.Card.CardNo == "";
-                Expression<Func<Student, bool>> expression2 = a => a.Card.CardNo == "";
-                var body= Expression.AndAlso(expression1, expression2);
-                Expression.Lambda(body, Expression.Parameter(typeof(Student)));
-                //db.Students.Include(a=>a.BirthDay).OrderBy()
-                //db.Students.Where()
-            }
+           
         }
     }
 

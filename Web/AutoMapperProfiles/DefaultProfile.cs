@@ -9,6 +9,9 @@ using Web.DTO;
 using System.Linq;
 namespace Web.AutoMapperProfiles
 {
+    /// <summary>
+    /// 默认的automapper配置，只配置entity和dto的相互映射，其它的请用AutoMapAttribute设置
+    /// </summary>
     public class DefaultProfile : Profile
     {
         public DefaultProfile()

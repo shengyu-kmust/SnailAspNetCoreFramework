@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Snail.Core.Entity;
 using Snail.Core.Interface;
 using Snail.DAL;
-using System.Linq;
-using System.Collections.Concurrent;
 using System;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Concurrent;
+using System.Linq;
 
 namespace Infrastructure.Services
 {

@@ -7,19 +7,20 @@ using System.Threading.Tasks;
 
 namespace Web.Interceptor
 {
+    /// <summary>
+    /// 日志拦截器
+    /// </summary>
+    /// <remarks>
+    /// 只对同步方法进行拦截，异步的方法未做测试，nlog的name为Web.Interceptor.LogInterceptor
+    /// </remarks>
     public class LogInterceptor : IInterceptor
     {
-        //private ILogger _log;
 
         private readonly ILogger<LogInterceptor> _logger;
        
         public LogInterceptor(ILogger<LogInterceptor> logger)
         {
             _logger = logger;
-        }
-        public LogInterceptor()
-        {
-
         }
         public void Intercept(IInvocation invocation)
         {
@@ -40,7 +41,7 @@ namespace Web.Interceptor
                 return;
             }
 
-            _logger.LogInformation("方法{0}.{1}正在调用，输出结果为：{2}", invocation.TargetType.Name,invocation.Method.Name,invocation.ReturnValue);
+            _logger.LogInformation("方法{0}.{1}调用结束，输出结果为：{2}", invocation.TargetType.Name,invocation.Method.Name,invocation.ReturnValue);
         }
     }
 
