@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Web.DTO
+namespace ApplicationCore.Dtos
 {
     public interface IDto
     {

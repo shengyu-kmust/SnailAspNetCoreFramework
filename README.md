@@ -7,9 +7,9 @@ DTO:QueryModel,ViewModel?
 2、CQRS
 ## 项目整体结构设计
 采用DDD，但要根据项目的大小应用DDD的不同技术，总体是分如下几个项目
-* CommonAbstract：抽象接口层
-* Infrastructure层：数据访问层，依赖于上层的接口，为上层（如服务层及应用层）提供数据服务。同时实现IDAL的通用数据访问接口。
-* Application层：应用逻辑层，DDD模式，包含所有业务逻辑，不依赖于其它层
+* Service：服务层，用于实现ApplicationCore里的服务接口，为应用的逻辑实现的主层
+* Infrastructure层：基础层，此层在不同的项目里进行复用，依赖于ApplicationCore层的接口约定，为上层（如服务层及应用层）提供数据服务。同时实现IDAL的通用数据访问接口。
+* ApplicationCore层：应用逻辑层，DDD模式，包含所有业务逻辑，不依赖于其它层
 * Web层：负责接口参数的输入及输出的所有相关处理（如参数校验，输出格式预定等）、Application/DAL层的调用。
 ### 通用数据权限及验证
 ### WEB层

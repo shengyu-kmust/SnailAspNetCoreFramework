@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Web.DTO;
 using System.Linq;
+using ApplicationCore.Dtos;
+
 namespace Web.AutoMapperProfiles
 {
     /// <summary>

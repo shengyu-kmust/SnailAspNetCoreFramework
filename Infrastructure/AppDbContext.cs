@@ -4,13 +4,14 @@ using Autofac;
 using DotNetCore.CAP;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using Snail.Entity;
 using System;
 using System.Linq;
 using System.Reflection;
 
 namespace Infrastructure
 {
-    public partial class AppDbContext : DbContext
+    public partial class AppDbContext : PermissionDatabaseContext
     {
         private ICapPublisher _publisher;
         public AppDbContext(DbContextOptions<AppDbContext> options, ICapPublisher publisher)

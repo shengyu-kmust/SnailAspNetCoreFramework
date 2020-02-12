@@ -18,22 +18,15 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.0" />
     <PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.0.0" />
+    <PackageReference Include="Snail.Common" Version="1.0.1" />
+    <PackageReference Include="Snail.Core" Version="1.0.2" />
+    <PackageReference Include="Snail.DAL" Version="1.0.1" />
+    <PackageReference Include="Snail.FileStore" Version="1.0.1" />
+    <PackageReference Include="Snail.Permission" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Snail.Common">
-      <HintPath>..\..\Snail\Snail.Common\bin\Debug\netstandard2.0\Snail.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Snail.Core">
-      <HintPath>..\..\Snail\Snail.Core\bin\Debug\netstandard2.0\Snail.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Snail.DAL">
-      <HintPath>..\..\Snail\Snail.DAL\bin\Debug\netstandard2.0\Snail.DAL.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

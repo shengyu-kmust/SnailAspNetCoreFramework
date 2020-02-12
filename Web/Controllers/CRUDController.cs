@@ -22,7 +22,7 @@ namespace Web.Controllers
         where TSource : class
         where TSaveDto : IIdField<string>
         where TResult : class
-        where TQueryDto : IIdField<string>,IPagination,new()
+        where TQueryDto : IPagination,new()
     {
         private ICRUDService<TEntity, TSource,string> _CRUDService;
         public CRUDController(ICRUDService<TEntity, TSource, string> CRUDService)
@@ -30,7 +30,7 @@ namespace Web.Controllers
             _CRUDService = CRUDService;
         }
         [HttpPost]
-        public virtual TResult Save(TSaveDto saveDto) 
+        public virtual void Save(TSaveDto saveDto) 
         {
             TEntity entity;
             if (string.IsNullOrEmpty(saveDto.Id))
@@ -41,7 +41,6 @@ namespace Web.Controllers
             {
                 entity = _CRUDService.Update(saveDto);
             }
-            return _CRUDService.Query<TResult, TQueryDto>(new TQueryDto { Id = entity.Id }).FirstOrDefault();
         }
 
         [HttpGet]

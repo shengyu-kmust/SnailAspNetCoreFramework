@@ -1,4 +1,5 @@
-﻿using Snail.Core.Entity;
+﻿using ApplicationCore.Dtos;
+using Snail.Core.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
