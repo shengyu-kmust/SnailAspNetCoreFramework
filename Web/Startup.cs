@@ -69,6 +69,7 @@ namespace Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+
             #region option配置
             // 示例如下 
             //services.AddOptions<Student>("optionBuilderStudent").Configure(a =>
@@ -312,7 +313,7 @@ namespace Web
            }));
             services.AddHangfireServer();
 
-
+      
             #endregion
 
             //开发环境时，打开分析工具
@@ -449,7 +450,7 @@ namespace Web
             // hangfire前端界面的访问控制
             app.UseHangfireDashboard(options: new DashboardOptions
             {
-                Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
+                //Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
             });
            
 
@@ -490,6 +491,8 @@ namespace Web
                 //    spa.UseReactDevelopmentServer(npmScript: "start");
                 //}
             });
+            HangfireHelper.AddHangfire(new Assembly[] { typeof(Startup).Assembly });
+
         }
     }
 }

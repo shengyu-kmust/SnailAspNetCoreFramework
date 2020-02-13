@@ -4,7 +4,7 @@ using Autofac;
 using DotNetCore.CAP;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
-using Snail.Entity;
+using Snail.Permission.Entity;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -13,16 +13,35 @@ namespace Infrastructure
 {
     public partial class AppDbContext : PermissionDatabaseContext
     {
+        private static bool _hasUpdateDatabase = false;
         private ICapPublisher _publisher;
         public AppDbContext(DbContextOptions<AppDbContext> options, ICapPublisher publisher)
             : base(options)
         {
             _publisher = publisher;
+            ensureMigration();
         }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
           : base(options)
         {
+            ensureMigration();
+        }
+
+        private void ensureMigration()
+        {
+            if (!_hasUpdateDatabase)
+            {
+                //数据库的migration和hangfire的创表要运行两次程序后才能完成，todo 修复
+                _hasUpdateDatabase = true;
+                try
+                {
+                    Database.Migrate();
+                }
+                catch 
+                {
+                }
+            }
         }
 
         public virtual DbSet<SampleEntity> SampleEntity { get; set; }

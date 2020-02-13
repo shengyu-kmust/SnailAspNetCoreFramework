@@ -20,9 +20,6 @@ namespace Web.AutoFacModule
             //所有的非IService的注册，并启动用属性注册
             builder.RegisterAssemblyTypes(typeof(IService).Assembly, typeof(AppDbContext).Assembly, typeof(Startup).Assembly).Where(a => !typeof(IService).IsAssignableFrom(a)).AsSelf().AsImplementedInterfaces().PropertiesAutowired();
 
-            // 注册上下文， 移入到snail.core  todo
-            builder.RegisterType<HttpApplicationContext>().As<IApplicationContext>();
-
             //
             builder.RegisterGeneric(typeof(DefaultCRUDService<,,>)).As(typeof(ICRUDService<,,>)).InstancePerLifetimeScope();
 
