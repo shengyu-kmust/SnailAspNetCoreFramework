@@ -1,30 +1,65 @@
 ﻿using Hangfire;
+using Hangfire.Common;
+using Hangfire.States;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Web
 {
     public static class HangfireHelper
     {
+        // 参考了BackgroundJob和RecurringJob的源代码
+        private static readonly Lazy<RecurringJobManager> RecurringJobManagerInstance = new Lazy<RecurringJobManager>(
+          () => new RecurringJobManager(), LazyThreadSafetyMode.PublicationOnly);
+
+        private static readonly Lazy<IBackgroundJobClient> CachedClient
+          = new Lazy<IBackgroundJobClient>(() => new BackgroundJobClient(), LazyThreadSafetyMode.PublicationOnly);
+
+        private static readonly Func<IBackgroundJobClient> DefaultFactory
+            = () => CachedClient.Value;
+
+        private static Func<IBackgroundJobClient> _clientFactory;
+        private static readonly object ClientFactoryLock = new object();
+
+        internal static Func<IBackgroundJobClient> ClientFactory
+        {
+            get
+            {
+                lock (ClientFactoryLock)
+                {
+                    return _clientFactory ?? DefaultFactory;
+                }
+            }
+            set
+            {
+                lock (ClientFactoryLock)
+                {
+                    _clientFactory = value;
+                }
+            }
+        }
+
+
         public static void AddHangfire(Assembly[] assemblies)
         {
             assemblies.SelectMany(a => a.GetTypes()).SelectMany(a => a.GetMethods()).Where(a => a.IsDefined(typeof(BackgroundJobAttribute))).ToList().ForEach(methodInfo =>
             {
                 var attr = methodInfo.GetCustomAttribute<BackgroundJobAttribute>();
-                if (attr!=null)
+                if (attr != null)
                 {
-                    if (attr.JobType==EBackgroundJobType.Enqueue)
+                    if (attr.JobType == EBackgroundJobType.Enqueue)
                     {
                         AddEnqueueJob(methodInfo.DeclaringType, methodInfo);
                     }
                     else if (attr.JobType == EBackgroundJobType.Schedule)
                     {
-                        AddScheduleJob(methodInfo.DeclaringType, methodInfo,attr.DelayTimeSpan);
+                        AddScheduleJob(methodInfo.DeclaringType, methodInfo, attr.DelayTimeSpan);
                     }
                     else
                     {
@@ -39,30 +74,46 @@ namespace Web
 
         private static void AddEnqueueJob(Type classType, MethodInfo methodInfo)
         {
-            var invokeMethodInfo = typeof(BackgroundJob).GetMethods().FirstOrDefault(a => a.Name == "Enqueue" && a.IsGenericMethod && a.GetParameters().Length == 1 && a.GetParameters().Any(i => i.ToString().Contains("Action")));
-            var expression = BuildExpression(classType, methodInfo);
-            invokeMethodInfo.MakeGenericMethod(classType).Invoke(typeof(BackgroundJob), new object[] { expression });
+            //var invokeMethodInfo = typeof(BackgroundJob).GetMethods().FirstOrDefault(a => a.Name == "Enqueue" && a.IsGenericMethod && a.GetParameters().Length == 1 && a.GetParameters().Any(i => i.ToString().Contains("Action")));
+            //var expression = BuildExpression(classType, methodInfo);
+            //invokeMethodInfo.MakeGenericMethod(classType).Invoke(typeof(BackgroundJob), new object[] { expression });
+
+            ClientFactory().Create(CreateJob(classType, methodInfo), new EnqueuedState());
         }
 
-        private static void AddScheduleJob(Type classType, MethodInfo methodInfo,string delay)
+        private static Job CreateJob(Type classType, MethodInfo methodInfo)
         {
-            if(!TimeSpan.TryParse(delay,out TimeSpan timeSpan))
+            return new Job(classType, methodInfo);
+        }
+        private static void AddScheduleJob(Type classType, MethodInfo methodInfo, string delay)
+        {
+            if (!TimeSpan.TryParse(delay, out TimeSpan timeSpan))
             {
                 timeSpan = new TimeSpan(0, 0, 30);
             }
-            var invokeMethodInfo = typeof(BackgroundJob).GetMethods().FirstOrDefault(a => a.Name == "Schedule" && a.IsGenericMethod && a.GetParameters().Length == 2 && a.GetParameters().Any(i => i.ToString().Contains("Action") && a.GetParameters().Any(i => i.ToString().Contains("TimeSpan"))));
-            var expression = BuildExpression(classType, methodInfo);
-            invokeMethodInfo.MakeGenericMethod(classType).Invoke(typeof(BackgroundJob), new object[] { expression, timeSpan });
+            //var invokeMethodInfo = typeof(BackgroundJob).GetMethods().FirstOrDefault(a => a.Name == "Schedule" && a.IsGenericMethod && a.GetParameters().Length == 2 && a.GetParameters().Any(i => i.ToString().Contains("Action") && a.GetParameters().Any(i => i.ToString().Contains("TimeSpan"))));
+            //var expression = BuildExpression(classType, methodInfo);
+            //invokeMethodInfo.MakeGenericMethod(classType).Invoke(typeof(BackgroundJob), new object[] { expression, timeSpan });
+            ClientFactory().Create(CreateJob(classType, methodInfo), new ScheduledState(timeSpan));
         }
 
         private static void AddRecurringJob(Type classType, MethodInfo methodInfo, string cron)
         {
-            var invokeMethodInfo = typeof(RecurringJob).GetMethods().FirstOrDefault(a => a.Name == "AddOrUpdate" && a.IsGenericMethod && a.GetParameters().Length == 4 && a.GetParameters()[0].ToString().Contains("Action") && a.GetParameters()[1].ParameterType == typeof(string));
-            var expression = BuildExpression(classType, methodInfo);
-            invokeMethodInfo.MakeGenericMethod(classType).Invoke(typeof(RecurringJob), new object[] { expression, cron, TimeZoneInfo.Local,"default" });//default不能为null，如果为null，调用的方法就不是上面查询出来的方法了，原因不详
+            //var invokeMethodInfo = typeof(RecurringJob).GetMethods().FirstOrDefault(a => a.Name == "AddOrUpdate" && a.IsGenericMethod && a.GetParameters().Length == 4 && a.GetParameters()[0].ToString().Contains("Action") && a.GetParameters()[1].ParameterType == typeof(string));
+            //var expression = BuildExpression(classType, methodInfo);
+            //invokeMethodInfo.MakeGenericMethod(classType).Invoke(typeof(RecurringJob), new object[] { expression, cron, TimeZoneInfo.Local, "default" });//default不能为null，如果为null，调用的方法就不是上面查询出来的方法了，原因不详
+            var job = new Job(classType, methodInfo);
+            var id = GetRecurringJobId(job);
+            RecurringJobManagerInstance.Value.AddOrUpdate(id, job, cron, TimeZoneInfo.Local, EnqueuedState.DefaultQueue);
         }
 
-        private static LambdaExpression BuildExpression(Type classType,MethodInfo methodInfo)
+        private static string GetRecurringJobId(Job job)
+        {
+            return $"{job.Type.ToString()}.{job.Method.Name}";
+        }
+
+
+        private static LambdaExpression BuildExpression(Type classType, MethodInfo methodInfo)
         {
             var pa = Expression.Parameter(classType);
             var body = Expression.Call(pa, methodInfo);
