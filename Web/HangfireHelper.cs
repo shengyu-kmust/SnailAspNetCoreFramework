@@ -15,9 +15,12 @@ namespace Web
     public static class HangfireHelper
     {
         // 参考了BackgroundJob和RecurringJob的源代码
+
+        //RecurringJobManager用于管理循环执行的任务
         private static readonly Lazy<RecurringJobManager> RecurringJobManagerInstance = new Lazy<RecurringJobManager>(
           () => new RecurringJobManager(), LazyThreadSafetyMode.PublicationOnly);
 
+        // IBackgroundJobClient用于管理Enqueue和Schedule类型的job
         private static readonly Lazy<IBackgroundJobClient> CachedClient
           = new Lazy<IBackgroundJobClient>(() => new BackgroundJobClient(), LazyThreadSafetyMode.PublicationOnly);
 

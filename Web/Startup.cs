@@ -339,6 +339,9 @@ namespace Web
             });
             #endregion
 
+            services.AddApplicationLicensing(Configuration.GetSection("ApplicationlicensingOption"));
+
+
 
         }
 
@@ -452,7 +455,8 @@ namespace Web
             {
                 //Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
             });
-           
+            app.UseApplicationLicensing();
+
 
             #region 3.1模板 的mvc
             app.UseRouting();
