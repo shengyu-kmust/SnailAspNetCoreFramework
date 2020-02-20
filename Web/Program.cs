@@ -43,7 +43,7 @@ namespace Web
         /// <param name="args"></param>
         /// <returns></returns>
         /// <remarks>
-        /// * autofac对.net core 3.1的集成和2.2是有区别的，
+        /// * autofac对.net core 3.1的集成和2.2是有区别的，用本项目里的autofac配置方法，参考https://autofaccn.readthedocs.io/zh/latest/integration/aspnetcore.html#asp-net-core-3-0-and-generic-hosting
         /// 
         /// </remarks>
 
