@@ -330,7 +330,7 @@ namespace Web
             services.AddAutoMapper(typeof(Startup).Assembly);
 
             #region 增加cap
-            services.TryAddSingleton<IConsumerServiceSelector, SnailCapConsumerServiceSelector>();//默认的ConsumerServiceSelector实现不支持和autofac的完美结合，需用microsoft di进行服务注册后再调用service.AddCap。但用autofac后，所有的服务注册是在autofac里，即在下面的ConfigureContainer里，为了让cap知道事件和事件的处理方法，重写IConsumerServiceSelector的实现，SnailCapConsumerServiceSelector
+            services.TryAddSingleton<IConsumerServiceSelector, SnailCapConsumerServiceSelector>();//默认的ConsumerServiceSelector实现不支持和autofac的完美结合，默认的实现的用法，是需用microsoft di进行服务注册后再调用service.AddCap。但用autofac后，所有的服务注册是在autofac里，即在下面的ConfigureContainer里，为了让cap知道事件和事件的处理方法，重写IConsumerServiceSelector的实现，SnailCapConsumerServiceSelector
             services.AddCap(option =>
             {
                 option.UseInMemoryStorage();//用内存消息存储和队列 
@@ -456,7 +456,6 @@ namespace Web
                 //Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
             });
             app.UseApplicationLicensing();
-
 
             #region 3.1模板 的mvc
             app.UseRouting();

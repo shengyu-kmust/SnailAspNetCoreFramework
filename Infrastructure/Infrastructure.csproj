@@ -19,7 +19,7 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.0" />
     <PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.0.0" />
     <PackageReference Include="Snail.Common" Version="1.0.2" />
-    <PackageReference Include="Snail.Core" Version="1.0.2" />
+    <PackageReference Include="Snail.Core" Version="1.0.3" />
     <PackageReference Include="Snail.DAL" Version="1.0.1" />
     <PackageReference Include="Snail.FileStore" Version="1.0.2" />
     <PackageReference Include="Snail.Permission" Version="1.0.2" />
