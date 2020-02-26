@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
 namespace Web
 {
     public class ApplicationLicensingService : IApplicationLicensingService
@@ -90,8 +93,7 @@ namespace Web
             }
             else
             {
-                throw new MessageException($"出错");
-                //throw new MessageException($"应用授权失败，失败信息：{error}");
+                throw new BusinessException($"应用授权失败，失败信息：{error}");
             }
         }
     }

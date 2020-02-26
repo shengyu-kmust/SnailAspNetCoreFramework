@@ -48,7 +48,7 @@ namespace Web
         /// </remarks>
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+            Host.CreateDefaultBuilder(args).UseWindowsService()
             //// ASP.NET Core 3.0+:
             // The UseServiceProviderFactory call attaches the
             // Autofac provider to the generic hosting mechanism.
