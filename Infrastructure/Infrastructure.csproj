@@ -5,24 +5,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="Autofac" Version="5.1.2" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="DotNetCore.CAP" Version="3.0.1" />
+    <PackageReference Include="DotNetCore.CAP" Version="3.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
     <PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.0.0" />
-    <PackageReference Include="Snail.Common" Version="1.0.2" />
-    <PackageReference Include="Snail.Core" Version="1.0.3" />
-    <PackageReference Include="Snail.DAL" Version="1.0.1" />
-    <PackageReference Include="Snail.FileStore" Version="1.0.2" />
-    <PackageReference Include="Snail.Permission" Version="1.0.2" />
+    <PackageReference Include="Snail.Common" Version="1.0.9" />
+    <PackageReference Include="Snail.DAL" Version="1.0.9" />
+    <PackageReference Include="Snail.FileStore" Version="1.0.9" />
+    <PackageReference Include="Snail.Permission" Version="1.0.9" />
   </ItemGroup>
 
   <ItemGroup>

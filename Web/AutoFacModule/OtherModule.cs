@@ -2,6 +2,7 @@
 using Autofac;
 using Infrastructure;
 using Infrastructure.Services;
+using Service;
 using Snail.Core;
 using Snail.Core.Interface;
 using Web.Interceptor;
@@ -18,12 +19,7 @@ namespace Web.AutoFacModule
         protected override void Load(ContainerBuilder builder)
         {
             //所有的非IService的注册，并启动用属性注册
-            builder.RegisterAssemblyTypes(typeof(IService).Assembly, typeof(AppDbContext).Assembly, typeof(Startup).Assembly).Where(a => !typeof(IService).IsAssignableFrom(a)).AsSelf().AsImplementedInterfaces().PropertiesAutowired();
-
-            //
-            builder.RegisterGeneric(typeof(DefaultCRUDService<,,>)).As(typeof(ICRUDService<,,>)).InstancePerLifetimeScope();
-
-            builder.RegisterType<LogInterceptor>();//日志拦截器
+            builder.RegisterAssemblyTypes(typeof(IService).Assembly, typeof(AppDbContext).Assembly, typeof(Startup).Assembly, typeof(ServiceContext).Assembly).Where(a => !typeof(IService).IsAssignableFrom(a)).AsSelf().AsImplementedInterfaces().PropertiesAutowired();
 
         }
     }

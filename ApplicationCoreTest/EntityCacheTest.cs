@@ -1,12 +1,7 @@
-﻿using ApplicationCore;
-using ApplicationCore.Abstract;
-using AutoMapper;
-using DALTest;
-using DALTest.Entities;
+﻿using AutoMapper;
 using EasyCaching.Core;
-using EasyCaching.InMemory;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Snail.Core.Interface;
 using System.Linq;
 using Xunit;
 

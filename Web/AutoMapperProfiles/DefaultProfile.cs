@@ -18,16 +18,19 @@ namespace Web.AutoMapperProfiles
     {
         public DefaultProfile()
         {
-            //所有entity到dto的映射
-            var entities = typeof(BaseEntity).Assembly.GetTypes().Where(a => typeof(IBaseEntity).IsAssignableFrom(a));
-            var dtos = typeof(BaseDto).Assembly.GetTypes().Where(a => typeof(IDto).IsAssignableFrom(a));
-            entities.ToList().ForEach(entity =>
+            MapEntityAndDto();
+        }
+
+        private void MapEntityAndDto()
+        {
+            var allEntities = typeof(BaseEntity).Assembly.DefinedTypes.ToList().Where(a => a.GetInterfaces().Any(i => i == typeof(IEntityId<string>))).ToList();
+            var allDtos = typeof(IDto).Assembly.DefinedTypes.ToList().Where(a => a.GetInterfaces().Any(i => i == typeof(IDto))).ToList();
+            allEntities.ForEach(entity =>
             {
-                var mapDtos = dtos.Where(a => a.Name.StartsWith(entity.Name, StringComparison.OrdinalIgnoreCase));
-                mapDtos.ToList().ForEach(dto =>
+                allDtos.Where(a => a.Name.StartsWith(entity.Name)).ToList().ForEach(dto =>
                 {
-                    CreateMap(entity, dto).ReverseMap();
-                    CreateMap(dto,entity).ReverseMap();
+                    CreateMap(entity, dto);
+                    CreateMap(dto, entity);
                 });
             });
         }

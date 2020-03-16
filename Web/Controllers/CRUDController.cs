@@ -17,7 +17,7 @@ namespace Web.Controllers
     /// <typeparam name="TQueryDto"></typeparam>
     [ApiController]
     [Route("api/[Controller]/[Action]")]
-    public class CRUDController<TEntity,TSource,TResult,TSaveDto,TQueryDto>: ControllerBase 
+    public abstract class CRUDController<TEntity,TSource,TResult,TSaveDto,TQueryDto>: ControllerBase 
         where TEntity : class, IEntityId<string> 
         where TSource : class
         where TSaveDto : IIdField<string>

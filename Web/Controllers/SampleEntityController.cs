@@ -2,6 +2,7 @@
 using DotNetCore.CAP;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
+using Snail.Core.Default;
 using Snail.Core.Interface;
 using System;
 using System.Collections.Generic;

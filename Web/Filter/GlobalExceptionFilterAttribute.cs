@@ -4,19 +4,41 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
+using Snail.Core;
+using Snail.Core.Dto;
 
-namespace Web
+namespace Web.Filter
 {
-    public class GlobalExceptionFilterAttribute: ExceptionFilterAttribute
+    public class GlobalExceptionFilterAttribute : ExceptionFilterAttribute
     {
+        private ILogger _logger;
+        public GlobalExceptionFilterAttribute(ILogger<GlobalExceptionFilterAttribute> logger)
+        {
+            _logger = logger;
+        }
         public override void OnException(ExceptionContext context)
         {
+
             if (context.Exception is BusinessException businessException)
             {
                 // 业务类的异常，返回400状态，并返回异常内容。模型校验也会返回400状态和内容
-                context.Result=new BadRequestObjectResult(businessException.Message);
+                //context.Result = new BadRequestObjectResult(businessException.Message);
+                context.Result = new ObjectResult(ApiResultDto.BadRequestResult(businessException.Message));
+                if (_logger != null)
+                {
+                    _logger.LogWarning(businessException, "businessException");
+                }
             }
-            // 非业务类的异常，不做处理，由asp.net core 管道进行异常的统一处理，分开发环境和生产环境进行不同的处理
+            else
+            {
+                context.Result = new ObjectResult(ApiResultDto.ServerErrorResult("未知异常"));
+                if (_logger != null)
+                {
+                    _logger.LogError("exception:{exception} \n innerException:{innerException}", context.Exception?.ToString(), context.Exception?.InnerException?.ToString());
+                }
+            }
+
         }
     }
 }

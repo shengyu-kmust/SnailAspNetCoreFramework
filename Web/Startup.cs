@@ -1,19 +1,14 @@
-﻿using ApplicationCore.Abstracts;
+﻿using ApplicationCore.Entity;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Autofac.Extras.DynamicProxy;
 using AutoMapper;
+using DotNetCore.CAP;
 using DotNetCore.CAP.Internal;
 using Hangfire;
+using Hangfire.MySql;
 using Hangfire.SqlServer;
 using Infrastructure;
-using Infrastructure.Services;
 using MediatR;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -24,27 +19,23 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using NSwag;
 using Savorboard.CAP.InMemoryMessageQueue;
-using Snail.Common;
-using Snail.Core;
+using Service;
+using Snail.Core.Default;
+using Snail.Core.Dto;
 using Snail.Core.Interface;
+using Snail.Core.Permission;
+using Snail.Permission;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Reflection;
-using System.Security.Claims;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Web.Controllers.Example;
+using Web.Filter;
 using Web.Hubs;
-using Web.Interceptor;
-using Web.Security;
 using Web.Services;
 
 namespace Web
@@ -56,7 +47,7 @@ namespace Web
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
-            _environment =environment;
+            _environment = environment;
         }
 
         public IConfiguration Configuration { get; }
@@ -69,7 +60,10 @@ namespace Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-
+            var dbType = Configuration.GetSection("DbSetting")["DbType"];
+            var connectString = Configuration.GetSection("DbSetting")["ConnectionString"];
+            var hangfireConnectString = Configuration.GetSection("DbSetting")["Hangfire"];
+            
             #region option配置
             // 示例如下 
             //services.AddOptions<Student>("optionBuilderStudent").Configure(a =>
@@ -83,10 +77,19 @@ namespace Web
 
 
             #region 数据库配置
+            //services.AddDbContext<DbContext,AppDbContext>(optionsAction =>
+            //{
+            //    if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        optionsAction.UseMySql(connectString);
+            //    }
+            //    else
+            //    {
+            //        optionsAction.UseSqlServer(connectString);
+            //    }
+            //});
             services.AddDbContext<AppDbContext>(optionsAction =>
             {
-                var dbType = Configuration.GetSection("DbSetting")["DbType"];
-                var connectString = Configuration.GetSection("DbSetting")["ConnectionString"];
                 if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))
                 {
                     optionsAction.UseMySql(connectString);
@@ -94,106 +97,38 @@ namespace Web
                 else
                 {
                     optionsAction.UseSqlServer(connectString);
-
                 }
             });
             #endregion
 
-            #region 身份验证
+            #region 增加通用权限
+            // todo，改成调用AddPermissionCore
+            services.TryAddScoped<IPermissionStore, CustomPermissionStore>();
+            //services.AddPermissionCore(options => {
+            //    Configuration.GetSection("PermissionOptions").Bind(options);
+            //    options.ResourceAssemblies = new List<Assembly> { Assembly.GetExecutingAssembly() };
+            //});
+            services.AddPermission<AppDbContext, User, Role, UserRole, Resource, RoleResource>(options =>
+            {
+                Configuration.GetSection("PermissionOptions").Bind(options);
+                options.ResourceAssemblies = new List<Assembly> { Assembly.GetExecutingAssembly() };
+            });
 
-            var authenticationSetting = new AuthenticationSetting();
-            Configuration.Bind("authenticationSetting", authenticationSetting);
-            services.Configure<AuthenticationSetting>(Configuration.GetSection("AuthenticationSetting"));
-            //约定
-            //1、身份验证以支持Jwt和cookie两种为主，优先jwt再cookie验证，只用一种验证
-            //2、支持第三方openid connect登录，但第三方登录成功后，如果是web应用，则同时登录到cookie验证，如果是webapi应用，需在第三方登录成功后从系统获取jwt做后续的api调用
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(
-                    CookieAuthenticationDefaults.AuthenticationScheme, options =>
-                    {
-                        options.Cookie.Name = "auth";
-                        options.AccessDeniedPath = authenticationSetting.AccessDeniedPath;
-                        options.LoginPath = authenticationSetting.LoginPath;
-                        options.ExpireTimeSpan = authenticationSetting.ExpireTimeSpan!=default? authenticationSetting.ExpireTimeSpan:new TimeSpan(0,1,0);
-                        options.ForwardDefaultSelector = context =>
-                        {
-                            string authorization = context.Request.Headers["Authorization"];
-                            //身份验证的顺序为jwt、cookie
-                            if (authorization != null && authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
-                            {
-                                return JwtBearerDefaults.AuthenticationScheme;
-                            }
-                            else
-                            {
-                                return CookieAuthenticationDefaults.AuthenticationScheme;
-                            }
-                        };
-                    })
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-                {
-                    SecurityKey key;
-                    if (authenticationSetting.IsAsymmetric)
-                    {
-                        key = new RsaSecurityKey(RSAHelper.GetRSAParametersFromFromPublicPem(authenticationSetting.RsaPublicKey));
-                    }
-                    else
-                    {
-                        key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSetting.SymmetricSecurityKey));
-                    }
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-
-                        NameClaimType = ConstValues.UserId,
-                        RoleClaimType = ConstValues.RoleIds,
-                        ValidIssuer = ConstValues.Issuer,
-                        ValidAudience = ConstValues.Audience,
-                        IssuerSigningKey = key,
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                })
-                .AddOAuth("GitHub", "Github", o =>
-                {
-                    o.ClientId = "533b5323bfd679470724";
-                    o.ClientSecret = "b515a4754fd0597105191cee6003b691adbfa09d";
-                    o.CallbackPath = new PathString("/signin-github");
-                    o.AuthorizationEndpoint = "https://github.com/login/oauth/authorize";
-                    o.TokenEndpoint = "https://github.com/login/oauth/access_token";
-                    o.UserInformationEndpoint = "https://api.github.com/user";
-                    o.ClaimsIssuer = "OAuth2-Github";
-                    o.SaveTokens = true;
-                    // Retrieving user information is unique to each provider.
-                    o.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
-                    o.ClaimActions.MapJsonKey(ClaimTypes.Name, "login");
-                    o.ClaimActions.MapJsonKey("urn:github:name", "name");
-                    o.ClaimActions.MapJsonKey(ClaimTypes.Email, "email", ClaimValueTypes.Email);
-                    o.ClaimActions.MapJsonKey("urn:github:url", "url");
-                    o.Events = new OAuthEvents
-                    {
-                        OnRemoteFailure = HandleOnRemoteFailure,
-                        OnCreatingTicket = async context =>
-                        {
-                            // Get the GitHub user
-                            var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
-                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
-                            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                            var response = await context.Backchannel.SendAsync(request, context.HttpContext.RequestAborted);
-                            response.EnsureSuccessStatusCode();
-
-                            var user = JObject.Parse(await response.Content.ReadAsStringAsync());
-
-                            //context.RunClaimActions(user);
-                        }
-                    };
-                });
-            #endregion
+                #endregion
 
             #region MVC
             //3.1模板的mvc
-            services.AddControllers(options => {
-                options.Filters.Add(new GlobalExceptionFilterAttribute()); //MVC的异常处理，只会处理业务类异常，其它异常用管道拦截
-            }).ConfigureApiBehaviorOptions(options => {
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<GlobalExceptionFilterAttribute>();
+                options.Filters.Add<GlobalResultFilterAttribute>();
+                options.EnableEndpointRouting = false;
+            }).AddNewtonsoftJson(options =>
+            {
+                //.net core 3.0后，json用了system.text.json，但功能比较单一，可以换成用newtonsoftJson,参考  https://docs.microsoft.com/zh-cn/aspnet/core/web-api/advanced/formatting?view=aspnetcore-3.0
+                options.SerializerSettings.Converters.Add(new StringEnumConverter());//配置mvc的action返回格式化对enum类型的处理方式，将enum转成string返回
+            }).ConfigureApiBehaviorOptions(options =>
+            {
                 options.InvalidModelStateResponseFactory = actionContext =>
                 {
                     // 配置模型参数校验的返回结果，默认只要contoller上加上ApiController后，会以默认的400状态和错误结构返回，这里进行处理，统一返回BusinessException，并在ExceptionFilter这一层进行拦截处理
@@ -215,31 +150,18 @@ namespace Web
             // In production, the front end files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/build";
+                configuration.RootPath = "ClientApp/dist";
             });
             #endregion
 
-            #region 权限控制
-            //权限控制只要在配置IServiceCollection，不需要额外配置app管道
-            //权限控制参考：https://docs.microsoft.com/en-us/aspnet/core/security/authorization/policies?view=aspnetcore-2.2
-            //handler和requirement有几种关系：1 handler对多requirement(此时handler实现IAuthorizationHandler)；1对1（实现AuthorizationHandler<PermissionRequirement>），和多对1
-            //所有的handler都要注入到services，用services.AddSingleton<IAuthorizationHandler, xxxHandler>()，而哪个requirement用哪个handler，低层会自动匹配。最后将requirement对到policy里即可
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(ConstValues.PermissionPolicy, policy =>
-                {
-                    policy.Requirements.Add(new PermissionRequirement());
-                });
-            });
-            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
-            #endregion
 
             #region swagger
-            services.AddOpenApiDocument(conf => {
-                conf.Description = "change the description";
-                conf.DocumentName = "change the document name";
+            services.AddOpenApiDocument(conf =>
+            {
+                conf.Description = "后台接口文档des";
+                conf.DocumentName = "后台接口文档name";
                 conf.GenerateExamples = true;
-                conf.Title = "change the title";
+                conf.Title = "后台接口文档title";
                 conf.PostProcess = document =>
                 {
                     document.SecurityDefinitions.Add(
@@ -248,10 +170,10 @@ namespace Web
                           {
                               Type = OpenApiSecuritySchemeType.Http,
                               Name = "Authorization",//token会放到header的authorization里
-                               In = OpenApiSecurityApiKeyLocation.Header,
+                              In = OpenApiSecurityApiKeyLocation.Header,
                               Description = "请输入 : JWT token",
                               Scheme = "bearer"//定义bearer，不能改
-                           });
+                          });
                     document.Security.Add(new OpenApiSecurityRequirement { { "Jwt认证", new string[0] } });
 
                 };
@@ -289,33 +211,46 @@ namespace Web
             #region mediatr
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
             #endregion
-            #region 依赖注入，asp.net core自带的依赖注入，在此用自带的注入写法，注入到serviceCollection里
-
-            services.AddScoped<ResourceService>();
-            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
-            #endregion
-            services.AddMemoryCache();
+         
 
             #region 定时任务
-            services.AddHangfire(configuration => configuration
-           .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-           .UseSimpleAssemblyNameTypeSerializer()
-           .UseRecommendedSerializerSettings()
-           .UseSqlServerStorage(Configuration.GetValue<string>("DbSetting:ConnectionString"), new SqlServerStorageOptions
-           {
-               //也可以换成mysql
-               CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-               SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-               QueuePollInterval = TimeSpan.Zero,
-               UseRecommendedIsolationLevel = true,
-               UsePageLocksOnDequeue = true,
-               DisableGlobalLocks = true
-           }));
             services.AddHangfireServer();
-
-      
+            services.AddHangfire(configuration =>
+            {
+                configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings();
+                if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))
+                {
+                    configuration.UseStorage(new MySqlStorage(hangfireConnectString, new MySqlStorageOptions() { 
+                        TablesPrefix = "hangfire_" 
+                    }));
+                }
+                else
+                {
+                    configuration.UseSqlServerStorage(hangfireConnectString, new SqlServerStorageOptions
+                    {
+                        //也可以换成mysql
+                        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                        QueuePollInterval = TimeSpan.Zero,
+                        UseRecommendedIsolationLevel = true,
+                        UsePageLocksOnDequeue = true,
+                        DisableGlobalLocks = true
+                    });
+                }
+            });
             #endregion
 
+            #region 增加enum转keyValue功能
+            services.AddEnumKeyValueService(option =>
+            {
+                option.Assemblies = new List<Assembly> { typeof(BaseEntity).Assembly, typeof(AppDbContext).Assembly, typeof(ServiceContext).Assembly, typeof(Startup).Assembly };
+            });
+            #endregion
+
+            #region profiler
             //开发环境时，打开分析工具
             if (_environment.IsDevelopment())
             {
@@ -323,11 +258,9 @@ namespace Web
                 // 参考：https://miniprofiler.com/dotnet/HowTo/ProfileEFCore
                 services.AddMiniProfiler(options => { options.RouteBasePath = "/profiler"; }).AddEntityFramework();
             }
+            #endregion
 
-            services.AddHttpContextAccessor();//注册，IHttpContextAccessor，在任何地方可以通过此对象获取httpcontext，从而获取单前用户
-            
-            // automapper
-            services.AddAutoMapper(typeof(Startup).Assembly);
+
 
             #region 增加cap
             services.TryAddSingleton<IConsumerServiceSelector, SnailCapConsumerServiceSelector>();//默认的ConsumerServiceSelector实现不支持和autofac的完美结合，默认的实现的用法，是需用microsoft di进行服务注册后再调用service.AddCap。但用autofac后，所有的服务注册是在autofac里，即在下面的ConfigureContainer里，为了让cap知道事件和事件的处理方法，重写IConsumerServiceSelector的实现，SnailCapConsumerServiceSelector
@@ -339,8 +272,19 @@ namespace Web
             });
             #endregion
 
-            services.AddApplicationLicensing(Configuration.GetSection("ApplicationlicensingOption"));
 
+            #region 依赖注入，asp.net core自带的依赖注入，在此用自带的注入写法，注入到serviceCollection里
+
+            services.AddScoped<ResourceService>();
+            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+            services.AddMemoryCache();
+            services.TryAddScoped<IApplicationContext, ApplicationContext>();
+            services.TryAddScoped<IEntityCacheManager, EntityCacheManager>();
+            services.AddScoped<ICapSubscribe, EntityCacheManager>();//将EntityCacheManager注册为ICapSubscribe,使SnailCapConsumerServiceSelector能注册监听方法
+            services.AddHttpContextAccessor();//注册，IHttpContextAccessor，在任何地方可以通过此对象获取httpcontext，从而获取单前用户
+            services.AddAutoMapper(typeof(Startup).Assembly);// automapper
+            services.AddApplicationLicensing(Configuration.GetSection("ApplicationlicensingOption"));
+            #endregion
 
 
         }
@@ -353,39 +297,7 @@ namespace Web
         /// <param name="builder"></param>
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            //下面写autofac的组件注入，推荐用module的方式注册，不要全写在这里。
- 
-            //BackgroundJob.Enqueue<HangfireService>(a => a.Init());//初始化创建所有定时任务// .net 3.1后不能这么用  // todo
-            //GlobalConfiguration.Configuration.UseAutofacActivator(builder.Build());//参考 https://github.com/HangfireIO/Hangfire.Autofac
-
-
-            //注册所有的service
-            builder.RegisterAssemblyModules(typeof(IService).Assembly, typeof(AppDbContext).Assembly, typeof(Startup).Assembly);
-        }
-
-
-        private async Task HandleOnRemoteFailure(RemoteFailureContext context)
-        {
-            context.Response.StatusCode = 500;
-            context.Response.ContentType = "text/html";
-            await context.Response.WriteAsync("<html><body>");
-            await context.Response.WriteAsync("A remote failure has occurred: " + UrlEncoder.Default.Encode(context.Failure.Message) + "<br>");
-
-            if (context.Properties != null)
-            {
-                await context.Response.WriteAsync("Properties:<br>");
-                foreach (var pair in context.Properties.Items)
-                {
-                    await context.Response.WriteAsync($"-{ UrlEncoder.Default.Encode(pair.Key)}={ UrlEncoder.Default.Encode(pair.Value)}<br>");
-                }
-            }
-
-            await context.Response.WriteAsync("<a href=\"/\">Home</a>");
-            await context.Response.WriteAsync("</body></html>");
-
-            // context.Response.Redirect("/error?FailureMessage=" + UrlEncoder.Default.Encode(context.Failure.Message));
-
-            context.HandleResponse();
+            builder.RegisterAssemblyModules(typeof(Startup).Assembly);
         }
 
 
@@ -393,7 +305,7 @@ namespace Web
         // Configure is where you add middleware. This is called after
         // ConfigureContainer. You can use IApplicationBuilder.ApplicationServices
         // here if you need to resolve things from the container.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
 
             // If, for some reason, you need a reference to the built container, you
@@ -414,34 +326,43 @@ namespace Web
 
                     errorApp.Run(async context =>
                     {
+                        var loggerFactory = (ILoggerFactory)context.RequestServices.GetService(typeof(ILoggerFactory));
+                        var logger = loggerFactory.CreateLogger("UnKnowException");
                         var exceptionHandlerPathFeature =
                             context.Features.Get<IExceptionHandlerPathFeature>();
                         //业务异常
+                        ApiResultDto responseResultModel;
                         if (exceptionHandlerPathFeature?.Error is BusinessException businessException)
                         {
-                            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                            await context.Response.WriteAsync(businessException.Message);
+                            responseResultModel = ApiResultDto.BadRequestResult(businessException.Message);
+                            if (logger != null)// todo 这里Logger为null
+                            {
+                                logger.LogError(exceptionHandlerPathFeature?.Error?.ToString());
+                            }
                         }
                         else
                         {
-                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                            await context.Response.WriteAsync($"服务器异常，异常时间{DateTime.Now}");
+                            responseResultModel = ApiResultDto.BadRequestResult($"程序出错，出于安全考虑，出错信息未能返回，请联系IT进行处理，错误时间{DateTime.Now}");
+                            if (logger != null)// todo 这里Logger为null
+                            {
+                                logger.LogError(exceptionHandlerPathFeature?.Error?.ToString());
+                            }
                         }
+                        context.Response.ContentType = "application/json";
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(responseResultModel));
                     });
                 });
-                
+
 
                 //HTTP严格传输安全 让网站可以通知浏览器它不应该再使用HTTP加载该网站，而是自动转换该网站的所有的HTTP链接至更安全的HTTPS。它包含在HTTP的协议头 Strict-Transport-Security 中，在服务器返回资源时带上,换句话说，它告诉浏览器将URL协议从HTTP更改为HTTPS（会更安全），并要求浏览器对每个请求执行此操作。
                 //正式环境官方建议用UseHsts和UseHttpsRedirection，
                 // 如果反方代理服务器，如ngix已经有配置过http重定向https或是设置hsts，则不需要设置这两句
                 //参考: https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-3.1&tabs=visual-studio
                 app.UseHsts();
+                app.UseHttpsRedirection();//将所有的http重定向https
             }
 
-
-
-
-            app.UseHttpsRedirection();//将所有的http重定向https
 
             //静态文件
             app.UseStaticFiles();
@@ -451,7 +372,7 @@ namespace Web
             app.UseAuthentication();
 
             // hangfire前端界面的访问控制
-            app.UseHangfireDashboard(options: new DashboardOptions
+            app.UseHangfireDashboard(options: new Hangfire.DashboardOptions
             {
                 //Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
             });
@@ -462,7 +383,7 @@ namespace Web
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<TestHub>("/chat");
+                endpoints.MapHub<DefaultHub>("/defaultHub");
                 endpoints.MapControllers();
             });
 
@@ -487,15 +408,16 @@ namespace Web
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "ClientApp/dist";
                 //下面是vs模板对spa应用的默认配置，推荐关闭，改用 webpack-dev-server + api proxy 来提高开发速度
                 //if (env.IsDevelopment())
                 //{
                 //    spa.UseReactDevelopmentServer(npmScript: "start");
                 //}
             });
-            HangfireHelper.AddHangfire(new Assembly[] { typeof(Startup).Assembly });
-
+           
+            serviceProvider.GetService<AppDbContext>().Database.Migrate();//自动migrate，前提是程序集里有add-
+            BackgroundJob.Enqueue<RunWhenServerStartService>(a => a.Invoke());//启动完成后即执行
         }
     }
 }
