@@ -24,6 +24,7 @@ using Newtonsoft.Json.Converters;
 using NSwag;
 using Savorboard.CAP.InMemoryMessageQueue;
 using Service;
+using Snail.Core;
 using Snail.Core.Default;
 using Snail.Core.Dto;
 using Snail.Core.Interface;
@@ -63,7 +64,7 @@ namespace Web
             var dbType = Configuration.GetSection("DbSetting")["DbType"];
             var connectString = Configuration.GetSection("DbSetting")["ConnectionString"];
             var hangfireConnectString = Configuration.GetSection("DbSetting")["Hangfire"];
-            
+
             #region option配置
             // 示例如下 
             //services.AddOptions<Student>("optionBuilderStudent").Configure(a =>
@@ -77,7 +78,18 @@ namespace Web
 
 
             #region 数据库配置
-            //services.AddDbContext<DbContext,AppDbContext>(optionsAction =>
+            services.AddDbContext<DbContext, AppDbContext>(optionsAction =>
+             {
+                 if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))
+                 {
+                     optionsAction.UseMySql(connectString);
+                 }
+                 else
+                 {
+                     optionsAction.UseSqlServer(connectString);
+                 }
+             });
+            //services.AddDbContext<AppDbContext>(optionsAction =>
             //{
             //    if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))
             //    {
@@ -88,17 +100,6 @@ namespace Web
             //        optionsAction.UseSqlServer(connectString);
             //    }
             //});
-            services.AddDbContext<AppDbContext>(optionsAction =>
-            {
-                if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))
-                {
-                    optionsAction.UseMySql(connectString);
-                }
-                else
-                {
-                    optionsAction.UseSqlServer(connectString);
-                }
-            });
             #endregion
 
             #region 增加通用权限
