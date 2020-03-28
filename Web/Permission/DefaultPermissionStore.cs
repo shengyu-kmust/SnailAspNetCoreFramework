@@ -1,27 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ApplicationCore.Entity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Snail.Common;
+using Snail.Common.Extenssions;
 using Snail.Core.Interface;
 using Snail.Core.Permission;
-using Snail.Permission;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using ApplicationCore.Entity;
 
-namespace Infrastructure
+namespace Web.Permission
 {
-    public class CustomPermissionStore : BasePermissionStore<DbContext, User, Role, UserRole, Resource, RoleResource>, IPermissionStore
+    public class DefaultPermissionStore :BasePermissionStore<DbContext, User,Role,UserRole,Resource,RoleResource>, IPermissionStore
     {
         private string userCacheKey = $"DefaultPermissionStore_{nameof(userCacheKey)}", roleCacheKey = $"DefaultPermissionStore_{nameof(roleCacheKey)}", userRoleCacheKey = $"DefaultPermissionStore_{nameof(userRoleCacheKey)}", resourceCacheKey = $"DefaultPermissionStore_{nameof(resourceCacheKey)}", roleResourceCacheKey = $"DefaultPermissionStore_{nameof(roleResourceCacheKey)}";
 
-        public CustomPermissionStore(DbContext db, IMemoryCache memoryCache, IOptionsMonitor<PermissionOptions> permissionOptions, IApplicationContext applicationContext) : base(db, memoryCache, permissionOptions, applicationContext)
+        public DefaultPermissionStore(DbContext db, IMemoryCache memoryCache, IOptionsMonitor<PermissionOptions> permissionOptions, IApplicationContext applicationContext):base(db,memoryCache,permissionOptions,applicationContext)
         {
         }
-
+       
 
 
         /// <summary>
@@ -67,7 +65,7 @@ namespace Infrastructure
         {
             var roleEntity = entity as Role;
             var roleDto = dto as Role;
-            var userId = _applicationContext.GetCurrentUserId();
+            var userId= _applicationContext.GetCurrentUserId();
             var now = DateTime.Now;
             if (isAdd)
             {
@@ -131,7 +129,7 @@ namespace Infrastructure
             });
             resourceKeys.Where(a => !allRoleResources.Select(i => i.GetResourceKey()).Contains(a)).ToList().ForEach(resourceKey =>
             {
-                if (allResource.Any(a => a.Id == resourceKey))
+                if (allResource.Any(a=>a.Id==resourceKey))
                 {
                     _db.Add(new RoleResource
                     {
@@ -159,9 +157,9 @@ namespace Infrastructure
             {
                 _db.Remove(a);
             });
-            roleKeys.Where(a => !allUserRoles.Select(i => i.RoleId).Contains(a) && !string.IsNullOrEmpty(a)).ToList().ForEach(roleKey =>
+            roleKeys.Where(a => !allUserRoles.Select(i => i.RoleId).Contains(a) && a.HasValue()).ToList().ForEach(roleKey =>
             {
-                if (allRole.Any(a => a.Id == roleKey))
+                if (allRole.Any(a=>a.Id==roleKey))
                 {
                     _db.Add(new UserRole
                     {
@@ -175,12 +173,11 @@ namespace Infrastructure
                         UpdateTime = DateTime.Now
                     });
                 }
-
+               
             });
             _db.SaveChanges();
             _memoryCache.Remove(userRoleCacheKey);
         }
 
     }
-
 }

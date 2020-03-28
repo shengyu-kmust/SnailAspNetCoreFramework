@@ -1,12 +1,8 @@
 ﻿using ApplicationCore.Abstracts;
 using Autofac;
 using Infrastructure;
-using Infrastructure.Services;
 using Service;
-using Snail.Core;
-using Snail.Core.Interface;
-using Web.Interceptor;
-using Module=Autofac.Module;
+using Module = Autofac.Module;
 
 namespace Web.AutoFacModule
 {

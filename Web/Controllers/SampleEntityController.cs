@@ -1,45 +1,59 @@
-﻿using ApplicationCore.Entity;
-using DotNetCore.CAP;
-using Infrastructure.Services;
+﻿using ApplicationCore.Dtos;
+using ApplicationCore.Entity;
+using ApplicationCore.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Snail.Core.Default;
-using Snail.Core.Interface;
+using Snail.Common;
+using Snail.Common.Extenssions;
+using Snail.Core;
+using Snail.Core.Permission;
 using System;
 using System.Collections.Generic;
-using Web.DTO.Sample;
-using Web.Filter;
+using System.Linq;
+using Web.DTO;
 
 namespace Web.Controllers
 {
-    public class SampleEntityController : CRUDController<SampleEntity, SampleEntitySourceDto, SampleEntityResultDto, SampleEntitySaveDto, SampleEntityQueryDto>
+    [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
+    public class SampleEntityController : DefaultBaseController, ICrudController<SampleEntity, SampleEntitySaveDto, SampleEntityResultDto, SampleEntityQueryDto>
     {
-        private EntityCacheManager _entityCache;
-        private IServiceProvider _serviceProvider;
-        public SampleEntityController(ICRUDService<SampleEntity, SampleEntitySourceDto, string> CRUDService, EntityCacheManager entityCache, IServiceProvider serviceProvider) : base(CRUDService)
+        public ControllerContext controllerContext;
+        public ISampleEntityService sampleEntityService;
+        public SampleEntityController(ISampleEntityService sampleEntityService,ControllerContext controllerContext):base(controllerContext) {
+            this.controllerContext = controllerContext;
+            this.sampleEntityService = sampleEntityService;
+        } 
+        [HttpGet]
+        public List<SampleEntityResultDto> QueryList([FromQuery]SampleEntityQueryDto queryDto)
         {
-            _serviceProvider = serviceProvider;
-            _entityCache = entityCache;
+            var pred = ExpressionExtensions.True<SampleEntity>().AndIf(queryDto.Name.HasValue(), a => a.Name == queryDto.Name);
+            return controllerContext.mapper.ProjectTo<SampleEntityResultDto>(sampleEntityService.QueryList(pred)).ToList();
         }
 
         [HttpGet]
-        public List<SampleEntity> GetAllSampleEntityCache()
+        public IPageResult<SampleEntityResultDto> QueryPage([FromQuery]SampleEntityQueryDto queryDto)
         {
-            return _entityCache.Get<SampleEntity>();
+            var pred = ExpressionExtensions.True<SampleEntity>().AndIf(queryDto.Name.HasValue(), a => a.Name == queryDto.Name);
+            return controllerContext.mapper.ProjectTo<SampleEntityResultDto>(sampleEntityService.QueryList(pred)).ToPageList(queryDto);
         }
-        [CacheFilter(ExpireMinute = 1)]
-        public List<SampleEntity> GetAllSampleByActionFilter()
+        [HttpGet]
+        public SampleEntityResultDto Find(string id)
         {
-            return _entityCache.Get<SampleEntity>();
+            return controllerContext.mapper.Map<SampleEntityResultDto>(sampleEntityService.QueryList(a => a.Id == id).FirstOrDefault());
+        }
+        [HttpPost]
+        public void Remove(List<string> ids)
+        {
+            sampleEntityService.Remove(ids);
         }
 
-        [CacheFilter(ExpireMinute = 1)]
-        public List<SampleEntity> GetAllSampleByActionFilter2()
+        [HttpPost]
+        public void Save(SampleEntitySaveDto saveDto)
         {
-            return _entityCache.Get<SampleEntity>();
+            sampleEntityService.Save(saveDto);
+
         }
-        public void EventSub(string msg)
-        {
-            Console.WriteLine($"cap.event.test4:{msg}");
-        }
+
+
     }
 }

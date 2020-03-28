@@ -5,14 +5,16 @@ namespace Service
 {
     public class ServiceContext
     {
-        private AppDbContext _db;
-        private IEntityCacheManager _entityCacheManager;
-        private IMapper _mapper;
+        public AppDbContext db;
+        public IEntityCacheManager entityCacheManager;
+        public IMapper mapper;
+        public IApplicationContext applicationContext;
         public ServiceContext(AppDbContext db, IMapper mapper, IApplicationContext applicationContext, IEntityCacheManager entityCacheManager)
         {
-            _mapper = mapper;
-            _db = db;
-            _entityCacheManager = entityCacheManager;
+            this.mapper = mapper;
+            this.db = db;
+            this.entityCacheManager = entityCacheManager;
+            this.applicationContext = applicationContext;
         }
     }
 }

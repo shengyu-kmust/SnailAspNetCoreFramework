@@ -23,7 +23,6 @@
 
 
   <ItemGroup>
-    <Compile Remove="Controllers\PermissionController.cs" />
     <Compile Remove="Domain\PermissionModel.cs" />
     <Compile Remove="Domain\ResourceModel.cs" />
     <Compile Remove="Domain\UserModel.cs" />
@@ -64,6 +63,7 @@
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.2.5" />
     <PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.0.0" />
+    <PackageReference Include="Snail.Common" Version="1.0.9" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
   </ItemGroup>
@@ -82,6 +82,8 @@
 
   <ItemGroup>
     <Folder Include="Domain\" />
+    <Folder Include="DTO\Permission\" />
+    <Folder Include="Permission\" />
   </ItemGroup>
 
 

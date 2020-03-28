@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Web.DTO.Sample
+namespace Web.DTO
 {
     [AutoMap(typeof(SampleEntityQueryDto),ReverseMap =true)]
     public class SampleEntityResultDto : BaseAuditDto

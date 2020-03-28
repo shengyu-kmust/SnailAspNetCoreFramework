@@ -1,13 +1,11 @@
-﻿using ApplicationCore.Entity;
+﻿using ApplicationCore.Dtos;
+using ApplicationCore.Entity;
 using AutoMapper;
+using Service;
 using Snail.Core.Entity;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Web.DTO;
-using System.Linq;
-using ApplicationCore.Dtos;
+using System.Reflection;
 
 namespace Web.AutoMapperProfiles
 {
@@ -24,7 +22,8 @@ namespace Web.AutoMapperProfiles
         private void MapEntityAndDto()
         {
             var allEntities = typeof(BaseEntity).Assembly.DefinedTypes.ToList().Where(a => a.GetInterfaces().Any(i => i == typeof(IEntityId<string>))).ToList();
-            var allDtos = typeof(IDto).Assembly.DefinedTypes.ToList().Where(a => a.GetInterfaces().Any(i => i == typeof(IDto))).ToList();
+            var allDtos =new List<Assembly>() { typeof(IDto).Assembly,typeof(Startup).Assembly,typeof(ServiceContext).Assembly }.SelectMany(a=>a.DefinedTypes.ToList()).Where(a => a.GetInterfaces().Any(i => i == typeof(IDto))).ToList();
+            
             allEntities.ForEach(entity =>
             {
                 allDtos.Where(a => a.Name.StartsWith(entity.Name)).ToList().ForEach(dto =>

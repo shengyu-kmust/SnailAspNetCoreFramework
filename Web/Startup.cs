@@ -29,7 +29,6 @@ using Snail.Core.Default;
 using Snail.Core.Dto;
 using Snail.Core.Interface;
 using Snail.Core.Permission;
-using Snail.Permission;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +36,7 @@ using System.Net;
 using System.Reflection;
 using Web.Filter;
 using Web.Hubs;
-using Web.Services;
+using Web.Permission;
 
 namespace Web
 {
@@ -103,19 +102,11 @@ namespace Web
             #endregion
 
             #region 增加通用权限
-            // todo，改成调用AddPermissionCore
-            services.TryAddScoped<IPermissionStore, CustomPermissionStore>();
-            //services.AddPermissionCore(options => {
-            //    Configuration.GetSection("PermissionOptions").Bind(options);
-            //    options.ResourceAssemblies = new List<Assembly> { Assembly.GetExecutingAssembly() };
-            //});
-            services.AddPermission<AppDbContext, User, Role, UserRole, Resource, RoleResource>(options =>
-            {
+            services.AddPermission(options=> {
                 Configuration.GetSection("PermissionOptions").Bind(options);
                 options.ResourceAssemblies = new List<Assembly> { Assembly.GetExecutingAssembly() };
             });
-
-                #endregion
+            #endregion
 
             #region MVC
             //3.1模板的mvc
@@ -276,14 +267,14 @@ namespace Web
 
             #region 依赖注入，asp.net core自带的依赖注入，在此用自带的注入写法，注入到serviceCollection里
 
-            services.AddScoped<ResourceService>();
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             services.AddMemoryCache();
             services.TryAddScoped<IApplicationContext, ApplicationContext>();
             services.TryAddScoped<IEntityCacheManager, EntityCacheManager>();
             services.AddScoped<ICapSubscribe, EntityCacheManager>();//将EntityCacheManager注册为ICapSubscribe,使SnailCapConsumerServiceSelector能注册监听方法
             services.AddHttpContextAccessor();//注册，IHttpContextAccessor，在任何地方可以通过此对象获取httpcontext，从而获取单前用户
-            services.AddAutoMapper(typeof(Startup).Assembly);// automapper
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddApplicationLicensing(Configuration.GetSection("ApplicationlicensingOption"));
             #endregion
 
@@ -417,7 +408,8 @@ namespace Web
                 //}
             });
            
-            serviceProvider.GetService<AppDbContext>().Database.Migrate();//自动migrate，前提是程序集里有add-
+            //serviceProvider.GetService<AppDbContext>().Database.Migrate();//自动migrate，前提是程序集里有add-migration
+            serviceProvider.GetService<AppDbContext>().Database.EnsureCreated();//自动migrate，前提是程序集里有add-migration
             BackgroundJob.Enqueue<RunWhenServerStartService>(a => a.Invoke());//启动完成后即执行
         }
     }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Web.Controllers
 {
+    /// <summary>
+    /// 所有contoller继承此类
+    /// </summary>
     [ApiController]
     [Route("api/[Controller]/[Action]")]
     public class DefaultBaseController : ControllerBase

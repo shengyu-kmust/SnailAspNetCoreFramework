@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Enum;
+﻿using ApplicationCore.Dtos;
+using ApplicationCore.Enum;
 using Snail.Core.Entity;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Web.DTO.Sample
+namespace Web.DTO
 {
     public class SampleEntitySaveDto : BaseDto
     {

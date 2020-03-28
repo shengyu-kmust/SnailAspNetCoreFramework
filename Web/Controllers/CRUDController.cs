@@ -2,6 +2,7 @@
 using Snail.Core;
 using Snail.Core.Entity;
 using Snail.Core.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +17,7 @@ namespace Web.Controllers
     /// <typeparam name="TSaveDto"></typeparam>
     /// <typeparam name="TQueryDto"></typeparam>
     [ApiController]
-    [Route("api/[Controller]/[Action]")]
+    [Route("api/[Controller]/[Action]"),Obsolete("用icrudController")]
     public abstract class CRUDController<TEntity,TSource,TResult,TSaveDto,TQueryDto>: ControllerBase 
         where TEntity : class, IEntityId<string> 
         where TSource : class

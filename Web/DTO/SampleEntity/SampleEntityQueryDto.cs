@@ -1,11 +1,12 @@
-﻿using ApplicationCore.Enum;
+﻿using ApplicationCore.Dtos;
+using ApplicationCore.Enum;
 using Snail.Common;
 using Snail.Core;
 using Snail.Core.Interface;
 using System;
 using System.Linq.Expressions;
 
-namespace Web.DTO.Sample
+namespace Web.DTO
 {
     public class SampleEntityQueryDto : BaseDto, IPagination, IPredicateBuilder<SampleEntitySourceDto>
     {
