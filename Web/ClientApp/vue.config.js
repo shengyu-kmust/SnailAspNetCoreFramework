@@ -31,23 +31,41 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     port: port,
-    open: true,
+    open: false, // 是否自动打开浏览器
     overlay: {
       warnings: false,
       errors: true
     },
+
+    // 下面是开启mock server的方式
+    // proxy: {
+    //   // 下面这是将xxx-api开头的地址转到mock地址，xxx-api在.env.xxx的文件里有配置，如.env.development文件
+    //   // change xxx-api/login => mock/login
+    //   // detail: https://cli.vuejs.org/config/#devserver-proxy
+    //   [process.env.VUE_APP_BASE_API]: {
+    //     target: `http://127.0.0.1:${port}/mock`,
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       ['^' + process.env.VUE_APP_BASE_API]: ''
+    //     }
+    //   }
+    // },
+    // after: require('./mock/mock-server.js')
+
+    // 下面为开发时用后台数据接口的配置，即将所有http:xxx:yyy/dev-api代码为http://localhost:5000/
     proxy: {
-      // change xxx-api/login => mock/login
-      // detail: https://cli.vuejs.org/config/#devserver-proxy
-      [process.env.VUE_APP_BASE_API]: {
-        target: `http://127.0.0.1:${port}/mock`,
+      '/dev-api': {
+        target: `http://localhost:5000`,
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
+          '^/dev-api': ''
         }
+      },
+      '/queuehub': {
+        target: `http://localhost:5000`,
+        changeOrigin: true
       }
-    },
-    after: require('./mock/mock-server.js')
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

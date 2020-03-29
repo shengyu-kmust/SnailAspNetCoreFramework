@@ -247,6 +247,7 @@ namespace Web
             if (_environment.IsDevelopment())
             {
                 //访问示例：http://localhost:5000/profiler/results
+                //profiler/results-index为列表
                 // 参考：https://miniprofiler.com/dotnet/HowTo/ProfileEFCore
                 services.AddMiniProfiler(options => { options.RouteBasePath = "/profiler"; }).AddEntityFramework();
             }
