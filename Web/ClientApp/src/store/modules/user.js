@@ -5,6 +5,7 @@ import router, { resetRouter } from '@/router'
 const state = {
   token: getToken(),
   name: '',
+  userId: '',
   avatar: '',
   introduction: '',
   roles: []
@@ -25,6 +26,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_USER_ID: (state, userId) => {
+    state.userId = userId
   }
 }
 
@@ -33,7 +37,7 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ account: username.trim(), pwd: password, signIn: false }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token)
         setToken(data.token)
@@ -44,7 +48,6 @@ const actions = {
     })
   },
 
-  // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
@@ -54,18 +57,29 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, name, avatar, introduction } = data
-
+        var roles = data.roleNames
+        var introduction = 'introduction'
+        var avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
+        var name = data.userName
+        var userId = data.userKey
         // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
+        if (!data.roleNames || data.roleNames <= 0) {
           reject('getInfo: roles must be a non-null array!')
         }
-
+        debugger
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
-        resolve(data)
+        commit('SET_USER_ID', userId)
+        var returnData = {
+          roles,
+          name,
+          avatar,
+          introduction,
+          userId
+        }
+        resolve(returnData)
       }).catch(error => {
         reject(error)
       })

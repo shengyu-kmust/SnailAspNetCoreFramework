@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Web.DTO.Permission;
+using Web.Permission;
 
 namespace Web.Controllers
 {
@@ -19,10 +20,12 @@ namespace Web.Controllers
     {
         private IPermission _permission;
         private IPermissionStore _permissionStore;
-        public PermissionController(IPermission permission, IPermissionStore permissionStore, ControllerContext controllerContext):base(controllerContext)
+        private IToken _token;
+        public PermissionController(IPermission permission, IPermissionStore permissionStore, ControllerContext controllerContext, IToken token):base(controllerContext)
         {
             _permission = permission;
             _permissionStore = permissionStore;
+            _token = token;
         }
 
         #region 查询权限数据
@@ -82,6 +85,13 @@ namespace Web.Controllers
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
             }
             return result;
+        }
+
+        [HttpGet]
+        public Snail.Core.Permission.UserInfo GetUserInfo(string token)
+        {
+            var claims=_token.ResolveFromToken(token);
+            return _permission.GetUserInfo(new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme, PermissionConstant.userIdClaim, PermissionConstant.roleIdsClaim)));
         }
 
         /// <summary>
