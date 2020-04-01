@@ -43,7 +43,7 @@ fields:{
                 <el-option
                   v-for="keyValue in item.keyValues"
                   :key="keyValue[item.key || 'key']"
-                  :label="keyValue[item.key || 'value']"
+                  :label="keyValue[item.value || 'value']"
                   :value="keyValue[item.key || 'key']"
                 ></el-option>
               </el-select>
@@ -58,7 +58,7 @@ fields:{
                 <el-option
                   v-for="keyValue in item.keyValues"
                   :key="keyValue[item.key || 'key']"
-                  :label="keyValue[item.key || 'value']"
+                  :label="keyValue[item.value || 'value']"
                   :value="keyValue[item.key || 'key']"
                 ></el-option>
               </el-select>
