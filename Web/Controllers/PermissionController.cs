@@ -86,7 +86,7 @@ namespace Web.Controllers
             }
             return result;
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public Snail.Core.Permission.UserInfo GetUserInfo(string token)
         {

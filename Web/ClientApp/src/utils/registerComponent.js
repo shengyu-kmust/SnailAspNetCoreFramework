@@ -12,7 +12,6 @@ import SnailForm from '@/components/Form/SnailForm'
 import SnailSearchForm from '@/components/Form/SnailSearchForm'
 import SnailSimpleCrud from '@/components/Crud/SnailSimpleCrud'
 
-console.log('---------')
 Vue.component('SnailTable', SnailTable)
 Vue.component('SnailPageTable', SnailPageTable)
 Vue.component('SnailForm', SnailForm)

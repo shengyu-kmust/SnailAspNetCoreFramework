@@ -117,8 +117,6 @@ export default {
       }
     }
   },
-  computed() {
-  },
   methods: {
     saveOrEdit(row) {
       if (row.isEdit) {

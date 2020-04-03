@@ -81,8 +81,8 @@ export default {
       console.log(res.data)
       this.tableData = res.data
     })
-    this.columns.find(a => a.fieldName == 'select').keyValues = this.list
-    this.columns.find(a => a.fieldName == 'multiselect').keyValues = this.list
+    this.columns.find(a => a.fieldName === 'select').keyValues = this.list
+    this.columns.find(a => a.fieldName === 'multiselect').keyValues = this.list
     console.log('created')
   },
   methods: {

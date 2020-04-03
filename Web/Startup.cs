@@ -206,33 +206,33 @@ namespace Web
          
 
             #region 定时任务
-            services.AddHangfireServer();
-            services.AddHangfire(configuration =>
-            {
-                configuration
-                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-                .UseSimpleAssemblyNameTypeSerializer()
-                .UseRecommendedSerializerSettings();
-                if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))
-                {
-                    configuration.UseStorage(new MySqlStorage(hangfireConnectString, new MySqlStorageOptions() { 
-                        TablesPrefix = "hangfire_" 
-                    }));
-                }
-                else
-                {
-                    configuration.UseSqlServerStorage(hangfireConnectString, new SqlServerStorageOptions
-                    {
-                        //也可以换成mysql
-                        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-                        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-                        QueuePollInterval = TimeSpan.Zero,
-                        UseRecommendedIsolationLevel = true,
-                        UsePageLocksOnDequeue = true,
-                        DisableGlobalLocks = true
-                    });
-                }
-            });
+            //services.AddHangfireServer();
+            //services.AddHangfire(configuration =>
+            //{
+            //    configuration
+            //    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+            //    .UseSimpleAssemblyNameTypeSerializer()
+            //    .UseRecommendedSerializerSettings();
+            //    if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        configuration.UseStorage(new MySqlStorage(hangfireConnectString, new MySqlStorageOptions() { 
+            //            TablesPrefix = "hangfire_" 
+            //        }));
+            //    }
+            //    else
+            //    {
+            //        configuration.UseSqlServerStorage(hangfireConnectString, new SqlServerStorageOptions
+            //        {
+            //            //也可以换成mysql
+            //            CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+            //            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+            //            QueuePollInterval = TimeSpan.Zero,
+            //            UseRecommendedIsolationLevel = true,
+            //            UsePageLocksOnDequeue = true,
+            //            DisableGlobalLocks = true
+            //        });
+            //    }
+            //});
             #endregion
 
             #region 增加enum转keyValue功能
@@ -365,10 +365,10 @@ namespace Web
             app.UseAuthentication();
 
             // hangfire前端界面的访问控制
-            app.UseHangfireDashboard(options: new Hangfire.DashboardOptions
-            {
-                //Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
-            });
+            //app.UseHangfireDashboard(options: new Hangfire.DashboardOptions
+            //{
+            //    //Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
+            //});
             app.UseApplicationLicensing();
 
             #region 3.1模板 的mvc
@@ -408,10 +408,10 @@ namespace Web
                 //    spa.UseReactDevelopmentServer(npmScript: "start");
                 //}
             });
-           
-            //serviceProvider.GetService<AppDbContext>().Database.Migrate();//自动migrate，前提是程序集里有add-migration
-            serviceProvider.GetService<AppDbContext>().Database.EnsureCreated();//自动migrate，前提是程序集里有add-migration
-            BackgroundJob.Enqueue<RunWhenServerStartService>(a => a.Invoke());//启动完成后即执行
+
+            serviceProvider.GetService<AppDbContext>().Database.Migrate();//自动migrate，前提是程序集里有add-migration
+            //serviceProvider.GetService<AppDbContext>().Database.EnsureCreated();//自动migrate，前提是程序集里有add-migration
+            //BackgroundJob.Enqueue<RunWhenServerStartService>(a => a.Invoke());//启动完成后即执行
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Infrastructure
         public AppDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseMySql(@"Server =localhost; Port =3306; Database =sample; User Id = root; Password = root;");
+            optionsBuilder.UseMySql(@"Server =localhost; Port =3306; Database =AppDb; User Id = root; Password = root;");
             //optionsBuilder.UseSqlServer(@"Server =localhost\sqlexpress; Database =sample; User Id = sa; Password = test;");
             return new AppDbContext(optionsBuilder.Options);
         }

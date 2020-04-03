@@ -112,7 +112,7 @@ module.exports = {
     config
     // https://webpack.js.org/configuration/devtool/#development
       .when(process.env.NODE_ENV === 'development',
-        config => config.devtool('cheap-source-map')
+        config => config.devtool('eval-source-map')// 开发时用eval-source-map 可在chrome里看到原始代码,生产时用cheap-source-map
       )
 
     config
