@@ -8,7 +8,9 @@ const state = {
   userId: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roleNames: [],
+  roleKeys: [],
+  roles: []// 为角色的主键，可以是id或是名，本项目约定用id
 }
 
 const mutations = {
@@ -26,6 +28,12 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_ROLE_NAMES: (state, roleNames) => {
+    state.roleNames = roleNames
+  },
+  SET_ROLE_KEYS: (state, roleKeys) => {
+    state.roleKeys = roleKeys
   },
   SET_USER_ID: (state, userId) => {
     state.userId = userId
@@ -57,16 +65,20 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
-        var roles = data.roleNames
+        var roles = data.roleKeys
+        var roleNames = data.roleNames
+        var roleKeys = data.roleKeys
         var introduction = 'introduction'
         var avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
         var name = data.userName
         var userId = data.userKey
         // roles must be a non-empty array
         if (!data.roleNames || data.roleNames <= 0) {
-          reject('getInfo: roles must be a non-null array!')
+          reject('用户没有角色')
         }
         commit('SET_ROLES', roles)
+        commit('SET_ROLE_NAMES', roleNames)
+        commit('SET_ROLE_KEYS', roleKeys)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
@@ -76,7 +88,9 @@ const actions = {
           name,
           avatar,
           introduction,
-          userId
+          userId,
+          roleKeys,
+          roleNames
         }
         resolve(returnData)
       }).catch(error => {

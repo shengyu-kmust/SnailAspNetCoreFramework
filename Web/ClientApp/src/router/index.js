@@ -22,6 +22,7 @@ import Layout from '@/layout'
     icon: 'svg-name'             the icon show in the sidebar
     breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
     activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
+    resourceCode:''               用于做权限控制的前后台资源唯一code约定
   }
  */
 
@@ -93,7 +94,23 @@ export const constantRoutes = [
 ]
 
 export const asyncRoutes = [
-
+  {
+    path: '/permission',
+    component: Layout,
+    redirect: '/dashboard',
+    meta: { title: '含权限的页面', icon: 'dashboard' },
+    children: [{
+      path: 'permission1',
+      name: 'permission1',
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: '含权限的页面1', icon: 'dashboard' }
+    }, {
+      path: 'permission2',
+      name: 'permission2',
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: '含权限的页面2', icon: 'dashboard' }
+    }]
+  }
 ]
 const createRouter = () => new Router({
   // mode: 'history', // require service support

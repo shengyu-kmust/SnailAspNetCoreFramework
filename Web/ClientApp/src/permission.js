@@ -35,10 +35,11 @@ router.beforeEach(async(to, from, next) => {
         try {
           // get user info
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-          const { roles } = await store.dispatch('user/getInfo')
-
+          const { roles, roleNames } = await store.dispatch('user/getInfo')
+          const isAdmin = roleNames.includes('SuperAdmin')
           // generate accessible routes map based on roles
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          await store.dispatch('permission/getAllResourceRoles')// 向后台获取资源和角色对应关系
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles, isAdmin)
 
           // dynamically add accessible routes
           router.addRoutes(accessRoutes)
