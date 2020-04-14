@@ -77,17 +77,19 @@ namespace Web
 
 
             #region 数据库配置
-            services.AddDbContext<DbContext, AppDbContext>(optionsAction =>
-             {
-                 if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))
-                 {
-                     optionsAction.UseMySql(connectString);
-                 }
-                 else
-                 {
-                     optionsAction.UseSqlServer(connectString);
-                 }
-             });
+            Action<DbContextOptionsBuilder> optionsAction = options =>
+            {
+                if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))
+                {
+                    options.UseMySql(connectString);
+                }
+                else
+                {
+                    options.UseSqlServer(connectString);
+                }
+            };
+            services.AddDbContext<DbContext, AppDbContext>(optionsAction);
+            services.AddDbContext<AppDbContext>(optionsAction);
             //services.AddDbContext<AppDbContext>(optionsAction =>
             //{
             //    if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))

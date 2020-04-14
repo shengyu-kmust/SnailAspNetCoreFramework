@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Abstracts;
+﻿using ApplicationCore.IServices;
 using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Infrastructure;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Infrastructure;
 using Snail.Core.Interface;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,12 @@ namespace Web.Controllers
     {
         public IMapper mapper;
         public IApplicationContext applicationContext;
-        public ControllerContext(IMapper mapper,IApplicationContext applicationContext)
+        public AppDbContext db;
+        public ControllerContext(IMapper mapper,IApplicationContext applicationContext, AppDbContext db)
         {
             this.mapper = mapper;
             this.applicationContext = applicationContext;
+            this.db = db;
         }
     }
 }

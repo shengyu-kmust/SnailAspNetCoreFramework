@@ -1,10 +1,5 @@
-﻿using ApplicationCore.Enum;
-using AutoMapper;
-using Snail.Core.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using Snail.Core.Enum;
 
 namespace Web.DTO
 {

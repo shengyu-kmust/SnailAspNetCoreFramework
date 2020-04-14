@@ -10,6 +10,7 @@ using Snail.Core.Permission;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Web.DTO;
 using Web.DTO.Permission;
 using Web.Permission;
 
@@ -27,10 +28,12 @@ namespace Web.Controllers
             _permissionStore = permissionStore;
             _token = token;
         }
+        #region 特殊化的
+        #endregion
 
         #region 查询权限数据
         [HttpGet, Resource(Description = "查询所有用户")]
-        public List<PermissionUserInfo> GetAllUser()
+        public List<PermissionUserInfo> GetAllPermissionUserInfo()
         {
             return _permissionStore.GetAllUser().Select(a => new PermissionUserInfo
             {
@@ -138,7 +141,6 @@ namespace Web.Controllers
                 Name = user.Name,
                 Phone = user.Phone,
                 Pwd = user.Pwd,
-
             });
         }
         [HttpPost, Resource(Description = "删除用户")]

@@ -1,4 +1,5 @@
 ﻿using ApplicationCore;
+using ApplicationCore.Entities;
 using ApplicationCore.Entity;
 using Autofac;
 using DotNetCore.CAP;
@@ -23,6 +24,10 @@ namespace Infrastructure
         public DbSet<RoleResource> RoleResources { get; set; }
         public DbSet<ApplicationCore.Entity.Org> Orgs { get; set; }
         public DbSet<UserOrg> UserOrgs { get; set; }
+        #endregion
+        #region 公共表
+        public DbSet<Config> Configs { get; set; }
+
         #endregion
         public DbSet<SampleEntity> SampleEntities { get; set; }
         private ICapPublisher _publisher;

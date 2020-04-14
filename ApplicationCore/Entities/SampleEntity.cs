@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Enum;
+﻿using Snail.Core.Enum;
 
 namespace ApplicationCore.Entity
 {

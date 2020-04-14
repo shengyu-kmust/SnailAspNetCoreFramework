@@ -1,7 +1,7 @@
 ﻿using ApplicationCore.Dtos;
-using ApplicationCore.Enum;
 using Snail.Common;
 using Snail.Core;
+using Snail.Core.Enum;
 using Snail.Core.Interface;
 using System;
 using System.Linq.Expressions;
