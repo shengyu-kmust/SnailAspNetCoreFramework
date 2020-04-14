@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Snail.Common;
 using Snail.Common.Extenssions;
 using Snail.Core;
+using Snail.Core.Attributes;
 using Snail.Core.Permission;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Web.Controllers
 {
 
     [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
+    [Resource(Description = "配置管理")]
     public class ConfigController : DefaultBaseController, ICrudController<Config, ConfigSaveDto, ConfigResultDto, KeyQueryDto>
     {
         public ControllerContext controllerContext;
@@ -23,6 +25,7 @@ namespace Web.Controllers
             this.controllerContext = controllerContext;
             this._service = service;
         }
+        [Resource(Description = "查询列表")]
         [HttpGet]
         public List<ConfigResultDto> QueryList([FromQuery]KeyQueryDto queryDto)
         {
@@ -30,6 +33,7 @@ namespace Web.Controllers
             return controllerContext.mapper.ProjectTo<ConfigResultDto>(_service.QueryList(pred)).ToList();
         }
 
+        [Resource(Description = "查询树")]
         [HttpGet]
         public TreeNode<ConfigResultDto> QueryListTree([FromQuery]KeyQueryDto queryDto)
         {
@@ -38,6 +42,7 @@ namespace Web.Controllers
             return TreeNodeHelper.GetTree<ConfigResultDto>(list, a => a.Id, a => a.ParentId, "0");
         }
 
+        [Resource(Description = "查询分页")]
         [HttpGet]
         public IPageResult<ConfigResultDto> QueryPage([FromQuery]KeyQueryDto queryDto)
         {
@@ -45,17 +50,20 @@ namespace Web.Controllers
             return controllerContext.mapper.ProjectTo<ConfigResultDto>(_service.QueryList(pred)).ToPageList(queryDto);
         }
 
+        [Resource(Description = "查询单个")]
         [HttpGet]
         public ConfigResultDto Find(string id)
         {
             return controllerContext.mapper.Map<ConfigResultDto>(_service.QueryList(a => a.Id == id).FirstOrDefault());
         }
+        [Resource(Description = "删除")]
         [HttpPost]
         public void Remove(List<string> ids)
         {
             _service.Remove(ids);
         }
 
+        [Resource(Description = "保存")]
         [HttpPost]
         public void Save(ConfigSaveDto saveDto)
         {
