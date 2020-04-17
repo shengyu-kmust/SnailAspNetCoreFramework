@@ -17,14 +17,14 @@ export default [
     response: config => {
       console.log('-------')
       var pageSize = config.query.pageSize
-      var currentPage = config.query.currentPage
-      var items = list.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+      var pageIndex = config.query.pageIndex
+      var items = list.slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
       return {
         code: successCode,
         data: {
           items: items,
           total: 100,
-          currentPage: currentPage,
+          pageIndex: pageIndex,
           pageSize: pageSize
         }
       }

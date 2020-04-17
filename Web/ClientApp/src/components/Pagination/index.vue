@@ -2,7 +2,7 @@
   <div :class="{'hidden':hidden}" class="pagination-container">
     <el-pagination
       :background="background"
-      :current-page.sync="currentPage"
+      :current-page.sync="pageIndex"
       :page-size.sync="pageSize"
       :layout="layout"
       :page-sizes="pageSizes"
@@ -56,7 +56,7 @@ export default {
     }
   },
   computed: {
-    currentPage: {
+    pageIndex: {
       get() {
         return this.page
       },
@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     handleSizeChange(val) {
-      this.$emit('pagination', { page: this.currentPage, limit: val })
+      this.$emit('pagination', { page: this.pageIndex, limit: val })
       if (this.autoScroll) {
         scrollTo(0, 800)
       }

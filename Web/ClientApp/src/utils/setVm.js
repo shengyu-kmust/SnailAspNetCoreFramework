@@ -7,8 +7,10 @@ import dayjs from 'dayjs'
 import _ from 'lodash'
 import * as util from './index'
 import * as api from '@/api'
+import store from '@/store'
 import * as config from './config'
 export default (Vue) => {
+  Vue.prototype.$getKeyValue = code => store.dispatch('getKeyValue', code)
   Vue.prototype.$dayjs = dayjs
   Vue.prototype.$api = api
   Vue.prototype.$util = util

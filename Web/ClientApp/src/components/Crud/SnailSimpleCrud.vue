@@ -72,7 +72,7 @@ export default {
       submitApi: '',
       formData: {},
       visible: false,
-      pagination: { currentPage: 1, pageSize: 15, total: 0 },
+      pagination: { pageIndex: 1, pageSize: 15, total: 0 },
       loading: false
     }
   },
@@ -185,7 +185,7 @@ export default {
           this.$api[this.searchApi](queryData).then(res => {
             this.pagination.total = parseInt(res.data.total) || 0
             this.pagination.pageSize = parseInt(res.data.pageSize) || 15
-            this.pagination.currentPage = parseInt(res.data.currentPage) || 1
+            this.pagination.pageIndex = parseInt(res.data.pageIndex) || 1
             this.tableDatas = res.data.items
           }).finally(() => {
             this.loading = false

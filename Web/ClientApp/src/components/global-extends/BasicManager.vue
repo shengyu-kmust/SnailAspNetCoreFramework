@@ -36,8 +36,8 @@
         </el-table>
         <el-pagination
             @size-change="handleGridChange($event, 'pageSize')"
-            @current-change="handleGridChange($event, 'currentPage')"
-            :current-page="dataGridConf.currentPage"
+            @current-change="handleGridChange($event, 'pageIndex')"
+            :current-page="dataGridConf.pageIndex"
             :page-sizes="dataGridConf.pageSizeRule"
             :page-size="dataGridConf.pageSize"
             layout="total, sizes, prev, pager, next, jumper"

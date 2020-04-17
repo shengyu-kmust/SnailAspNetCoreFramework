@@ -116,7 +116,7 @@ export const DataGridBaseMixin = {
     Search(type) {
       this.currentRow = null
       if (type) {
-        this.dataGridConf.currentPage = 1
+        this.dataGridConf.pageIndex = 1
       }
       this.LoadGridData(this.dataGridConf, this.makeSearchPar())
     },
@@ -355,7 +355,7 @@ export const DataGridBaseMixin = {
       return (
         index +
                 1 +
-                (this.dataGridConf.currentPage - 1) * this.dataGridConf.pageSize
+                (this.dataGridConf.pageIndex - 1) * this.dataGridConf.pageSize
       )
     },
     // 双击修改

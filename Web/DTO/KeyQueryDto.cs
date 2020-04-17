@@ -9,10 +9,8 @@ namespace Web.DTO
     /// <summary>
     ///  todo:IPagenation默认实现
     /// </summary>
-    public class KeyQueryDto:IPagination
+    public class KeyQueryDto: PaginationQueryDto
     {
         public string KeyWord { get; set; }
-        public int PageSize { get;set;}
-        public int PageIndex { get;set;}
     }
 }

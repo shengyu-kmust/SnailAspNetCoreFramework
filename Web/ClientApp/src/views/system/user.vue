@@ -64,7 +64,7 @@ export default {
           label: '性别',
           type: 'select',
           span: 12,
-          keyValues: this.keyValues.genders,
+          keyValues: this.$getKeyValue('EGender'),
           formatter: this.selectFormatter
         }
       ]

@@ -32,7 +32,7 @@ export default {
       submitApi: '',
       formData: {},
       visible: false,
-      pagination: { currentPage: 1, pageSize: 15, total: 0 },
+      pagination: { pageIndex: 1, pageSize: 15, total: 0 },
       loading: false,
       keyValues: {
         genders: []

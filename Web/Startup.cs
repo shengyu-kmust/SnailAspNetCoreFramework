@@ -34,6 +34,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using Web.ConfigureServicesExtenssions;
 using Web.Filter;
 using Web.Hubs;
 using Web.Permission;
@@ -65,16 +66,8 @@ namespace Web
             var hangfireConnectString = Configuration.GetSection("DbSetting")["Hangfire"];
 
             #region option配置
-            // 示例如下 
-            //services.AddOptions<Student>("optionBuilderStudent").Configure(a =>
-            //{
-            //    a.Id = 100;
-            //    a.Name = "optionBuilderStudent name";
-            //});
-            //services.Configure<Student>("configBuilderStudent", a => { a.Name = "configBuilderStudent"; a.Id = 101; });
-            //services.Configure<Student>(Configuration.GetSection("studentData"));
+            services.ConfigAllOption(Configuration);
             #endregion
-
 
             #region 数据库配置
             Action<DbContextOptionsBuilder> optionsAction = options =>
@@ -90,21 +83,11 @@ namespace Web
             };
             services.AddDbContext<DbContext, AppDbContext>(optionsAction);
             services.AddDbContext<AppDbContext>(optionsAction);
-            //services.AddDbContext<AppDbContext>(optionsAction =>
-            //{
-            //    if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))
-            //    {
-            //        optionsAction.UseMySql(connectString);
-            //    }
-            //    else
-            //    {
-            //        optionsAction.UseSqlServer(connectString);
-            //    }
-            //});
             #endregion
 
             #region 增加通用权限
-            services.AddPermission(options=> {
+            services.AddPermission(options =>
+            {
                 Configuration.GetSection("PermissionOptions").Bind(options);
                 options.ResourceAssemblies = new List<Assembly> { Assembly.GetExecutingAssembly() };
             });
@@ -205,7 +188,7 @@ namespace Web
             #region mediatr
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
             #endregion
-         
+
 
             #region 定时任务
             //services.AddHangfireServer();
@@ -270,15 +253,7 @@ namespace Web
 
             #region 依赖注入，asp.net core自带的依赖注入，在此用自带的注入写法，注入到serviceCollection里
 
-            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
-            services.AddMemoryCache();
-            services.TryAddScoped<IApplicationContext, ApplicationContext>();
-            services.TryAddScoped<IEntityCacheManager, EntityCacheManager>();
-            services.AddScoped<ICapSubscribe, EntityCacheManager>();//将EntityCacheManager注册为ICapSubscribe,使SnailCapConsumerServiceSelector能注册监听方法
-            services.AddHttpContextAccessor();//注册，IHttpContextAccessor，在任何地方可以通过此对象获取httpcontext，从而获取单前用户
-            services.AddAutoMapper(typeof(Startup));
-
-            services.AddApplicationLicensing(Configuration.GetSection("ApplicationlicensingOption"));
+            services.AddAllServices(Configuration);
             #endregion
 
 
@@ -292,6 +267,7 @@ namespace Web
         /// <param name="builder"></param>
         public void ConfigureContainer(ContainerBuilder builder)
         {
+            // 所有的autofac注册通过module方式，请写在AutoFacModule里
             builder.RegisterAssemblyModules(typeof(Startup).Assembly);
         }
 
@@ -300,11 +276,9 @@ namespace Web
         // Configure is where you add middleware. This is called after
         // ConfigureContainer. You can use IApplicationBuilder.ApplicationServices
         // here if you need to resolve things from the container.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-            // If, for some reason, you need a reference to the built container, you
-            // can use the convenience extension method GetAutofacRoot.
+            // 获取autofac容器
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
 
 
@@ -410,9 +384,13 @@ namespace Web
                 //    spa.UseReactDevelopmentServer(npmScript: "start");
                 //}
             });
+            using (var scope = AutofacContainer.BeginLifetimeScope())
+            {
+                //下面两种方法用一种即可
+                scope.Resolve<AppDbContext>().Database.Migrate();//自动migrate，前提是程序集里有add-migration
+                //scope.Resolve<AppDbContext>().Database.EnsureCreated();//创建数据库
+            }
 
-            serviceProvider.GetService<AppDbContext>().Database.Migrate();//自动migrate，前提是程序集里有add-migration
-            //serviceProvider.GetService<AppDbContext>().Database.EnsureCreated();//自动migrate，前提是程序集里有add-migration
             //BackgroundJob.Enqueue<RunWhenServerStartService>(a => a.Invoke());//启动完成后即执行
         }
     }

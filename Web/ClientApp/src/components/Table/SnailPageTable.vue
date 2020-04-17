@@ -26,9 +26,9 @@
       :page-sizes="pageSizes"
       :layout="layout"
       @size-change="(pageSize)=>emitEventHandler('pagination-size-change',pageSize)"
-      @current-change="(currentPage )=>emitEventHandler('pagination-current-change',currentPage )"
-      @next-click="(currentPage)=>emitEventHandler('pagination-next-click',currentPage)"
-      @prev-click="(currentPage)=>emitEventHandler('pagination-prev-click',currentPage)"
+      @current-change="(pageIndex )=>emitEventHandler('pagination-current-change',pageIndex )"
+      @next-click="(pageIndex)=>emitEventHandler('pagination-next-click',pageIndex)"
+      @prev-click="(pageIndex)=>emitEventHandler('pagination-prev-click',pageIndex)"
     ></el-pagination>
   </div>
 </template>
@@ -43,7 +43,7 @@ export default {
       type: Object,
       default: () => {
         return {
-          currentPage: 1,
+          pageIndex: 1,
           pageSize: 15,
           total: 0
         }
@@ -61,7 +61,7 @@ export default {
   methods: {
     getPagination() {
       return {
-        currentPage: this.$refs.pagination.internalCurrentPage,
+        pageIndex: this.$refs.pagination.internalCurrentPage,
         pageSize: this.$refs.pagination.internalPageSize
       }
     }

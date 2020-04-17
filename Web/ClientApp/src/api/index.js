@@ -27,10 +27,14 @@ import request from '@/utils/request'
 // axios.post(url[, data[, config]])
 // axios.put(url[, data[, config]])
 // axios.patch(url[, data[, config]])
+
 export const getList = params => request.get('/api/crudSample/getList', { params })
 export const add = data => request.post('/api/crudSample/save', data)
 export const edit = data => request.post('/api/crudSample/save', data)
 export const remove = ids => request.delete('/api/crudSample/delete', { data: ids })
+
+// keyvalue
+export const getKeyValue = params => request.get('/api/keyValue/Get', { params })
 
 // 用户管理
 export const userQueryPage = params => request.get('/api/user/queryPage', { params })
