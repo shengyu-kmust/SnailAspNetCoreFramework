@@ -60,7 +60,7 @@ fields:{
             <el-color-picker v-if="field.type==='color'" v-model="editRow[field.name]" v-bind="field"></el-color-picker>
           </div>
           <div v-else>
-            <el-color-picker disabled='true' v-if="field.type==='color'" v-model="scope.row[field.name]" v-bind="field"></el-color-picker>
+            <el-color-picker :disabled='true' v-if="field.type==='color'" v-model="scope.row[field.name]" v-bind="field"></el-color-picker>
             <div v-else>
               {{formart(scope.row,field)}}
             </div>
