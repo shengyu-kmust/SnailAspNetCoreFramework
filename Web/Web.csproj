@@ -85,6 +85,7 @@
     <Folder Include="Domain\" />
     <Folder Include="DTO\Permission\" />
     <Folder Include="Permission\" />
+    <Folder Include="staticFile\" />
   </ItemGroup>
 
 

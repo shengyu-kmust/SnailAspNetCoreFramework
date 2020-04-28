@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Snail.Core;
 using Snail.FileStore;
 using System;
@@ -10,18 +12,30 @@ using System.Threading.Tasks;
 
 namespace Web.Controllers
 {
+    public class StaticFileUploadOption
+    {
+        public List<string> Extensions { get; set; } = new List<string>() { ".jpg", ".jpeg", ".png" };
+        public int Length { get; set; } = 2 * 1000 * 1000;
+        public bool ChangeFileName { get; set; } = true;
+        public string StaticFilePath { get; set; } = "staticFile";
+    }
+
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class FileController : ControllerBase
     {
+        public StaticFileUploadOption StaticFileOption { get; set; }
+        private IHostingEnvironment hostingEnvironment;
         /// <summary>
         /// 文件提供程序 
         /// </summary>
         public IFileProvider _fileProvider { get; set; }
 
-        public FileController(IFileProvider fileProvider)
+        public FileController(IFileProvider fileProvider, IOptionsMonitor<StaticFileUploadOption> optionsMonitor, IHostingEnvironment hostingEnvironment)
         {
             _fileProvider = fileProvider;
+            this.hostingEnvironment = hostingEnvironment;
+            StaticFileOption = optionsMonitor.CurrentValue;
         }
  
         /// <summary>
@@ -106,6 +120,39 @@ namespace Web.Controllers
             {
                 _fileProvider.GetFileStore().Delete(id);
             });
+        }
+
+
+        [HttpPost]
+        public object Upload(IFormFile formFile)
+        {
+            if (!StaticFileOption.Extensions.Contains(Path.GetExtension(formFile.FileName)))
+            {
+                throw new System.Exception("不支持此文件类型");
+            }
+            if (formFile.Length >= StaticFileOption.Length)
+            {
+                throw new System.Exception($"不能上传大于{StaticFileOption.Length / 1000 * 1000}M的图片");
+            }
+            var fileName = "";
+            if (StaticFileOption.ChangeFileName)
+            {
+                fileName = $"{DateTime.Now.ToString("yyyyMMddmmHHss")}{Path.GetExtension(formFile.FileName)}";
+            }
+            else
+            {
+                fileName = formFile.FileName;
+            }
+            var fileDirectoryPath = Path.Combine(hostingEnvironment.ContentRootPath, StaticFileOption.StaticFilePath);
+            if (!Directory.Exists(fileDirectoryPath))
+            {
+                Directory.CreateDirectory(fileDirectoryPath);
+            }
+            using (var fileStream = System.IO.File.Create(Path.Combine(fileDirectoryPath, fileName)))
+            {
+                formFile.CopyTo(fileStream);
+            }
+            return StaticFileOption.StaticFilePath + "/" + fileName;
         }
     }
 }

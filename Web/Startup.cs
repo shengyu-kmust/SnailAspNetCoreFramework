@@ -17,8 +17,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NSwag;
@@ -31,10 +33,12 @@ using Snail.Core.Interface;
 using Snail.Core.Permission;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using Web.ConfigureServicesExtenssions;
+using Web.Controllers;
 using Web.Filter;
 using Web.Hubs;
 using Web.Permission;
@@ -256,6 +260,11 @@ namespace Web
             services.AddAllServices(Configuration);
             #endregion
 
+            #region health check
+            //可以用：https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks
+            services.AddHealthChecks();
+            #endregion
+
 
         }
 
@@ -276,7 +285,7 @@ namespace Web
         // Configure is where you add middleware. This is called after
         // ConfigureContainer. You can use IApplicationBuilder.ApplicationServices
         // here if you need to resolve things from the container.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             // 获取autofac容器
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
@@ -332,11 +341,17 @@ namespace Web
                 app.UseHttpsRedirection();//将所有的http重定向https
             }
 
+            
 
             //静态文件
             app.UseStaticFiles();
             //spa前端静态文件
             app.UseSpaStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                RequestPath = "/" + serviceProvider.GetService<IOptions<StaticFileUploadOption>>().Value.StaticFilePath,
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, serviceProvider.GetService<IOptions<StaticFileUploadOption>>().Value.StaticFilePath))
+            });
 
             app.UseAuthentication();
 
@@ -352,6 +367,7 @@ namespace Web
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health");
                 endpoints.MapHub<DefaultHub>("/defaultHub");
                 endpoints.MapControllers();
             });
