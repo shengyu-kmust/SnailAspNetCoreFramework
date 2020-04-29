@@ -18,8 +18,7 @@ namespace Web.Controllers
     [Resource(Description = "配置管理")]
     public class ConfigController : DefaultBaseController, ICrudController<Config, ConfigSaveDto, ConfigResultDto, KeyQueryDto>
     {
-        public ControllerContext controllerContext;
-        public IConfigService _service;
+        private IConfigService _service;
         public ConfigController(IConfigService service, ControllerContext controllerContext) : base(controllerContext)
         {
             this.controllerContext = controllerContext;

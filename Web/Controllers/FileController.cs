@@ -25,13 +25,13 @@ namespace Web.Controllers
     public class FileController : ControllerBase
     {
         public StaticFileUploadOption StaticFileOption { get; set; }
-        private IHostingEnvironment hostingEnvironment;
+        private IWebHostEnvironment hostingEnvironment;
         /// <summary>
         /// 文件提供程序 
         /// </summary>
         public IFileProvider _fileProvider { get; set; }
 
-        public FileController(IFileProvider fileProvider, IOptionsMonitor<StaticFileUploadOption> optionsMonitor, IHostingEnvironment hostingEnvironment)
+        public FileController(IFileProvider fileProvider, IOptionsMonitor<StaticFileUploadOption> optionsMonitor, IWebHostEnvironment hostingEnvironment)
         {
             _fileProvider = fileProvider;
             this.hostingEnvironment = hostingEnvironment;

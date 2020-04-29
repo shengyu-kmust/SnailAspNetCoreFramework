@@ -15,8 +15,7 @@ namespace Web.Controllers
     [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
     public class RoleController : DefaultBaseController, ICrudController<Role, RoleSaveDto, RoleResultDto, KeyQueryDto>
     {
-        public ControllerContext controllerContext;
-        public IRoleService _service;
+        private IRoleService _service;
         private IPermissionStore _permissionStore;
         private IPermission _permission;
         public RoleController(IRoleService service, ControllerContext controllerContext,IPermissionStore permissionStore, IPermission permission) : base(controllerContext)

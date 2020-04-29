@@ -15,8 +15,7 @@ namespace Web.Controllers
     [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
     public class SampleEntityController : DefaultBaseController, ICrudController<SampleEntity, SampleEntitySaveDto, SampleEntityResultDto, SampleEntityQueryDto>
     {
-        public ControllerContext controllerContext;
-        public ISampleEntityService sampleEntityService;
+        private ISampleEntityService sampleEntityService;
         public SampleEntityController(ISampleEntityService sampleEntityService,ControllerContext controllerContext):base(controllerContext) {
             this.controllerContext = controllerContext;
             this.sampleEntityService = sampleEntityService;

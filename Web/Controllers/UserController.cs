@@ -15,8 +15,7 @@ namespace Web.Controllers
     [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
     public class UserController : DefaultBaseController, ICrudController<User, UserSaveDto, UserResultDto, KeyQueryDto>
     {
-        public ControllerContext controllerContext;
-        public IUserService _service;
+        private IUserService _service;
         private IPermissionStore _permissionStore;
         private IPermission _permission;
         public UserController(IUserService service, ControllerContext controllerContext,IPermissionStore permissionStore, IPermission permission) : base(controllerContext)

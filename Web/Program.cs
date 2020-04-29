@@ -71,11 +71,15 @@ namespace Web
                 //config.AddEFConfiguration(
                 //    options => options.UseInMemoryDatabase("InMemoryDb"));
                 //config.AddCommandLine(args);
-            }).ConfigureLogging(logging =>
+            }).ConfigureLogging((hostBuilderContext,logging) =>
                 {
                     logging.ClearProviders();
-                    logging.AddConsole();
+                    if (hostBuilderContext.HostingEnvironment.EnvironmentName.Contains("develop",StringComparison.OrdinalIgnoreCase))
+                    {
+                        //分环境不同来配置log
+                    }
                     logging.AddDebug();
+                    logging.AddConsole();
                     logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
                 })
         .UseNLog();  // NLog: setup NLog for Dependency injection;
