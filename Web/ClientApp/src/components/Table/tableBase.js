@@ -1,6 +1,5 @@
 /**
- * 定义通用表格管理混入对象 BY JCY 2018-7-12
- * v0.1
+ * 定义通用表格管理混入对象
  */
 export const TableBaseMixin = {
   props: {
@@ -32,7 +31,7 @@ export const TableBaseMixin = {
       componentSize: config.componentSize(),
       tableRefName: 'table',
       currentRow: {}, // 当前选择行，对于单选
-      selection: [] // 当前选择行，对于多选
+      selection: [], // 当前选择行，对于多选
     }
   },
   mounted() {

@@ -12,7 +12,12 @@
       <template slot="header">序号</template>
     </el-table-column>
     <template v-for="(field,index) in fields">
-      <el-table-column :key="index" :prop="field.name" :label="field.label" v-bind="field" />
+      <el-table-column :key="index" :prop="field.name" :label="field.label" v-bind="field">
+        <!-- 如果field的slotName字段有值，则用外部传入的slot来替换column里的template，否则用默认的 -->
+        <template v-if="field.slotName" slot-scope="scope">
+          <slot :name="field.slotName" :row="scope.row"></slot>
+        </template>
+      </el-table-column>
     </template>
   </el-table>
 </template>
