@@ -70,7 +70,7 @@ namespace Infrastructure
             //统一在数据库上下文的操作前，触发缓存实体的数据清空。
             if (_publisher != null)
             {
-                this.ChangeTracker.Entries().Where(a => Attribute.IsDefined(a.Entity.GetType(), typeof(EnableEntityCacheAttribute))).Select(a => a.Entity.GetType().Name).Distinct().ToList().ForEach(entityName =>
+                this.ChangeTracker.Entries().Where(a =>(a.State == EntityState.Added || a.State == EntityState.Modified || a.State == EntityState.Deleted) && Attribute.IsDefined(a.Entity.GetType(), typeof(EnableEntityCacheAttribute))).Select(a => a.Entity.GetType().Name).Distinct().ToList().ForEach(entityName =>
                 {
                     _publisher.Publish(EntityCacheManager.EntityCacheEventName, new EntityChangeEvent { EntityName = entityName });
                 });

@@ -1,7 +1,7 @@
 /**
 fields:{
   name:'',
-  type:'',//支持：string,int,datetime,date,select,multiSelect
+  type:'',//支持：string,int,datetime,date,select,multiSelect,time
   label:'',
   keyValues:[],//
 }
@@ -33,6 +33,14 @@ fields:{
                 type="date"
                 v-bind="item"
               />
+               <!-- 时间 -->
+              <el-time-picker
+                v-if="item.type==='time'"
+                v-model="formData[item.name]"
+                style="width:100%"
+                v-bind="item"
+              >
+              </el-time-picker>
               <!-- 单选 -->
               <el-select
                 v-if="item.type==='select'"
