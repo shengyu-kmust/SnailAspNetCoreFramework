@@ -1,6 +1,7 @@
 <template>
   <el-table
     ref="table"
+    border
     :data="rows"
     :highlight-current-row="highlightCurrentRow"
     @current-change="(currentRow)=>emitEventHandler('current-change',currentRow)"
@@ -25,10 +26,10 @@
 </template>
 
 <script>
-import { TableBaseMixin } from './tableBase.js'
+import {TableBaseMixin} from './tableBase.js';
 export default {
-  name: 'SnailTable',
-  mixins: [TableBaseMixin]
+    name: 'SnailTable',
+    mixins: [TableBaseMixin]
 
-}
+};
 </script>

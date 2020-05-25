@@ -79,100 +79,100 @@ fields:{
 </template>
 
 <script>
-  import { keyValueFormart } from '@/utils';
+  import {keyValueFormart} from '@/utils';
 
   export default {
-    name: 'SnailEditTable',
-    props: {
-      fields: {
-        // table的所有字段
-        type: Array,
-        default: () => []
-      },
-      rows: {
-        // table的所有初始数据
-        type: Array,
-        default: () => []
-      },
-      saveHandler: {
-        // 保存方法，默认不调用后台接口，请输入此函数以保存数据到后台
-        type: Function,
-        default: (row) => { return true; }
-      },
-      removeHandler: {
-        // 保存方法，默认不调用后台接口，请输入此函数以从后台删除数据
-        type: Function,
-        default: (row) => { return true; }
-      },
-      enableEdit: {
-        type: Boolean,
-        default: true
-      }
-    },
-    data() {
-      return {
-        editRow: {
-
-        },
-      };
-    },
-    computed() {
-    },
-    methods: {
-      saveOrEdit(row) {
-        if (row.isEdit) {
-          var saveResult = this.saveHandler(row);
-          if (saveResult) {
-            if (typeof (saveResult) === 'object') {
-              Object.assign(row, saveResult);
-              row.isEdit = false;
-            } else if (saveResult === true) {
-              Object.assign(row, this.editRow);
-              row.isEdit = false;
-            }
+      name: 'SnailEditTable',
+      props: {
+          fields: {
+              // table的所有字段
+              type: Array,
+              default: () => []
+          },
+          rows: {
+              // table的所有初始数据
+              type: Array,
+              default: () => []
+          },
+          saveHandler: {
+              // 保存方法，默认不调用后台接口，请输入此函数以保存数据到后台
+              type: Function,
+              default: (row) => { return true; }
+          },
+          removeHandler: {
+              // 保存方法，默认不调用后台接口，请输入此函数以从后台删除数据
+              type: Function,
+              default: (row) => { return true; }
+          },
+          enableEdit: {
+              type: Boolean,
+              default: true
           }
-        } else {
-          if (this.rows.filter(a => a.isEdit).length >= 1) {
-            return;
+      },
+      data() {
+          return {
+              editRow: {
+
+              },
+          };
+      },
+      computed: {
+      },
+      methods: {
+          saveOrEdit(row) {
+              if (row.isEdit) {
+                  var saveResult = this.saveHandler(row);
+                  if (saveResult) {
+                      if (typeof (saveResult) === 'object') {
+                          Object.assign(row, saveResult);
+                          row.isEdit = false;
+                      } else if (saveResult === true) {
+                          Object.assign(row, this.editRow);
+                          row.isEdit = false;
+                      }
+                  }
+              } else {
+                  if (this.rows.filter(a => a.isEdit).length >= 1) {
+                      return;
+                  }
+                  this.editRow = Object.assign({}, row);
+                  row.isEdit = true;
+              }
+          },
+          removeOrCancel(row) {
+              if (row.isEdit) {
+                  row.isEdit = false;
+              } else if (this.removeHandler(row)) {
+                  var index = this.rows.indexOf(row);
+                  this.rows.splice(index, 1);
+              }
+          },
+          add() {
+              if (this.rows.filter(a => a.isEdit).length >= 1) {
+                  return;
+              }
+              this.rows.push({isEdit: true});
+              this.editRow = {isEdit: true};
+          },
+          getRows() {
+              return this.rows;
+          },
+          formart(row, field) {
+              // debugger;
+              if (field.formatter && typeof (field.formatter) === 'function') {
+                  return field.formatter(row, field);
+              } else if (field.type === 'select' || field.type === 'multiSelect') {
+                  return keyValueFormart(field.keyValues, row[field.name]);
+              } else if (field.type === 'date' && (row[field.name] instanceof Date)) {
+                  return row[field.name].toISOString().substr(0, 10);
+              } else if (field.type === 'datetime' && (row[field.name] instanceof Date)) {
+                  return row[field.name].toISOString().substr(0, 19).replace('T', ' ');
+              }
+              return row[field.name];
           }
-          this.editRow = Object.assign({}, row);
-          row.isEdit = true;
-        }
-      },
-      removeOrCancel(row) {
-        if (row.isEdit) {
-          row.isEdit = false;
-        } else if (this.removeHandler(row)) {
-          var index = this.rows.indexOf(row);
-          this.rows.splice(index, 1);
-        }
-      },
-      add() {
-        if (this.rows.filter(a => a.isEdit).length >= 1) {
-          return;
-        }
-        this.rows.push({ isEdit: true });
-        this.editRow = { isEdit: true };
-      },
-      getRows() {
-        return this.rows;
-      },
-      formart(row, field) {
-        // debugger;
-        if (field.formatter && typeof (field.formatter) === 'function') {
-          return field.formatter(row, field);
-        } else if (field.type === 'select' || field.type === 'multiSelect') {
-          return keyValueFormart(field.keyValues, row[field.name]);
-        } else if (field.type === 'date' && (row[field.name] instanceof Date)) {
-          return row[field.name].toISOString().substr(0, 10);
-        } else if (field.type === 'datetime' && (row[field.name] instanceof Date)) {
-          return row[field.name].toISOString().substr(0, 19).replace('T', ' ');
-        }
-        return row[field.name];
+
+
       }
-
-
-    }
   };
 </script>
 

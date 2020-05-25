@@ -1,5 +1,6 @@
 <template>
   <div style="height:100%">
+    <!-- 功能菜单 -->
     <slot></slot>
     <!-- 查询条件 -->
     <snail-search-form ref="searchForm" :fields="searchFields" :rules="searchRules" @search="search" />
@@ -31,64 +32,64 @@
 </template>
 
 <script>
-  import { TableBaseMixin } from './tableBase.js'
+  import {TableBaseMixin} from './tableBase.js';
   export default {
-    mixins: [TableBaseMixin],
-    props: {
-      autoSearch: {
-        type: Boolean,
-        default: false
-      },
-      searchApi: {
-        type: String,
-        default: () => ('')
-      },
-      searchFields: {
-        type: Array,
-        default: () => ([])
-      },
-      searchRules: {
-        type: Object,
-        default: () => ({})
-      }
-    },
-    data() {
-      return {
-        tableDatas: [],
-        visible: false,
-        pagination: { pageIndex: 1, pageSize: 15, total: 0 },
-        loading: false
-      }
-    },
-    computed: {
-
-    },
-    created() {
-
-    },
-    mounted() {
-      if (this.autoSearch) {
-        this.search()
-      }
-    },
-    methods: {
-      emitEventHandler(event) { // 对所有table的事件进行监听，并向父组件抛事件，
-        this.$emit(event, ...Array.from(arguments).slice(1))// 所有事件往上抛，让外部也能监听
-      },
-      search() {
-        this.$refs.searchForm.validate(valid => {
-          if (valid) {
-            var serachForm = this.$refs.searchForm.formData
-            var queryData = Object.assign({}, serachForm)
-            this.loading = true
-            this.$api[this.searchApi](queryData).then(res => {
-              this.tableDatas = res.data
-            }).finally(() => {
-              this.loading = false
-            })
+      mixins: [TableBaseMixin],
+      props: {
+          autoSearch: {
+              type: Boolean,
+              default: false
+          },
+          searchApi: {
+              type: String,
+              default: () => ('')
+          },
+          searchFields: {
+              type: Array,
+              default: () => ([])
+          },
+          searchRules: {
+              type: Object,
+              default: () => ({})
           }
-        })
+      },
+      data() {
+          return {
+              tableDatas: [],
+              visible: false,
+              pagination: {pageIndex: 1, pageSize: 15, total: 0},
+              loading: false
+          };
+      },
+      computed: {
+
+      },
+      created() {
+
+      },
+      mounted() {
+          if (this.autoSearch) {
+              this.search();
+          }
+      },
+      methods: {
+          emitEventHandler(event) { // 对所有table的事件进行监听，并向父组件抛事件，
+              this.$emit(event, ...Array.from(arguments).slice(1));// 所有事件往上抛，让外部也能监听
+          },
+          search() {
+              this.$refs.searchForm.validate(valid => {
+                  if (valid) {
+                      var serachForm = this.$refs.searchForm.formData;
+                      var queryData = Object.assign({}, serachForm);
+                      this.loading = true;
+                      this.$api[this.searchApi](queryData).then(res => {
+                          this.tableDatas = res.data;
+                      }).finally(() => {
+                          this.loading = false;
+                      });
+                  }
+              });
+          }
       }
-    }
-  }
+  };
 </script>
