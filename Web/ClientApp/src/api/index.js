@@ -47,3 +47,9 @@ export const roleQueryPage = params => request.get('/api/role/queryPage', { para
 export const roleFind = data => request.post('/api/role/find', data)
 export const roleRemove = data => request.post('/api/role/remove', data)
 export const roleSave = ids => request.delete('/api/role/save', { data: ids })
+
+// 其它权限相关
+export const getUserRoles = params => request.get('/api/Permission/GetUserRoles', { params })
+export const getAllRole = params => request.get('/api/Permission/GetAllRole', { params })
+export const setUserRoles = data => request.post('/api/Permission/SetUserRoles', data)
+export const queryListTree = params => request.get('/api/Config/QueryListTree', { params })
