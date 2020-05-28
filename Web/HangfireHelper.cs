@@ -1,4 +1,6 @@
-﻿using Hangfire;
+﻿using ApplicationCore;
+using ApplicationCore.Enums;
+using Hangfire;
 using Hangfire.Common;
 using Hangfire.States;
 using System;

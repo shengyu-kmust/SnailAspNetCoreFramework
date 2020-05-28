@@ -12,7 +12,7 @@ using Web.DTO;
 namespace Web.Controllers
 {
 
-    [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
+    //[Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
     public class UserController : DefaultBaseController, ICrudController<User, UserSaveDto, UserResultDto, KeyQueryDto>
     {
         private IUserService _service;

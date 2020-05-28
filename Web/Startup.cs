@@ -265,6 +265,7 @@ namespace Web
             services.AddHealthChecks();
             #endregion
 
+            services.AddCors();
 
         }
 
@@ -352,6 +353,8 @@ namespace Web
                 RequestPath = "/" + serviceProvider.GetService<IOptions<StaticFileUploadOption>>().Value.StaticFilePath,
                 FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, serviceProvider.GetService<IOptions<StaticFileUploadOption>>().Value.StaticFilePath))
             });
+
+            app.UseCors(builder => { builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin(); });
 
             app.UseAuthentication();
 

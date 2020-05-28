@@ -12,7 +12,7 @@ using Web.DTO;
 namespace Web.Controllers
 {
 
-    [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
+    //[Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
     public class RoleController : DefaultBaseController, ICrudController<Role, RoleSaveDto, RoleResultDto, KeyQueryDto>
     {
         private IRoleService _service;
@@ -28,14 +28,14 @@ namespace Web.Controllers
         [HttpGet]
         public List<RoleResultDto> QueryList([FromQuery]KeyQueryDto queryDto)
         {
-            var pred = ExpressionExtensions.True<Role>().AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord));
+            var pred = ExpressionExtensions.True<Role>().And(a => !a.IsDeleted).AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord));
             return controllerContext.mapper.ProjectTo<RoleResultDto>(_service.QueryList(pred)).ToList();
         }
 
         [HttpGet]
         public IPageResult<RoleResultDto> QueryPage([FromQuery]KeyQueryDto queryDto)
         {
-            var pred = ExpressionExtensions.True<Role>().AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord));
+            var pred = ExpressionExtensions.True<Role>().And(a=>!a.IsDeleted).AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord));
             return controllerContext.mapper.ProjectTo<RoleResultDto>(_service.QueryList(pred)).ToPageList(queryDto);
         }
         [HttpGet]

@@ -14,7 +14,7 @@ using Web.DTO;
 namespace Web.Controllers
 {
 
-    [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
+    //[Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
     [Resource(Description = "配置管理")]
     public class ConfigController : DefaultBaseController, ICrudController<Config, ConfigSaveDto, ConfigResultDto, KeyQueryDto>
     {
