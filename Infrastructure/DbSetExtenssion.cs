@@ -46,7 +46,7 @@ namespace Infrastructure
         }
 
 
-        public static void AddOrUpdate<TEntity, TDto, TKey>(this DbSet<TEntity> entities, List<TEntity> existsEntities, List<TDto> dtos, Func<TDto, TEntity> addFunc, Action<TDto, TEntity> updateFunc, TKey userId)
+        public static void AddOrUpdateList<TEntity, TDto, TKey>(this DbSet<TEntity> entities, List<TEntity> existsEntities, List<TDto> dtos, Func<TDto, TEntity> addFunc, Action<TDto, TEntity> updateFunc, TKey userId)
             where TEntity : class, IIdField<TKey>
             where TDto : class, IIdField<TKey>
         {
@@ -69,11 +69,11 @@ namespace Infrastructure
             AddOrUpdate(entities, dto, dto => mapper.Map<TEntity>(dto), (dto, entity) => mapper.Map<TDto, TEntity>(dto, entity), userId);
         }
 
-        public static void AddOrUpdate<TEntity, TDto, TKey>(this DbSet<TEntity> entities, List<TEntity> existsEntities, List<TDto> dtos, IMapper mapper, TKey userId)
+        public static void AddOrUpdateList<TEntity, TDto, TKey>(this DbSet<TEntity> entities, List<TEntity> existsEntities, List<TDto> dtos, IMapper mapper, TKey userId)
            where TEntity : class, IIdField<TKey>
            where TDto : class, IIdField<TKey>
         {
-            AddOrUpdate(entities, existsEntities, dtos, dto => mapper.Map<TEntity>(dto), (dto, entity) => mapper.Map<TDto, TEntity>(dto, entity), userId);
+            AddOrUpdateList(entities, existsEntities, dtos, dto => mapper.Map<TEntity>(dto), (dto, entity) => mapper.Map<TDto, TEntity>(dto, entity), userId);
         }
         public static void RemoveByIds<TEntity, TKey>(this DbSet<TEntity> entities, List<TKey> ids)
            where TEntity : class, IIdField<TKey>
