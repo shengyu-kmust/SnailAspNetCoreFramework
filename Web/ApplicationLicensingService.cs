@@ -12,7 +12,7 @@ namespace Web
     public class ApplicationLicensingService : IApplicationLicensingService
     {
         private IOptionsMonitor<ApplicationlicensingOption> _options;
-        private Dictionary<string, string> _licenseInfo;
+        private Dictionary<string, string> _licenseInfo=new Dictionary<string, string>();
         private string _error = "";
         private bool _hasChecked = false;
         private bool _licenseIsRight = false;

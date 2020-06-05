@@ -406,8 +406,8 @@ namespace Web
             using (var scope = AutofacContainer.BeginLifetimeScope())
             {
                 //下面两种方法用一种即可
-                scope.Resolve<AppDbContext>().Database.Migrate();//自动migrate，前提是程序集里有add-migration
-                //scope.Resolve<AppDbContext>().Database.EnsureCreated();//创建数据库
+                //scope.Resolve<AppDbContext>().Database.Migrate();//自动migrate，前提是程序集里有add-migration
+                scope.Resolve<AppDbContext>().Database.EnsureCreated();//创建数据库
             }
 
             //BackgroundJob.Enqueue<RunWhenServerStartService>(a => a.Invoke());//启动完成后即执行
