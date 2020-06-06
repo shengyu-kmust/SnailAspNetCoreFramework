@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100%">
+  <div style="display:flex;flex:1">
     <snail-simple-crud
       search-api="userQueryPage"
       add-api="userSave"
@@ -64,7 +64,7 @@ export default {
           label: '性别',
           type: 'select',
           span: 12,
-          keyValues: this.keyValues.genders,
+          keyValues: this.$config.genderKeyValue,
           formatter: this.selectFormatter
         }
       ]
@@ -84,19 +84,10 @@ export default {
   },
   methods: {
     init() {
-      this.keyValues.genders = [
-        {
-          key: 'male',
-          value: '男'
-        }, {
-          key: 'female',
-          value: '女'
-        }
-      ]
+
     },
     selectFormatter(row, column, cellValue, index) {
-      return cellValue
-      // return this.$util.keyValueFormart(this.keyValues.yesnos, cellValue);
+      return this.$util.keyValueFormart(this.$config.genderKeyValue, cellValue)
     },
     timeFormatter(row, column, cellValue, index) {
       return this.$dayjs(cellValue).format('YYYY-MM-DD')

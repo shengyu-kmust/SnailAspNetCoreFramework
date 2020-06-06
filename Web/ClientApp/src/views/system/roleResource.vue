@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <el-row>
-      <el-col :span="12">
+  <div style="display:flex;flex:1">
+    <el-row style="width:100%">
+      <el-col :span="12" style="height:100%">
         <snail-page-table
           ref="table"
           v-loading="loading"
@@ -11,7 +11,7 @@
           :multi-select="multiSelect"
         ></snail-page-table>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="12" style="height:100%">
         <el-button>展开</el-button>
         <el-button>折叠</el-button>
         <el-tree

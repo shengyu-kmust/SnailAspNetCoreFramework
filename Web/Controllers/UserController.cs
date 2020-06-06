@@ -28,14 +28,14 @@ namespace Web.Controllers
         [HttpGet]
         public List<UserResultDto> QueryList([FromQuery]KeyQueryDto queryDto)
         {
-            var pred = ExpressionExtensions.True<User>().AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord) || a.Email.Contains(queryDto.KeyWord) || a.Account.Contains(queryDto.KeyWord));
+            var pred = ExpressionExtensions.True<User>().And(a=>!a.IsDeleted).AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord) || a.Email.Contains(queryDto.KeyWord) || a.Account.Contains(queryDto.KeyWord));
             return controllerContext.mapper.ProjectTo<UserResultDto>(_service.QueryList(pred)).ToList();
         }
 
         [HttpGet]
         public IPageResult<UserResultDto> QueryPage([FromQuery]KeyQueryDto queryDto)
         {
-            var pred = ExpressionExtensions.True<User>().AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord) || a.Email.Contains(queryDto.KeyWord) || a.Account.Contains(queryDto.KeyWord));
+            var pred = ExpressionExtensions.True<User>().And(a => !a.IsDeleted).AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord) || a.Email.Contains(queryDto.KeyWord) || a.Account.Contains(queryDto.KeyWord));
             return controllerContext.mapper.ProjectTo<UserResultDto>(_service.QueryList(pred)).ToPageList(queryDto);
         }
         [HttpGet]

@@ -1,6 +1,6 @@
 <template>
   <!-- 这一段和 snailTable是一样的-->
-  <div>
+  <div style="height:100%;display:flex;flex-direction: column;flex:1">
     <el-table
       ref="table"
       :data="rows"

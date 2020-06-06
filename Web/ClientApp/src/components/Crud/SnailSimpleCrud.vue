@@ -1,6 +1,6 @@
 <template>
   <!-- 分页crud -->
-  <div style="height:100%;display:flex;flex-direction: column">
+  <div style="height:100%;display:flex;flex-direction: column;flex:1">
     <div>
       <!--默认功能菜单 -->
       <slot v-if="showOper" name="oper">

@@ -13,6 +13,7 @@ import SnailSearchPageTable from '@/components/Table/SnailSearchPageTable'
 import SnailForm from '@/components/Form/SnailForm'
 import SnailSearchForm from '@/components/Form/SnailSearchForm'
 import SnailSimpleCrud from '@/components/Crud/SnailSimpleCrud'
+import SnailSimpleListCrud from '@/components/Crud/SnailSimpleListCrud'
 
 Vue.component('SnailTable', SnailTable)
 Vue.component('SnailPageTable', SnailPageTable)
@@ -22,3 +23,4 @@ Vue.component('SnailForm', SnailForm)
 Vue.component('SnailSearchForm', SnailSearchForm)
 Vue.component('SnailSimpleCrud', SnailSimpleCrud)
 Vue.component('SnailEditTable', SnailEditTable)
+Vue.component('SnailSimpleListCrud', SnailSimpleListCrud)
