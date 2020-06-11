@@ -42,6 +42,7 @@
             <template slot-scope="scope">
               <slot v-if="field.slotName" :name="field.slotName" :row="scope.row"></slot>
               <span v-else-if="field.formatter">{{ field.formatter(scope.row,scope.column, scope.row[field.name], scope.$index) }}</span>
+              <span v-else-if="field.type==='select' && field.keyValues">{{ $util.keyValueFormart(field.keyValues, scope.row[field.name]) }}</span>
               <span v-else>{{ scope.row[field.name] }}</span>
             </template>
           </el-table-column>

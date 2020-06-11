@@ -40,6 +40,7 @@
             <template slot-scope="scope">
               <slot v-if="field.slotName" :name="field.slotName" :row="scope.row"></slot>
               <span v-else-if="field.formatter">{{ field.formatter(scope.row,scope.column, scope.row[field.name], scope.$index) }}</span>
+              <span v-else-if="field.type==='select' && field.keyValues">{{ $util.keyValueFormart(field.keyValues, scope.row[field.name]) }}</span>
               <span v-else>{{ scope.row[field.name] }}</span>
             </template>
           </el-table-column>
@@ -261,16 +262,13 @@ export default {
         if (valid) {
           var serachForm = this.$refs.searchForm.formData
           var pagination = this.getPagination()
-
-          // 适应公司分页，用后删除 //todo
-          pagination.pageNumber = pagination.pageIndex
-          var queryData = Object.assign({}, serachForm, pagination)
           if (typeof this.beforeSearch === 'function') {
             var isContinue = this.beforeSearch(serachForm)
             if (isContinue === false) {
               return
             }
           }
+          var queryData = Object.assign({}, serachForm, pagination)
           console.log(queryData)
           this.loading = true
           this.$api[this.searchApi](queryData).then(res => {
