@@ -3,6 +3,7 @@ fields:{
   name:'',
   type:'',//支持：string,int,datetime,date,select,multiSelect,time
   label:'',
+  span:xx,//为int，以24为全部数
   keyValues:[],//
 }
 
@@ -33,7 +34,7 @@ fields:{
                 type="date"
                 v-bind="item"
               />
-               <!-- 时间 -->
+              <!-- 时间 -->
               <el-time-picker
                 v-if="item.type==='time'"
                 v-model="formData[item.name]"

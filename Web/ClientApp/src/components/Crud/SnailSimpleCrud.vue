@@ -64,12 +64,15 @@
     <!-- 这一段和 snailTable是一样的-->
     <!-- form表单 -->
     <el-dialog v-if="visible" :visible.sync="visible">
-      <snail-form ref="form" :fields="formFields" :init-form-data="formData" :rules="formRules"></snail-form>
+      <slot :formData="formData" name="form">
+        <snail-form ref="form" :fields="formFields" :init-form-data="formData" :rules="formRules"></snail-form>
+      </slot>
       <template slot="footer">
         <el-button @click="submit">提交</el-button>
         <el-button @click="visible=false">取消</el-button>
       </template>
     </el-dialog>
+
   </div>
 </template>
 
@@ -128,6 +131,11 @@ export default {
       default: () => { }
     },
     beforeSubmit: {
+      type: Function,
+      default: () => { }
+    },
+    // 完全自己定义提交逻辑
+    submitHandler: {
       type: Function,
       default: () => { }
     },
@@ -238,24 +246,28 @@ export default {
       this.visible = true
     },
     submit() {
-      console.log(this.$refs.form.formData)
-      this.$refs.form.validate(valid => {
-        if (valid) {
-          this.$api[this.submitApi](this.$refs.form.formData).then(res => {
-            this.$message({
-              message: '操作成功',
-              type: 'success'
+      if (typeof this.submitHandler === 'function') {
+        this.submitHandler()
+      } else {
+        console.log(this.$refs.form.formData)
+        this.$refs.form.validate(valid => {
+          if (valid) {
+            this.$api[this.submitApi](this.$refs.form.formData).then(res => {
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              })
+              this.search()
+            }).catch(res => {
+              this.$message({
+                message: '操作失败',
+                type: 'error'
+              })
             })
-            this.search()
-          }).catch(res => {
-            this.$message({
-              message: '操作失败',
-              type: 'error'
-            })
-          })
-          this.visible = false
-        }
-      })
+            this.visible = false
+          }
+        })
+      }
     },
     search() {
       this.$refs.searchForm.validate(valid => {

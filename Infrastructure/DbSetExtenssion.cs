@@ -51,9 +51,9 @@ namespace Infrastructure
             where TDto : class, IIdField<TKey>
         {
 
-            // 删除
+            // 删除 
             var dtoIds = dtos.Select(a => a.Id).ToList();
-            entities.RemoveRange(entities.Where(a => !dtoIds.Contains(a.Id)));
+            entities.RemoveRange(entities.Where(a => dtoIds.Contains(a.Id)));
 
             // 增加或 更新
             foreach (var dto in dtos)
