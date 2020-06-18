@@ -9,9 +9,9 @@ using System.Text;
 
 namespace Service
 {
-    public class SampleEntityService : BaseService<SampleEntity>, ISampleEntityService
+    public class <#=Name #>Service : BaseService<<#=Name #>>
     {
-        public SampleEntityService(ServiceContext serviceContext) : base(serviceContext)
+        public <#=Name #>Service(ServiceContext serviceContext) : base(serviceContext)
         {
         }
     }

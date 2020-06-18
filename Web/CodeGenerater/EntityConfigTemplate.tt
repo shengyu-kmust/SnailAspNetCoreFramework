@@ -1,0 +1,15 @@
+﻿using ApplicationCore.Entity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+namespace Infrastructure.Data.Config
+{
+    public class <#=Name #>Configuration : BaseConfiguration,IEntityTypeConfiguration<<#=Name #>>
+    {
+        public void Configure(EntityTypeBuilder<<#=Name #>> builder)
+        {
+            base.Config(builder);
+            builder.ToTable("<#=TableName #>");
+        }
+    }
+}
