@@ -30,10 +30,15 @@ import '@/utils/registerComponent'
  * Currently MockJs will be used in the production environment,
  * please remove it before going online! ! !
  */
-import { mockXHR } from '../mock'
-if (process.env.NODE_ENV === 'development') {
-  mockXHR()
-}
+// 如果要用mock本地，打开下面的，项目的其它配置不要变。本项目mock和两种，一个是mock server，一个是下面的mock本地（即MOCK XHR）
+// 如果用mock本地，在chrome的network里是看不到请求的
+// 如果要用mock server，要注释下面的，并要在vue.config.js里的devServer的proxy和after进行配置
+// import { mockXHR } from '../mock'
+// if (process.env.NODE_ENV === 'development') {
+//   console.log('-------------------mockXHR-----------------')
+//   console.log(JSON.stringify(process.env))
+//   mockXHR()
+// }
 
 // set ElementUI lang to EN
 Vue.use(ElementUI, {

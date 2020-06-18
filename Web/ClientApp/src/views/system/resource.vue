@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="display:flex;flex:1;flex-direction:column">
     <el-row>
       <el-button @click="addParent">添加同级</el-button>
       <el-button @click="addChild">添加子级</el-button>
