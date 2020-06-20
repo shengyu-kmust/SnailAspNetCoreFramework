@@ -410,7 +410,7 @@ namespace Web
                 scope.Resolve<AppDbContext>().Database.EnsureCreated();//创建数据库
             }
 
-            //BackgroundJob.Enqueue<RunWhenServerStartService>(a => a.Invoke());//启动完成后即执行
+            BackgroundJob.Enqueue<RunWhenServerStartService>(a => a.Invoke());//启动完成后即执行
         }
     }
 }
