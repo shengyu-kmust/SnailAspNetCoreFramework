@@ -6,7 +6,7 @@ const systemRouters = {
   name: 'systems',
   meta: {
     title: '系统管理',
-    icon: 'component'
+    iconClass: 'el-icon-setting'
   },
   children: [
     {

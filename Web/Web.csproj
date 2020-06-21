@@ -66,6 +66,7 @@
     <PackageReference Include="Refit.HttpClientFactory" Version="5.1.67" />
     <PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.0.0" />
     <PackageReference Include="Snail.Common" Version="1.0.9" />
+    <PackageReference Include="System.CodeDom" Version="4.7.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
   </ItemGroup>

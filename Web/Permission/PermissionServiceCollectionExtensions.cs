@@ -12,6 +12,7 @@ using Snail.Core.Permission;
 using SnaiWeb.Permission;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Web.Permission
 {
@@ -54,6 +55,18 @@ namespace Web.Permission
                                return CookieAuthenticationDefaults.AuthenticationScheme;
                            }
                        };
+                       var cookieAuthenticationEvents = new CookieAuthenticationEvents
+                       {
+                           OnSignedIn = context =>
+                           {
+                               return Task.CompletedTask;
+                           },
+                           OnSigningOut = context =>
+                           {
+                               return Task.CompletedTask;
+                            }
+                       };
+                       options.Events = cookieAuthenticationEvents;
                    })
                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                {
@@ -77,6 +90,23 @@ namespace Web.Permission
                        ValidateIssuer = false,
                        ValidateAudience = false
                    };
+                   var jwtBearerEvents = new JwtBearerEvents
+                   {
+                       OnMessageReceived = context =>
+                       {
+                           return Task.CompletedTask;
+                       },
+                       OnTokenValidated = context =>
+                       {
+                           return Task.CompletedTask;
+                       },
+                       OnAuthenticationFailed = context =>
+                       {
+                           return Task.CompletedTask;
+                       }
+
+                   };
+                   options.Events = jwtBearerEvents;
                });
             #endregion
             #region 授权
