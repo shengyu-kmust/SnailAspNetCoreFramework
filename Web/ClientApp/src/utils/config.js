@@ -1,5 +1,5 @@
 /**
- * 配置信息，常量
+ * 配置信息，常量，枚举，keyvalue对值
  *
  */
 export const componentSize = () => {
@@ -16,3 +16,14 @@ export const genderKeyValue = [
     value: '女'
   }
 ]
+
+export const maritalStatusKeyValue = [
+  {
+    key: true,
+    value: '已婚'
+  }, {
+    key: false,
+    value: '未婚'
+  }
+]
+

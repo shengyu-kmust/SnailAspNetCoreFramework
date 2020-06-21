@@ -95,10 +95,10 @@ export const constantRoutes = [
         meta: { title: '外部链接', icon: 'link' }
       }
     ]
-  },
+  }
 
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+    // 404 page must be placed at the end !!!
+  // { path: '*', redirect: '/404', hidden: true } //如果此句打开后，页面刷新会直接到404页面，暂不知道原因， todo
 ]
 
 export const asyncRoutes = [
