@@ -32,6 +32,17 @@ namespace Web.AutoMapperProfiles
                     CreateMap(dto, entity);
                 });
             });
+
+            // 自身的映射
+            allDtos.ForEach(dto =>
+            {
+                CreateMap(dto, dto);
+            });
+            allEntities.ForEach(entity =>
+            {
+                CreateMap(entity, entity);
+
+            });
         }
     }
 }
