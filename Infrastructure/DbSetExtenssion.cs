@@ -11,9 +11,65 @@ namespace Infrastructure
 {
     public static class DbSetExtenssion
     {
-        public static void AddOrUpdate<TEntity, TDto, TKey>(this DbSet<TEntity> entities, TDto dto, Func<TDto, TEntity> addFunc, Action<TDto, TEntity> updateFunc, TKey userId)
+        #region addList
+        public static void AddList<TEntity, TDto, TKey>(this DbSet<TEntity> entities, List<TDto> dtos, Func<TDto, TEntity> addFunc, TKey userId)
+           where TEntity : class, IIdField<TKey>
+         where TDto : class, IIdField<TKey>
+        {
+            dtos.ForEach(dto =>
+            {
+                Add(entities, dto, addFunc, userId);
+            });
+        }
+
+        public static void AddList<TEntity, TDto, TKey>(this DbSet<TEntity> entities, List<TDto> dtos, IMapper mapper, TKey userId)
+           where TEntity : class, IIdField<TKey>
+         where TDto : class, IIdField<TKey>
+        {
+            dtos.ForEach(dto =>
+            {
+                Add(entities, dto, mapper, userId);
+            });
+        }
+
+
+        #endregion
+        #region add
+        public static void Add<TEntity, TDto, TKey>(this DbSet<TEntity> entities, TDto dto, Func<TDto, TEntity> addFunc, TKey userId)
           where TEntity : class, IIdField<TKey>
-          where TDto : class, IIdField<TKey>
+        where TDto : class, IIdField<TKey>
+        {
+            var now = DateTime.Now;
+            var entity = addFunc(dto);
+            if (string.IsNullOrEmpty(entity.Id?.ToString()))
+            {
+                entity.Id = IdGenerator.Generate<TKey>();
+            }
+            if (entity is IEntityAudit<TKey> auditEntity)
+            {
+                if (!string.IsNullOrEmpty(userId?.ToString()))
+                {
+                    auditEntity.Creater = userId;
+                    auditEntity.Updater = userId;
+                }
+                auditEntity.CreateTime = now;
+                auditEntity.UpdateTime = now;
+            }
+            entities.Add(entity);
+        }
+
+        public static void Add<TEntity, TDto, TKey>(this DbSet<TEntity> entities, TDto dto, IMapper mapper, TKey userId)
+           where TEntity : class, IIdField<TKey>
+         where TDto : class, IIdField<TKey>
+        {
+            Add(entities, dto, (dto) => mapper.Map<TEntity>(dto), userId);
+        }
+        #endregion
+
+        #region addOrUpdate
+        public static void AddOrUpdate<TEntity, TDto, TKey>(this DbSet<TEntity> entities, TDto dto, Func<TDto, TEntity> addFunc, Action<TDto, TEntity> updateFunc, TKey userId)
+        where TEntity : class, IIdField<TKey>
+        where TDto : class, IIdField<TKey>
         {
             var now = DateTime.Now;
             var entity = entities.Find(dto.Id);
@@ -44,11 +100,19 @@ namespace Infrastructure
                 auditEntity.UpdateTime = now;
             }
         }
+        public static void AddOrUpdate<TEntity, TDto, TKey>(this DbSet<TEntity> entities, TDto dto, IMapper mapper, TKey userId)
+        where TEntity : class, IIdField<TKey>
+        where TDto : class, IIdField<TKey>
+        {
+            AddOrUpdate(entities, dto, dto => mapper.Map<TEntity>(dto), (dto, entity) => mapper.Map<TDto, TEntity>(dto, entity), userId);
+        }
 
+        #endregion
 
+        #region addOrUpdateList
         public static void AddOrUpdateList<TEntity, TDto, TKey>(this DbSet<TEntity> entities, List<TEntity> existsEntities, List<TDto> dtos, Func<TDto, TEntity> addFunc, Action<TDto, TEntity> updateFunc, TKey userId)
-            where TEntity : class, IIdField<TKey>
-            where TDto : class, IIdField<TKey>
+           where TEntity : class, IIdField<TKey>
+           where TDto : class, IIdField<TKey>
         {
             var dtoIds = dtos.Select(a => a.Id).ToList();
             // 删除 
@@ -62,12 +126,6 @@ namespace Infrastructure
             }
         }
 
-        public static void AddOrUpdate<TEntity, TDto, TKey>(this DbSet<TEntity> entities, TDto dto, IMapper mapper, TKey userId)
-           where TEntity : class, IIdField<TKey>
-           where TDto : class, IIdField<TKey>
-        {
-            AddOrUpdate(entities, dto, dto => mapper.Map<TEntity>(dto), (dto, entity) => mapper.Map<TDto, TEntity>(dto, entity), userId);
-        }
 
         public static void AddOrUpdateList<TEntity, TDto, TKey>(this DbSet<TEntity> entities, List<TEntity> existsEntities, List<TDto> dtos, IMapper mapper, TKey userId)
            where TEntity : class, IIdField<TKey>
@@ -75,6 +133,10 @@ namespace Infrastructure
         {
             AddOrUpdateList(entities, existsEntities, dtos, dto => mapper.Map<TEntity>(dto), (dto, entity) => mapper.Map<TDto, TEntity>(dto, entity), userId);
         }
+
+        #endregion
+
+
         public static void RemoveByIds<TEntity, TKey>(this DbSet<TEntity> entities, List<TKey> ids)
            where TEntity : class, IIdField<TKey>
         {

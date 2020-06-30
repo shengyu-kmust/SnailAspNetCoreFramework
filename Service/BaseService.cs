@@ -1,31 +1,22 @@
 ﻿using ApplicationCore.IServices;
-using AutoMapper;
-using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Snail.Common;
 using Snail.Common.Extenssions;
 using Snail.Core;
 using Snail.Core.Entity;
-using Snail.Core.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace Service
 {
-    public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
+    public abstract class BaseService<TEntity> : ServiceContextBaseService, IBaseService<TEntity> where TEntity : class
     {
-        protected IEntityCacheManager entityCacheManager => serviceContext.entityCacheManager;
-        protected IMapper mapper => serviceContext.mapper;
-        protected IApplicationContext applicationContext => serviceContext.applicationContext;
-        public AppDbContext db => serviceContext.db;
-        public ServiceContext serviceContext;
-        public BaseService(ServiceContext serviceContext)
+        protected BaseService(ServiceContext serviceContext) : base(serviceContext)
         {
-            this.serviceContext = serviceContext;
         }
+
         public virtual IQueryable<TSource> GetQueryable<TSource>()
         {
             if (typeof(TSource) == typeof(TEntity))
@@ -34,6 +25,7 @@ namespace Service
             }
             throw new NotSupportedException();
         }
+
         public virtual IQueryable<TSource> QueryList<TSource>(Expression<Func<TSource, bool>> pred)
         {
             return GetQueryable<TSource>().Where(pred);
