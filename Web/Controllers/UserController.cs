@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Entity;
 using ApplicationCore.IServices;
+using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Snail.Common;
@@ -53,20 +54,27 @@ namespace Web.Controllers
         [HttpPost]
         public void Save(UserSaveDto saveDto)
         {
-            // 增加时，设置密码
-            if (saveDto.Id.HasNotValue())
+            var pwd = saveDto.Pwd.HasValue() ? _permission.HashPwd(saveDto.Pwd) : _permission.HashPwd("123456");
+            var canUpdatePwd = saveDto.Id.HasValue() && saveDto.Pwd.HasValue();
+            db.Users.AddOrUpdate(saveDto, dto =>
             {
-                saveDto.Pwd = saveDto.Pwd.HasValue() ? _permission.HashPwd(saveDto.Pwd) : _permission.HashPwd("123456");
-            }
-            else
+                var entityTemp = mapper.Map<User>(dto);
+                entityTemp.Pwd = pwd;
+                return entityTemp;
+            }, (dto, entity) =>
             {
-                // 修改时，如果密码不为空，则更新密码
-                if (saveDto.Id.HasValue() && saveDto.Pwd.HasValue())
+                var pwdBack = entity.Pwd;
+                mapper.Map<UserSaveDto, User>(dto, entity);
+                if (canUpdatePwd)
                 {
-                    saveDto.Pwd = _permission.HashPwd(saveDto.Pwd);
+                    entity.Pwd = pwd;
                 }
-            }
-            _service.Save(saveDto);
+                else
+                {
+                    entity.Pwd = pwdBack;
+                }
+            }, currentUserId);
+            db.SaveChanges();
             _permissionStore.ReloadPemissionDatas();
         }
     }

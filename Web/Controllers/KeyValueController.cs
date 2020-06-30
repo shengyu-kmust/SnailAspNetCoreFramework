@@ -13,9 +13,6 @@ namespace Web.Controllers
 {
     public class KeyValueController : DefaultBaseController
     {
-        public KeyValueController(ControllerContext controllerContext) : base(controllerContext)
-        {
-        }
         private IEnumKeyValueService _enumKeyValueService;
         private IEntityCacheManager _entityCacheManager;
         private IConfigService _configService;
@@ -25,6 +22,7 @@ namespace Web.Controllers
             _entityCacheManager = entityCacheManager;
             _configService = configService;
         }
+
         public List<KeyValueDto> Enum(string enumName)
         {
             return _enumKeyValueService.GetKeyValues(enumName);

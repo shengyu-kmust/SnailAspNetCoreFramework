@@ -34,7 +34,7 @@
             序号
           </template>
         </el-table-column>
-        <template v-for="(field,index) in fields">
+        <template v-for="(field,index) in fields.filter(v=>v.noForTable!=true)">
           <el-table-column :key="index" :prop="field.name" :label="field.label" v-bind="field">
             <!-- 如果field的slotName字段有值，则用外部传入的slot来替换column里的template，否则用默认的 -->
             <template slot-scope="scope">
@@ -134,8 +134,7 @@ export default {
       type: Function,
       default: () => { }
     },
-    // 完全自己定义提交逻辑
-    submitHandler: {
+    initAddFormData: {
       type: Function,
       default: () => { }
     },
@@ -220,9 +219,13 @@ export default {
         })
       })
     },
+
     add() {
       this.submitApi = this.addApi
       this.formData = {}
+      if (typeof (this.initAddFormData) === 'function') {
+        this.initAddFormData(this.formData)
+      }
       this.visible = true
     },
     edit() {
@@ -246,23 +249,26 @@ export default {
       this.visible = true
     },
     submit() {
-      if (typeof this.submitHandler === 'function') {
-        this.submitHandler()
+      console.log('submit')
+      const { submitHandler } = this
+      if (submitHandler) {
+        submitHandler()
       } else {
         console.log(this.$refs.form.formData)
         this.$refs.form.validate(valid => {
           if (valid) {
+            if (typeof this.beforeSubmit === 'function') {
+              var isContinue = this.beforeSubmit(this.$refs.form.formData)
+              if (isContinue === false) {
+                return
+              }
+            }
             this.$api[this.submitApi](this.$refs.form.formData).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
               })
               this.search()
-            }).catch(res => {
-              this.$message({
-                message: '操作失败',
-                type: 'error'
-              })
             })
             this.visible = false
           }
@@ -284,15 +290,9 @@ export default {
           console.log(queryData)
           this.loading = true
           this.$api[this.searchApi](queryData).then(res => {
-            // this.pagination.total = parseInt(res.data.total) || 0;
-            // this.pagination.pageSize = parseInt(res.data.pageSize) || 15;
-            // this.pagination.pageIndex = parseInt(res.data.pageIndex) || 1;
-            // this.tableDatas = res.data.items;
-
-            // todo 改成自己的，上面
-            this.pagination.total = parseInt(res.data.totalItemCount) || 0
+            this.pagination.total = parseInt(res.data.total) || 0
             this.pagination.pageSize = parseInt(res.data.pageSize) || 15
-            this.pagination.pageIndex = parseInt(res.data.pageNumber) || 1
+            this.pagination.pageIndex = parseInt(res.data.pageIndex) || 1
             this.tableDatas = res.data.items
           }).finally(() => {
             this.loading = false

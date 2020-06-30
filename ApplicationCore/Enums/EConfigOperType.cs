@@ -7,7 +7,7 @@ namespace ApplicationCore.Enums
     /// <summary>
     /// 字典配置的操作类型
     /// </summary>
-    public enum EDataDictionaryOperType
+    public enum EConfigOperType
     {
         /// <summary>
         /// 能进行全部的操作

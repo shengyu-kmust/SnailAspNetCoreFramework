@@ -89,6 +89,13 @@ namespace Web.Controllers
             }
             return result;
         }
+
+        [HttpPost, AllowAnonymous]
+        public void Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
         [AllowAnonymous]
         [HttpGet]
         public Snail.Core.Permission.UserInfo GetUserInfo(string token)

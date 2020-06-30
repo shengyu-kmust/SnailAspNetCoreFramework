@@ -39,7 +39,6 @@ export const FormBaseMixin = {
       this.$refs[this.validateFormName].resetFields()
     },
     validate(fn) {
-      console.log('validate')
       this.$refs[this.validateFormName].validate(fn)
     }
 

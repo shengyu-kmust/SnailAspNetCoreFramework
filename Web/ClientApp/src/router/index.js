@@ -36,6 +36,17 @@ import systemRouters from './systemRouters'
  */
 export const constantRoutes = [
   {
+    path: '/redirect',//不要删除 ，这是用来配合刷新当前路由页面
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/views/redirect/index')
+      }
+    ]
+  },
+  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true// hidden为true时，就不显示在菜单里
@@ -95,10 +106,10 @@ export const constantRoutes = [
         meta: { title: '外部链接', icon: 'link' }
       }
     ]
-  },
+  }
 
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+    // 404 page must be placed at the end !!!
+  // { path: '*', redirect: '/404', hidden: true } //如果此句打开后，页面刷新会直接到404页面，暂不知道原因， todo
 ]
 
 export const asyncRoutes = [

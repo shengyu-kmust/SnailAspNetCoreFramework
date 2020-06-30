@@ -33,6 +33,10 @@ export default {
       return ''
     }
   },
+  watch: {
+    // test1: function(newv, oldv) {
+    // }
+  },
   created() {
     Promise.all([
       // this.$api.patientQueryList({ pageSize: 1000000, pageIndex: 1 })

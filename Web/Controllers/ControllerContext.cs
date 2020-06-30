@@ -16,11 +16,13 @@ namespace Web.Controllers
         public IMapper mapper;
         public IApplicationContext applicationContext;
         public AppDbContext db;
-        public ControllerContext(IMapper mapper,IApplicationContext applicationContext, AppDbContext db)
+        public IEntityCacheManager entityCacheManager;
+        public ControllerContext(IMapper mapper,IApplicationContext applicationContext, AppDbContext db, IEntityCacheManager entityCacheManager)
         {
             this.mapper = mapper;
             this.applicationContext = applicationContext;
             this.db = db;
+            this.entityCacheManager = entityCacheManager;
         }
     }
 }
