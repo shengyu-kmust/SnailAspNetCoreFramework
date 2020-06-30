@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using ApplicationCore.IServices;
+using AutoMapper;
 using DotNetCore.CAP;
 using Infrastructure;
 using Microsoft.Extensions.Caching.Memory;
@@ -7,7 +8,7 @@ using System;
 
 namespace Service
 {
-    public abstract class ServiceContextBaseService
+    public abstract class ServiceContextBaseService:IService
     {
         protected IEntityCacheManager entityCacheManager => serviceContext.entityCacheManager;
         protected IMapper mapper => serviceContext.mapper;

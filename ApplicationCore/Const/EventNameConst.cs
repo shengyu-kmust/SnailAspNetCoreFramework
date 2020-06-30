@@ -9,6 +9,7 @@ namespace ApplicationCore.Const
     /// </summary>
     public static class EventNameConst
     {
+        public const string EntityChange = nameof(EntityChange);
         public const string TestEventName = nameof(TestEventName);
     }
 }

@@ -1,4 +1,5 @@
-﻿using DotNetCore.CAP;
+﻿using ApplicationCore;
+using DotNetCore.CAP;
 using DotNetCore.CAP.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -116,7 +117,16 @@ namespace Web
                 var consumerServices = scopedProvider.GetServices<ICapSubscribe>();
                 foreach (var service in consumerServices)
                 {
-                    var typeInfo = service.GetType().GetTypeInfo();
+                    // 当autofac启用了EnableClassInterceptors后，service.GetType()获得的是代理类，而不是原来的类，这里要做特殊处理
+                    TypeInfo typeInfo;
+                    if (service.GetType().FullName.StartsWith("Castle.Proxies"))
+                    {
+                        typeInfo = service.GetType().BaseType.GetTypeInfo();
+                    }
+                    else
+                    {
+                        typeInfo = service.GetType().GetTypeInfo();
+                    }
                     if (!typeof(ICapSubscribe).GetTypeInfo().IsAssignableFrom(typeInfo))
                     {
                         continue;
