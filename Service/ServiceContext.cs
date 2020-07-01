@@ -2,6 +2,7 @@
 using DotNetCore.CAP;
 using Infrastructure;
 using Microsoft.Extensions.Caching.Memory;
+using Snail.Cache;
 using Snail.Core.Interface;
 using System;
 
@@ -16,7 +17,8 @@ namespace Service
         public IMemoryCache memoryCache;
         public ICapPublisher publisher;
         public IServiceProvider serviceProvider;
-        public ServiceContext(AppDbContext db, IMapper mapper, IApplicationContext applicationContext, IEntityCacheManager entityCacheManager, IMemoryCache memoryCache, ICapPublisher publisher, IServiceProvider serviceProvider)
+        public ISnailCache cache;
+        public ServiceContext(AppDbContext db, IMapper mapper, IApplicationContext applicationContext, IEntityCacheManager entityCacheManager, IMemoryCache memoryCache, ICapPublisher publisher, IServiceProvider serviceProvider,ISnailCache cache)
         {
             this.mapper = mapper;
             this.db = db;
@@ -25,6 +27,7 @@ namespace Service
             this.memoryCache = memoryCache;
             this.publisher = publisher;
             this.serviceProvider = serviceProvider;
+            this.cache = cache;
         }
     }
 }

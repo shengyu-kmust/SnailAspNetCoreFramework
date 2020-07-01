@@ -48,9 +48,19 @@ namespace Web.Controllers
         public void Save(SampleEntitySaveDto saveDto)
         {
             sampleEntityService.Save(saveDto);
-
         }
 
+        [HttpGet]
+        public List<SampleEntity> GetSampleCache()
+        {
+            return sampleEntityService.GetSampleCache();
+        }
+
+        [HttpGet]
+        public void ClearSampleCache()
+        {
+            sampleEntityService.ClearSampleCache();
+        }
 
     }
 }

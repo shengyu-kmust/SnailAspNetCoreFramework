@@ -5,7 +5,9 @@ using System.Text;
 
 namespace ApplicationCore.IServices
 {
-    public interface ISampleEntityService:IBaseService<SampleEntity>
+    public interface ISampleEntityService : IBaseService<SampleEntity>
     {
+        void ClearSampleCache();
+        List<SampleEntity> GetSampleCache();
     }
 }

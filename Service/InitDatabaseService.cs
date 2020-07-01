@@ -25,7 +25,9 @@ namespace Service
         {
             InitPermission();
         }
+        #region 可以从json初始化数据库
 
+        #endregion
         private void InitPermission()
         {
             try

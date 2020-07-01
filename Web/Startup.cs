@@ -26,6 +26,7 @@ using Newtonsoft.Json.Converters;
 using NSwag;
 using Savorboard.CAP.InMemoryMessageQueue;
 using Service;
+using Snail.Cache;
 using Snail.Core;
 using Snail.Core.Default;
 using Snail.Core.Dto;
@@ -189,6 +190,9 @@ namespace Web
             });
             #endregion
 
+            #region 注入snailCache
+            services.AddSnailMemoryCache();
+            #endregion
             #region mediatr
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
             #endregion

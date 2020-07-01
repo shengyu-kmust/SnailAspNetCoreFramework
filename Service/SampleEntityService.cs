@@ -14,5 +14,14 @@ namespace Service
         public SampleEntityService(ServiceContext serviceContext) : base(serviceContext)
         {
         }
+        public List<SampleEntity> GetSampleCache()
+        {
+            return GetEntityCache<SampleEntity, SampleEntity>();
+        }
+
+        public void ClearSampleCache()
+        {
+            ClearEntityCache<SampleEntity, SampleEntity>();
+        }
     }
 }
