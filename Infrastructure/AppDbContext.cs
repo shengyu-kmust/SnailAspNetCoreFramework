@@ -30,6 +30,7 @@ namespace Infrastructure
 
         #endregion
         public DbSet<SampleEntity> SampleEntities { get; set; }
+        public DbSet<Demo> Demo { get; set; }
         private ICapPublisher _publisher;
         public AppDbContext(DbContextOptions<AppDbContext> options, ICapPublisher publisher)
             : base(options)

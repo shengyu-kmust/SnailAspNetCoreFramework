@@ -42,6 +42,7 @@ namespace Service
                     _db.Roles.Add(new Role { Id = roleId, Name = "SuperAdmin", CreateTime = now, IsDeleted = false });
                     _db.UserRoles.Add(new UserRole { Id = IdGenerator.Generate<string>(), IsDeleted = false, RoleId = roleId, UserId = userId, CreateTime = now });
                 }
+                _db.SaveChanges();
             }
             catch (Exception ex)
             {
