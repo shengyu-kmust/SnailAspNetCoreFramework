@@ -28,22 +28,23 @@ namespace Web.CodeGenerater
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\nnamespace ApplicationCore.Entity\r\n{\r\n    public class ");
+            this.Write("\r\nusing ApplicationCore.Dtos;\r\nusing System;\r\nusing System.ComponentModel.DataAnn" +
+                    "otations;\r\nnamespace ApplicationCore.Entity\r\n{\r\n    public class ");
             
-            #line 9 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
+            #line 12 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Dto.Name));
             
             #line default
             #line hidden
             
-            #line 9 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
+            #line 12 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Dto.Prefix));
             
             #line default
             #line hidden
             this.Write("Dto:IDto\r\n    {\r\n");
             
-            #line 11 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
+            #line 14 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
 
     foreach(var item in Dto.Fields){
 
@@ -52,49 +53,49 @@ namespace Web.CodeGenerater
             #line hidden
             this.Write("        /// <summary>\r\n        /// ");
             
-            #line 15 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
+            #line 18 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Comment));
             
             #line default
             #line hidden
             this.Write("\r\n        /// </summary>\r\n");
             
-            #line 17 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
+            #line 20 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
  foreach(var attr in item.Attributes??new List<string>()){ 
             
             #line default
             #line hidden
             this.Write("        ");
             
-            #line 18 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
+            #line 21 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(attr));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 19 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
+            #line 22 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("        public ");
             
-            #line 20 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
+            #line 23 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Type));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 20 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
+            #line 23 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Name));
             
             #line default
             #line hidden
             this.Write("  {get;set;}\r\n");
             
-            #line 21 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
+            #line 24 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
 
     }
 

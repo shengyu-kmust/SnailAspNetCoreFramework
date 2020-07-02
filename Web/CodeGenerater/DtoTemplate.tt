@@ -4,6 +4,9 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 
+using ApplicationCore.Dtos;
+using System;
+using System.ComponentModel.DataAnnotations;
 namespace ApplicationCore.Entity
 {
     public class <#= Dto.Name #><#= Dto.Prefix#>Dto:IDto
