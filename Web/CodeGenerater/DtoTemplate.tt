@@ -9,7 +9,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 namespace ApplicationCore.Entity
 {
-    public class <#= Dto.Name #><#= Dto.Prefix#>Dto:IDto
+    public class <#= Dto.Name #><#= Dto.Prefix#>Dto:<#= Dto.BaseClass#>
     {
 <#
     foreach(var item in Dto.Fields){

@@ -56,6 +56,7 @@ namespace Web.CodeGenerater
         public List<EntityFieldModel> Fields { get; set; }
         public string Name { get; set; }
         public string Prefix { get; set; }
+        public string BaseClass { get; set; }
     }
     
     #endregion

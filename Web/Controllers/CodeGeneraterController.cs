@@ -36,7 +36,7 @@ namespace Web.Controllers
                 new List<string> { "Result", "Save", "Source", "Query" }.ForEach(preFix =>
                 {
                     var dtoTemplate = new DtoTemplate();
-                    dtoTemplate.Dto = new DtoModel { Name = entity.Name, Fields = entity.Fields, Prefix = preFix };
+                    dtoTemplate.Dto = new DtoModel { Name = entity.Name, Fields = preFix == "Query" ? new List<EntityFieldModel>() : entity.Fields, Prefix = preFix, BaseClass = preFix == "Query" ? "BaseQueryPaginationDto" : "BaseIdDto" };
                     Directory.CreateDirectory($@"{basePath}\ApplicationCore\Dtos\{entity.Name}");
                     System.IO.File.WriteAllText($@"{basePath}\ApplicationCore\Dtos\{entity.Name}\{entity.Name}{preFix}Dto.cs", dtoTemplate.TransformText());
                 });

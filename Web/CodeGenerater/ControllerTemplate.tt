@@ -9,28 +9,29 @@ using Snail.Core.Permission;
 using System.Collections.Generic;
 using System.Linq;
 using Web.DTO;
+using Service;
 
 namespace Web.Controllers
 {
     [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
     public class <#= Name#>Controller : DefaultBaseController, ICrudController<<#= Name#>, <#= Name#>SaveDto, <#= Name#>ResultDto, <#= Name#>QueryDto>
     {
-        private I<#= Name#>Service _service;
-        public <#= Name#>Controller(I<#= Name#>Service service,ControllerContext controllerContext):base(controllerContext) {
+        private <#= Name#>Service _service;
+        public <#= Name#>Controller(<#= Name#>Service service,ControllerContext controllerContext):base(controllerContext) {
             this.controllerContext = controllerContext;
             this._service = service;
         } 
         [HttpGet]
         public List<<#= Name#>ResultDto> QueryList([FromQuery]<#= Name#>QueryDto queryDto)
         {
-            var pred = ExpressionExtensions.True<<#= Name#>>().AndIf(queryDto.Name.HasValue(), a => a.Name == queryDto.Name);
+            var pred = ExpressionExtensions.True<<#= Name#>>();
             return controllerContext.mapper.ProjectTo<<#= Name#>ResultDto>(_service.QueryList(pred)).ToList();
         }
 
         [HttpGet]
         public IPageResult<<#= Name#>ResultDto> QueryPage([FromQuery]<#= Name#>QueryDto queryDto)
         {
-            var pred = ExpressionExtensions.True<<#= Name#>>().AndIf(queryDto.Name.HasValue(), a => a.Name == queryDto.Name);
+            var pred = ExpressionExtensions.True<<#= Name#>>();
             return controllerContext.mapper.ProjectTo<<#= Name#>ResultDto>(_service.QueryList(pred)).ToPageList(queryDto);
         }
         [HttpGet]
