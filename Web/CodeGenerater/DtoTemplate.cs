@@ -15,9 +15,9 @@ namespace Web.CodeGenerater
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityConfigTemplate.tt"
+    #line 1 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public partial class EntityConfigTemplate : EntityConfigTemplateBase
+    public partial class DtoTemplate : DtoTemplateBase
     {
 #line hidden
         /// <summary>
@@ -25,38 +25,9 @@ namespace Web.CodeGenerater
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using ApplicationCore.Entity;\r\nusing Microsoft.EntityFrameworkCore;\r\nusing Micros" +
-                    "oft.EntityFrameworkCore.Metadata.Builders;\r\nusing System;\r\nnamespace Infrastruct" +
-                    "ure.Data.Config\r\n{\r\n    public class ");
-            
-            #line 7 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityConfigTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Name));
-            
-            #line default
-            #line hidden
-            this.Write("Configuration : BaseConfiguration,IEntityTypeConfiguration<");
-            
-            #line 7 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityConfigTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Name));
-            
-            #line default
-            #line hidden
-            this.Write(">\r\n    {\r\n        public void Configure(EntityTypeBuilder<");
-            
-            #line 9 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityConfigTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Name));
-            
-            #line default
-            #line hidden
-            this.Write("> builder)\r\n        {\r\n            base.Config(builder);\r\n            builder.ToT" +
-                    "able(\"");
-            
-            #line 12 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityConfigTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TableName));
-            
-            #line default
-            #line hidden
-            this.Write("\");\r\n        }\r\n    }\r\n}\r\n");
+            this.Write("using System;\r\nusing System.Collections.Generic;\r\nusing System.Linq;\r\nusing Syste" +
+                    "m.Threading.Tasks;\r\n\r\nnamespace Web.CodeGenerater\r\n{\r\n    public class DtoTempla" +
+                    "te\r\n    {\r\n    }\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -68,7 +39,7 @@ namespace Web.CodeGenerater
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public class EntityConfigTemplateBase
+    public class DtoTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

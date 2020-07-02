@@ -7,7 +7,7 @@
 //     重新生成代码，这些更改将会丢失。
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace OrPMS.Web.CodeGenerater
+namespace Web.CodeGenerater
 {
     using System;
     
@@ -15,7 +15,7 @@ namespace OrPMS.Web.CodeGenerater
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\ServiceTemplate.tt"
+    #line 1 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\ServiceTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
     public partial class ServiceTemplate : ServiceTemplateBase
     {
@@ -30,21 +30,21 @@ namespace OrPMS.Web.CodeGenerater
                     "ric;\r\nusing System.Linq;\r\nusing System.Text;\r\n\r\nnamespace Service\r\n{\r\n    public" +
                     " class ");
             
-            #line 12 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\ServiceTemplate.tt"
+            #line 12 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\ServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write("Service : BaseService<");
             
-            #line 12 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\ServiceTemplate.tt"
+            #line 12 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\ServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write(">\r\n    {\r\n        public ");
             
-            #line 14 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\ServiceTemplate.tt"
+            #line 14 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\ServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default

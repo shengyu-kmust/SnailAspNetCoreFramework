@@ -7,7 +7,7 @@
 //     重新生成代码，这些更改将会丢失。
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace OrPMS.Web.CodeGenerater
+namespace Web.CodeGenerater
 {
     using System.Linq;
     using System.Text;
@@ -18,7 +18,7 @@ namespace OrPMS.Web.CodeGenerater
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\EntityTemplate.tt"
+    #line 1 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
     public partial class EntityTemplate : EntityTemplateBase
     {
@@ -30,65 +30,65 @@ namespace OrPMS.Web.CodeGenerater
         {
             this.Write("\r\nnamespace ApplicationCore.Entity\r\n{\r\n    public class ");
             
-            #line 9 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\EntityTemplate.tt"
+            #line 9 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Entity.Name));
             
             #line default
             #line hidden
             this.Write(":BaseEntity\r\n    {\r\n");
             
-            #line 11 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\EntityTemplate.tt"
+            #line 11 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
 
-    foreach(var item in Entity.Fields){
+    foreach(var item in Entity.Columns){
 
             
             #line default
             #line hidden
             this.Write("        /// <summary>\r\n        /// ");
             
-            #line 15 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\EntityTemplate.tt"
+            #line 15 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Comment));
             
             #line default
             #line hidden
             this.Write("\r\n        /// </summary>\r\n");
             
-            #line 17 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\EntityTemplate.tt"
+            #line 17 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
  foreach(var attr in item.Attributes??new List<string>()){ 
             
             #line default
             #line hidden
             this.Write("        ");
             
-            #line 18 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\EntityTemplate.tt"
+            #line 18 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(attr));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 19 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\EntityTemplate.tt"
+            #line 19 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("        public ");
             
-            #line 20 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\EntityTemplate.tt"
+            #line 20 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Type));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 20 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\EntityTemplate.tt"
+            #line 20 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Name));
             
             #line default
             #line hidden
             this.Write("  {get;set;}\r\n");
             
-            #line 21 "G:\work\OrPMS\OrPMS.Web\CodeGenerater\EntityTemplate.tt"
+            #line 21 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
 
     }
 
