@@ -91,6 +91,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="CodeGenerater\ControllerTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ControllerTemplate.cs</LastGenOutput>
+    </None>
     <None Update="CodeGenerater\DtoTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DtoTemplate.cs</LastGenOutput>
@@ -114,6 +118,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="CodeGenerater\ControllerTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ControllerTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="CodeGenerater\DtoTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrPMS.Web.CodeGenerater
+namespace Web.CodeGenerater
 {
    
 
     public static class CodeGeneraterHelper
     {
+        /// <summary>
+        /// 从json配置里的entity配置节点，生成template.tt使用的model
+        /// </summary>
+        /// <param name="tableModels"></param>
+        /// <param name="errors"></param>
+        /// <returns></returns>
         public static List<EntityModel> GenerateEntitiesModelFromTableModels(List<EntityConfigModel> tableModels, out List<string> errors)
         {
             var result = new List<EntityModel>();

@@ -1,0 +1,17 @@
+{
+  "BasePath":"G:\\mywork\\SnailAspNetCoreFramework",
+  "Entities": [
+    {
+      "name": "Demo",
+      "tableName": "Demo",
+      "columns": [
+        "Name,string,姓名,50",
+        "Gender,EGender,性别",
+        "Age,int,年龄",
+        "Birthday,DateTime,出生日期",
+        "IsDeleted,bool,是否有效"
+      ]
+    }
+  ]
+}
+

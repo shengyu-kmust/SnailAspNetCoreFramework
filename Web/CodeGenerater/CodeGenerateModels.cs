@@ -1,14 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace OrPMS.Web.CodeGenerater
+namespace Web.CodeGenerater
 {
+    /// <summary>
+    /// 代码生成配置文件
+    /// </summary>
     public class CodeGenerateConfig
     {
+        public string BasePath { get; set; }
         public List<EntityConfigModel> Entities { get; set; }
     }
+
+    /// <summary>
+    /// 配置里的entity节点
+    /// </summary>
     public class EntityConfigModel
     {
         public string Name { get; set; }
@@ -16,6 +21,8 @@ namespace OrPMS.Web.CodeGenerater
         public List<string> Columns { get; set; }
     }
 
+    #region 用于在template.tt里使用的model
+    #region 生成entity的model
     public class EntityModel
     {
         public List<EntityFieldModel> Fields { get; set; }
@@ -41,5 +48,19 @@ namespace OrPMS.Web.CodeGenerater
         /// </summary>
         public List<string> Attributes { get; set; }
     }
+    #endregion
+    #region 生成dto的model
+
+    public class DtoModel
+    {
+        public List<EntityFieldModel> Fields { get; set; }
+        public string Name { get; set; }
+        public string Prefix { get; set; }
+    }
+    
+    #endregion
+
+    #endregion
+
 
 }

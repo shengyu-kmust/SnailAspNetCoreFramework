@@ -28,67 +28,68 @@ namespace Web.CodeGenerater
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\nnamespace ApplicationCore.Entity\r\n{\r\n    public class ");
+            this.Write("using System;\r\nusing System.ComponentModel.DataAnnotations;\r\nnamespace Applicatio" +
+                    "nCore.Entity\r\n{\r\n    public class ");
             
-            #line 9 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
+            #line 10 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Entity.Name));
             
             #line default
             #line hidden
             this.Write(":BaseEntity\r\n    {\r\n");
             
-            #line 11 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
+            #line 12 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
 
-    foreach(var item in Entity.Columns){
+    foreach(var item in Entity.Fields){
 
             
             #line default
             #line hidden
             this.Write("        /// <summary>\r\n        /// ");
             
-            #line 15 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
+            #line 16 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Comment));
             
             #line default
             #line hidden
             this.Write("\r\n        /// </summary>\r\n");
             
-            #line 17 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
+            #line 18 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
  foreach(var attr in item.Attributes??new List<string>()){ 
             
             #line default
             #line hidden
             this.Write("        ");
             
-            #line 18 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
+            #line 19 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(attr));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 19 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
+            #line 20 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("        public ");
             
-            #line 20 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
+            #line 21 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Type));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 20 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
+            #line 21 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Name));
             
             #line default
             #line hidden
             this.Write("  {get;set;}\r\n");
             
-            #line 21 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
+            #line 22 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EntityTemplate.tt"
 
     }
 

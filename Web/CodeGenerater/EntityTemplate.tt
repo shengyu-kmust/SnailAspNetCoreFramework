@@ -3,13 +3,14 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-
+using System;
+using System.ComponentModel.DataAnnotations;
 namespace ApplicationCore.Entity
 {
     public class <#= Entity.Name #>:BaseEntity
     {
 <#
-    foreach(var item in Entity.Columns){
+    foreach(var item in Entity.Fields){
 #>
         /// <summary>
         /// <#= item.Comment #>

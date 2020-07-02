@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Web.CodeGenerater
 {
-    public partial class ServiceTemplate
+    public partial class ControllerTemplate
     {
         public string Name { get; set; }
     }

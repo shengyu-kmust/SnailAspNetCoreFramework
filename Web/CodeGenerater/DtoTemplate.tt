@@ -6,10 +6,10 @@
 
 namespace ApplicationCore.Entity
 {
-    public class <#= Entity.Name #>:BaseEntity
+    public class <#= Dto.Name #><#= Dto.Prefix#>Dto:IDto
     {
 <#
-    foreach(var item in Entity.Columns){
+    foreach(var item in Dto.Fields){
 #>
         /// <summary>
         /// <#= item.Comment #>
