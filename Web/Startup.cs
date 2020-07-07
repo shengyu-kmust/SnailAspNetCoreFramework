@@ -272,6 +272,7 @@ namespace Web
 
             services.AddCors();
 
+
         }
 
         /// <summary>
@@ -373,6 +374,7 @@ namespace Web
             #region 3.1模板 的mvc
             app.UseRouting();
             app.UseAuthorization();
+            app.UseResponseCaching();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHealthChecks("/health");

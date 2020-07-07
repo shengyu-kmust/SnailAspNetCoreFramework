@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Web.ConfigureServicesExtenssions
         public static IServiceCollection ConfigAllOption(this IServiceCollection services,IConfiguration configuration)
         {
             services.Configure<StaticFileUploadOption>(configuration.GetSection("StaticFileUploadOption"));
-
+            services.Configure<LogInterceptorOption>(configuration.GetSection("LogInterceptorOption"));
             return services;
         }
     }

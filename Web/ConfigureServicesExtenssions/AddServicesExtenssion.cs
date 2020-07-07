@@ -25,6 +25,8 @@ namespace Web.ConfigureServicesExtenssions
             services.AddHttpContextAccessor();//注册，IHttpContextAccessor，在任何地方可以通过此对象获取httpcontext，从而获取单前用户
             services.AddAutoMapper(typeof(Startup));
             services.AddApplicationLicensing(configuration.GetSection("ApplicationlicensingOption"));
+            services.AddResponseCaching();
+
             return services;
         }
     }

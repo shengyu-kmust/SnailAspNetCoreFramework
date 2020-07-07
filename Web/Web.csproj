@@ -16,8 +16,12 @@
   <ItemGroup>
     <!--SPA的配置-->
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Interceptor\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Interceptor\**" />
+    <EmbeddedResource Remove="Interceptor\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="Interceptor\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
     <Content Include="ClientApp\dist\**\*" CopyToPublishDirectory="Always" CopyToOutputDirectory="Always" />
   </ItemGroup>
