@@ -12,6 +12,10 @@
     
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>G:\mywork\SnailAspNetCoreFramework\Web\Web.xml</DocumentationFile>
+  </PropertyGroup>
+
 
   <ItemGroup>
     <!--SPA的配置-->
@@ -103,9 +107,25 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ControllerTemplate.cs</LastGenOutput>
     </None>
+    <None Update="CodeGenerater\VueRouterTemplate.tt">
+      <LastGenOutput>VueRouterTemplate.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+    <None Update="CodeGenerater\VueApiTemplate.tt">
+      <LastGenOutput>VueApiTemplate.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+    <None Update="CodeGenerater\VueTemplate.tt">
+      <LastGenOutput>VueTemplate.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
     <None Update="CodeGenerater\DtoTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DtoTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="CodeGenerater\AppDbContextTemplate.tt">
+      <LastGenOutput>AppDbContextTemplate.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
     </None>
     <None Update="CodeGenerater\EntityConfigTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -126,15 +146,50 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="CodeGenerater\AppDbContextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AppDbContextTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="CodeGenerater\ControllerTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ControllerTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="CodeGenerater\DtoTemplate.cs">
+      <DependentUpon>DtoTemplate.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="CodeGenerater\DtoTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DtoTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="CodeGenerater\VueApiTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>VueApiTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="CodeGenerater\VueRouterTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>VueRouterTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="CodeGenerater\VueTemplate.cs">
+      <DependentUpon>VueTemplate.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="CodeGenerater\VueTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>VueTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="CodeGenerater\EntityConfigTemplate.cs">
+      <DependentUpon>EntityConfigTemplate.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="CodeGenerater\EntityConfigTemplate.cs">
       <DesignTime>True</DesignTime>

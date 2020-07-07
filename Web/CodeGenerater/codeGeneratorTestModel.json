@@ -4,6 +4,7 @@
     {
       "name": "Demo",
       "tableName": "Demo",
+      "comment": "示例",
       "columns": [
         "Name,string,姓名,50",
         "Gender,int,性别",

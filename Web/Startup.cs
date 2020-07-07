@@ -141,7 +141,7 @@ namespace Web
             services.AddOpenApiDocument(conf =>
             {
                 conf.Description = "后台接口文档des";
-                conf.DocumentName = "后台接口文档name";
+                conf.DocumentName = "doc";
                 conf.GenerateExamples = true;
                 conf.Title = "后台接口文档title";
                 conf.PostProcess = document =>
@@ -384,20 +384,24 @@ namespace Web
 
             #endregion
 
-            #region swag
-            //* 如果出现如下错误：Fetch errorundefined / swagger / v1 / swagger.json
-            //* 解决：原因是swagger 的api在解析时出错，在chrome f12看具体请求swagger.json的错误，解决
-            app.UseOpenApi(config =>
+            #region swagger
+            if (Configuration.GetValue<bool>("EnableSwagger"))
             {
-                config.PostProcess = (document, req) =>
+                //* 如果出现如下错误：Fetch errorundefined / swagger / v1 / swagger.json
+                //* 解决：原因是swagger 的api在解析时出错，在chrome f12看具体请求swagger.json的错误，解决
+                app.UseOpenApi(config =>
                 {
-                    //下面是向swag怎加https和http的两种方式
-                    document.Schemes.Add(OpenApiSchema.Https);
-                    document.Schemes.Add(OpenApiSchema.Http);
-                };
-            });
-            app.UseSwaggerUi3();
-            //app.UseReDoc();
+                    config.PostProcess = (document, req) =>
+                    {
+                        //下面是向swag怎加https和http的两种方式
+                        document.Schemes.Add(OpenApiSchema.Https);
+                        document.Schemes.Add(OpenApiSchema.Http);
+                    };
+                });
+                app.UseSwaggerUi3();
+                //app.UseReDoc();
+            }
+
             #endregion
 
 

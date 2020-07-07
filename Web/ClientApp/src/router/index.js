@@ -8,6 +8,7 @@ import Layout from '@/layout'
 
 /** 引入所有的动态路由 */
 import systemRouters from './systemRouters'
+import basicRouters from './basicRouters'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -114,6 +115,7 @@ export const constantRoutes = [
 
 export const asyncRoutes = [
   systemRouters,
+  basicRouters,
   {
     path: '/permission',
     component: Layout,

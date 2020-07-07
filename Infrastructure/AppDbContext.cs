@@ -4,13 +4,10 @@ using ApplicationCore.Entity;
 using Autofac;
 using DotNetCore.CAP;
 using Microsoft.EntityFrameworkCore;
-using Snail.Common;
 using Snail.Core.Default;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Infrastructure
 {
@@ -30,7 +27,6 @@ namespace Infrastructure
 
         #endregion
         public DbSet<SampleEntity> SampleEntities { get; set; }
-        public DbSet<Demo> Demo { get; set; }
         private ICapPublisher _publisher;
         public AppDbContext(DbContextOptions<AppDbContext> options, ICapPublisher publisher)
             : base(options)

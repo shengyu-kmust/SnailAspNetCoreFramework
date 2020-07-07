@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Snail.Core.Permission;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Web.CodeGenerater;
 
 namespace Web.Controllers
@@ -13,7 +14,7 @@ namespace Web.Controllers
     [Route("api/[Controller]/[Action]")]
     public class CodeGeneraterController : ControllerBase
     {
-        public static string basePath = @"C:\Users\37308\Desktop\code";
+        private static string basePath = @"C:\Users\37308\Desktop\code";
         [HttpGet]
         public void Generater()
         {
@@ -26,6 +27,10 @@ namespace Web.Controllers
             GenerateEntityConfig(entities);
             GenerateDto(entities);
             GenerateController(entities);
+            GenerateAppDbContext(entities);
+            GenerateVue(entities);
+            GenerateVueApi(entities);
+            GenerateVueRouter(entities);
         }
 
         #region ApplicationCore
@@ -96,6 +101,46 @@ namespace Web.Controllers
 
         #endregion
 
+        #region AppDbContext
+        private void GenerateAppDbContext(List<EntityModel> entities)
+        {
+            var appDbContextTemplate = new AppDbContextTemplate();
+            appDbContextTemplate.EntityNames = entities.Select(a => a.Name).ToList();
+            Directory.CreateDirectory($@"{basePath}\Infrastructure");
+            System.IO.File.WriteAllText($@"{basePath}\Infrastructure\AppDbContextPartial.cs", appDbContextTemplate.TransformText());
+        }
 
+        #endregion
+
+        #region Vue
+        private void GenerateVue(List<EntityModel> entities)
+        {
+            var vueModels = CodeGeneraterHelper.GenerateVueModelFromEntityModels(entities);
+            foreach (var vue in vueModels)
+            {
+                var vueTemplate = new VueTemplate();
+                vueTemplate.Vue = vue;
+                Directory.CreateDirectory($@"{basePath}\Web\ClientApp\src\views\basic");
+                System.IO.File.WriteAllText($@"{basePath}\Web\ClientApp\src\views\basic\{vue.Name}.vue", vueTemplate.TransformText());
+            }
+        }
+        #endregion
+        #region vue api
+        private void GenerateVueApi(List<EntityModel> entities)
+        {
+            var vueApiTemplate = new VueApiTemplate();
+            vueApiTemplate.EntityNames = entities.Select(a => a.Name).ToList();
+            Directory.CreateDirectory($@"{basePath}\Web\ClientApp\src\api");
+            System.IO.File.WriteAllText($@"{basePath}\Web\ClientApp\src\api\basic.js", vueApiTemplate.TransformText());
+
+        }
+        #endregion
+        private void GenerateVueRouter(List<EntityModel> entities)
+        {
+            var vueRouterTemplate = new VueRouterTemplate();
+            vueRouterTemplate.VueRouteModels = entities.Select(a => new VueRouteModel { Name= CodeGeneraterHelper.ToCamel(a.Name),Comment=a.Comment}).ToList();
+            Directory.CreateDirectory($@"{basePath}\Web\ClientApp\src\router");
+            System.IO.File.WriteAllText($@"{basePath}\Web\ClientApp\src\router\basicRouter.js", vueRouterTemplate.TransformText());
+        }
     }
 }

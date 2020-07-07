@@ -5,6 +5,9 @@ using Web.Filter;
 
 namespace Web.Controllers
 {
+    /// <summary>
+    /// 测试用
+    /// </summary>
     public class TestController : DefaultBaseController
     {
         private IInterceptorService interceptorService;
@@ -14,6 +17,10 @@ namespace Web.Controllers
 
         }
 
+        /// <summary>
+        /// 获取当前登录人
+        /// </summary>
+        /// <returns>返回登录人的id</returns>
         public string GetCurrentUserId()
         {
             return currentUserId;
@@ -21,6 +28,11 @@ namespace Web.Controllers
 
         #region interceptor
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpGet]
         public string SyncReturn(string input)
         {

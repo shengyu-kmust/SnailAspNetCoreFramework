@@ -64,6 +64,40 @@ namespace Web.CodeGenerater
             }
             return result;
         }
+
+        public static List<VueModel> GenerateVueModelFromEntityModels(List<EntityModel> entityModels)
+        {
+            return entityModels.Select(a => new VueModel
+            {
+                Name = ToCamel(a.Name),
+                Fields = a.Fields.Select(i => new VueFieldModel
+                {
+                    Name = ToCamel(i.Name),
+                    Comment = i.Comment,
+                    Type = ConvertEntityTypeToVueType(i.Type)
+                }).ToList()
+            }).ToList();
+        }
+
+        public static string ToCamel(string val)
+        {
+            return val.First().ToString().ToLower() + val.Substring(1, val.Length - 1);
+        }
+        public static string ConvertEntityTypeToVueType(string entityType)
+        {
+            //支持：string,int,datetime,date,select,multiSelect,time
+            switch (entityType)
+            {
+                case "string":
+                    return "string";
+                case "DateTime":
+                    return "datetime";
+                case "int":
+                    return "int";
+                default:
+                    return "string";
+            }
+        }
     }
     
 
