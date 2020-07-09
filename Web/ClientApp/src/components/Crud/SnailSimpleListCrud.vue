@@ -21,10 +21,10 @@
       <!-- table分页 -->
       <el-table
         ref="table"
-        :height="tableHeight"
         border
+        v-bind="tableBind"
+        :height="tableHeight"
         :data="tableDatas"
-        :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
         :highlight-current-row="highlightCurrentRow"
         @current-change="(currentRow)=>emitEventHandler('current-change',currentRow)"
         @selection-change="(selecttion)=>emitEventHandler('selection-change',selecttion)"
@@ -36,7 +36,7 @@
             序号
           </template>
         </el-table-column>
-        <template v-for="(field,index) in fields">
+        <template v-for="(field,index) in fields.filter(v=>v.noForTable!=true)">
           <el-table-column :key="index" :prop="field.name" :label="field.label" v-bind="field">
             <!-- 如果field的slotName字段有值，则用外部传入的slot来替换column里的template，否则用默认的 -->
             <template slot-scope="scope">
@@ -111,6 +111,10 @@ export default {
       default: () => ({})
     },
     beforeSearch: {
+      type: Function,
+      default: () => { }
+    },
+    afterSearch: {
       type: Function,
       default: () => { }
     },
@@ -250,9 +254,12 @@ export default {
               if (typeof this.handSearchTableDatas === 'function') {
                 var data = this.handSearchTableDatas(res)
                 if (data) {
-                  this.tableDatas = data
-                  return
+                  res.data = data
                 }
+              }
+
+              if (typeof this.afterSearch === 'function') {
+                this.afterSearch()
               }
               this.tableDatas = res.data
             }).finally(() => {

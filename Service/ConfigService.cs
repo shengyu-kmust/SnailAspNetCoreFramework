@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Service
 {
-    public class ConfigService : BaseService<Config>
+    public class ConfigService : BaseService<Config>,IConfigService
     {
         public static List<(string parentKey, string keyField, string valueField)> ConfigKeyValueFieldSetting = new List<(string parentKey, string keyField, string valueField)>
         {
