@@ -54,6 +54,7 @@ export const userSave = data => request.post('/api/user/save', data)
 
 // 角色管理
 export const roleQueryPage = params => request.get('/api/role/queryPage', { params })
+export const roleQueryList = params => request.get('/api/role/queryList', { params })
 export const roleFind = data => request.post('/api/role/find', data)
 export const roleRemove = data => request.post('/api/role/remove', data)
 export const roleSave = data => request.post('/api/role/save', data)
@@ -69,3 +70,5 @@ export const getUserRoles = params => request.get('/api/Permission/GetUserRoles'
 export const getAllRole = params => request.get('/api/Permission/GetAllRole', { params })
 export const setUserRoles = data => request.post('/api/Permission/SetUserRoles', data)
 export const queryListTree = params => request.get('/api/Config/QueryListTree', { params })
+export const getRoleResources = params => request.get('/api/Permission/GetRoleResources', { params })
+export const setRoleResources = data => request.post('/api/Permission/SetRoleResources', data)

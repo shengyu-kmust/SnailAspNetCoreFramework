@@ -2,26 +2,23 @@
   <div style="display:flex;flex:1">
     <el-row style="width:100%">
       <el-col :span="12" style="height:100%">
-        <snail-page-table
+        <snail-table
           ref="table"
-          v-loading="loading"
-          :rows="tableDatas"
+          :rows="roles"
           :fields="roleFields"
-          :pagination="pagination"
-          :multi-select="multiSelect"
-        ></snail-page-table>
+          @row-click="selectRole"
+        ></snail-table>
       </el-col>
       <el-col :span="12" style="height:100%">
-        <el-button>展开</el-button>
-        <el-button>折叠</el-button>
+        <el-button @click="save">保存</el-button>
         <el-tree
           ref="tree"
-          :data="data"
+          :data="resources"
           show-checkbox
           default-expand-all
           node-key="id"
           highlight-current
-          :props="defaultProps"
+          :props="treeProps"
         >
         </el-tree>
       </el-col>
@@ -33,23 +30,14 @@
 export default {
   data() {
     return {
-      tableDatas: [],
-      submitApi: '',
-      formData: {},
-      visible: false,
-      pagination: { pageIndex: 1, pageSize: 15, total: 0 },
-      loading: false,
-      keyValues: {
-        genders: []
+      resources: [], // 所有资源，树结构
+      roleResources: [], // 记录角色的资源id
+      roles: [], // 所有角色列表
+      treeProps: {
+        children: 'children',
+        label: 'name'
       },
-      rules: {
-        name: [
-          { required: true, message: '必填项', trigger: 'blur' }
-        ],
-        account: [
-          { required: true, message: '必填项', trigger: 'blur' }
-        ]
-      }
+      currentRow: {}
     }
   },
   computed: {
@@ -101,23 +89,31 @@ export default {
     this.init()
   },
   methods: {
+    save() {
+      var resourceKeys = this.$refs.tree.getCheckedKeys()
+      this.$api.setRoleResources({
+        roleKey: this.currentRow.id,
+        resourceKeys: resourceKeys
+      }).then(res => {
+        this.$message.success('保存成功')
+        this.selectRole(this.currentRow)
+      })
+    },
+    selectRole(row) {
+      this.currentRow = row
+      this.$api.getRoleResources({ roleKey: row.id }).then(res => {
+        this.roleResources = res.data.resourceKeys || []
+        this.$refs.tree.setCheckedKeys(this.roleResources)
+        console.log(res)
+      })
+    },
     init() {
-      this.keyValues.genders = [
-        {
-          key: 'male',
-          value: '男'
-        }, {
-          key: 'female',
-          value: '女'
-        }
-      ]
-    },
-    selectFormatter(row, column, cellValue, index) {
-      // return cellValue
-      return this.$util.keyValueFormart(this.keyValues.yesnos, cellValue)
-    },
-    timeFormatter(row, column, cellValue, index) {
-      return this.$dayjs(cellValue).format('YYYY-MM-DD')
+      this.$api.resourceQueryListTree().then(res => {
+        this.resources = res.data
+      })
+      this.$api.getAllRole().then(res => {
+        this.roles = res.data
+      })
     }
   }
 }
