@@ -272,3 +272,11 @@ export default {
   }
 }
 </script>
+<style  lang="scss" scoped>
+.el-table{
+  /deep/ .el-table__body-wrapper{
+    overflow: scroll;
+  }
+}
+
+</style>

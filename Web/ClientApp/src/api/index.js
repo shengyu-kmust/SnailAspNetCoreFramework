@@ -58,6 +58,12 @@ export const roleFind = data => request.post('/api/role/find', data)
 export const roleRemove = data => request.post('/api/role/remove', data)
 export const roleSave = data => request.post('/api/role/save', data)
 
+// 资源管理
+export const resourceQueryListTree = params => request.get('/api/resource/queryListTree', { params })
+export const resourceFind = data => request.post('/api/resource/find', data)
+export const resourceRemove = data => request.post('/api/resource/remove', data)
+export const resourceSave = data => request.post('/api/resource/save', data)
+
 // 其它权限相关
 export const getUserRoles = params => request.get('/api/Permission/GetUserRoles', { params })
 export const getAllRole = params => request.get('/api/Permission/GetAllRole', { params })

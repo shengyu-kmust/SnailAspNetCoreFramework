@@ -6,7 +6,9 @@ using Service;
 using Snail.Common;
 using Snail.Common.Extenssions;
 using Snail.Core;
+using Snail.Core.Attributes;
 using Snail.Core.Permission;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Web.DTO;
@@ -15,7 +17,7 @@ using Web.DTO.Resource;
 namespace Web.Controllers
 {
 
-    //[Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
+    [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy),Resource(Description ="权限资源管理")]
     public class ResourceController : DefaultBaseController, ICrudController<Resource, ResourceSaveDto, ResourceResultDto, KeyQueryDto>
     {
         private ResourceService _service;
@@ -29,21 +31,47 @@ namespace Web.Controllers
         [HttpGet]
         public List<ResourceResultDto> QueryList([FromQuery]KeyQueryDto queryDto)
         {
-            var pred = ExpressionExtensions.True<Resource>().AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord) || a.Code.Contains(queryDto.KeyWord));
+            var pred = ExpressionExtensions.True<Resource>().And(a => !a.IsDeleted).AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord) || a.Code.Contains(queryDto.KeyWord));
             return controllerContext.mapper.ProjectTo<ResourceResultDto>(_service.QueryList(pred)).ToList();
         }
 
         [HttpGet]
         public IPageResult<ResourceResultDto> QueryPage([FromQuery]KeyQueryDto queryDto)
         {
-            var pred = ExpressionExtensions.True<Resource>().AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord) || a.Code.Contains(queryDto.KeyWord));
+            var pred = ExpressionExtensions.True<Resource>().And(a => !a.IsDeleted).AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord) || a.Code.Contains(queryDto.KeyWord));
             return controllerContext.mapper.ProjectTo<ResourceResultDto>(_service.QueryList(pred)).ToPageList(queryDto);
         }
+
+        [Resource(Description = "查询资源树")]
+        [HttpGet]
+        public List<ResourceTreeResultDto> QueryListTree([FromQuery]KeyQueryDto queryDto)
+        {
+            var pred = ExpressionExtensions.True<Resource>().And(a=>!a.IsDeleted).AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord));
+            var list = controllerContext.mapper.ProjectTo<ResourceResultDto>(_service.QueryList(pred)).ToList();
+            return list.Where(a=>!a.ParentId.HasValue()).Select(a => GetChildren(a, list)).ToList();
+        }
+
+        private ResourceTreeResultDto GetChildren(ResourceResultDto parent, List<ResourceResultDto> dtos)
+        {
+            return new ResourceTreeResultDto
+            {
+                Id = parent.Id,
+                Code = parent.Code,
+                Name = parent.Name,
+                ParentId=parent.ParentId,
+                Children = dtos.Where(a => a.ParentId == parent.Id).Select(a => GetChildren(a, dtos)).ToList()
+            };
+        }
+
+
         [HttpGet]
         public ResourceResultDto Find(string id)
         {
             return controllerContext.mapper.Map<ResourceResultDto>(_service.QueryList(a => a.Id == id).FirstOrDefault());
         }
+
+
+        [Resource(Description = "删除资源")]
         [HttpPost]
         public void Remove(List<string> ids)
         {
@@ -51,6 +79,7 @@ namespace Web.Controllers
             _permissionStore.ReloadPemissionDatas();
         }
 
+        [Resource(Description = "保存资源")]
         [HttpPost]
         public void Save(ResourceSaveDto saveDto)
         {

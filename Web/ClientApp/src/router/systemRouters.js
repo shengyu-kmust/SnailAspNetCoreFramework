@@ -43,7 +43,7 @@ const systemRouters = {
       meta: { title: '用户授权' }
     },
     {
-      path: 'resource',
+      path: 'config',
       component: resource,
       name: 'resource',
       meta: { title: '权限资源管理' }
@@ -55,7 +55,7 @@ const systemRouters = {
       meta: { title: '角色授权' }
     },
     {
-      path: 'config',
+      path: 'resource',
       component: config,
       name: 'config',
       meta: { title: '配置' }

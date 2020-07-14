@@ -1150,6 +1150,26 @@
             父资源id
             </summary>
         </member>
+        <member name="P:Web.DTO.Resource.ResourceTreeResultDto.Code">
+            <summary>
+            资源键，如接口名，菜单名，唯一键
+            </summary>
+        </member>
+        <member name="P:Web.DTO.Resource.ResourceTreeResultDto.Name">
+            <summary>
+            资源描述，如接口的名称、菜单的名称
+            </summary>
+        </member>
+        <member name="P:Web.DTO.Resource.ResourceTreeResultDto.ParentId">
+            <summary>
+            父资源id
+            </summary>
+        </member>
+        <member name="P:Web.DTO.Resource.ResourceTreeResultDto.Children">
+            <summary>
+            子资源
+            </summary>
+        </member>
         <member name="T:Web.Filter.CacheFilterAttribute">
             <summary>
             缓存过滤器

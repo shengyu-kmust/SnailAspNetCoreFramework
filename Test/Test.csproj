@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Snail\Snail\Snail.Common\Snail.Common.csproj" />
     <ProjectReference Include="..\Web\Web.csproj" />
   </ItemGroup>
 
