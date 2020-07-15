@@ -6,6 +6,7 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
+import checkPermission from '@/utils/permission'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -35,17 +36,17 @@ router.beforeEach(async(to, from, next) => {
         try {
           // get user info
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-          const { roles, roleNames } = await store.dispatch('user/getInfo')
-          const isAdmin = roleNames.includes('SuperAdmin')
+          await store.dispatch('user/getInfo')
           // generate accessible routes map based on roles
           await store.dispatch('permission/getAllResourceRoles')// 向后台获取资源和角色对应关系
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles, isAdmin)
-
-          // dynamically add accessible routes
-          router.addRoutes(accessRoutes)
+          // const isAdmin = roleNames.includes('SuperAdmin')
+          // const accessRoutes = await store.dispatch('permission/generateRoutes', roles, isAdmin)
+          // // dynamically add accessible routes
+          // router.addRoutes(accessRoutes)
 
           // hack method to ensure that addRoutes is complete
           // set the replace: true, so the navigation will not leave a history record
+
           next({ ...to, replace: true })
         } catch (error) {
           // remove token and go to login page to re-login

@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { iframeRuntime } from '@/utils'
+// import { iframeRuntime } from '@/utils'
 
 Vue.use(Router)
 
 /* Layout */
 // 用于嵌套到iframe里并去除菜单页，但前端微服务时用
 const Layout = () => {
-  if (iframeRuntime()) {
-    return import('@/layout/noLayout')
-  }
+  // if (iframeRuntime()) {
+  //   return import('@/layout/noLayout')
+  // }
   return import('@/layout')
 }
 
@@ -151,15 +151,17 @@ export const asyncRoutes = [
     }]
   }
 ]
+
+export const allRoute = constantRoutes.concat(asyncRoutes)
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  routes: allRoute
 })
 
 const router = createRouter()
 
-// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465,todo 不用这种，可以删除？
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router

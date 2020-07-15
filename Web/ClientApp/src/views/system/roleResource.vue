@@ -104,7 +104,6 @@ export default {
       this.$api.getRoleResources({ roleKey: row.id }).then(res => {
         this.roleResources = res.data.resourceKeys || []
         this.$refs.tree.setCheckedKeys(this.roleResources)
-        console.log(res)
       })
     },
     init() {

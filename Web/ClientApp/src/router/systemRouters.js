@@ -1,8 +1,8 @@
 import { iframeRuntime } from '@/utils'
 const Layout = () => {
-  if (iframeRuntime()) {
-    return import('@/layout/noLayout')
-  }
+  // if (iframeRuntime()) {
+  //   return import('@/layout/noLayout')
+  // }
   return import('@/layout')
 }
 
@@ -21,7 +21,8 @@ const systemRouters = {
   name: 'systems',
   meta: {
     title: '系统管理',
-    iconClass: 'el-icon-setting'
+    iconClass: 'el-icon-setting',
+    resourceCode: 'PermissionController'
   },
   children: [
     {
@@ -58,7 +59,7 @@ const systemRouters = {
       path: 'config1',
       component: config,
       name: 'config',
-      meta: { title: '配置' }
+      meta: { title: '配置', resourceCode: 'ConfigController' }
     }
   ]
 }

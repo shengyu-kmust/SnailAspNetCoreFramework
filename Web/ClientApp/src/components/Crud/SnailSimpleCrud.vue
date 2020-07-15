@@ -185,7 +185,6 @@ export default {
       var data = {}
       var currentRow = this.currentRow
       var selection = this.selection
-      console.log('删除-' + JSON.stringify(currentRow))
       if (this.multiSelect) {
         if (selection.length > 0) {
           data = selection.map(a => a.id)
@@ -205,7 +204,6 @@ export default {
         })
         return
       }
-      console.log(data)
       this.$api[this.removeApi](data).then(res => {
         this.$message({
           message: '操作成功',
@@ -245,16 +243,13 @@ export default {
       }
       this.submitApi = this.editApi
       this.formData = this.currentRow
-      console.log('edit-' + JSON.stringify(this.formData))
       this.visible = true
     },
     submit() {
-      console.log('submit')
       const { submitHandler } = this
       if (submitHandler) {
         submitHandler()
       } else {
-        console.log(this.$refs.form.formData)
         this.$refs.form.validate(valid => {
           if (valid) {
             if (typeof this.beforeSubmit === 'function') {
@@ -287,7 +282,6 @@ export default {
             }
           }
           var queryData = Object.assign({}, serachForm, pagination)
-          console.log(queryData)
           this.loading = true
           this.$api[this.searchApi](queryData).then(res => {
             this.pagination.total = parseInt(res.data.total) || 0
@@ -312,7 +306,6 @@ export default {
         this.search()
       }
       if (event === 'row-click') { // 点击
-        console.log('row-click' + JSON.stringify(arguments))
         var table = this.$refs[this.tableRefName]
         table.toggleRowSelection(Array.from(arguments)[1])
       }

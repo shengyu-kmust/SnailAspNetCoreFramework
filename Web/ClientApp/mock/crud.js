@@ -15,7 +15,6 @@ export default [
     url: '/api/crudSample/getList',
     type: 'get',
     response: config => {
-      console.log('-------')
       var pageSize = config.query.pageSize
       var pageIndex = config.query.pageIndex
       var items = list.slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
