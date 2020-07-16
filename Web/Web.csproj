@@ -107,6 +107,10 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ControllerTemplate.cs</LastGenOutput>
     </None>
+    <None Update="CodeGenerater\EnumTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>EnumTemplate.cs</LastGenOutput>
+    </None>
     <None Update="CodeGenerater\VueRouterTemplate.tt">
       <LastGenOutput>VueRouterTemplate.cs</LastGenOutput>
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -165,6 +169,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DtoTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="CodeGenerater\EnumTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EnumTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="CodeGenerater\VueApiTemplate.cs">
       <DesignTime>True</DesignTime>

@@ -164,6 +164,16 @@
             描述
             </summary>
         </member>
+        <member name="P:Web.CodeGenerater.EnumFieldModel.Name">
+            <summary>
+            字段名
+            </summary>
+        </member>
+        <member name="P:Web.CodeGenerater.EnumFieldModel.Comment">
+            <summary>
+            描述
+            </summary>
+        </member>
         <member name="M:Web.CodeGenerater.CodeGeneraterHelper.GenerateEntitiesModelFromTableModels(System.Collections.Generic.List{Web.CodeGenerater.EntityConfigModel},System.Collections.Generic.List{System.String}@)">
             <summary>
             从json配置里的entity配置节点，生成template.tt使用的model
@@ -248,6 +258,16 @@
             </summary>
         </member>
         <member name="M:Web.CodeGenerater.VueRouterTemplate.TransformText">
+            <summary>
+            Create the template output
+            </summary>
+        </member>
+        <member name="T:Web.CodeGenerater.EnumTemplate">
+            <summary>
+            Class to produce the template output
+            </summary>
+        </member>
+        <member name="M:Web.CodeGenerater.EnumTemplate.TransformText">
             <summary>
             Create the template output
             </summary>
@@ -628,6 +648,101 @@
             </summary>
         </member>
         <member name="P:Web.CodeGenerater.EntityTemplateBase.ToStringHelper">
+            <summary>
+            Helper to produce culture-oriented representation of an object as a string
+            </summary>
+        </member>
+        <member name="T:Web.CodeGenerater.EnumTemplateBase">
+            <summary>
+            Base class for this transformation
+            </summary>
+        </member>
+        <member name="P:Web.CodeGenerater.EnumTemplateBase.GenerationEnvironment">
+            <summary>
+            The string builder that generation-time code is using to assemble generated output
+            </summary>
+        </member>
+        <member name="P:Web.CodeGenerater.EnumTemplateBase.Errors">
+            <summary>
+            The error collection for the generation process
+            </summary>
+        </member>
+        <member name="P:Web.CodeGenerater.EnumTemplateBase.indentLengths">
+            <summary>
+            A list of the lengths of each indent that was added with PushIndent
+            </summary>
+        </member>
+        <member name="P:Web.CodeGenerater.EnumTemplateBase.CurrentIndent">
+            <summary>
+            Gets the current indent we use when adding lines to the output
+            </summary>
+        </member>
+        <member name="P:Web.CodeGenerater.EnumTemplateBase.Session">
+            <summary>
+            Current transformation session
+            </summary>
+        </member>
+        <member name="M:Web.CodeGenerater.EnumTemplateBase.Write(System.String)">
+            <summary>
+            Write text directly into the generated output
+            </summary>
+        </member>
+        <member name="M:Web.CodeGenerater.EnumTemplateBase.WriteLine(System.String)">
+            <summary>
+            Write text directly into the generated output
+            </summary>
+        </member>
+        <member name="M:Web.CodeGenerater.EnumTemplateBase.Write(System.String,System.Object[])">
+            <summary>
+            Write formatted text directly into the generated output
+            </summary>
+        </member>
+        <member name="M:Web.CodeGenerater.EnumTemplateBase.WriteLine(System.String,System.Object[])">
+            <summary>
+            Write formatted text directly into the generated output
+            </summary>
+        </member>
+        <member name="M:Web.CodeGenerater.EnumTemplateBase.Error(System.String)">
+            <summary>
+            Raise an error
+            </summary>
+        </member>
+        <member name="M:Web.CodeGenerater.EnumTemplateBase.Warning(System.String)">
+            <summary>
+            Raise a warning
+            </summary>
+        </member>
+        <member name="M:Web.CodeGenerater.EnumTemplateBase.PushIndent(System.String)">
+            <summary>
+            Increase the indent
+            </summary>
+        </member>
+        <member name="M:Web.CodeGenerater.EnumTemplateBase.PopIndent">
+            <summary>
+            Remove the last indent that was added with PushIndent
+            </summary>
+        </member>
+        <member name="M:Web.CodeGenerater.EnumTemplateBase.ClearIndent">
+            <summary>
+            Remove any indentation
+            </summary>
+        </member>
+        <member name="T:Web.CodeGenerater.EnumTemplateBase.ToStringInstanceHelper">
+            <summary>
+            Utility class to produce culture-oriented representation of an object as a string.
+            </summary>
+        </member>
+        <member name="P:Web.CodeGenerater.EnumTemplateBase.ToStringInstanceHelper.FormatProvider">
+            <summary>
+            Gets or sets format provider to be used by ToStringWithCulture method.
+            </summary>
+        </member>
+        <member name="M:Web.CodeGenerater.EnumTemplateBase.ToStringInstanceHelper.ToStringWithCulture(System.Object)">
+            <summary>
+            This is called from the compile/run appdomain to convert objects within an expression block to a string
+            </summary>
+        </member>
+        <member name="P:Web.CodeGenerater.EnumTemplateBase.ToStringHelper">
             <summary>
             Helper to produce culture-oriented representation of an object as a string
             </summary>

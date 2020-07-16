@@ -42,4 +42,8 @@ namespace Web.CodeGenerater
     {
         public List<VueRouteModel> VueRouteModels { get; set; }
     }
+    public partial class EnumTemplate
+    {
+        public EnumModel Model { get; set; }
+    }
 }

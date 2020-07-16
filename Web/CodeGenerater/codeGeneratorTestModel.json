@@ -13,6 +13,9 @@
         "Enabled,bool,是否有效"
       ]
     }
+  ],
+  "Enums": [
+    "EGender,性别,Male,男,Female,女",
   ]
 }
 

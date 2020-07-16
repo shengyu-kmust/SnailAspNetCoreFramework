@@ -21,7 +21,7 @@ namespace Web.Controllers
             var config = System.IO.File.ReadAllText("./CodeGenerater/codeGeneratorTestModel.json");
             var configDto = JsonConvert.DeserializeObject<CodeGenerateConfig>(config);
             basePath = configDto.BasePath.Trim('\\');
-            var entities = CodeGeneraterHelper.GenerateEntitiesModelFromTableModels(configDto.Entities, out List<string> errors);
+            var entities = CodeGeneraterHelper.GenerateEntitiesModelFromTableModels(configDto, out List<string> errors);
             GenerateEntity(entities);
             GenerateService(entities);
             GenerateEntityConfig(entities);
