@@ -46,4 +46,9 @@ namespace Web.CodeGenerater
     {
         public EnumModel Model { get; set; }
     }
+
+    public partial class EnumJsTemplate
+    {
+        public List<EnumModel> Model { get; set; }
+    }
 }

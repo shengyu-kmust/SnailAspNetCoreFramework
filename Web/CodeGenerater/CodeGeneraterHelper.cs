@@ -11,6 +11,7 @@ namespace Web.CodeGenerater
 
     public static class CodeGeneraterHelper
     {
+
         public static CodeGenerateDto GenerateDtoFromConfig(string val,out List<string> errors)
         {
             var result = new CodeGenerateDto();

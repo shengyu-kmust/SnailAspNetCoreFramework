@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ApplicationCore.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Snail.Core.Permission;
@@ -18,25 +19,24 @@ namespace Web.Controllers
         [HttpGet]
         public void Generater()
         {
-            var config = System.IO.File.ReadAllText("./CodeGenerater/codeGeneratorTestModel.json");
-            var configDto = JsonConvert.DeserializeObject<CodeGenerateConfig>(config);
-            basePath = configDto.BasePath.Trim('\\');
-            var entities = CodeGeneraterHelper.GenerateEntitiesModelFromTableModels(configDto, out List<string> errors);
-            GenerateEntity(entities);
-            GenerateService(entities);
-            GenerateEntityConfig(entities);
-            GenerateDto(entities);
-            GenerateController(entities);
-            GenerateAppDbContext(entities);
-            GenerateVue(entities);
-            GenerateVueApi(entities);
-            GenerateVueRouter(entities);
+            var configValue = System.IO.File.ReadAllText("./CodeGenerater/codeGeneratorTestModel.json");
+            var configDto=CodeGeneraterHelper.GenerateDtoFromConfig(configValue, out List<string> errors);
+            GenerateEntity(configDto);
+            GenerateService(configDto);
+            GenerateEntityConfig(configDto);
+            GenerateDto(configDto);
+            GenerateController(configDto);
+            GenerateAppDbContext(configDto);
+            GenerateVue(configDto);
+            GenerateVueApi(configDto);
+            GenerateVueRouter(configDto);
+            
         }
 
         #region ApplicationCore
-        private void GenerateDto(List<EntityModel> entities)
+        private void GenerateDto(CodeGenerateDto dto)
         {
-            foreach (var entity in entities)
+            foreach (var entity in dto.Entities)
             {
                 new List<string> { "Result", "Save", "Source", "Query" }.ForEach(preFix =>
                 {
@@ -47,9 +47,9 @@ namespace Web.Controllers
                 });
             }
         }
-        private void GenerateEntity(List<EntityModel> entities)
+        private void GenerateEntity(CodeGenerateDto dto)
         {
-            foreach (var entity in entities)
+            foreach (var entity in dto.Entities)
             {
                 var entityTemplate = new EntityTemplate();
                 entityTemplate.Entity = entity;
@@ -61,9 +61,9 @@ namespace Web.Controllers
         #endregion
 
         #region Infrastructure
-        private void GenerateEntityConfig(List<EntityModel> entities)
+        private void GenerateEntityConfig(CodeGenerateDto dto)
         {
-            foreach (var entity in entities)
+            foreach (var entity in dto.Entities)
             {
                 var entityConfigTemplate = new EntityConfigTemplate();
                 entityConfigTemplate.Name = entity.Name;
@@ -75,9 +75,9 @@ namespace Web.Controllers
         #endregion
 
         #region Service
-        private void GenerateService(List<EntityModel> entities)
+        private void GenerateService(CodeGenerateDto dto)
         {
-            foreach (var entity in entities)
+            foreach (var entity in dto.Entities)
             {
                 var serviceTemplate = new ServiceTemplate();
                 serviceTemplate.Name = entity.Name;
@@ -88,9 +88,9 @@ namespace Web.Controllers
         #endregion
 
         #region Controllers
-        private void GenerateController(List<EntityModel> entities)
+        private void GenerateController(CodeGenerateDto dto)
         {
-            foreach (var entity in entities)
+            foreach (var entity in dto.Entities)
             {
                 var controllerTemplate = new ControllerTemplate();
                 controllerTemplate.Name = entity.Name;
@@ -102,18 +102,32 @@ namespace Web.Controllers
         #endregion
 
         #region AppDbContext
-        private void GenerateAppDbContext(List<EntityModel> entities)
+        private void GenerateAppDbContext(CodeGenerateDto dto)
         {
             var appDbContextTemplate = new AppDbContextTemplate();
-            appDbContextTemplate.EntityNames = entities.Select(a => a.Name).ToList();
+            appDbContextTemplate.EntityNames = dto.Entities.Select(a => a.Name).ToList();
             Directory.CreateDirectory($@"{basePath}\Infrastructure");
             System.IO.File.WriteAllText($@"{basePath}\Infrastructure\AppDbContextPartial.cs", appDbContextTemplate.TransformText());
         }
 
         #endregion
 
+        #region enum
+        private void GenerateEnum(CodeGenerateDto dto)
+        {
+            var enumTemplate = new EnumTemplate();
+            foreach (var enumModel in dto.Enums)
+            {
+                Directory.CreateDirectory($@"{basePath}\ApplicationCore\Enums");
+                System.IO.File.WriteAllText($@"{basePath}\ApplicationCore\Enums\{enumModel.Name}", enumTemplate.TransformText());
+
+            }
+        }
+        #endregion
+
+
         #region Vue
-        private void GenerateVue(List<EntityModel> entities)
+        private void GenerateVue(CodeGenerateDto dto)
         {
             var vueModels = CodeGeneraterHelper.GenerateVueModelFromEntityModels(entities);
             foreach (var vue in vueModels)
@@ -126,7 +140,7 @@ namespace Web.Controllers
         }
         #endregion
         #region vue api
-        private void GenerateVueApi(List<EntityModel> entities)
+        private void GenerateVueApi(CodeGenerateDto dto)
         {
             var vueApiTemplate = new VueApiTemplate();
             vueApiTemplate.EntityNames = entities.Select(a => a.Name).ToList();
@@ -135,12 +149,25 @@ namespace Web.Controllers
 
         }
         #endregion
-        private void GenerateVueRouter(List<EntityModel> entities)
+        private void GenerateVueRouter(CodeGenerateDto dto)
         {
             var vueRouterTemplate = new VueRouterTemplate();
-            vueRouterTemplate.VueRouteModels = entities.Select(a => new VueRouteModel { Name= CodeGeneraterHelper.ToCamel(a.Name),Comment=a.Comment}).ToList();
+            vueRouterTemplate.VueRouteModels = dto.Entities.Select(a => new VueRouteModel { Name= CodeGeneraterHelper.ToCamel(a.Name),Comment=a.Comment}).ToList();
             Directory.CreateDirectory($@"{basePath}\Web\ClientApp\src\router");
             System.IO.File.WriteAllText($@"{basePath}\Web\ClientApp\src\router\basicRouter.js", vueRouterTemplate.TransformText());
         }
+
+        #region js
+        private void GenerateEnumJs(CodeGenerateDto dto)
+        {
+            var enumJsTemplate = new EnumJsTemplate();
+            enumJsTemplate.Model = dto.Enums;
+            Directory.CreateDirectory($@"{basePath}\Web\ClientApp\src\utils");
+            System.IO.File.WriteAllText(@"{basePath}\Web\ClientApp\src\utils\enum.js", enumJsTemplate.TransformText());
+
+        }
+        #endregion
+
+
     }
 }

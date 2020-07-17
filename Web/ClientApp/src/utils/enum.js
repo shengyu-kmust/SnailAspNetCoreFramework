@@ -1,4 +1,4 @@
-export const genderKeyValue = [
+export const EGenders = [
   {
     key: 'Male',
     value: '男'
@@ -8,13 +8,13 @@ export const genderKeyValue = [
   }
 ]
 
-export const maritalStatusKeyValue = [
+export const ETrueFalse = [
   {
     key: true,
-    value: '已婚'
+    value: '是'
   }, {
     key: false,
-    value: '未婚'
+    value: '否'
   }
 ]
 

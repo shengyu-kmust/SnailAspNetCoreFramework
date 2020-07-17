@@ -107,6 +107,10 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ControllerTemplate.cs</LastGenOutput>
     </None>
+    <None Update="CodeGenerater\EnumJsTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>EnumJsTemplate.cs</LastGenOutput>
+    </None>
     <None Update="CodeGenerater\EnumTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>EnumTemplate.cs</LastGenOutput>
@@ -169,6 +173,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DtoTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="CodeGenerater\EnumJsTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EnumJsTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="CodeGenerater\EnumTemplate.cs">
       <DesignTime>True</DesignTime>
