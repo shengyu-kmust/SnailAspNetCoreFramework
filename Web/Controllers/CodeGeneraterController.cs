@@ -30,6 +30,8 @@ namespace Web.Controllers
             GenerateVue(configDto);
             GenerateVueApi(configDto);
             GenerateVueRouter(configDto);
+            GenerateEnumJs(configDto);
+            GenerateEnum(configDto);
             
         }
 
@@ -42,8 +44,8 @@ namespace Web.Controllers
                 {
                     var dtoTemplate = new DtoTemplate();
                     dtoTemplate.Dto = new DtoModel { Name = entity.Name, Fields = preFix == "Query" ? new List<EntityFieldModel>() : entity.Fields, Prefix = preFix, BaseClass = preFix == "Query" ? "BaseQueryPaginationDto" : "BaseIdDto" };
-                    Directory.CreateDirectory($@"{basePath}\ApplicationCore\Dtos\{entity.Name}");
-                    System.IO.File.WriteAllText($@"{basePath}\ApplicationCore\Dtos\{entity.Name}\{entity.Name}{preFix}Dto.cs", dtoTemplate.TransformText());
+                    Directory.CreateDirectory($@"{dto.BasePath}\ApplicationCore\Dtos\{entity.Name}");
+                    System.IO.File.WriteAllText($@"{dto.BasePath}\ApplicationCore\Dtos\{entity.Name}\{entity.Name}{preFix}Dto.cs", dtoTemplate.TransformText());
                 });
             }
         }
@@ -53,8 +55,8 @@ namespace Web.Controllers
             {
                 var entityTemplate = new EntityTemplate();
                 entityTemplate.Entity = entity;
-                Directory.CreateDirectory($@"{basePath}\ApplicationCore\Entities");
-                System.IO.File.WriteAllText($@"{basePath}\ApplicationCore\Entities\{entity.Name}.cs", entityTemplate.TransformText());
+                Directory.CreateDirectory($@"{dto.BasePath}\ApplicationCore\Entities");
+                System.IO.File.WriteAllText($@"{dto.BasePath}\ApplicationCore\Entities\{entity.Name}.cs", entityTemplate.TransformText());
             }
         }
 
@@ -68,8 +70,8 @@ namespace Web.Controllers
                 var entityConfigTemplate = new EntityConfigTemplate();
                 entityConfigTemplate.Name = entity.Name;
                 entityConfigTemplate.TableName = entity.TableName;
-                Directory.CreateDirectory($@"{basePath}\Infrastructure\Data\Config");
-                System.IO.File.WriteAllText($@"{basePath}\Infrastructure\Data\Config\{entity.Name}Configuration.cs", entityConfigTemplate.TransformText());
+                Directory.CreateDirectory($@"{dto.BasePath}\Infrastructure\Data\Config");
+                System.IO.File.WriteAllText($@"{dto.BasePath}\Infrastructure\Data\Config\{entity.Name}Configuration.cs", entityConfigTemplate.TransformText());
             }
         }
         #endregion
@@ -81,8 +83,8 @@ namespace Web.Controllers
             {
                 var serviceTemplate = new ServiceTemplate();
                 serviceTemplate.Name = entity.Name;
-                Directory.CreateDirectory($@"{basePath}\Service");
-                System.IO.File.WriteAllText($@"{basePath}\Service\{entity.Name}Service.cs", serviceTemplate.TransformText());
+                Directory.CreateDirectory($@"{dto.BasePath}\Service");
+                System.IO.File.WriteAllText($@"{dto.BasePath}\Service\{entity.Name}Service.cs", serviceTemplate.TransformText());
             }
         }
         #endregion
@@ -94,8 +96,9 @@ namespace Web.Controllers
             {
                 var controllerTemplate = new ControllerTemplate();
                 controllerTemplate.Name = entity.Name;
-                Directory.CreateDirectory($@"{basePath}\Web\Controllers");
-                System.IO.File.WriteAllText($@"{basePath}\Web\Controllers\{entity.Name}Controller.cs", controllerTemplate.TransformText());
+                controllerTemplate.Comment = entity.Comment;
+                Directory.CreateDirectory($@"{dto.BasePath}\Web\Controllers");
+                System.IO.File.WriteAllText($@"{dto.BasePath}\Web\Controllers\{entity.Name}Controller.cs", controllerTemplate.TransformText());
             }
         }
 
@@ -106,8 +109,8 @@ namespace Web.Controllers
         {
             var appDbContextTemplate = new AppDbContextTemplate();
             appDbContextTemplate.EntityNames = dto.Entities.Select(a => a.Name).ToList();
-            Directory.CreateDirectory($@"{basePath}\Infrastructure");
-            System.IO.File.WriteAllText($@"{basePath}\Infrastructure\AppDbContextPartial.cs", appDbContextTemplate.TransformText());
+            Directory.CreateDirectory($@"{dto.BasePath}\Infrastructure");
+            System.IO.File.WriteAllText($@"{dto.BasePath}\Infrastructure\AppDbContextPartial.cs", appDbContextTemplate.TransformText());
         }
 
         #endregion
@@ -118,8 +121,9 @@ namespace Web.Controllers
             var enumTemplate = new EnumTemplate();
             foreach (var enumModel in dto.Enums)
             {
-                Directory.CreateDirectory($@"{basePath}\ApplicationCore\Enums");
-                System.IO.File.WriteAllText($@"{basePath}\ApplicationCore\Enums\{enumModel.Name}", enumTemplate.TransformText());
+                enumTemplate.Model = enumModel;
+                Directory.CreateDirectory($@"{dto.BasePath}\ApplicationCore\Enums");
+                System.IO.File.WriteAllText($@"{dto.BasePath}\ApplicationCore\Enums\{enumModel.Name}.cs", enumTemplate.TransformText());
 
             }
         }
@@ -134,8 +138,8 @@ namespace Web.Controllers
             {
                 var vueTemplate = new VueTemplate();
                 vueTemplate.Vue = vue;
-                Directory.CreateDirectory($@"{basePath}\Web\ClientApp\src\views\basic");
-                System.IO.File.WriteAllText($@"{basePath}\Web\ClientApp\src\views\basic\{vue.Name}.vue", vueTemplate.TransformText());
+                Directory.CreateDirectory($@"{dto.BasePath}\Web\ClientApp\src\views\basic");
+                System.IO.File.WriteAllText($@"{dto.BasePath}\Web\ClientApp\src\views\basic\{vue.Name}.vue", vueTemplate.TransformText());
             }
         }
         #endregion
@@ -144,8 +148,8 @@ namespace Web.Controllers
         {
             var vueApiTemplate = new VueApiTemplate();
             vueApiTemplate.EntityNames = dto.Entities.Select(a => a.Name).ToList();
-            Directory.CreateDirectory($@"{basePath}\Web\ClientApp\src\api");
-            System.IO.File.WriteAllText($@"{basePath}\Web\ClientApp\src\api\basic.js", vueApiTemplate.TransformText());
+            Directory.CreateDirectory($@"{dto.BasePath}\Web\ClientApp\src\api");
+            System.IO.File.WriteAllText($@"{dto.BasePath}\Web\ClientApp\src\api\basic.js", vueApiTemplate.TransformText());
 
         }
         #endregion
@@ -153,8 +157,8 @@ namespace Web.Controllers
         {
             var vueRouterTemplate = new VueRouterTemplate();
             vueRouterTemplate.VueRouteModels = dto.Entities.Select(a => new VueRouteModel { Name= CodeGeneraterHelper.ToCamel(a.Name),Comment=a.Comment}).ToList();
-            Directory.CreateDirectory($@"{basePath}\Web\ClientApp\src\router");
-            System.IO.File.WriteAllText($@"{basePath}\Web\ClientApp\src\router\basicRouter.js", vueRouterTemplate.TransformText());
+            Directory.CreateDirectory($@"{dto.BasePath}\Web\ClientApp\src\router");
+            System.IO.File.WriteAllText($@"{dto.BasePath}\Web\ClientApp\src\router\basicRouter.js", vueRouterTemplate.TransformText());
         }
 
         #region js
@@ -162,8 +166,8 @@ namespace Web.Controllers
         {
             var enumJsTemplate = new EnumJsTemplate();
             enumJsTemplate.Model = dto.Enums;
-            Directory.CreateDirectory($@"{basePath}\Web\ClientApp\src\utils");
-            System.IO.File.WriteAllText(@"{basePath}\Web\ClientApp\src\utils\enum.js", enumJsTemplate.TransformText());
+            Directory.CreateDirectory($@"{dto.BasePath}\Web\ClientApp\src\utils");
+            System.IO.File.WriteAllText($@"{dto.BasePath}\Web\ClientApp\src\utils\enum.js", enumJsTemplate.TransformText());
 
         }
         #endregion

@@ -7,6 +7,7 @@ namespace Web.CodeGenerater
 {
     public partial class ControllerTemplate
     {
+        public string Comment { get; set; }
         public string Name { get; set; }
     }
     public partial class DtoTemplate

@@ -43,5 +43,4 @@ export const <#= model.Name#>s = [
 <#
     }
 #>
-    }
-}
+  

@@ -87,7 +87,7 @@ namespace Web.CodeGenerater
             
             #line default
             #line hidden
-            this.Write("    }\r\n}\r\n");
+            this.Write("  ");
             return this.GenerationEnvironment.ToString();
         }
     }

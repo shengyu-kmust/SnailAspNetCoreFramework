@@ -28,17 +28,24 @@ namespace Web.CodeGenerater
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\nusing System.ComponentModel;\r\nnamespace ApplicationCore.Enums\r\n{\r\n    public en" +
-                    "um  ");
+            this.Write("\r\nusing System.ComponentModel;\r\nnamespace ApplicationCore.Enums\r\n{\r\n    /// <summ" +
+                    "ary>\r\n    /// ");
             
-            #line 10 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumTemplate.tt"
+            #line 11 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.Comment));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    /// </summary>\r\n    public enum  ");
+            
+            #line 13 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Name));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n");
             
-            #line 12 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumTemplate.tt"
+            #line 15 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumTemplate.tt"
 
     foreach(var item in Model.Items){
 
@@ -47,21 +54,28 @@ namespace Web.CodeGenerater
             #line hidden
             this.Write("        /// <summary>\r\n        /// ");
             
-            #line 16 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumTemplate.tt"
+            #line 19 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Comment));
             
             #line default
             #line hidden
-            this.Write("\r\n        /// </summary>\r\n        ");
+            this.Write("\r\n        /// </summary>\r\n        [Description(\"");
             
-            #line 18 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumTemplate.tt"
+            #line 21 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(item.Comment));
+            
+            #line default
+            #line hidden
+            this.Write("\")]\r\n        ");
+            
+            #line 22 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Name));
             
             #line default
             #line hidden
-            this.Write("\r\n");
+            this.Write(",\r\n");
             
-            #line 19 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumTemplate.tt"
+            #line 23 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumTemplate.tt"
 
     }
 

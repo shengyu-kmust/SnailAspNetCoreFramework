@@ -1260,6 +1260,44 @@
             如果没有AuthorizeAttribute，HttpContext.User不会有用户
             </remarks>
         </member>
+        <member name="T:Web.Controllers.DemoController">
+            <summary>
+            示例接口
+            </summary>
+        </member>
+        <member name="M:Web.Controllers.DemoController.QueryList(ApplicationCore.Entity.DemoQueryDto)">
+            <summary>
+            查询列表
+            </summary>
+            <param name="queryDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.DemoController.QueryPage(ApplicationCore.Entity.DemoQueryDto)">
+            <summary>
+            
+            </summary>
+            <param name="queryDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.DemoController.Find(System.String)">
+            <summary>
+            查找单个
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.DemoController.Remove(System.Collections.Generic.List{System.String})">
+            <summary>
+            删除
+            </summary>
+            <param name="ids"></param>
+        </member>
+        <member name="M:Web.Controllers.DemoController.Save(ApplicationCore.Entity.DemoSaveDto)">
+            <summary>
+            保存
+            </summary>
+            <param name="saveDto"></param>
+        </member>
         <member name="P:Web.Controllers.FileController._fileProvider">
             <summary>
             文件提供程序 

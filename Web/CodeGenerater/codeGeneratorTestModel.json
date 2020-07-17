@@ -32,7 +32,7 @@
     }
   ],
   "Enums": [
-    "EGender,性别,Male,男,Female,女",
+    "EFlightType,航班性质,International,国际,Demostic,国内",
   ]
 }
 

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Esf;
+using Snail.Common.Extenssions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,7 @@ namespace Web.CodeGenerater
                 {
                     Name = item.Name,
                     TableName = item.TableName,
+                    Comment=item.Comment,
                     Fields = columns
                 });
             }
@@ -59,9 +61,9 @@ namespace Web.CodeGenerater
             }
             foreach (var item in config.Enums)
             {
-                GetEnumModel(item, ref errors);
+                result.Add(GetEnumModel(item, ref errors));
             }
-            return result;
+            return result.Where(a => a.Name.HasValue()).ToList();
         }
 
         private static EntityFieldModel GetFieldModel(string val, ref List<string> error)

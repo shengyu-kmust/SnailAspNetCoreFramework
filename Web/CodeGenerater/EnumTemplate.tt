@@ -7,6 +7,9 @@
 using System.ComponentModel;
 namespace ApplicationCore.Enums
 {
+    /// <summary>
+    /// <#= Model.Comment #>
+    /// </summary>
     public enum  <#= Model.Name #>
     {
 <#
@@ -15,7 +18,8 @@ namespace ApplicationCore.Enums
         /// <summary>
         /// <#= item.Comment #>
         /// </summary>
-        <#= item.Name #>
+        [Description("<#= item.Comment #>")]
+        <#= item.Name #>,
 <#
     }
 #>
