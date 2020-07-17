@@ -1355,6 +1355,82 @@
             初始化权限资源
             </summary>
         </member>
+        <member name="T:Web.Controllers.PlaneController">
+            <summary>
+            飞机信息表接口
+            </summary>
+        </member>
+        <member name="M:Web.Controllers.PlaneController.QueryList(ApplicationCore.Entity.PlaneQueryDto)">
+            <summary>
+            查询列表
+            </summary>
+            <param name="queryDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PlaneController.QueryPage(ApplicationCore.Entity.PlaneQueryDto)">
+            <summary>
+            查询分页
+            </summary>
+            <param name="queryDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PlaneController.Find(System.String)">
+            <summary>
+            查找单个
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PlaneController.Remove(System.Collections.Generic.List{System.String})">
+            <summary>
+            删除
+            </summary>
+            <param name="ids"></param>
+        </member>
+        <member name="M:Web.Controllers.PlaneController.Save(ApplicationCore.Entity.PlaneSaveDto)">
+            <summary>
+            保存
+            </summary>
+            <param name="saveDto"></param>
+        </member>
+        <member name="T:Web.Controllers.PlaneTypeController">
+            <summary>
+            机型表接口
+            </summary>
+        </member>
+        <member name="M:Web.Controllers.PlaneTypeController.QueryList(ApplicationCore.Entity.PlaneTypeQueryDto)">
+            <summary>
+            查询列表
+            </summary>
+            <param name="queryDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PlaneTypeController.QueryPage(ApplicationCore.Entity.PlaneTypeQueryDto)">
+            <summary>
+            查询分页
+            </summary>
+            <param name="queryDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PlaneTypeController.Find(System.String)">
+            <summary>
+            查找单个
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.PlaneTypeController.Remove(System.Collections.Generic.List{System.String})">
+            <summary>
+            删除
+            </summary>
+            <param name="ids"></param>
+        </member>
+        <member name="M:Web.Controllers.PlaneTypeController.Save(ApplicationCore.Entity.PlaneTypeSaveDto)">
+            <summary>
+            保存
+            </summary>
+            <param name="saveDto"></param>
+        </member>
         <member name="T:Web.Controllers.TestController">
             <summary>
             测试用

@@ -10,7 +10,7 @@ const Layout = () => {
   // if (iframeRuntime()) {
   //   return import('@/layout/noLayout')
   // }
-  return import('@/layout')
+    return import('@/layout')
 }
 
 /** 定义界面 */
@@ -90,42 +90,7 @@ export const constantRoutes = [
       component: dashboard,
       meta: { title: '控制台', icon: 'dashboard' }
     }]
-  },
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/tableSample',
-    meta: {
-      title: '示例'
-    },
-    children: [{
-      path: 'tableSample',
-      name: 'tableSample',
-      component: tableSample,
-      meta: { title: 'table示例', icon: 'dashboard' }
-    }, {
-      path: 'formSample',
-      name: 'formSample',
-      component: formSample,
-      meta: { title: 'form示例', icon: 'dashboard' }
-    }, {
-      path: 'crudSample',
-      name: 'crudSample',
-      component: crudSample,
-      meta: { title: 'crud示例', icon: 'dashboard' }
-    }]
-  },
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: '外部链接', icon: 'link' }
-      }
-    ]
   }
-
   // 404 page must be placed at the end !!!
   // { path: '*', redirect: '/404', hidden: true } //如果此句打开后，页面刷新会直接到404页面，暂不知道原因， todo
 ]

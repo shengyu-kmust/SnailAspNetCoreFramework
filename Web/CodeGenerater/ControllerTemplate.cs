@@ -146,7 +146,8 @@ namespace Web.Controllers
             
             #line default
             #line hidden
-            this.Write(">();\r\n            return controllerContext.mapper.ProjectTo<");
+            this.Write(">().And(a=>!a.IsDeleted);\r\n            return controllerContext.mapper.ProjectTo<" +
+                    "");
             
             #line 40 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
@@ -184,7 +185,8 @@ namespace Web.Controllers
             
             #line default
             #line hidden
-            this.Write(">();\r\n            return controllerContext.mapper.ProjectTo<");
+            this.Write(">().And(a=>!a.IsDeleted);\r\n            return controllerContext.mapper.ProjectTo<" +
+                    "");
             
             #line 53 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));

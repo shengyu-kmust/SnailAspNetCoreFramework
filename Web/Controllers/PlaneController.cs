@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Entity;
+using ApplicationCore.Entity;
 using ApplicationCore.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +15,14 @@ using Snail.Core.Attributes;
 namespace Web.Controllers
 {
     /// <summary>
-    /// <#= Comment#>接口
+    /// 飞机信息表接口
     /// </summary>
     [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
-    [Resource(Description ="<#= Comment#>管理")]
-    public class <#= Name#>Controller : DefaultBaseController, ICrudController<<#= Name#>, <#= Name#>SaveDto, <#= Name#>ResultDto, <#= Name#>QueryDto>
+    [Resource(Description ="飞机信息表管理")]
+    public class PlaneController : DefaultBaseController, ICrudController<Plane, PlaneSaveDto, PlaneResultDto, PlaneQueryDto>
     {
-        private <#= Name#>Service _service;
-        public <#= Name#>Controller(<#= Name#>Service service,ControllerContext controllerContext):base(controllerContext) {
+        private PlaneService _service;
+        public PlaneController(PlaneService service,ControllerContext controllerContext):base(controllerContext) {
             this.controllerContext = controllerContext;
             this._service = service;
         } 
@@ -34,10 +34,10 @@ namespace Web.Controllers
         /// <returns></returns>
         [Resource(Description ="查询列表")]
         [HttpGet]
-        public List<<#= Name#>ResultDto> QueryList([FromQuery]<#= Name#>QueryDto queryDto)
+        public List<PlaneResultDto> QueryList([FromQuery]PlaneQueryDto queryDto)
         {
-            var pred = ExpressionExtensions.True<<#= Name#>>().And(a=>!a.IsDeleted);
-            return controllerContext.mapper.ProjectTo<<#= Name#>ResultDto>(_service.QueryList(pred)).ToList();
+            var pred = ExpressionExtensions.True<Plane>().And(a=>!a.IsDeleted);
+            return controllerContext.mapper.ProjectTo<PlaneResultDto>(_service.QueryList(pred)).ToList();
         }
 
         /// <summary>
@@ -47,10 +47,10 @@ namespace Web.Controllers
         /// <returns></returns>
         [Resource(Description ="查询分页")]
         [HttpGet]
-        public IPageResult<<#= Name#>ResultDto> QueryPage([FromQuery]<#= Name#>QueryDto queryDto)
+        public IPageResult<PlaneResultDto> QueryPage([FromQuery]PlaneQueryDto queryDto)
         {
-            var pred = ExpressionExtensions.True<<#= Name#>>().And(a=>!a.IsDeleted);
-            return controllerContext.mapper.ProjectTo<<#= Name#>ResultDto>(_service.QueryList(pred)).ToPageList(queryDto);
+            var pred = ExpressionExtensions.True<Plane>().And(a=>!a.IsDeleted);
+            return controllerContext.mapper.ProjectTo<PlaneResultDto>(_service.QueryList(pred)).ToPageList(queryDto);
         }
 
         /// <summary>
@@ -60,9 +60,9 @@ namespace Web.Controllers
         /// <returns></returns>
         [Resource(Description ="查找单个")]
         [HttpGet]
-        public <#= Name#>ResultDto Find(string id)
+        public PlaneResultDto Find(string id)
         {
-            return controllerContext.mapper.Map<<#= Name#>ResultDto>(_service.QueryList(a => a.Id == id).FirstOrDefault());
+            return controllerContext.mapper.Map<PlaneResultDto>(_service.QueryList(a => a.Id == id).FirstOrDefault());
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Web.Controllers
         /// <param name="saveDto"></param>
         [Resource(Description ="保存")]
         [HttpPost]
-        public void Save(<#= Name#>SaveDto saveDto)
+        public void Save(PlaneSaveDto saveDto)
         {
             _service.Save(saveDto);
         }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
-    public partial class AppDbContextPartial : DbContext
+    public partial class AppDbContext : DbContext
     {
 <# foreach(var entityName in EntityNames??new List<string>()){ #>
         public DbSet<<#= entityName #>> <#= entityName #> { get; set; }

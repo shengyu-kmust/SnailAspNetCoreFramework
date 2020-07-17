@@ -29,8 +29,7 @@ namespace Web.CodeGenerater
         public virtual string TransformText()
         {
             this.Write("using ApplicationCore.Entity;\r\nusing Microsoft.EntityFrameworkCore;\r\n\r\nnamespace " +
-                    "Infrastructure\r\n{\r\n    public partial class AppDbContextPartial : DbContext\r\n   " +
-                    " {\r\n");
+                    "Infrastructure\r\n{\r\n    public partial class AppDbContext : DbContext\r\n    {\r\n");
             
             #line 13 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\AppDbContextTemplate.tt"
  foreach(var entityName in EntityNames??new List<string>()){ 

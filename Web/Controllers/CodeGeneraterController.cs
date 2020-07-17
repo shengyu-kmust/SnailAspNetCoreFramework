@@ -158,7 +158,7 @@ namespace Web.Controllers
             var vueRouterTemplate = new VueRouterTemplate();
             vueRouterTemplate.VueRouteModels = dto.Entities.Select(a => new VueRouteModel { Name= CodeGeneraterHelper.ToCamel(a.Name),Comment=a.Comment}).ToList();
             Directory.CreateDirectory($@"{dto.BasePath}\Web\ClientApp\src\router");
-            System.IO.File.WriteAllText($@"{dto.BasePath}\Web\ClientApp\src\router\basicRouter.js", vueRouterTemplate.TransformText());
+            System.IO.File.WriteAllText($@"{dto.BasePath}\Web\ClientApp\src\router\basicRouters.js", vueRouterTemplate.TransformText());
         }
 
         #region js

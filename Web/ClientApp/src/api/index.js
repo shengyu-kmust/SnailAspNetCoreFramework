@@ -17,7 +17,7 @@
 // 如果接口的数据比较小，项目不复杂，所有的接口统一放在这里
 
 import request from '@/utils/request'
-import basic from '@/api/basic'
+export * from '@/api/basic'
 
 // crudSample接口
 // axios.request(config)
