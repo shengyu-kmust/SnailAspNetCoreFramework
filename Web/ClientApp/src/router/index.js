@@ -19,9 +19,6 @@ const login = () => import('@/views/login/index')
 const notFound = () => import('@/views/404')
 const test = () => import('@/views/test')
 const dashboard = () => import('@/views/dashboard/index')
-const tableSample = () => import('@/views/tableSample/index')
-const formSample = () => import('@/views/formSample/index')
-const crudSample = () => import('@/views/crudSample/index')
 
 /** 引入所有的动态路由 */
 import systemRouters from './systemRouters'
@@ -96,25 +93,8 @@ export const constantRoutes = [
 ]
 
 export const asyncRoutes = [
-  systemRouters,
   basicRouters,
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/dashboard',
-    meta: { title: '含权限的页面', icon: 'dashboard' },
-    children: [{
-      path: 'permission1',
-      name: 'permission1',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '含权限的页面1', icon: 'dashboard' }
-    }, {
-      path: 'permission2',
-      name: 'permission2',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '含权限的页面2', icon: 'dashboard' }
-    }]
-  }
+  systemRouters
 ]
 
 export const allRoute = constantRoutes.concat(asyncRoutes)

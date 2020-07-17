@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100%">
+  <div style="height:100%;width:100%">
     <!-- element 2.8.2及以上才有树table -->
     <snail-simple-list-crud
       ref="table"
@@ -9,7 +9,6 @@
       edit-api="resourceSave"
       remove-api="resourceRemove"
       :fields="fields"
-      :table-height="'100%'"
       :table-bind="tableBind"
       :form-fields="fields"
       :before-submit="beforeSubmit"

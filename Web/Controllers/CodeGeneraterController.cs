@@ -147,7 +147,7 @@ namespace Web.Controllers
         private void GenerateVueApi(CodeGenerateDto dto)
         {
             var vueApiTemplate = new VueApiTemplate();
-            vueApiTemplate.EntityNames = dto.Entities.Select(a => a.Name).ToList();
+            vueApiTemplate.EntityNames = dto.Entities.Select(a => CodeGeneraterHelper.ToCamel(a.Name)).ToList();
             Directory.CreateDirectory($@"{dto.BasePath}\Web\ClientApp\src\api");
             System.IO.File.WriteAllText($@"{dto.BasePath}\Web\ClientApp\src\api\basic.js", vueApiTemplate.TransformText());
 
