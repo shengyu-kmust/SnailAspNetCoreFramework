@@ -129,7 +129,7 @@ namespace Web.Controllers
         #region Vue
         private void GenerateVue(CodeGenerateDto dto)
         {
-            var vueModels = CodeGeneraterHelper.GenerateVueModelFromEntityModels(entities);
+            var vueModels = CodeGeneraterHelper.GenerateVueModelFromEntityModels(dto.Entities);
             foreach (var vue in vueModels)
             {
                 var vueTemplate = new VueTemplate();
@@ -143,7 +143,7 @@ namespace Web.Controllers
         private void GenerateVueApi(CodeGenerateDto dto)
         {
             var vueApiTemplate = new VueApiTemplate();
-            vueApiTemplate.EntityNames = entities.Select(a => a.Name).ToList();
+            vueApiTemplate.EntityNames = dto.Entities.Select(a => a.Name).ToList();
             Directory.CreateDirectory($@"{basePath}\Web\ClientApp\src\api");
             System.IO.File.WriteAllText($@"{basePath}\Web\ClientApp\src\api\basic.js", vueApiTemplate.TransformText());
 

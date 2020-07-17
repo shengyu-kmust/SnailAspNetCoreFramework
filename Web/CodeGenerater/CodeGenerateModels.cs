@@ -108,6 +108,10 @@ namespace Web.CodeGenerater
     #region 生成enum
     public class EnumModel
     {
+        public EnumModel()
+        {
+            Items = new List<EnumFieldModel>();
+        }
         public string Comment { get; set; }
         public string Name { get; set; }
         public List<EnumFieldModel> Items { get; set; }
