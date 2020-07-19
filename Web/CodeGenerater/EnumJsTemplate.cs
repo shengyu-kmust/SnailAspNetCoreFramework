@@ -18,9 +18,9 @@ namespace Web.CodeGenerater
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\AppDbContextTemplate.tt"
+    #line 1 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumJsTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public partial class AppDbContextTemplate : AppDbContextTemplateBase
+    public partial class EnumJsTemplate : EnumJsTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,36 +28,66 @@ namespace Web.CodeGenerater
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using ApplicationCore.Entity;\r\nusing Microsoft.EntityFrameworkCore;\r\n\r\nnamespace " +
-                    "Infrastructure\r\n{\r\n    public partial class AppDbContext : DbContext\r\n    {\r\n");
+            this.Write("export const EGenders = [\r\n  {\r\n    key: \'Male\',\r\n    value: \'男\'\r\n  }, {\r\n    key" +
+                    ": \'Female\',\r\n    value: \'女\'\r\n  }\r\n]\r\n\r\nexport const ETrueFalse = [\r\n  {\r\n    key" +
+                    ": true,\r\n    value: \'是\'\r\n  }, {\r\n    key: false,\r\n    value: \'否\'\r\n  }\r\n]\r\n\r\n\r\n");
             
-            #line 13 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\AppDbContextTemplate.tt"
- foreach(var entityName in EntityNames??new List<string>()){ 
-            
-            #line default
-            #line hidden
-            this.Write("        public DbSet<");
-            
-            #line 14 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\AppDbContextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(entityName));
+            #line 27 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumJsTemplate.tt"
+
+    foreach(var model in Model){
+
             
             #line default
             #line hidden
-            this.Write("> ");
+            this.Write("export const ");
             
-            #line 14 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\AppDbContextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(entityName));
-            
-            #line default
-            #line hidden
-            this.Write(" { get; set; }\r\n");
-            
-            #line 15 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\AppDbContextTemplate.tt"
-}
+            #line 30 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumJsTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(model.Name));
             
             #line default
             #line hidden
-            this.Write("    }\r\n}\r\n");
+            this.Write("s = [\r\n");
+            
+            #line 31 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumJsTemplate.tt"
+
+    foreach(var item in model.Items){
+
+            
+            #line default
+            #line hidden
+            this.Write("    {\r\n        key: \'");
+            
+            #line 35 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumJsTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(item.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\',\r\n        value: \'");
+            
+            #line 36 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumJsTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(item.Comment));
+            
+            #line default
+            #line hidden
+            this.Write("\'\r\n    },\r\n");
+            
+            #line 38 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumJsTemplate.tt"
+
+    }
+
+            
+            #line default
+            #line hidden
+            this.Write("  \r\n]\r\n");
+            
+            #line 43 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\EnumJsTemplate.tt"
+
+    }
+
+            
+            #line default
+            #line hidden
+            this.Write("  ");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -69,7 +99,7 @@ namespace Web.CodeGenerater
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public class AppDbContextTemplateBase
+    public class EnumJsTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

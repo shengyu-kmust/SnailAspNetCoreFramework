@@ -17,7 +17,7 @@
 // 如果接口的数据比较小，项目不复杂，所有的接口统一放在这里
 
 import request from '@/utils/request'
-import basic from '@/api/basic'
+export * from '@/api/basic'
 
 // crudSample接口
 // axios.request(config)
@@ -54,12 +54,21 @@ export const userSave = data => request.post('/api/user/save', data)
 
 // 角色管理
 export const roleQueryPage = params => request.get('/api/role/queryPage', { params })
+export const roleQueryList = params => request.get('/api/role/queryList', { params })
 export const roleFind = data => request.post('/api/role/find', data)
 export const roleRemove = data => request.post('/api/role/remove', data)
 export const roleSave = data => request.post('/api/role/save', data)
+
+// 资源管理
+export const resourceQueryListTree = params => request.get('/api/resource/queryListTree', { params })
+export const resourceFind = data => request.post('/api/resource/find', data)
+export const resourceRemove = data => request.post('/api/resource/remove', data)
+export const resourceSave = data => request.post('/api/resource/save', data)
 
 // 其它权限相关
 export const getUserRoles = params => request.get('/api/Permission/GetUserRoles', { params })
 export const getAllRole = params => request.get('/api/Permission/GetAllRole', { params })
 export const setUserRoles = data => request.post('/api/Permission/SetUserRoles', data)
 export const queryListTree = params => request.get('/api/Config/QueryListTree', { params })
+export const getRoleResources = params => request.get('/api/Permission/GetRoleResources', { params })
+export const setRoleResources = data => request.post('/api/Permission/SetRoleResources', data)

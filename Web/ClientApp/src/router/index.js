@@ -1,10 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+// import { iframeRuntime } from '@/utils'
 
 Vue.use(Router)
 
 /* Layout */
-import Layout from '@/layout'
+// 用于嵌套到iframe里并去除菜单页，但前端微服务时用
+const Layout = () => {
+  // if (iframeRuntime()) {
+  //   return import('@/layout/noLayout')
+  // }
+    return import('@/layout')
+}
+
+/** 定义界面 */
+const redirect = () => import('@/views/redirect/index')
+const login = () => import('@/views/login/index')
+const notFound = () => import('@/views/404')
+const test = () => import('@/views/test')
+const dashboard = () => import('@/views/dashboard/index')
 
 /** 引入所有的动态路由 */
 import systemRouters from './systemRouters'
@@ -37,30 +51,30 @@ import basicRouters from './basicRouters'
  */
 export const constantRoutes = [
   {
-    path: '/redirect',//不要删除 ，这是用来配合刷新当前路由页面
+    path: '/redirect', // 不要删除 ，这是用来配合刷新当前路由页面
     component: Layout,
     hidden: true,
     children: [
       {
         path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect/index')
+        component: redirect
       }
     ]
   },
   {
     path: '/login',
-    component: () => import('@/views/login/index'),
+    component: login,
     hidden: true// hidden为true时，就不显示在菜单里
   },
 
   {
     path: '/404',
-    component: () => import('@/views/404'),
+    component: notFound,
     hidden: true
   },
   {
     path: '/test',
-    component: () => import('@/views/test'),
+    component: test,
     hidden: true
   },
   {
@@ -69,80 +83,30 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
+      name: 'dashboard',
+      component: dashboard,
       meta: { title: '控制台', icon: 'dashboard' }
     }]
-  },
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/tableSample',
-    meta: {
-      title: '示例'
-    },
-    children: [{
-      path: 'tableSample',
-      name: 'tableSample',
-      component: () => import('@/views/tableSample/index'),
-      meta: { title: 'table示例', icon: 'dashboard' }
-    }, {
-      path: 'formSample',
-      name: 'formSample',
-      component: () => import('@/views/formSample/index'),
-      meta: { title: 'form示例', icon: 'dashboard' }
-    }, {
-      path: 'crudSample',
-      name: 'crudSample',
-      component: () => import('@/views/crudSample/index'),
-      meta: { title: 'crud示例', icon: 'dashboard' }
-    }]
-  },
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: '外部链接', icon: 'link' }
-      }
-    ]
   }
-
-    // 404 page must be placed at the end !!!
+  // 404 page must be placed at the end !!!
   // { path: '*', redirect: '/404', hidden: true } //如果此句打开后，页面刷新会直接到404页面，暂不知道原因， todo
 ]
 
 export const asyncRoutes = [
-  systemRouters,
   basicRouters,
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/dashboard',
-    meta: { title: '含权限的页面', icon: 'dashboard' },
-    children: [{
-      path: 'permission1',
-      name: 'permission1',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '含权限的页面1', icon: 'dashboard' }
-    }, {
-      path: 'permission2',
-      name: 'permission2',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '含权限的页面2', icon: 'dashboard' }
-    }]
-  }
+  systemRouters
 ]
+
+export const allRoute = constantRoutes.concat(asyncRoutes)
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  routes: allRoute
 })
 
 const router = createRouter()
 
-// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465,todo 不用这种，可以删除？
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router

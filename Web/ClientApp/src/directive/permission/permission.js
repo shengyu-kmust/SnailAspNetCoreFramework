@@ -1,22 +1,14 @@
-import store from '@/store'
+import checkPermission from '@/utils/permission'
 
 export default {
   inserted(el, binding, vnode) {
     const { value } = binding
-    const roles = store.getters && store.getters.roles
-
-    if (value && value instanceof Array && value.length > 0) {
-      const permissionRoles = value
-
-      const hasPermission = roles.some(role => {
-        return permissionRoles.includes(role)
-      })
-
-      if (!hasPermission) {
+    if (value) {
+      if (!checkPermission(value)) {
         el.parentNode && el.parentNode.removeChild(el)
+      } else {
+        return true
       }
-    } else {
-      throw new Error(`need roles! Like v-permission="['admin','editor']"`)
     }
   }
 }

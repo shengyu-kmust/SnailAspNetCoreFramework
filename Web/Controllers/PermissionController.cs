@@ -16,7 +16,7 @@ using Web.Permission;
 
 namespace Web.Controllers
 {
-    //[Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy), Resource(Description = "权限管理")]
+    [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy), Resource(Description = "权限管理")]
     public class PermissionController : DefaultBaseController
     {
         private IPermission _permission;
@@ -74,6 +74,8 @@ namespace Web.Controllers
             };
         }
         #endregion
+
+        #region 登录注销
         /// <summary>
         /// 获取token
         /// </summary>
@@ -95,6 +97,7 @@ namespace Web.Controllers
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
+        #endregion
 
         [AllowAnonymous]
         [HttpGet]

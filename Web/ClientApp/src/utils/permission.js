@@ -5,21 +5,18 @@ import store from '@/store'
  * @returns {Boolean}
  * @example see @/views/permission/directive.vue
  */
-export default function checkPermission(value) {
-  if (value && value instanceof Array && value.length > 0) {
-    const roles = store.getters && store.getters.roles
-    const permissionRoles = value
-
-    const hasPermission = roles.some(role => {
-      return permissionRoles.includes(role)
-    })
-
-    if (!hasPermission) {
-      return false
-    }
+export default function checkPermission(resourceCode) {
+  const roles = store.getters && store.getters.roles
+  const roleNames = store.getters && store.getters.roleNames
+  const resourceRoles = store.getters && store.getters.resourceRoles
+  // resourceRoles 为如下格式的数组{"resourceKey": "70758034360078336","resourceName": "1","resourceCode": "1","roleKeys": []}
+  // value为resourceCode，
+  const isAdmin = roleNames.includes('SuperAdmin')
+  if (isAdmin) {
     return true
-  } else {
-    console.error(`need roles! Like v-permission="['admin','editor']"`)
-    return false
+  }
+  if (resourceCode) {
+    var resource = resourceRoles.find(a => a.resourceCode === resourceCode)
+    return resource && (resource.roleKeys || []).some(a => roles.includes(a))
   }
 }

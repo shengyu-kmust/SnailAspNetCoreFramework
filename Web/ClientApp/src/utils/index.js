@@ -367,3 +367,9 @@ export function keyValueFormart(keyValues, key, keyField = 'key', valueField = '
   }
 }
 
+/**
+ * 判断是否在被iframe嵌套
+ */
+export function iframeRuntime() {
+  return !(window.self === window.top)
+}

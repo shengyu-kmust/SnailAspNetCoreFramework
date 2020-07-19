@@ -1,26 +1,41 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Esf;
+using Snail.Common.Extenssions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Web.CodeGenerater
 {
-   
+
 
     public static class CodeGeneraterHelper
     {
+
+        public static CodeGenerateDto GenerateDtoFromConfig(string val,out List<string> errors)
+        {
+            var result = new CodeGenerateDto();
+            errors = new List<string>();
+            var configDto = JsonConvert.DeserializeObject<CodeGenerateConfig>(val);
+            result.BasePath = configDto.BasePath.Trim('\\');
+            result.Entities = CodeGeneraterHelper.GenerateEntitiesModelFromTableModels(configDto,ref errors);
+            result.Enums = GenerateEnumModelFromConfig(configDto, ref errors);
+            return result;
+
+        }
         /// <summary>
         /// 从json配置里的entity配置节点，生成template.tt使用的model
         /// </summary>
         /// <param name="tableModels"></param>
         /// <param name="errors"></param>
         /// <returns></returns>
-        public static List<EntityModel> GenerateEntitiesModelFromTableModels(List<EntityConfigModel> tableModels, out List<string> errors)
+        public static List<EntityModel> GenerateEntitiesModelFromTableModels(CodeGenerateConfig config, ref List<string> errors)
         {
             var result = new List<EntityModel>();
-            errors = new List<string>();
+            if (errors == null) { errors = new List<string>(); }
 
-            foreach (var item in tableModels)
+            foreach (var item in config.Entities)
             {
                 var columns = new List<EntityFieldModel>();
                 foreach (var column in item.Columns)
@@ -30,11 +45,25 @@ namespace Web.CodeGenerater
                 result.Add(new EntityModel
                 {
                     Name = item.Name,
-                    TableName=item.TableName,
+                    TableName = item.TableName,
+                    Comment=item.Comment,
                     Fields = columns
                 });
             }
             return result;
+        }
+        public static List<EnumModel> GenerateEnumModelFromConfig(CodeGenerateConfig config, ref List<string> errors)
+        {
+            var result = new List<EnumModel>();
+            if (errors==null)
+            {
+                errors = new List<string>(); 
+            }
+            foreach (var item in config.Enums)
+            {
+                result.Add(GetEnumModel(item, ref errors));
+            }
+            return result.Where(a => a.Name.HasValue()).ToList();
         }
 
         private static EntityFieldModel GetFieldModel(string val, ref List<string> error)
@@ -61,6 +90,39 @@ namespace Web.CodeGenerater
                     result.Attributes = new List<string>();
                 }
                 result.Attributes.Add($"[MaxLength({len})]");
+            }
+            return result;
+        }
+
+        private static EnumModel GetEnumModel(string val, ref List<string> error)
+        {
+            var result = new EnumModel();
+            if (error == null)
+            {
+                error = new List<string>();
+            }
+            var items = val.Split(',', '，');
+            if (items.Length == 0 || items.Length % 2 == 1)
+            {
+                error.Add("枚举的配置参数必需大于0且为偶数");
+            }
+            for (int i = 0; i < items.Length; i = i + 2)
+            {
+                if (i == 0)
+                {
+                    // 第一对为枚举名和描述
+                    result.Name = items[i];
+                    result.Comment = items[i + 1];
+                }
+                else
+                {
+                    result.Items.Add(new EnumFieldModel
+                    {
+                        Name = items[i],
+                        Comment = items[i + 1]
+                    });
+                }
+
             }
             return result;
         }
@@ -99,6 +161,6 @@ namespace Web.CodeGenerater
             }
         }
     }
-    
+
 
 }

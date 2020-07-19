@@ -2,13 +2,15 @@
 
 namespace Web.CodeGenerater
 {
+    #region 配置文件dto
     /// <summary>
-    /// 代码生成配置文件
+    /// 代码生成的配置文件，结构dto
     /// </summary>
     public class CodeGenerateConfig
     {
         public string BasePath { get; set; }
         public List<EntityConfigModel> Entities { get; set; }
+        public List<string> Enums { get; set; }
     }
 
     /// <summary>
@@ -21,6 +23,15 @@ namespace Web.CodeGenerater
         public string Comment { get; set; }
         public List<string> Columns { get; set; }
     }
+    #endregion
+    #region 配置文件解析dto
+    public class CodeGenerateDto
+    {
+        public string BasePath { get; set; }
+        public List<EntityModel> Entities { get; set; }
+        public List<EnumModel> Enums { get; set; }
+    }
+    #endregion
 
     #region 用于在template.tt里使用的model
     #region 生成entity的model
@@ -90,6 +101,32 @@ namespace Web.CodeGenerater
     public class VueRouteModel
     {
         public string Name { get; set; }
+        public string Comment { get; set; }
+    }
+    #endregion
+
+    #region 生成enum
+    public class EnumModel
+    {
+        public EnumModel()
+        {
+            Items = new List<EnumFieldModel>();
+        }
+        public string Comment { get; set; }
+        public string Name { get; set; }
+        public List<EnumFieldModel> Items { get; set; }
+    }
+
+    public class EnumFieldModel
+    {
+        /// <summary>
+        /// 字段名
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
         public string Comment { get; set; }
     }
     #endregion

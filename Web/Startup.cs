@@ -399,7 +399,7 @@ namespace Web
                     };
                 });
                 app.UseSwaggerUi3();
-                //app.UseReDoc();
+                //app.UseReDoc();//UseReDoc和UseSwaggerUi3任意用一个
             }
 
             #endregion

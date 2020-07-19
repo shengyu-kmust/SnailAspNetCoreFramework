@@ -6,6 +6,7 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
+import checkPermission from '@/utils/permission'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -14,19 +15,12 @@ const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
 router.beforeEach(async(to, from, next) => {
   // start progress bar
   NProgress.start()
-
   // set page title
   document.title = getPageTitle(to.meta.title)
-
   // determine whether the user has logged in
   const hasToken = getToken()
 
   if (hasToken) {
-    if (to.path === '/login') {
-      // if is logged in, redirect to the home page
-      next({ path: '/' })
-      NProgress.done()
-    } else {
       // determine whether the user has obtained his permission roles through getInfo
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
       if (hasRoles) {
@@ -35,17 +29,17 @@ router.beforeEach(async(to, from, next) => {
         try {
           // get user info
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-          const { roles, roleNames } = await store.dispatch('user/getInfo')
-          const isAdmin = roleNames.includes('SuperAdmin')
+          await store.dispatch('user/getInfo')
           // generate accessible routes map based on roles
           await store.dispatch('permission/getAllResourceRoles')// 向后台获取资源和角色对应关系
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles, isAdmin)
-
-          // dynamically add accessible routes
-          router.addRoutes(accessRoutes)
+          // const isAdmin = roleNames.includes('SuperAdmin')
+          // const accessRoutes = await store.dispatch('permission/generateRoutes', roles, isAdmin)
+          // // dynamically add accessible routes
+          // router.addRoutes(accessRoutes)
 
           // hack method to ensure that addRoutes is complete
           // set the replace: true, so the navigation will not leave a history record
+
           next({ ...to, replace: true })
         } catch (error) {
           // remove token and go to login page to re-login
@@ -54,7 +48,6 @@ router.beforeEach(async(to, from, next) => {
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         }
-      }
     }
   } else {
     /* has no token*/

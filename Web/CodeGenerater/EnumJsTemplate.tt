@@ -1,0 +1,46 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+export const EGenders = [
+  {
+    key: 'Male',
+    value: '男'
+  }, {
+    key: 'Female',
+    value: '女'
+  }
+]
+
+export const ETrueFalse = [
+  {
+    key: true,
+    value: '是'
+  }, {
+    key: false,
+    value: '否'
+  }
+]
+
+
+<#
+    foreach(var model in Model){
+#>
+export const <#= model.Name#>s = [
+<#
+    foreach(var item in model.Items){
+#>
+    {
+        key: '<#= item.Name #>',
+        value: '<#= item.Comment #>'
+    },
+<#
+    }
+#>
+  
+]
+<#
+    }
+#>
+  

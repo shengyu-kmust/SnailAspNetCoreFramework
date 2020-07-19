@@ -8,6 +8,7 @@ using Snail.Common.Extenssions;
 using Snail.Core;
 using Snail.Core.Attributes;
 using Snail.Core.Permission;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Web.DTO;
@@ -32,13 +33,13 @@ namespace Web.Controllers
             return controllerContext.mapper.ProjectTo<ConfigResultDto>(_service.QueryList(pred)).ToList();
         }
 
-        [Resource(Description = "查询树")]
+        [Resource(Description = "查询配置树")]
         [HttpGet]
         public TreeNode<ConfigResultDto> QueryListTree([FromQuery]KeyQueryDto queryDto)
         {
             var pred = ExpressionExtensions.True<Config>().AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord) || a.Key.Contains(queryDto.KeyWord) || a.Value.Contains(queryDto.KeyWord));
             var list=controllerContext.mapper.ProjectTo<ConfigResultDto>(_service.QueryList(pred)).ToList();
-            return TreeNodeHelper.GetTree<ConfigResultDto>(list, a => a.Id, a => a.ParentId, "0");
+            return TreeNodeHelper.GetTree<ConfigResultDto>(list??new List<ConfigResultDto>(), a => a.Id, a => a.ParentId, "0");
         }
 
         [Resource(Description = "查询分页")]

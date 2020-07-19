@@ -7,6 +7,7 @@ namespace Web.CodeGenerater
 {
     public partial class ControllerTemplate
     {
+        public string Comment { get; set; }
         public string Name { get; set; }
     }
     public partial class DtoTemplate
@@ -41,5 +42,14 @@ namespace Web.CodeGenerater
     public partial class VueRouterTemplate
     {
         public List<VueRouteModel> VueRouteModels { get; set; }
+    }
+    public partial class EnumTemplate
+    {
+        public EnumModel Model { get; set; }
+    }
+
+    public partial class EnumJsTemplate
+    {
+        public List<EnumModel> Model { get; set; }
     }
 }

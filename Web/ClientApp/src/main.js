@@ -13,8 +13,9 @@ import App from './App'
 import store from './store'
 import router from './router'
 import setVm from '@/utils/setVm'
+import permission from '@/directive/permission'
 setVm(Vue)
-
+permission.install(Vue)
 import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
