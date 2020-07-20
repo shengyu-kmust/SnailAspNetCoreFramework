@@ -23,11 +23,13 @@ namespace Web
             _logger = logger;
         }
 
-
+        /// <summary>
+        /// 启动后执行的入口
+        /// </summary>
         public void Invoke()
         {
             // 增加定时任务
-            HangfireHelper.AddHangfire(new Assembly[] { typeof(Startup).Assembly });
+            HangfireHelper.AddHangfire(new Assembly[] { typeof(Startup).Assembly,typeof(ServiceContext).Assembly });
 
             // 初始化数据库
             InitDatabase();

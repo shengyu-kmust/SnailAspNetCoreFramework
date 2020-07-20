@@ -199,7 +199,7 @@ namespace Web
 
 
             #region 定时任务
-            services.AddHangfireServer();
+            services.AddHangfireServer();//hangfire.aspnetcore的扩展，用这个方法后，hangfire的JobActivator会用asp.net core的IServiceProvider去做ioc，所以不需要额外配置JobActivator。而本项目Autofac已经实现了IServiceProvider
             services.AddHangfire(configuration =>
             {
                 configuration

@@ -1489,6 +1489,11 @@
             服务启动后，会运行
             </summary>
         </member>
+        <member name="M:Web.RunWhenServerStartService.Invoke">
+            <summary>
+            启动后执行的入口
+            </summary>
+        </member>
         <member name="T:Web.SnailCapConsumerServiceSelector">
             <summary>
             由于CAP默认的ConsumerServiceSelector不能和autofac进行很好的兼容，这里重新实现。用法
