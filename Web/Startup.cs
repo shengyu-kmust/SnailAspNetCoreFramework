@@ -3,6 +3,8 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using DotNetCore.CAP;
+using Hangfire.MemoryStorage;
+using Hangfire.SQLite;
 using DotNetCore.CAP.Internal;
 using Hangfire;
 using Hangfire.MySql;
@@ -81,9 +83,12 @@ namespace Web
                 {
                     options.UseMySql(connectString);
                 }
-                else
+                else if(dbType.Equals("SqlServer",StringComparison.OrdinalIgnoreCase))
                 {
                     options.UseSqlServer(connectString);
+                }else if (dbType.Equals("Sqlite",StringComparison.OrdinalIgnoreCase))
+                {
+                    options.UseSqlite(connectString);
                 }
             };
             services.AddDbContext<DbContext, AppDbContext>(optionsAction);
@@ -206,6 +211,13 @@ namespace Web
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                 .UseSimpleAssemblyNameTypeSerializer()
                 .UseRecommendedSerializerSettings();
+                
+                if (string.IsNullOrEmpty(hangfireConnectString))
+                {
+                    configuration.UseMemoryStorage();
+                    return;
+                }
+
                 if (dbType.Equals("MySql", StringComparison.OrdinalIgnoreCase))
                 {
                     configuration.UseStorage(new MySqlStorage(hangfireConnectString, new MySqlStorageOptions()
@@ -213,7 +225,7 @@ namespace Web
                         TablesPrefix = "hangfire_"
                     }));
                 }
-                else
+                else if(dbType.Equals("SqlServer", StringComparison.OrdinalIgnoreCase))
                 {
                     configuration.UseSqlServerStorage(hangfireConnectString, new SqlServerStorageOptions
                     {
@@ -224,6 +236,11 @@ namespace Web
                         UseRecommendedIsolationLevel = true,
                         UsePageLocksOnDequeue = true,
                         DisableGlobalLocks = true
+                    });
+                }else if (dbType.Equals("Sqlite", StringComparison.OrdinalIgnoreCase))
+                {
+                    configuration.UseSQLiteStorage(hangfireConnectString,new SQLiteStorageOptions { 
+                        SchemaName="hangfire"
                     });
                 }
             });

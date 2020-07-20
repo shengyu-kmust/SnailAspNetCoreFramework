@@ -16,6 +16,7 @@ namespace Web
         private IEntityCacheManager _entityCacheManager;
         private IServiceProvider _serviceProvider;
         private ILogger _logger;
+        private static object _locker = new object();
         public RunWhenServerStartService(IEntityCacheManager entityCacheManager, IServiceProvider serviceProvider,ILogger<RunWhenServerStartService> logger)
         {
             _entityCacheManager = entityCacheManager;
@@ -28,11 +29,16 @@ namespace Web
         /// </summary>
         public void Invoke()
         {
-            // 增加定时任务
-            HangfireHelper.AddHangfire(new Assembly[] { typeof(Startup).Assembly,typeof(ServiceContext).Assembly });
+            // 当数据库为sqlite时，hangfire会执行多次invoke，暂不清楚是什么原因，故加上锁
+            lock (_locker)
+            {
+                // 增加定时任务
+                HangfireHelper.AddHangfire(new Assembly[] { typeof(Startup).Assembly, typeof(ServiceContext).Assembly });
 
-            // 初始化数据库
-            InitDatabase();
+                // 初始化数据库
+                InitDatabase();
+            }
+     
         }
 
         private void InitDatabase()
