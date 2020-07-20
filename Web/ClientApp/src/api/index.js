@@ -72,3 +72,4 @@ export const setUserRoles = data => request.post('/api/Permission/SetUserRoles',
 export const queryListTree = params => request.get('/api/Config/QueryListTree', { params })
 export const getRoleResources = params => request.get('/api/Permission/GetRoleResources', { params })
 export const setRoleResources = data => request.post('/api/Permission/SetRoleResources', data)
+export const initResource = data => request.get('/api/Permission/InitResource')

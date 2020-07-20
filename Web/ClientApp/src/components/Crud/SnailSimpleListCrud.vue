@@ -1,6 +1,6 @@
 <template>
   <!-- 不分页的CRUD  -->
-  <div style="height:100%;display:flex;flex-direction: column;flex:1">
+  <div style="height:100%;display:flex;flex-direction: column;flex:1" snailscrud>
     <div>
       <!--默认功能菜单 -->
       <slot v-if="showOper" name="oper">
