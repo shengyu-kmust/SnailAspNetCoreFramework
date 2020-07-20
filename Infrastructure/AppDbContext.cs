@@ -26,7 +26,6 @@ namespace Infrastructure
         public DbSet<Config> Configs { get; set; }
 
         #endregion
-        public DbSet<SampleEntity> SampleEntities { get; set; }
         private ICapPublisher _publisher;
         public AppDbContext(DbContextOptions<AppDbContext> options, ICapPublisher publisher)
             : base(options)
@@ -40,7 +39,6 @@ namespace Infrastructure
         }
 
 
-        public virtual DbSet<SampleEntity> SampleEntity { get; set; }
 
 
 

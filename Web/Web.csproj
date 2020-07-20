@@ -35,11 +35,6 @@
     <Compile Remove="Domain\PermissionModel.cs" />
     <Compile Remove="Domain\ResourceModel.cs" />
     <Compile Remove="Domain\UserModel.cs" />
-    <Compile Remove="DTO\SampleEntity\ISaveDto.cs" />
-    <Compile Remove="DTO\SampleEntity\StudentQueryDto.cs" />
-    <Compile Remove="DTO\SampleEntity\StudentQueryPageDto.cs" />
-    <Compile Remove="DTO\SampleEntity\StudentResultDto.cs" />
-    <Compile Remove="DTO\SampleEntity\StudentSaveDto.cs" />
   </ItemGroup>
 
   <ItemGroup>

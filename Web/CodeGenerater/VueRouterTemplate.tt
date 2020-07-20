@@ -20,7 +20,7 @@ const basicRouters = {
                   path: '<#= router.Name #>',
                   component: () => import('@/views/basic/<#= router.Name #>'),
                   name: 'user',
-                  meta: { title: '<#= router.Comment #>管理' }
+                  meta: { title: '<#= router.Comment #>管理',resourceCode: '<#= router.Name #>Controller' }
                 },
 <#    }#>
     

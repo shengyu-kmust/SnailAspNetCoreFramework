@@ -58,7 +58,14 @@ namespace Web.CodeGenerater
             
             #line default
             #line hidden
-            this.Write("管理\' }\r\n                },\r\n");
+            this.Write("管理\',resourceCode: \'");
+            
+            #line 23 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\VueRouterTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(router.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Controller\' }\r\n                },\r\n");
             
             #line 25 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\VueRouterTemplate.tt"
     }

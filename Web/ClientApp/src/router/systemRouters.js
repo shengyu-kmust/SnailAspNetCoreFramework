@@ -29,31 +29,31 @@ const systemRouters = {
       path: 'user',
       component: user,
       name: 'user',
-      meta: { title: '用户管理' }
+      meta: { title: '用户管理',resourceCode: 'UserController' }
     },
     {
       path: 'role',
       component: role,
       name: 'role',
-      meta: { title: '角色管理' }
+      meta: { title: '角色管理',resourceCode: 'RoleController'  }
     },
     {
       path: 'userRole',
       component: userRole,
       name: 'userRole',
-      meta: { title: '用户授权' }
+      meta: { title: '用户授权',resourceCode: 'Permission_SetUserRoles'  }
     },
     {
       path: 'resource',
       component: resource,
       name: 'resource',
-      meta: { title: '权限资源管理' }
+      meta: { title: '权限资源管理',resourceCode: 'ResourceController'  }
     },
     {
       path: 'config',
       component: roleResource,
       name: 'roleResource',
-      meta: { title: '角色授权' }
+      meta: { title: '角色授权',resourceCode: 'Permission_SetRoleResources'  }
     },
     {
       path: 'config1',

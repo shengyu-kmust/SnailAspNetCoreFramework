@@ -16,7 +16,8 @@ using Web.Permission;
 
 namespace Web.Controllers
 {
-    [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy), Resource(Description = "权限管理")]
+    [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
+    [Resource(Description = "权限管理")]
     public class PermissionController : DefaultBaseController
     {
         private IPermission _permission;

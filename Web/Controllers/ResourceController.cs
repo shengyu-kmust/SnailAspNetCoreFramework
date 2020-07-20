@@ -17,7 +17,8 @@ using Web.DTO.Resource;
 namespace Web.Controllers
 {
 
-    [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy),Resource(Description ="权限资源管理")]
+    [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
+    [Resource(Description = "权限资源管理")]
     public class ResourceController : DefaultBaseController, ICrudController<Resource, ResourceSaveDto, ResourceResultDto, KeyQueryDto>
     {
         private ResourceService _service;
@@ -28,6 +29,7 @@ namespace Web.Controllers
             this._service = service;
             this._permissionStore = permissionStore;
         }
+        [Resource(Description ="查询列表")]
         [HttpGet]
         public List<ResourceResultDto> QueryList([FromQuery]KeyQueryDto queryDto)
         {
@@ -35,6 +37,7 @@ namespace Web.Controllers
             return controllerContext.mapper.ProjectTo<ResourceResultDto>(_service.QueryList(pred)).ToList();
         }
 
+        [Resource(Description ="查询分页")]
         [HttpGet]
         public IPageResult<ResourceResultDto> QueryPage([FromQuery]KeyQueryDto queryDto)
         {
@@ -64,6 +67,7 @@ namespace Web.Controllers
         }
 
 
+        [Resource(Description ="查找单个")]
         [HttpGet]
         public ResourceResultDto Find(string id)
         {
@@ -71,7 +75,7 @@ namespace Web.Controllers
         }
 
 
-        [Resource(Description = "删除资源")]
+        [Resource(Description = "删除")]
         [HttpPost]
         public void Remove(List<string> ids)
         {
@@ -79,7 +83,7 @@ namespace Web.Controllers
             _permissionStore.ReloadPemissionDatas();
         }
 
-        [Resource(Description = "保存资源")]
+        [Resource(Description = "保存")]
         [HttpPost]
         public void Save(ResourceSaveDto saveDto)
         {
