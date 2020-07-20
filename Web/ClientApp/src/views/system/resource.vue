@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100%;width:100%">
+  <div style="width:100%">
     <!-- element 2.8.2及以上才有树table -->
     <snail-simple-list-crud
       ref="table"
@@ -21,6 +21,7 @@
             <el-button @click="addChild">添加子级</el-button>
             <el-button @click="edit">编辑</el-button>
             <el-button @click="remove">删除</el-button>
+            <el-button @click="generate">自动生成权限资源</el-button>
             <el-button @click="refresh">刷新</el-button>
           </el-row>
         </div>
@@ -65,6 +66,12 @@ export default {
   methods: {
     currentChange(row) {
       this.currentRow = row
+    },
+    generate(){
+      this.$api.initResource().then(res=>{
+        this.$message.success("成功生成权限资源")
+        this.refresh();
+      })
     },
     addParent() {
       if (this.currentRow && this.currentRow.parentId) {

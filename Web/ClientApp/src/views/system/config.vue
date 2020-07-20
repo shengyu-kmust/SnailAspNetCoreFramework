@@ -1,7 +1,6 @@
 <template>
-  <div>
+  <div style="width:100%">
     <!-- element 2.8.2及以上才有树table -->
-    <div style="height:400px">
       <snail-simple-list-crud
         ref="table"
         :hand-search-table-datas="handSearchTableDatas"
@@ -28,8 +27,6 @@
           </div>
         </template>
       </snail-simple-list-crud>
-    </div>
-
   </div>
 </template>
 

@@ -90,3 +90,10 @@ DTO:QueryModel,ViewModel?
 ### CAP
 * CAP的原始实现是对autofac的支持不是太好，本项目里编写SnailCapConsumerServiceSelector来做处理
 * CAP原生对Controller和非Controller的处理不一样，Controller只要在方法上加上CapSubscribe特性就行，而埋Controller要在类上实现ICapSubscribe接口，并在方法上加上CapSubscribe特性
+
+## 使用方法
+1、git clone此项目
+2、配置codeGenerate.json
+3、运行此项目，并在swagger里登录后，运行codeGenerate接口
+4、运行add-migration
+5、启动项目即可

@@ -3,7 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-
+using ApplicationCore.Enums;
 using ApplicationCore.Dtos;
 using System;
 using System.ComponentModel.DataAnnotations;

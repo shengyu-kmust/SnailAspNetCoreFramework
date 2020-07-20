@@ -28,8 +28,9 @@ namespace Web.CodeGenerater
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\nusing ApplicationCore.Dtos;\r\nusing System;\r\nusing System.ComponentModel.DataAnn" +
-                    "otations;\r\nnamespace ApplicationCore.Entity\r\n{\r\n    public class ");
+            this.Write("using ApplicationCore.Enums;\r\nusing ApplicationCore.Dtos;\r\nusing System;\r\nusing S" +
+                    "ystem.ComponentModel.DataAnnotations;\r\nnamespace ApplicationCore.Entity\r\n{\r\n    " +
+                    "public class ");
             
             #line 12 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Dto.Name));
