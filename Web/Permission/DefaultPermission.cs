@@ -155,17 +155,27 @@ namespace SnaiWeb.Permission
             });
             resources.ForEach(item =>
             {
-                // 计算resource的id，如果已经存在，id为已经存在的resource的id
-                var matchRs = existResources.FirstOrDefault(i => i.GetResourceCode() == item.Code);
+                var temp = new Resource
+                {
+                    Id = item.Id,
+                    Code = item.Code,
+                    CreateTime = DateTime.Now,
+                    IsDeleted = false,
+                    Name = item.Name,
+                    ParentId = item.ParentId,
+                    UpdateTime = DateTime.Now
+                };
+                // 设置资源的id
+                var matchRs = existResources.FirstOrDefault(i => i.GetResourceCode() == temp.Code);
                 if (matchRs!=null)
                 {
-                    item.Id = matchRs.GetKey();
+                    temp.Id = matchRs.GetKey();
                 }
 
-                // 计算资源的父id，如果父存在，则子资源的父id为已经存在的父数据的id，否则为新的id
-                if (!string.IsNullOrEmpty(item.ParentId))
+                // 设置资源的父id
+                if (!string.IsNullOrEmpty(temp.ParentId))
                 {
-                    var pa = resources.FirstOrDefault(a => a.Id == item.ParentId);
+                    var pa = resources.FirstOrDefault(a => a.Id == temp.ParentId);
                     var matchPa = existResources.FirstOrDefault(i => i.GetResourceCode() == pa?.Code);
                     if (matchPa!=null)
                     {
