@@ -16,7 +16,7 @@ export default function checkPermission(resourceCode) {
     return true
   }
   if (resourceCode) {
-    var resource = resourceRoles.find(a => a.resourceCode === resourceCode)
+    var resource = resourceRoles.find(a => (a.resourceCode || '').toLowerCase() === resourceCode.toLowerCase())
     return resource && (resource.roleKeys || []).some(a => roles.includes(a))
   }
 }

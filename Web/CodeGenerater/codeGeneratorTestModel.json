@@ -7,7 +7,7 @@
       "comment": "示例表",
       "columns": [
         "Name,string,姓名,50",
-        "Gender,EGender,性别",
+        "Gender,EGenderTest,性别",
         "Age,int,年龄",
         "Birthday,DateTime,出生日期",
         "Enabled,bool,是否有效"
@@ -44,7 +44,7 @@
     }
   ],
   "Enums": [
-    "EFlightType,航班性质,International,国际,Demostic,国内",
+    "EGenderTest,性别,Female,女,Male,男",
   ]
 }
 
