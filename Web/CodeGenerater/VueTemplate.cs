@@ -18,7 +18,7 @@ namespace Web.CodeGenerater
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
+    #line 1 "D:\我的框架\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
     public partial class VueTemplate : VueTemplateBase
     {
@@ -31,28 +31,28 @@ namespace Web.CodeGenerater
             this.Write("\r\n<template>\r\n  <div style=\"display:flex;flex:1\">\r\n    <snail-simple-crud\r\n      " +
                     "search-api=\"");
             
-            #line 10 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
+            #line 10 "D:\我的框架\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Vue.Name));
             
             #line default
             #line hidden
             this.Write("QueryPage\"\r\n      add-api=\"");
             
-            #line 11 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
+            #line 11 "D:\我的框架\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Vue.Name));
             
             #line default
             #line hidden
             this.Write("Save\"\r\n      edit-api=\"");
             
-            #line 12 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
+            #line 12 "D:\我的框架\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Vue.Name));
             
             #line default
             #line hidden
             this.Write("Save\"\r\n      remove-api=\"");
             
-            #line 13 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
+            #line 13 "D:\我的框架\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Vue.Name));
             
             #line default
@@ -86,35 +86,56 @@ export default {
       return [
 ");
             
-            #line 40 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
+            #line 40 "D:\我的框架\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
     foreach(var field in Vue.Fields){ 
             
             #line default
             #line hidden
             this.Write("        {\r\n          name: \'");
             
-            #line 42 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
+            #line 42 "D:\我的框架\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(field.Name));
             
             #line default
             #line hidden
             this.Write("\',\r\n          label: \'");
             
-            #line 43 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
+            #line 43 "D:\我的框架\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(field.Comment));
             
             #line default
             #line hidden
             this.Write("\',\r\n          type: \'");
             
-            #line 44 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
+            #line 44 "D:\我的框架\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(field.Type));
             
             #line default
             #line hidden
-            this.Write("\',\r\n          span: 12\r\n        },\r\n");
+            this.Write("\',\r\n");
             
-            #line 47 "G:\mywork\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
+            #line 45 "D:\我的框架\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
+ if(field.Type=="select"){ 
+            
+            #line default
+            #line hidden
+            this.Write("          keyValues: ");
+            
+            #line 46 "D:\我的框架\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(field.KeyValues));
+            
+            #line default
+            #line hidden
+            this.Write(",\r\n");
+            
+            #line 47 "D:\我的框架\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
+ }
+            
+            #line default
+            #line hidden
+            this.Write("          span: 12\r\n        },\r\n");
+            
+            #line 50 "D:\我的框架\SnailAspNetCoreFramework\Web\CodeGenerater\VueTemplate.tt"
     }
             
             #line default

@@ -42,6 +42,9 @@ export default {
           name: '<#= field.Name #>',
           label: '<#= field.Comment #>',
           type: '<#= field.Type #>',
+<# if(field.Type=="select"){ #>
+          keyValues: <#= field.KeyValues#>,
+<# }#>
           span: 12
         },
 <#    }#>

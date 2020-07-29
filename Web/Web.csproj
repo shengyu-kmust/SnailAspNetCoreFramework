@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>G:\mywork\SnailAspNetCoreFramework\Web\Web.xml</DocumentationFile>
+    <DocumentationFile>Web.xml</DocumentationFile>
   </PropertyGroup>
 
 
@@ -94,6 +94,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\views\basic\" />
     <Folder Include="Domain\" />
     <Folder Include="DTO\Permission\" />
     <Folder Include="Permission\" />

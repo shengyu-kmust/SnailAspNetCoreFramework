@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Web.DTO;
+using Web.DTO.Config;
+
 namespace Web.Controllers
 {
 
@@ -35,12 +37,27 @@ namespace Web.Controllers
 
         [Resource(Description = "查询配置树")]
         [HttpGet]
-        public TreeNode<ConfigResultDto> QueryListTree([FromQuery]KeyQueryDto queryDto)
+        public List<ConfigTreeResultDto> QueryListTree([FromQuery]KeyQueryDto queryDto)
         {
             var pred = ExpressionExtensions.True<Config>().AndIf(queryDto.KeyWord.HasValue(), a => a.Name.Contains(queryDto.KeyWord) || a.Key.Contains(queryDto.KeyWord) || a.Value.Contains(queryDto.KeyWord));
-            var list=controllerContext.mapper.ProjectTo<ConfigResultDto>(_service.QueryList(pred)).ToList();
-            return TreeNodeHelper.GetTree<ConfigResultDto>(list??new List<ConfigResultDto>(), a => a.Id, a => a.ParentId, "0");
+            var list=controllerContext.mapper.ProjectTo<ConfigTreeResultDto>(_service.QueryList(pred)).ToList();
+            return list.Where(a => !a.ParentId.HasValue()).Select(a => GetChildren(a, list)).ToList();
         }
+
+        private ConfigTreeResultDto GetChildren(ConfigTreeResultDto parent, List<ConfigTreeResultDto> dtos)
+        {
+            return new ConfigTreeResultDto
+            {
+                Id = parent.Id,
+                ExtraInfo=parent.ExtraInfo,
+                Key=parent.Key,
+                Value=parent.Value,
+                Name = parent.Name,
+                ParentId = parent.ParentId,
+                Children = dtos.Where(a => a.ParentId == parent.Id).Select(a => GetChildren(a, dtos)).ToList()
+            };
+        }
+
 
         [Resource(Description = "查询分页")]
         [HttpGet]

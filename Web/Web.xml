@@ -164,6 +164,11 @@
             描述
             </summary>
         </member>
+        <member name="P:Web.CodeGenerater.VueFieldModel.KeyValues">
+            <summary>
+            当type为select时，keyValues值
+            </summary>
+        </member>
         <member name="P:Web.CodeGenerater.EnumFieldModel.Name">
             <summary>
             字段名
@@ -1463,6 +1468,16 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="P:Web.DTO.Config.ConfigTreeResultDto.Children">
+            <summary>
+            子资源
+            </summary>
+        </member>
+        <member name="P:Web.DTO.Config.ConfigTreeResultDto.HasChildren">
+            <summary>
+            是否有子元素
+            </summary>
         </member>
         <member name="T:Web.DTO.KeyQueryDto">
             <summary>

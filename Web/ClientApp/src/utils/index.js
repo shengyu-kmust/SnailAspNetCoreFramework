@@ -368,6 +368,21 @@ export function keyValueFormart(keyValues, key, keyField = 'key', valueField = '
 }
 
 /**
+ *
+ * @param {*} row
+ * @param {*} column
+ * @param {*} cellValue
+ * @param {*} index
+ */
+export function dateFormart(row, column, cellValue, index) {
+  if (cellValue) {
+    return cellValue.substr(0, 10)
+  } else {
+    return ''
+  }
+}
+
+/**
  * 判断是否在被iframe嵌套
  */
 export function iframeRuntime() {

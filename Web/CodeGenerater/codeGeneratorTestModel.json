@@ -1,5 +1,5 @@
 {
-  "BasePath":"G:\\mywork\\SnailAspNetCoreFramework",
+  "BasePath": "D:\\我的框架\\SnailAspNetCoreFramework",
   "Entities": [
     {
       "name": "Demo",
@@ -44,7 +44,7 @@
     }
   ],
   "Enums": [
-    "EGenderTest,性别,Female,女,Male,男",
+    "EGenderTest,性别,Female,女,Male,男"
   ]
 }
 
