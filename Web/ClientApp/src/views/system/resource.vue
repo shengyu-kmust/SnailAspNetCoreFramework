@@ -67,10 +67,10 @@ export default {
     currentChange(row) {
       this.currentRow = row
     },
-    generate(){
-      this.$api.initResource().then(res=>{
-        this.$message.success("成功生成权限资源")
-        this.refresh();
+    generate() {
+      this.$api.initResource().then(res => {
+        this.$message.success('成功生成权限资源')
+        this.refresh()
       })
     },
     addParent() {

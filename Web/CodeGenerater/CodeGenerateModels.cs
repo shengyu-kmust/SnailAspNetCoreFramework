@@ -83,6 +83,10 @@ namespace Web.CodeGenerater
         /// 描述
         /// </summary>
         public string Comment { get; set; }
+        /// <summary>
+        /// 当type为select时，keyValues值
+        /// </summary>
+        public string KeyValues { get; set; }
     }
     #endregion
     #region 生成dto的model

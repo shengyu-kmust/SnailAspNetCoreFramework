@@ -1,0 +1,54 @@
+{
+  "BasePath": "G:\\mywork\\SnailAspNetCoreFramework",
+  "Entities": [
+    {
+      "name": "Product",
+      "tableName": "Product",
+      "comment": "产品",
+      "columns": [
+        "Name,string,商品名称,50",
+        "Price,decimal,标准价格",
+        "Category,string,分类,50",
+        ""
+        "Pic,string,商品图片",
+        "Des,string,描述"
+      ] 
+    },
+    {
+      "name": "Desk",
+      "tableName": "Desk",
+      "comment": "餐桌",
+      "columns": [
+        "Name,string,餐桌名,50",
+        "DeskStatus,EDeskStatus,状态",
+        "Des,string,描述"
+      ]
+    },
+    {
+      "name": "OrderDetail",
+      "tableName": "OrderDetail",
+      "comment": "订单明细",
+      "columns": [
+        "MainId,string,主单id,50",
+        "ProductId,string,商品id,50",
+        "Amount,int,数量",
+        "Remark,string,备注",
+        "OrderDetailStatus,EOrderDetailStatus,状态"
+      ]
+    },
+    {
+      "name": "OrderMain",
+      "tableName": "OrderMain",
+      "comment": "订单主表",
+      "columns": [
+        "PayStatus,EPayStatus,支付状态,50",
+        "DeskId,string,餐桌id,50",
+        "NeedPay,decimal,应付",
+        "ActualPay,decimal,实付",
+        "Discounts,decimal,优惠",
+        "OrderMainStatus,EOrderMainStatus,状态"
+      ]
+    }
+  ]
+}
+

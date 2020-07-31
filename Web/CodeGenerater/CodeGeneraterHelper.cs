@@ -132,12 +132,7 @@ namespace Web.CodeGenerater
             return entityModels.Select(a => new VueModel
             {
                 Name = ToCamel(a.Name),
-                Fields = a.Fields.Select(i => new VueFieldModel
-                {
-                    Name = ToCamel(i.Name),
-                    Comment = i.Comment,
-                    Type = ConvertEntityTypeToVueType(i.Type)
-                }).ToList()
+                Fields = a.Fields.Select(i => GenerateVueModelFromEntity(i)).ToList()
             }).ToList();
         }
 
@@ -145,21 +140,46 @@ namespace Web.CodeGenerater
         {
             return val.First().ToString().ToLower() + val.Substring(1, val.Length - 1);
         }
-        public static string ConvertEntityTypeToVueType(string entityType)
+
+        public static VueFieldModel GenerateVueModelFromEntity(EntityFieldModel entityFieldModel)
         {
-            //支持：string,int,datetime,date,select,multiSelect,time
-            switch (entityType)
+            var result = new VueFieldModel
             {
-                case "string":
-                    return "string";
-                case "DateTime":
-                    return "datetime";
-                case "int":
-                    return "int";
-                default:
-                    return "string";
+                Name = ToCamel(entityFieldModel.Name),
+                Comment = entityFieldModel.Comment,
+            };
+            if (CodeGeneraterHelper.IsEnumType(entityFieldModel))
+            {
+                result.Type = "select";
+                result.KeyValues = entityFieldModel.Type=="bool"? "this.$enum.ETrueFalse" : $"this.$enum.{entityFieldModel.Type}s";
             }
+            else
+            {
+                //支持：string,int,datetime,date,select,multiSelect,time
+                switch (entityFieldModel.Type)
+                {
+                    case "string":
+                        result.Type = "string";
+                        break;
+                    case "DateTime":
+                        result.Type = "datetime";
+                        break;
+                    case "int":
+                        result.Type = "int";
+                        break;
+                    default:
+                        result.Type = "string";
+                        break;
+                }
+            }
+            return result;
         }
+
+        private static bool IsEnumType(EntityFieldModel entityFieldModel)
+        {
+            return entityFieldModel.Type == "bool" || entityFieldModel.Type.StartsWith("E");
+        }
+        
     }
 
 
