@@ -99,7 +99,7 @@ namespace Web
             services.AddPermission(options =>
             {
                 Configuration.GetSection("PermissionOptions").Bind(options);
-                options.ResourceAssemblies = new List<Assembly> { Assembly.GetExecutingAssembly() };
+                options.ResourceAssemblies = new List<Assembly> { Assembly.GetExecutingAssembly() };// 从哪些程序集里，将Controller的action设置成权限资源
             });
             #endregion
 

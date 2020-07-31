@@ -18,6 +18,9 @@ using System.Text;
 
 namespace SnaiWeb.Permission
 {
+    /// <summary>
+    /// 权限的默认实现类
+    /// </summary>
     public class DefaultPermission : BasePermission
     {
         public static readonly string superAdminRoleName = "SuperAdmin";

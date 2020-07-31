@@ -45,8 +45,8 @@ namespace Web.Permission
                        options.ForwardDefaultSelector = context =>
                        {
                            string authorization = context.Request.Headers["Authorization"];
-                       //身份验证的顺序为jwt、cookie
-                       if (authorization != null && authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                           //身份验证的顺序为jwt、cookie
+                           if (authorization != null && authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
                            {
                                return JwtBearerDefaults.AuthenticationScheme;
                            }
@@ -70,6 +70,7 @@ namespace Web.Permission
                    })
                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                {
+                   // jwt可用对称和非对称算法进行验签
                    SecurityKey key;
                    if (permissionOption.IsAsymmetric)
                    {
@@ -117,6 +118,7 @@ namespace Web.Permission
             //所有的handler都要注入到services，用services.AddSingleton<IAuthorizationHandler, xxxHandler>()，而哪个requirement用哪个handler，低层会自动匹配。最后将requirement对到policy里即可
             services.AddAuthorization(options =>
             {
+                // 增加鉴权策略，并告知这个策略要判断用户是否获得了PermissionRequirement这个Requirement
                 options.AddPolicy(PermissionConstant.PermissionAuthorizePolicy, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new PermissionRequirement());

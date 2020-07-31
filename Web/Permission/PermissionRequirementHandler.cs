@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Snail.Core.Permission;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Web.Permission
@@ -17,11 +13,11 @@ namespace Web.Permission
         }
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
-            var resourceKey=_permission.GetRequestResourceKey(context.Resource);
-            var userKey = _permission.GetUserInfo(context.User).UserKey;
-            if (_permission.HasPermission(resourceKey,userKey))
+            var resourceKey=_permission.GetRequestResourceKey(context.Resource);// 获取资源的key
+            var userKey = _permission.GetUserInfo(context.User).UserKey; // 根据用户的claims获取用户的key
+            if (_permission.HasPermission(resourceKey,userKey)) // 判断用户是否有权限
             {
-                context.Succeed(requirement);
+                context.Succeed(requirement); // 如果有权限，则获得此Requirement
             }
             return Task.CompletedTask;
         }

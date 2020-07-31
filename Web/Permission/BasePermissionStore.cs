@@ -22,11 +22,12 @@ namespace Web.Permission
         protected TDbContext _db;
         protected IMemoryCache _memoryCache;
         protected IApplicationContext _applicationContext;
-        private string userCacheKey = $"DefaultPermissionStore_{nameof(userCacheKey)}";
-        private string roleCacheKey = $"DefaultPermissionStore_{nameof(roleCacheKey)}";
-        private string userRoleCacheKey = $"DefaultPermissionStore_{nameof(userRoleCacheKey)}";
-        private string resourceCacheKey = $"DefaultPermissionStore_{nameof(resourceCacheKey)}";
-        private string roleResourceCacheKey = $"DefaultPermissionStore_{nameof(roleResourceCacheKey)}";
+        protected readonly string userCacheKey = $"DefaultPermissionStore_{nameof(userCacheKey)}";
+        protected readonly string roleCacheKey = $"DefaultPermissionStore_{nameof(roleCacheKey)}";
+        protected readonly string userRoleCacheKey = $"DefaultPermissionStore_{nameof(userRoleCacheKey)}";
+        protected readonly string resourceCacheKey = $"DefaultPermissionStore_{nameof(resourceCacheKey)}";
+        protected readonly string roleResourceCacheKey = $"DefaultPermissionStore_{nameof(roleResourceCacheKey)}";
+
         protected IOptionsMonitor<PermissionOptions> _permissionOptions;
 
         public BasePermissionStore(TDbContext db, IMemoryCache memoryCache, IOptionsMonitor<PermissionOptions> permissionOptions, IApplicationContext applicationContext)
