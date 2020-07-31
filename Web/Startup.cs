@@ -314,15 +314,15 @@ namespace Web
             // 获取autofac容器
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
 
-
-            //开发模式用异常处理程序页
+           
             if (env.IsDevelopment())
             {
                 app.UseMiniProfiler();
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage(); //开发环境用异常处理程序页，让开发者能看到异常信息详细
             }
             else
             {
+                // 生产环境异常处理，隐藏异常详细信息，并记录日志
                 app.UseExceptionHandler(errorApp =>
                 {
 
@@ -337,7 +337,7 @@ namespace Web
                         if (exceptionHandlerPathFeature?.Error is BusinessException businessException)
                         {
                             responseResultModel = ApiResultDto.BadRequestResult(businessException.Message);
-                            if (logger != null)// todo 这里Logger为null
+                            if (logger != null)
                             {
                                 logger.LogError(exceptionHandlerPathFeature?.Error?.ToString());
                             }
@@ -345,7 +345,7 @@ namespace Web
                         else
                         {
                             responseResultModel = ApiResultDto.BadRequestResult($"程序出错，出于安全考虑，出错信息未能返回，请联系IT进行处理，错误时间{DateTime.Now}");
-                            if (logger != null)// todo 这里Logger为null
+                            if (logger != null)
                             {
                                 logger.LogError(exceptionHandlerPathFeature?.Error?.ToString());
                             }

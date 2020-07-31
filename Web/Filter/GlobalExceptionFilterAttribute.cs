@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Snail.Core;
@@ -22,8 +18,7 @@ namespace Web.Filter
 
             if (context.Exception is BusinessException businessException)
             {
-                // 业务类的异常，返回400状态，并返回异常内容。模型校验也会返回400状态和内容
-                //context.Result = new BadRequestObjectResult(businessException.Message);
+                // 业务异常处理，返回4000状态，并返回异常内容。模型校验也会返回4000状态和内容
                 context.Result = new ObjectResult(ApiResultDto.BadRequestResult(businessException.Message));
                 if (_logger != null)
                 {
@@ -32,6 +27,7 @@ namespace Web.Filter
             }
             else
             {
+                // 程序异常处理
                 context.Result = new ObjectResult(ApiResultDto.ServerErrorResult("未知异常"));
                 if (_logger != null)
                 {

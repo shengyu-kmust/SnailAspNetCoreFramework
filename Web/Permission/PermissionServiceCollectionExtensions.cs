@@ -28,7 +28,7 @@ namespace Web.Permission
         {
             services.TryAddScoped<IPermission, DefaultPermission>();
             services.TryAddScoped<IPermissionStore, DefaultPermissionStore>();
-            #region MyRegion
+            #region 身份验证
             var permissionOption = new PermissionOptions();
             action(permissionOption);
             //addAuthentication不放到AddPermissionCore方法里，是为了外部可自己配置

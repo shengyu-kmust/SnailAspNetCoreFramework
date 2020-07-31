@@ -1,3 +1,45 @@
+
+# 项目目录介绍
+--ApplicationCore // 核心抽象层，采用clear architecture模式，不依赖于其它层，其它三个项目都依赖此类库，负责接口、常量、枚举、dto、实体等公共定义
+----Const // 常量定义，如配置常量，事件名常量
+----Dtos // 所有的dto
+----Entities // 所有实体
+----Enums // 枚举
+----IServices // Service层的抽象定义
+----Utilities // 帮助类
+
+--Infrastructure // 基础设施层，为上层（如服务层及应用层）提供数据服务。
+----Data/config // 数据库entityframework fluent api配置
+----EFValueConverter // entityframework的数据库类型和clr类型的转换，如枚举转换
+----Migrations //为entityframework code first的migrate生成目录
+
+
+
+--Service // 服务层，用于实现ApplicationCore里的服务接口，为应用的逻辑实现的主层
+----Cache // 缓存实现，后面会移除并抽离到Snail项目
+----Interceptor // 默认实现的拦截器
+----BaseService.cs // 各service的基类，包含了各service的常用方法，如CRUD
+----InitDatabaseService.cs // 负责数据库的数据初始化
+----InterceptorService.cs // 拦截器基类
+
+
+--Web // 负责接口参数的输入及输出的所有相关处理（如参数校验，输出格式预定等）
+----AutoFacModule // autofac的注入配置
+----AutoMapperProfiles // automapper的配置
+----ClientApp // 前端项目
+------build // 前端编译生成的输出目录
+------mock // 前端mock
+------src // 前端核心代码
+----CodeGenerater // 代码生成的t4模块和相关逻辑
+----ConfigureServicesExtenssions // serviceProvider的注入扩展，以避免写在startup文件里
+----Controllers // 控制器
+----docs // 文档集
+----Dto // 只会在web层里用到的dto类
+----Filter // 过滤器
+----Hubs // signalr
+----Permission // 权限的默认实现
+----staticFile // 用于存储上传的文件
+
 # SnailAspNetCoreFramework
 asp.net core快速开发框架
 基本的权限控制功能，要思考是否该用DDD和CQRS
@@ -97,3 +139,56 @@ DTO:QueryModel,ViewModel?
 3、运行此项目，并在swagger里登录后，运行codeGenerate接口
 4、运行add-migration
 5、启动项目即可
+
+
+# 教程博文
+[SnailAspNetCoreFramework框架系列博客](https://www.cnblogs.com/shengyu-kmust/p/13397738.html)
+
+[1.框架内各项目及目录的介绍和总设计思路——SnailAspNetCoreFramework快速开发框架]()
+[2.接口输入校验、输出格式、及异常处理——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[3.通用权限设计——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[4.如何提供给前端良好的接口文档（Swagger）——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[5.各场景下的缓存使用——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[6.基于castle的AOP设计和常用缓存、性能、日志拦截器实现——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[7.依赖注入介绍之autofac——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[8.为什么用Eventbus，怎么用——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[9.日志组件之Nlog介绍——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[10.Mediatr介绍——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[11.controller、service、dal层的通用CRUD设计——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[12.对象映射之利器automapper——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[13.如何监控ef生成的sql语句——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[14..net core的几种部署方式介绍——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[15.实时通讯之signalr——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[16.如何用ef code first进行项目的数据库版本持续迭代——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[17.代码自动生成功能介绍——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[18.如何监控项目的各个功能是否正常(HealthCheck)——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[19.定时任务之hangfire介绍——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[20.前端总体介绍——SnailAspNetCoreFramework快速开发框架之前端设计]()
+[21.再也不用跪求后端接口了（MOCK的使用）——SnailAspNetCoreFramework快速开发框架之前端设计]()
+[22.前端的权限控制——SnailAspNetCoreFramework快速开发框架之前端设计]()
+[23.如何避免重复写前端的CRUD代码（前端各种SnailXXX组件介绍和使用）——SnailAspNetCoreFramework快速开发框架之前端设计]()
+[24.请求代理介绍——SnailAspNetCoreFramework快速开发框架之前端设计]()
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
