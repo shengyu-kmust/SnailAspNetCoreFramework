@@ -35,7 +35,7 @@ export const edit = data => request.post('/api/crudSample/save', data)
 export const remove = ids => request.delete('/api/crudSample/delete', { data: ids })
 
 // keyvalue
-export const getKeyValue = params => request.get('/api/keyValue/Get', { params })
+export const getKeyValue = key => request.get('/api/keyValue/Get', { params: { key } })
 
 // 配置管理
 export const configQueryPage = params => request.get('/api/config/queryPage', { params })

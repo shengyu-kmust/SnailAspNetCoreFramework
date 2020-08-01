@@ -11,7 +11,7 @@ import store from '@/store'
 import * as config from './config'
 import * as enums from './enum'
 export default (Vue) => {
-  Vue.prototype.$getKeyValue = code => store.dispatch('getKeyValue', code)
+  Vue.prototype.$getKeyValue = code => store.dispatch('keyValue/getKeyValue', code)
   Vue.prototype.$dayjs = dayjs
   Vue.prototype.$api = api
   Vue.prototype.$util = util
