@@ -1535,6 +1535,11 @@
             </summary>
             <param name="builder"></param>
         </member>
+        <member name="T:SnaiWeb.Permission.DefaultPermission">
+            <summary>
+            权限的默认实现类
+            </summary>
+        </member>
         <member name="M:SnaiWeb.Permission.DefaultPermission.GetRequestResourceCode(System.Object)">
             <summary>
             获取资源对象的code,已经适配如下类型:AuthorizationFilterContext,ControllerActionDescriptor,methodInfo
