@@ -5,6 +5,7 @@ using Autofac;
 using DotNetCore.CAP;
 using Microsoft.EntityFrameworkCore;
 using Snail.Core.Default;
+using Snail.FileStore;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -24,8 +25,9 @@ namespace Infrastructure
         #endregion
         #region 公共表
         public DbSet<Config> Configs { get; set; }
-
+        public DbSet<FileInfo> FileInfos { get; set; }
         #endregion
+
         private ICapPublisher _publisher;
         public AppDbContext(DbContextOptions<AppDbContext> options, ICapPublisher publisher)
             : base(options)

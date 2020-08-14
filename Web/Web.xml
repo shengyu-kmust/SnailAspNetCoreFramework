@@ -1242,6 +1242,19 @@
             配置options
             </summary>
         </member>
+        <member name="M:Web.Controllers.CommonUseController.ExportExcel">
+            <summary>
+            文件下载
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.CommonUseController.ImportExcel(Microsoft.AspNetCore.Http.IFormFileCollection)">
+            <summary>
+            文件上传，form-data里的key必须为formFiles才能正确绑定文件到对象
+            </summary>
+            <param name="formFiles"></param>
+            <returns></returns>
+        </member>
         <member name="T:Web.Controllers.ControllerContext">
             <summary>
             controller公共上下文，用于定义controller类的公共方法，属性等

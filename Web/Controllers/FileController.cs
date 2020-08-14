@@ -14,7 +14,7 @@ namespace Web.Controllers
 {
     public class StaticFileUploadOption
     {
-        public List<string> Extensions { get; set; } = new List<string>() { ".jpg", ".jpeg", ".png" };
+        public List<string> Extensions { get; set; } = new List<string>() { ".jpg", ".jpeg", ".png",".xls",".xlsx" };
         public int Length { get; set; } = 2 * 1000 * 1000;
         public bool ChangeFileName { get; set; } = true;
         public string StaticFilePath { get; set; } = "staticFile";
