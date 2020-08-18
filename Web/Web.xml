@@ -1242,6 +1242,19 @@
             配置options
             </summary>
         </member>
+        <member name="M:Web.Controllers.CommonUseController.ExportExcel">
+            <summary>
+            文件下载
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.CommonUseController.ImportExcel(Microsoft.AspNetCore.Http.IFormFileCollection)">
+            <summary>
+            文件上传，form-data里的key必须为formFiles才能正确绑定文件到对象
+            </summary>
+            <param name="formFiles"></param>
+            <returns></returns>
+        </member>
         <member name="T:Web.Controllers.ControllerContext">
             <summary>
             controller公共上下文，用于定义controller类的公共方法，属性等
@@ -1335,6 +1348,16 @@
             </summary>
             <param name="ids">要删除的文件的id,为accessory的id</param>
             <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.FileController.Upload(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传文件到本地静态文件目录
+            </summary>
+            <param name="formFile">上传文件</param>
+            <returns>文件上传后的服务器访问相对路径</returns>
+            <remarks>
+            用IFormFile接受
+            </remarks>
         </member>
         <member name="M:Web.Controllers.KeyValueController.Get(System.String)">
             <summary>

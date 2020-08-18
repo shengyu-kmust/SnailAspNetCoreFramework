@@ -14,8 +14,8 @@ namespace Web.Controllers
 {
     public class StaticFileUploadOption
     {
-        public List<string> Extensions { get; set; } = new List<string>() { ".jpg", ".jpeg", ".png" };
-        public int Length { get; set; } = 2 * 1000 * 1000;
+        public List<string> Extensions { get; set; } = new List<string>() { ".jpg", ".jpeg", ".png",".xls",".xlsx" };
+        public int Length { get; set; } = 2 * 1024 * 1024;
         public bool ChangeFileName { get; set; } = true;
         public string StaticFilePath { get; set; } = "staticFile";
     }
@@ -31,13 +31,14 @@ namespace Web.Controllers
         /// </summary>
         public IFileProvider _fileProvider { get; set; }
 
+        #region 数据关联的附件管理，将附件上传到directory/mongo/db
         public FileController(IFileProvider fileProvider, IOptionsMonitor<StaticFileUploadOption> optionsMonitor, IWebHostEnvironment hostingEnvironment)
         {
             _fileProvider = fileProvider;
             this.hostingEnvironment = hostingEnvironment;
             StaticFileOption = optionsMonitor.CurrentValue;
         }
- 
+
         /// <summary>
         /// 上传单个或多个文件，上传的参数有：文件、数据ID
         /// </summary>
@@ -58,24 +59,24 @@ namespace Web.Controllers
             var relateDataId = formCollection["relateDataId"];
             var relateDataType = formCollection["relateDataType"];
 
-
-            var result = new List<Snail.FileStore.FileInfo>();
             foreach (var formCollectionFile in formCollection.Files)
             {
+                if (formCollectionFile.Length> StaticFileOption.Length)
+                {
+                    throw new BusinessException($"文件大小不能超过{StaticFileOption.Length/(1024*1024)}M");
+                }
                 using (var memoryStream = new MemoryStream())
                 {
                     formCollectionFile.CopyTo(memoryStream);
-                    var fileName = formCollectionFile.FileName;//文件名，和上传的文件原始名字一样
-                    var fileAliasName = formCollectionFile.FileName;//文件别名，和上传的文件原始名字一样
                     var fileInfo = new Snail.FileStore.FileInfo()
                     {
                         Id = Guid.NewGuid().ToString(),
                         FileData = memoryStream.ToArray(),
                         FileName = formCollectionFile.FileName,
-                        FileSuffix=Path.GetExtension(formCollectionFile.FileName),
-                        Length=memoryStream.Length,
-                        RelateDataId= relateDataId,
-                        RelateDataType= relateDataType
+                        FileSuffix = Path.GetExtension(formCollectionFile.FileName),
+                        Length = memoryStream.Length,
+                        RelateDataId = relateDataId,
+                        RelateDataType = relateDataType
                     };
                     _fileProvider.Add(fileInfo);
                 }
@@ -89,7 +90,7 @@ namespace Web.Controllers
         /// <param name="dataId">数据id</param>
         /// <returns>此数据的附件文件的基本信息列表</returns>
         [HttpGet]
-        public List<Snail.FileStore.FileInfo> GetFileInfos(string relateDataType,string relateDataId)
+        public List<Snail.FileStore.FileInfo> GetFileInfos(string relateDataType, string relateDataId)
         {
             return _fileProvider.GetFileStore().GetRelateDataFileInfo(relateDataType, relateDataId);
         }
@@ -123,16 +124,31 @@ namespace Web.Controllers
         }
 
 
+        #endregion
+
+        #region 上传文件到本地，可用于上传图片类
+        /// <summary>
+        /// 上传文件到本地静态文件目录
+        /// </summary>
+        /// <param name="formFile">上传文件</param>
+        /// <returns>文件上传后的服务器访问相对路径</returns>
+        /// <remarks>
+        /// 用IFormFile接受
+        /// </remarks>
         [HttpPost]
         public object Upload(IFormFile formFile)
         {
+            if (formFile==null)
+            {
+                throw new BusinessException("未上选择文件，或是文件参数不正确，请确认文件在formData的名为formFile的参数里");
+            }
             if (!StaticFileOption.Extensions.Contains(Path.GetExtension(formFile.FileName)))
             {
-                throw new System.Exception("不支持此文件类型");
+                throw new BusinessException("不支持此文件类型");
             }
             if (formFile.Length >= StaticFileOption.Length)
             {
-                throw new System.Exception($"不能上传大于{StaticFileOption.Length / 1000 * 1000}M的图片");
+                throw new BusinessException($"不能上传大于{StaticFileOption.Length / 1000 * 1000}M的图片");
             }
             var fileName = "";
             if (StaticFileOption.ChangeFileName)
@@ -154,5 +170,7 @@ namespace Web.Controllers
             }
             return StaticFileOption.StaticFilePath + "/" + fileName;
         }
+        #endregion
+
     }
 }

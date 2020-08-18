@@ -28,7 +28,7 @@
     <PackageReference Include="Snail.Common" Version="1.0.9" />
     <PackageReference Include="Snail.Core.Default" Version="1.0.9" />
     <PackageReference Include="Snail.DAL" Version="1.0.9" />
-    <PackageReference Include="Snail.FileStore" Version="1.0.9" />
+    <PackageReference Include="Snail.FileStore" Version="1.0.12" />
   </ItemGroup>
 
   <ItemGroup>

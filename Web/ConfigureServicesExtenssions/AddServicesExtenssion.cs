@@ -6,10 +6,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Snail.Core.Default;
 using Snail.Core.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Snail.FileStore;
+using Snail.Office;
 
 namespace Web.ConfigureServicesExtenssions
 {
@@ -26,7 +24,27 @@ namespace Web.ConfigureServicesExtenssions
             services.AddAutoMapper(typeof(Startup));
             services.AddApplicationLicensing(configuration.GetSection("ApplicationlicensingOption"));
             services.AddResponseCaching();
+            services.AddTransient<Snail.Office.IExcelHelper,ExcelNPOIHelper>();
 
+            #region 增加文件存储
+
+            // 本地存储
+            services.AddScoped<IFileProvider, DictoryFileProvider>();
+            services.AddOptions<DictoryFileProviderOption>().Configure(option => { option.BasePath = "./staticFile"; option.MaxLength = 60000; });
+            services.AddScoped<IFileStore, EFFileStore>();
+
+
+            // 数据库存储
+            //services.AddScoped<IFileProvider, DatabaseFileProvider>();
+            //services.AddScoped<IFileStore, EFFileStore>();
+
+
+            // mongodb存储
+            //services.AddScoped<IFileProvider, MongodbFileProvider>();
+            //services.AddScoped<IFileStore, EFFileStore>();
+            //services.AddOptions<MongodbFileProviderOption>().Configure(option => { option.ConnectString = "mongodb://localhost/admin"; option.DatabaseName = "admin"; });
+
+            #endregion
             return services;
         }
     }

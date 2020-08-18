@@ -144,9 +144,12 @@ DTO:QueryModel,ViewModel?
 # 教程博文
 [SnailAspNetCoreFramework框架系列博客](https://www.cnblogs.com/shengyu-kmust/p/13397738.html)
 
-[1.框架内各项目及目录的介绍和总设计思路——SnailAspNetCoreFramework快速开发框架]()
-[2.接口输入校验、输出格式、及异常处理——SnailAspNetCoreFramework快速开发框架之后端设计]()
-[3.通用权限设计——SnailAspNetCoreFramework快速开发框架之后端设计]()
+[1.框架内各项目及目录的介绍和总设计思路——SnailAspNetCoreFramework快速开发框架](https://www.cnblogs.com/shengyu-kmust/p/13453773.html)
+
+[2.接口输入校验、输出格式、及异常处理——SnailAspNetCoreFramework快速开发框架之后端设计](https://www.cnblogs.com/shengyu-kmust/p/13453791.html)
+
+[3.通用权限设计——SnailAspNetCoreFramework快速开发框架之后端设计](https://www.cnblogs.com/shengyu-kmust/p/13453799.html)
+
 [4.如何提供给前端良好的接口文档（Swagger）——SnailAspNetCoreFramework快速开发框架之后端设计]()
 [5.各场景下的缓存使用——SnailAspNetCoreFramework快速开发框架之后端设计]()
 [6.基于castle的AOP设计和常用缓存、性能、日志拦截器实现——SnailAspNetCoreFramework快速开发框架之后端设计]()

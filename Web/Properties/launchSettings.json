@@ -16,11 +16,20 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WebApp": {
+    "WebAppDevelopment": {
       "commandName": "Project",
-      "launchUrl": "api/values",
+      "launchBrowser": true,
+      "launchUrl": "swagger/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+    },
+    "WebAppProduction": {
+      "commandName": "Project",
+      "launchUrl": "swagger/index.html",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
