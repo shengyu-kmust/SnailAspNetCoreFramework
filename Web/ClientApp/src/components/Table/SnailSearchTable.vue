@@ -6,7 +6,13 @@
       </slot>
       <!-- 查询条件 -->
       <slot v-if="showSearch" name="search">
-        <snail-search-form v-show="searchFields.length>0" ref="searchForm" :fields="searchFields" :rules="searchRules" @search="search" />
+        <snail-search-form v-show="searchFields.length>0" ref="searchForm" :fields="searchFields" :rules="searchRules" @search="search">
+          <template slot="searchAfterSlot">
+            <!-- 从外部传入名为searchAfterSlot的slot即可，以template标签的方式传，template标签的slot属性值为searchAfterSlot-->
+            <slot name="searchAfterSlot">
+            </slot>
+          </template>
+        </snail-search-form>
       </slot>
     </div>
 

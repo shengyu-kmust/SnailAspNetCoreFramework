@@ -36,7 +36,7 @@ namespace Service
                 return new List<KeyValueDto>();
             }
             return allConfig.Where(a => a.ParentId == parent.Id).Select(a => {
-                var settingKey = setting.keyField ?? "Key";
+                var settingKey = setting.keyField ?? "Id";
                 var settingValue = setting.valueField ?? "Value";
                 return new KeyValueDto
                 {
