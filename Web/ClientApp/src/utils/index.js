@@ -2,6 +2,77 @@
  * 工具方法
  *
  */
+
+import axiosInstance from './request.js'
+
+/**
+ * 工具方法
+ *
+ */
+
+// 文件下载方法通用
+export const fileDownload = (url, options = { method: 'GET', data: null }) => {
+  return new Promise((res, rej) => {
+    axiosInstance({
+      url,
+      method: options.method || 'GET',
+      responseType: 'blob', // important
+      ignorShowLoading: true,
+      isFileDownload: true,
+      params: options.data || {}
+    })
+      .then(response => {
+        const contentDisposition =
+          response.headers['content-disposition'] || response.headers['Content-Disposition']
+        const resMessage = decodeURIComponent(
+          response.headers['x-custom-message'] || response.headers['X-Custom-Message'] || ''
+        )
+
+        if (contentDisposition) {
+          // 下载文件，优先以filename*=xxx的名字为下载的文件名，如果没有时，再取filename=xxxx的文件名。参考：https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Disposition
+          var filename = decodeURIComponent((contentDisposition.match(/filename\*=[\w\W]*''([\w\W]*)/) || [])[1]) || decodeURIComponent((contentDisposition.match(/filename=\"*([\s\S]*);\"*/) || [])[1])
+
+          // 避免filename解析失败时，下载的文件格式不对的问题
+          if (!filename || filename === 'undefined') {
+            if (response.headers['content-type'] && response.headers['content-type'].indexOf('excel') > 0) {
+              filename = '文件.xls'
+            }
+          }
+
+          const blobModel = new Blob([response.data])
+
+          if (!window.navigator.msSaveOrOpenBlob) {
+            // 非IE浏览器
+            const url = window.URL.createObjectURL(blobModel)
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', filename)
+            document.body.appendChild(link)
+            link.click()
+            setTimeout(() => {
+              document.body.removeChild(link)
+            }, 0)
+          } else {
+            // IE 11
+            window.navigator.msSaveOrOpenBlob(blobModel, filename)
+          }
+
+          res(filename)
+        } else if (resMessage) {
+          // 提示错误信息
+          rej(new Error(resMessage))
+        } else {
+          rej(new Error(localI18n.t('common.server-error')))
+        }
+      })
+      .catch(error => {
+        rej(error)
+      })
+  })
+}
+
+
+
 /**
  * Parse the time to string
  * @param {(Object|string|number)} time
