@@ -313,8 +313,8 @@ namespace Web
         {
             // 获取autofac容器
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
-
-           
+            var testName = Configuration.GetValue<string>("test:name");
+            Console.WriteLine($"--------------test:name:-------------{testName}");
             if (env.IsDevelopment())
             {
                 app.UseMiniProfiler();
