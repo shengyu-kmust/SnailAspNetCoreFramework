@@ -10,20 +10,25 @@ const mutations = {
 }
 
 const actions = {
-  async getKeyValue({ commit, getters }, key) {
-    const keyValues = getters.keyValues
+  async getKeyValue({ commit, state }, key) {
+    const keyValues = state.keyValues
     var list = keyValues[key]
+    debugger
     if (list) {
       return list
     }
     try {
+      debugger
       const data = await getKeyValue(key)
       commit('SET_ENUM_LIST', { data, key })
-      return getters.keyValues[key]
+      return state.keyValues[key]
     } catch (error) {
       // eslint-disable-next-line
-                  console.log('获取键值出错', error);
+      console.log('获取键值出错', error);
     }
+  },
+  keyValueTestAction() {
+    debugger
   }
 }
 

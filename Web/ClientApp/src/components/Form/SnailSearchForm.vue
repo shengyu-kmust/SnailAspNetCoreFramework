@@ -65,6 +65,8 @@ fields:{
       </template>
       <el-button type="primary" @click="search">查询</el-button>
       <el-button type="primary" @click="resetSearch">重置</el-button>
+      <slot name="searchAfterSlot">
+      </slot>
     </el-form>
 
   </div>
