@@ -379,6 +379,7 @@ namespace Web
 
             app.UseCors(builder => { builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin(); });
 
+            app.UseApplicationLicensing();
             app.UseAuthentication();
 
             // hangfire前端界面的访问控制
@@ -386,7 +387,6 @@ namespace Web
             {
                 //Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
             });
-            app.UseApplicationLicensing();
 
             #region 3.1模板 的mvc
             app.UseRouting();

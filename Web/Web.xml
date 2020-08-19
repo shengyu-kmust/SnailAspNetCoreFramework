@@ -4,6 +4,21 @@
         <name>Web</name>
     </assembly>
     <members>
+        <member name="T:Web.ApplicationLicensingService">
+            <summary>
+            序列号
+            </summary>
+        </member>
+        <member name="P:Web.ApplicationlicensingOption.Token">
+            <summary>
+            jwt token
+            </summary>
+        </member>
+        <member name="P:Web.ApplicationlicensingOption.RSAPublicKey">
+            <summary>
+            用于验签的rsa public key
+            </summary>
+        </member>
         <member name="T:Web.AutoFacModule.OtherModule">
             <summary>
             非service的其它类的注册
@@ -1237,6 +1252,12 @@
             Helper to produce culture-oriented representation of an object as a string
             </summary>
         </member>
+        <member name="T:Web.ComputerFinger">
+            <summary>
+            Generates a 16 byte Unique Identification code of a computer
+            Example: 4876-8DB5-EE85-69D3-FE52-8CF7-395D-2EA9
+            </summary>
+        </member>
         <member name="T:Web.ConfigureServicesExtenssions.ConfigOptionsExtenssion">
             <summary>
             配置options
@@ -1253,6 +1274,19 @@
             文件上传，form-data里的key必须为formFiles才能正确绑定文件到对象
             </summary>
             <param name="formFiles"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.CommonUseController.GenerateLicense(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            生成license
+            </summary>
+            <param name="licenseInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.CommonUseController.GetComputerFinger">
+            <summary>
+            获取机器码
+            </summary>
             <returns></returns>
         </member>
         <member name="T:Web.Controllers.ControllerContext">
