@@ -37,7 +37,6 @@ namespace Web
             _options.OnChange(opt =>
             {
                 _hasChecked = false;
-                _licenseInfo.Clear();
                 EnsureLicenseChecked();
             });
         }
@@ -63,6 +62,7 @@ namespace Web
                 {
                     if (!_hasChecked)
                     {
+                        _licenseInfo.Clear();
                         _licenseIsRight = false;
                         _hasChecked = true;
                         var hander = new JsonWebTokenHandler();// JsonWebTokenHandler和JwtSecurityTokenHandler都可以处理jwt，前者是后出的，建议使用
