@@ -1,7 +1,5 @@
-﻿using Snail.Core.Entity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Snail.Core.Dto;
+using Snail.Core.Entity;
 
 namespace ApplicationCore.Dtos
 {

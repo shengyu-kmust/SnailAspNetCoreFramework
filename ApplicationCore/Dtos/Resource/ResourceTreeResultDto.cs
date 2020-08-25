@@ -1,9 +1,11 @@
-﻿using Snail.Core.Entity;
-using Snail.Core.Permission;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ApplicationCore.Entity
+namespace ApplicationCore.Dtos
 {
-    public class Resource: DefaultBaseEntity, IResource
+    public class ResourceTreeResultDto:BaseDto
     {
         /// <summary>
         /// 资源键，如接口名，菜单名，唯一键
@@ -17,20 +19,10 @@ namespace ApplicationCore.Entity
         /// 父资源id
         /// </summary>
         public string ParentId { get; set; }
-
-        public string GetKey()
-        {
-            return this.Id;
-        }
-
-        public string GetName()
-        {
-            return this.Name;
-        }
-
-        public string GetResourceCode()
-        {
-            return this.Code;
-        }
+        /// <summary>
+        /// 子资源
+        /// </summary>
+        public List<ResourceTreeResultDto> Children { get; set; }
+        public bool HasChildren { get { return Children != null && Children.Count > 0; } }
     }
 }

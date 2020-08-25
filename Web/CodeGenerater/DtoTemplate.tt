@@ -7,7 +7,7 @@ using ApplicationCore.Enums;
 using ApplicationCore.Dtos;
 using System;
 using System.ComponentModel.DataAnnotations;
-namespace ApplicationCore.Entity
+namespace ApplicationCore.Dtos
 {
     public class <#= Dto.Name #><#= Dto.Prefix#>Dto:<#= Dto.BaseClass#>
     {

@@ -24,6 +24,17 @@
             非service的其它类的注册
             </summary>
         </member>
+        <member name="M:Web.AutoFacModule.OtherModule.Load(Autofac.ContainerBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="T:Web.AutoFacModule.ServiceModule">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:Web.AutoMapperProfiles.DefaultProfile">
             <summary>
             默认的automapper配置，只配置entity和dto的相互映射，其它的请用AutoMapAttribute设置
@@ -1263,6 +1274,11 @@
             配置options
             </summary>
         </member>
+        <member name="T:Web.Controllers.CodeGeneraterController">
+            <summary>
+            代码生成器接口
+            </summary>
+        </member>
         <member name="M:Web.Controllers.CommonUseController.ExportExcel">
             <summary>
             文件下载
@@ -1411,71 +1427,6 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
-        </member>
-        <member name="P:Web.DTO.Config.ConfigTreeResultDto.Children">
-            <summary>
-            子资源
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Config.ConfigTreeResultDto.HasChildren">
-            <summary>
-            是否有子元素
-            </summary>
-        </member>
-        <member name="T:Web.DTO.KeyQueryDto">
-            <summary>
-             todo:IPagenation默认实现
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceResultDto.Code">
-            <summary>
-            资源键，如接口名，菜单名，唯一键
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceResultDto.Name">
-            <summary>
-            资源描述，如接口的名称、菜单的名称
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceResultDto.ParentId">
-            <summary>
-            父资源id
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceSaveDto.Code">
-            <summary>
-            资源键，如接口名，菜单名，唯一键
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceSaveDto.Name">
-            <summary>
-            资源描述，如接口的名称、菜单的名称
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceSaveDto.ParentId">
-            <summary>
-            父资源id
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceTreeResultDto.Code">
-            <summary>
-            资源键，如接口名，菜单名，唯一键
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceTreeResultDto.Name">
-            <summary>
-            资源描述，如接口的名称、菜单的名称
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceTreeResultDto.ParentId">
-            <summary>
-            父资源id
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceTreeResultDto.Children">
-            <summary>
-            子资源
-            </summary>
         </member>
         <member name="T:Web.Filter.CacheFilterAttribute">
             <summary>

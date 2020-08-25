@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Snail.Core.Dto;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ApplicationCore.Dtos

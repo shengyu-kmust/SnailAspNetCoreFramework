@@ -9,7 +9,7 @@ using Snail.Core.Attributes;
 using Snail.Core.Permission;
 using System.Collections.Generic;
 using System.Linq;
-using Web.DTO;
+using ApplicationCore.Dtos;
 namespace Web.Controllers
 {
 

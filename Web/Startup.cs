@@ -45,6 +45,7 @@ using Web.Controllers;
 using Web.Filter;
 using Web.Hubs;
 using Web.Permission;
+using Snail.Core.Entity;
 
 namespace Web
 {
@@ -249,7 +250,7 @@ namespace Web
             #region 增加enum转keyValue功能
             services.AddEnumKeyValueService(option =>
             {
-                option.Assemblies = new List<Assembly> { typeof(BaseEntity).Assembly, typeof(AppDbContext).Assembly, typeof(ServiceContext).Assembly, typeof(Startup).Assembly };
+                option.Assemblies = new List<Assembly> { typeof(User).Assembly, typeof(AppDbContext).Assembly, typeof(ServiceContext).Assembly, typeof(Startup).Assembly };
             });
             #endregion
 

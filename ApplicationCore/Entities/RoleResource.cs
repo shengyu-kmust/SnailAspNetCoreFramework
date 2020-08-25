@@ -1,12 +1,9 @@
-﻿using Snail.Core.Permission;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Snail.Core.Entity;
+using Snail.Core.Permission;
 
 namespace ApplicationCore.Entity
 {
-    public class RoleResource: BaseEntity,IRoleResource
+    public class RoleResource: DefaultBaseEntity, IRoleResource
     {
         public string RoleId { get; set; }
         public string ResourceId { get; set; }
