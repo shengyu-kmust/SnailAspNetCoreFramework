@@ -38,9 +38,9 @@ namespace Web.Permission
                    CookieAuthenticationDefaults.AuthenticationScheme, options =>
                    {
                    //下面的委托方法只会在第一次cookie验证时调用，调用时会用到上面的permissionOption变量，但其实permissionOption变量是在以前已经初始化的，所以在此方法调用之前，permissionOption变量不会被释放
-                   options.Cookie.Name = "auth";
-                       options.AccessDeniedPath = permissionOption.AccessDeniedPath;
-                       options.LoginPath = permissionOption.LoginPath;
+                       options.Cookie.Name = "auth";
+                       options.AccessDeniedPath = permissionOption.AccessDeniedPath;// 当403时，返回到无授权界面
+                       options.LoginPath = permissionOption.LoginPath;// 当401时，返回到登录界面
                        options.ExpireTimeSpan = permissionOption.ExpireTimeSpan != default ? permissionOption.ExpireTimeSpan : new TimeSpan(12, 0, 0);
                        options.ForwardDefaultSelector = context =>
                        {

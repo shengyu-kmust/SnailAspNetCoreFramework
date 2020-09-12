@@ -16,6 +16,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>Web.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
 
@@ -30,13 +32,6 @@
     <None Remove="Interceptor\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
     <Content Include="ClientApp\dist\**\*" CopyToPublishDirectory="Always" CopyToOutputDirectory="Always" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Compile Remove="Domain\PermissionModel.cs" />
-    <Compile Remove="Domain\ResourceModel.cs" />
-    <Compile Remove="Domain\UserModel.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -79,10 +74,12 @@
     <PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.0.0" />
     <PackageReference Include="Snail.Common" Version="1.0.9" />
     <PackageReference Include="Snail.FileStore" Version="1.0.12" />
-    <PackageReference Include="Snail.Office" Version="1.0.12" />
+	  <PackageReference Include="Snail.Office" Version="1.0.12" />
+	  <PackageReference Include="Snail.Cache" Version="1.0.1" />
     <PackageReference Include="System.CodeDom" Version="4.7.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="System.Management" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -99,8 +96,6 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\views\basic\" />
-    <Folder Include="Domain\" />
-    <Folder Include="DTO\Permission\" />
     <Folder Include="Permission\" />
   </ItemGroup>
 
@@ -150,6 +145,18 @@
       <LastGenOutput>ServiceTemplate.cs</LastGenOutput>
     </None>
     <None Update="Dockerfile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="serviceCreate.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="serviceRemove.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="serviceStart.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="serviceStop.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="start.bat">

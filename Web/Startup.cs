@@ -45,6 +45,7 @@ using Web.Controllers;
 using Web.Filter;
 using Web.Hubs;
 using Web.Permission;
+using Snail.Core.Entity;
 
 namespace Web
 {
@@ -249,7 +250,7 @@ namespace Web
             #region 增加enum转keyValue功能
             services.AddEnumKeyValueService(option =>
             {
-                option.Assemblies = new List<Assembly> { typeof(BaseEntity).Assembly, typeof(AppDbContext).Assembly, typeof(ServiceContext).Assembly, typeof(Startup).Assembly };
+                option.Assemblies = new List<Assembly> { typeof(User).Assembly, typeof(AppDbContext).Assembly, typeof(ServiceContext).Assembly, typeof(Startup).Assembly };
             });
             #endregion
 
@@ -379,6 +380,7 @@ namespace Web
 
             app.UseCors(builder => { builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin(); });
 
+            app.UseApplicationLicensing();
             app.UseAuthentication();
 
             // hangfire前端界面的访问控制
@@ -386,7 +388,6 @@ namespace Web
             {
                 //Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
             });
-            app.UseApplicationLicensing();
 
             #region 3.1模板 的mvc
             app.UseRouting();
@@ -406,6 +407,7 @@ namespace Web
             {
                 //* 如果出现如下错误：Fetch errorundefined / swagger / v1 / swagger.json
                 //* 解决：原因是swagger 的api在解析时出错，在chrome f12看具体请求swagger.json的错误，解决
+                // UseOpenApi用于生成swagger/v1/swagger.json文档，此文档是UseSwaggerUi3和UseReDoc界面生成的前提条件
                 app.UseOpenApi(config =>
                 {
                     config.PostProcess = (document, req) =>
@@ -416,7 +418,7 @@ namespace Web
                     };
                 });
                 app.UseSwaggerUi3();
-                //app.UseReDoc();//UseReDoc和UseSwaggerUi3任意用一个
+                //app.UseReDoc();//UseReDoc和UseSwaggerUi3任意用一个即可，UseSwaggerUi3生成的Ui界面可调用接口，而UseReDoc生成只读的接口文档
             }
 
             #endregion

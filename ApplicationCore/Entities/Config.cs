@@ -1,13 +1,10 @@
-﻿using ApplicationCore.Entity;
-using ApplicationCore.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ApplicationCore.Enums;
+using Snail.Core.Entity;
 
 namespace ApplicationCore.Entities
 {
     [EnableEntityCache]
-    public class Config : BaseEntity
+    public class Config : DefaultBaseEntity
     {
         public string Key { get; set; }
         public string Value { get; set; }

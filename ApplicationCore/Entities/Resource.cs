@@ -1,8 +1,9 @@
-﻿using Snail.Core.Permission;
+﻿using Snail.Core.Entity;
+using Snail.Core.Permission;
 
 namespace ApplicationCore.Entity
 {
-    public class Resource:BaseEntity,IResource
+    public class Resource: DefaultBaseEntity, IResource
     {
         /// <summary>
         /// 资源键，如接口名，菜单名，唯一键

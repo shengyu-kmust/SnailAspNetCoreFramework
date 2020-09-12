@@ -1,7 +1,5 @@
-﻿using ApplicationCore.Entities;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Snail.Core.Permission;
 using System.Collections.Generic;
 using System.IO;
@@ -10,12 +8,14 @@ using Web.CodeGenerater;
 
 namespace Web.Controllers
 {
+    /// <summary>
+    /// 代码生成器接口
+    /// </summary>
     [ApiController]
     [Authorize(Policy = PermissionConstant.PermissionAuthorizePolicy)]
     [Route("api/[Controller]/[Action]")]
     public class CodeGeneraterController : ControllerBase
     {
-        private static string basePath = @"C:\Users\37308\Desktop\code";
         [HttpGet]
         public void Generater()
         {

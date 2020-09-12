@@ -4,9 +4,35 @@
         <name>Web</name>
     </assembly>
     <members>
+        <member name="T:Web.ApplicationLicensingService">
+            <summary>
+            序列号
+            </summary>
+        </member>
+        <member name="P:Web.ApplicationlicensingOption.Token">
+            <summary>
+            jwt token
+            </summary>
+        </member>
+        <member name="P:Web.ApplicationlicensingOption.RSAPublicKey">
+            <summary>
+            用于验签的rsa public key
+            </summary>
+        </member>
         <member name="T:Web.AutoFacModule.OtherModule">
             <summary>
             非service的其它类的注册
+            </summary>
+        </member>
+        <member name="M:Web.AutoFacModule.OtherModule.Load(Autofac.ContainerBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="T:Web.AutoFacModule.ServiceModule">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:Web.AutoMapperProfiles.DefaultProfile">
@@ -1237,9 +1263,20 @@
             Helper to produce culture-oriented representation of an object as a string
             </summary>
         </member>
+        <member name="T:Web.ComputerFinger">
+            <summary>
+            Generates a 16 byte Unique Identification code of a computer
+            Example: 4876-8DB5-EE85-69D3-FE52-8CF7-395D-2EA9
+            </summary>
+        </member>
         <member name="T:Web.ConfigureServicesExtenssions.ConfigOptionsExtenssion">
             <summary>
             配置options
+            </summary>
+        </member>
+        <member name="T:Web.Controllers.CodeGeneraterController">
+            <summary>
+            代码生成器接口
             </summary>
         </member>
         <member name="M:Web.Controllers.CommonUseController.ExportExcel">
@@ -1253,6 +1290,19 @@
             文件上传，form-data里的key必须为formFiles才能正确绑定文件到对象
             </summary>
             <param name="formFiles"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.CommonUseController.GenerateLicense(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            生成license
+            </summary>
+            <param name="licenseInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.CommonUseController.GetComputerFinger">
+            <summary>
+            获取机器码
+            </summary>
             <returns></returns>
         </member>
         <member name="T:Web.Controllers.ControllerContext">
@@ -1277,44 +1327,6 @@
             <remarks>
             如果没有AuthorizeAttribute，HttpContext.User不会有用户
             </remarks>
-        </member>
-        <member name="T:Web.Controllers.DemoController">
-            <summary>
-            示例表接口
-            </summary>
-        </member>
-        <member name="M:Web.Controllers.DemoController.QueryList(ApplicationCore.Entity.DemoQueryDto)">
-            <summary>
-            查询列表
-            </summary>
-            <param name="queryDto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Web.Controllers.DemoController.QueryPage(ApplicationCore.Entity.DemoQueryDto)">
-            <summary>
-            查询分页
-            </summary>
-            <param name="queryDto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Web.Controllers.DemoController.Find(System.String)">
-            <summary>
-            查找单个
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Web.Controllers.DemoController.Remove(System.Collections.Generic.List{System.String})">
-            <summary>
-            删除
-            </summary>
-            <param name="ids"></param>
-        </member>
-        <member name="M:Web.Controllers.DemoController.Save(ApplicationCore.Entity.DemoSaveDto)">
-            <summary>
-            保存
-            </summary>
-            <param name="saveDto"></param>
         </member>
         <member name="P:Web.Controllers.FileController._fileProvider">
             <summary>
@@ -1398,82 +1410,6 @@
             初始化权限资源
             </summary>
         </member>
-        <member name="T:Web.Controllers.PlaneController">
-            <summary>
-            飞机信息表接口
-            </summary>
-        </member>
-        <member name="M:Web.Controllers.PlaneController.QueryList(ApplicationCore.Entity.PlaneQueryDto)">
-            <summary>
-            查询列表
-            </summary>
-            <param name="queryDto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Web.Controllers.PlaneController.QueryPage(ApplicationCore.Entity.PlaneQueryDto)">
-            <summary>
-            查询分页
-            </summary>
-            <param name="queryDto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Web.Controllers.PlaneController.Find(System.String)">
-            <summary>
-            查找单个
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Web.Controllers.PlaneController.Remove(System.Collections.Generic.List{System.String})">
-            <summary>
-            删除
-            </summary>
-            <param name="ids"></param>
-        </member>
-        <member name="M:Web.Controllers.PlaneController.Save(ApplicationCore.Entity.PlaneSaveDto)">
-            <summary>
-            保存
-            </summary>
-            <param name="saveDto"></param>
-        </member>
-        <member name="T:Web.Controllers.PlaneTypeController">
-            <summary>
-            机型表接口
-            </summary>
-        </member>
-        <member name="M:Web.Controllers.PlaneTypeController.QueryList(ApplicationCore.Entity.PlaneTypeQueryDto)">
-            <summary>
-            查询列表
-            </summary>
-            <param name="queryDto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Web.Controllers.PlaneTypeController.QueryPage(ApplicationCore.Entity.PlaneTypeQueryDto)">
-            <summary>
-            查询分页
-            </summary>
-            <param name="queryDto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Web.Controllers.PlaneTypeController.Find(System.String)">
-            <summary>
-            查找单个
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Web.Controllers.PlaneTypeController.Remove(System.Collections.Generic.List{System.String})">
-            <summary>
-            删除
-            </summary>
-            <param name="ids"></param>
-        </member>
-        <member name="M:Web.Controllers.PlaneTypeController.Save(ApplicationCore.Entity.PlaneTypeSaveDto)">
-            <summary>
-            保存
-            </summary>
-            <param name="saveDto"></param>
-        </member>
         <member name="T:Web.Controllers.TestController">
             <summary>
             测试用
@@ -1491,71 +1427,6 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
-        </member>
-        <member name="P:Web.DTO.Config.ConfigTreeResultDto.Children">
-            <summary>
-            子资源
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Config.ConfigTreeResultDto.HasChildren">
-            <summary>
-            是否有子元素
-            </summary>
-        </member>
-        <member name="T:Web.DTO.KeyQueryDto">
-            <summary>
-             todo:IPagenation默认实现
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceResultDto.Code">
-            <summary>
-            资源键，如接口名，菜单名，唯一键
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceResultDto.Name">
-            <summary>
-            资源描述，如接口的名称、菜单的名称
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceResultDto.ParentId">
-            <summary>
-            父资源id
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceSaveDto.Code">
-            <summary>
-            资源键，如接口名，菜单名，唯一键
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceSaveDto.Name">
-            <summary>
-            资源描述，如接口的名称、菜单的名称
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceSaveDto.ParentId">
-            <summary>
-            父资源id
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceTreeResultDto.Code">
-            <summary>
-            资源键，如接口名，菜单名，唯一键
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceTreeResultDto.Name">
-            <summary>
-            资源描述，如接口的名称、菜单的名称
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceTreeResultDto.ParentId">
-            <summary>
-            父资源id
-            </summary>
-        </member>
-        <member name="P:Web.DTO.Resource.ResourceTreeResultDto.Children">
-            <summary>
-            子资源
-            </summary>
         </member>
         <member name="T:Web.Filter.CacheFilterAttribute">
             <summary>

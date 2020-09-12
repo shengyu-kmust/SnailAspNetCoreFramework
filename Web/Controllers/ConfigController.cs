@@ -1,18 +1,16 @@
-﻿using ApplicationCore.Entities;
+﻿using ApplicationCore.Dtos;
+using ApplicationCore.Entities;
 using ApplicationCore.Entity;
 using ApplicationCore.IServices;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Snail.Common;
 using Snail.Common.Extenssions;
 using Snail.Core;
 using Snail.Core.Attributes;
-using Snail.Core.Permission;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Web.DTO;
-using Web.DTO.Config;
+
 
 namespace Web.Controllers
 {

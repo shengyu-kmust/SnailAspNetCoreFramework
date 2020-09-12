@@ -6,6 +6,9 @@ using Service;
 using Module = Autofac.Module;
 namespace Web.AutoFacModule
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ServiceModule : Module
     {
         protected override void Load(ContainerBuilder builder)

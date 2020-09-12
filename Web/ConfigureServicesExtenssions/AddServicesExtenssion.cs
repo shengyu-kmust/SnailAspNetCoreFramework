@@ -21,7 +21,7 @@ namespace Web.ConfigureServicesExtenssions
             services.TryAddScoped<IEntityCacheManager, EntityCacheManager>();
             services.AddScoped<ICapSubscribe, EntityCacheManager>();//将EntityCacheManager注册为ICapSubscribe,使SnailCapConsumerServiceSelector能注册监听方法
             services.AddHttpContextAccessor();//注册，IHttpContextAccessor，在任何地方可以通过此对象获取httpcontext，从而获取单前用户
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(Startup));//AddAutoMapper只能用一次，否则后面的会不走作用
             services.AddApplicationLicensing(configuration.GetSection("ApplicationlicensingOption"));
             services.AddResponseCaching();
             services.AddTransient<Snail.Office.IExcelHelper,ExcelNPOIHelper>();

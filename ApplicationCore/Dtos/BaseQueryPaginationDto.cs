@@ -1,4 +1,5 @@
-﻿using Snail.Core.Entity;
+﻿using Snail.Core.Dto;
+using Snail.Core.Entity;
 
 namespace ApplicationCore.Dtos
 {
