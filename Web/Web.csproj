@@ -61,6 +61,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.2" />
@@ -72,17 +73,21 @@
     <PackageReference Include="NSwag.AspNetCore" Version="13.2.5" />
     <PackageReference Include="Refit.HttpClientFactory" Version="5.1.67" />
     <PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.0.0" />
-    <PackageReference Include="Snail.Common" Version="1.0.9" />
-    <PackageReference Include="Snail.FileStore" Version="1.0.12" />
-	  <PackageReference Include="Snail.Office" Version="1.0.12" />
-	  <PackageReference Include="Snail.Cache" Version="1.0.1" />
-    <PackageReference Include="System.CodeDom" Version="4.7.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="System.Management" Version="4.7.0" />
+
+	  <PackageReference Include="System.CodeDom" Version="4.7.0" />
+
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Snail\Snail\Permission\Snail.Permission.csproj" />
+    <ProjectReference Include="..\..\Snail\Snail\Snail.Cache\Snail.Cache.csproj" />
+    <ProjectReference Include="..\..\Snail\Snail\Snail.Core\Snail.Core.csproj" />
+    <ProjectReference Include="..\..\Snail\Snail\Snail.FileStore\Snail.FileStore.csproj" />
+    <ProjectReference Include="..\..\Snail\Snail\Snail.Office\Snail.Office.csproj" />
+    <ProjectReference Include="..\..\Snail\Snail\Snail.Web\Snail.Web.csproj" />
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />

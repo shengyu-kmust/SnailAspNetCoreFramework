@@ -12,27 +12,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="5.1.2" />
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="DotNetCore.CAP" Version="3.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
-    <PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.0.0" />
-    <PackageReference Include="Snail.Common" Version="1.0.9" />
-    <PackageReference Include="Snail.Core.Default" Version="1.0.9" />
-    <PackageReference Include="Snail.DAL" Version="1.0.9" />
-    <PackageReference Include="Snail.FileStore" Version="1.0.12" />
+  
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Snail\Snail\Snail.Web\Snail.Web.csproj" />
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EFValueConverter\" />
   </ItemGroup>
 
 </Project>

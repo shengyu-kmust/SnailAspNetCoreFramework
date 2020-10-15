@@ -1,33 +1,45 @@
-﻿using ApplicationCore.Entity;
-using ApplicationCore.IServices;
+﻿using ApplicationCore.IServices;
 using Infrastructure;
 using Microsoft.Extensions.Logging;
 using Snail.Common;
+using Snail.Permission.Entity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace Service
 {
-    public class InitDatabaseService:IService
+    /// <summary>
+    /// InitDatabaseService
+    /// </summary>
+    public class InitDatabaseService : IService
     {
         private AppDbContext _db;
         private ILogger _logger;
+
+        /// <summary>
+        /// InitDatabaseService
+        /// </summary>
+        /// <param name="db"></param>
+        /// <param name="logger"></param>
         public InitDatabaseService(AppDbContext db, ILogger<InitDatabaseService> logger)
         {
             this._db = db;
             this._logger = logger;
         }
 
+        /// <summary>
+        /// Invoke
+        /// </summary>
         public void Invoke()
         {
             InitPermission();
         }
-        #region 可以从json初始化数据库
 
-        #endregion
+        /// <summary>
+        /// InitPermission
+        /// </summary>
         private void InitPermission()
         {
             try

@@ -1,12 +1,12 @@
-﻿using ApplicationCore.Dtos;
-using ApplicationCore.Entity;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Snail.Common.Extenssions;
 using Snail.Core.Attributes;
 using Snail.Core.Permission;
+using Snail.Permission.Dto;
+using Snail.Permission.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;

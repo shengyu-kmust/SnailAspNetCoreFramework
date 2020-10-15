@@ -1,6 +1,4 @@
-﻿using ApplicationCore;
-using ApplicationCore.Enums;
-using Hangfire;
+﻿using Hangfire;
 using Hangfire.Common;
 using Hangfire.States;
 using System;
@@ -8,6 +6,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
+using Snail.Core.Attributes;
+using Snail.Core.Enum;
 
 namespace Web
 {

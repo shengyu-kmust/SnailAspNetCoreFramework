@@ -1,5 +1,4 @@
-﻿using ApplicationCore.Entity;
-using ApplicationCore.IServices;
+﻿using ApplicationCore.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Snail.Common;
@@ -7,9 +6,11 @@ using Snail.Common.Extenssions;
 using Snail.Core;
 using Snail.Core.Attributes;
 using Snail.Core.Permission;
+using Snail.Permission.Entity;
+using Snail.Web.Dtos;
 using System.Collections.Generic;
 using System.Linq;
-using ApplicationCore.Dtos;
+
 namespace Web.Controllers
 {
 

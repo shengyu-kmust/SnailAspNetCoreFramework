@@ -1,15 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="EasyCaching.InMemory" Version="0.8.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
-    <PackageReference Include="Snail.Core" Version="1.0.13" />
+    <Folder Include="Dtos\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="Enums\" />
+    <Folder Include="Const\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--<ProjectReference Include="..\..\Snail\Snail\Snail.Core\Snail.Core.csproj" />-->
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@ using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Infrastructure;
 using Service;
+using Snail.Web.Services;
 using Module = Autofac.Module;
 namespace Web.AutoFacModule
 {

@@ -3,6 +3,7 @@ using Autofac;
 using Infrastructure;
 using Service;
 using Snail.Cache;
+using Snail.Web.Services;
 using System;
 using System.Collections.Generic;
 using Module = Autofac.Module;

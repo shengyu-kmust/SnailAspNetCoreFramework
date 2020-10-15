@@ -1,5 +1,4 @@
-﻿using ApplicationCore.Entity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
@@ -8,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Snail.Common;
 using Snail.Core.Attributes;
 using Snail.Core.Permission;
+using Snail.Permission.Entity;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

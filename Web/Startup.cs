@@ -1,13 +1,10 @@
-﻿using ApplicationCore.Entity;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using AutoMapper;
-using DotNetCore.CAP;
-using Hangfire.MemoryStorage;
-using Hangfire.SQLite;
 using DotNetCore.CAP.Internal;
 using Hangfire;
+using Hangfire.MemoryStorage;
 using Hangfire.MySql;
+using Hangfire.SQLite;
 using Hangfire.SqlServer;
 using Infrastructure;
 using MediatR;
@@ -27,13 +24,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NSwag;
 using Savorboard.CAP.InMemoryMessageQueue;
-using Service;
 using Snail.Cache;
 using Snail.Core;
 using Snail.Core.Default;
 using Snail.Core.Dto;
-using Snail.Core.Interface;
-using Snail.Core.Permission;
+using Snail.Permission.Entity;
+using Snail.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,7 +41,6 @@ using Web.Controllers;
 using Web.Filter;
 using Web.Hubs;
 using Web.Permission;
-using Snail.Core.Entity;
 
 namespace Web
 {
