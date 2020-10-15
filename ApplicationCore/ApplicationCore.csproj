@@ -14,8 +14,4 @@
     <Folder Include="Const\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <!--<ProjectReference Include="..\..\Snail\Snail\Snail.Core\Snail.Core.csproj" />-->
-  </ItemGroup>
-
 </Project>
