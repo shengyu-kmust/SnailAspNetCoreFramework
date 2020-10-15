@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Snail.Core.Permission;
+using Snail.Web.CodeGenerater;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Web.CodeGenerater;
 
 namespace Web.Controllers
 {

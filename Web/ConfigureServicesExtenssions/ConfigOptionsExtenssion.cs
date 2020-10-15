@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Service;
 using Snail.Web.Interceptor;
 using Web.Controllers;
 

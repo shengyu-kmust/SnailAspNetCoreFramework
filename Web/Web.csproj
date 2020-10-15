@@ -83,7 +83,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Snail\Snail\Permission\Snail.Permission.csproj" />
-    <ProjectReference Include="..\..\Snail\Snail\Snail.Cache\Snail.Cache.csproj" />
     <ProjectReference Include="..\..\Snail\Snail\Snail.Core\Snail.Core.csproj" />
     <ProjectReference Include="..\..\Snail\Snail\Snail.FileStore\Snail.FileStore.csproj" />
     <ProjectReference Include="..\..\Snail\Snail\Snail.Office\Snail.Office.csproj" />

@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Service;
 using Snail.Core.Interface;
+using Snail.Web;
 using Snail.Web.Services;
 using System;
 using System.Reflection;

@@ -8,6 +8,7 @@ using Snail.Core.Default;
 using Snail.Core.Interface;
 using Snail.FileStore;
 using Snail.Office;
+using Snail.Web;
 
 namespace Web.ConfigureServicesExtenssions
 {
