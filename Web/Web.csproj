@@ -50,7 +50,7 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\views\basic\" />
     <Folder Include="Controllers\" />
-    <Folder Include="CodeGenerater\" />
+    <Folder Include="ConfigJsons\" />
   </ItemGroup>
 
   <ItemGroup>
