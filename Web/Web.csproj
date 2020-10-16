@@ -35,10 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <PackageReference Include="Snail.Web" Version="1.0.16" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\Snail\Snail\Snail.Web\Snail.Web.csproj" />
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
@@ -53,6 +50,12 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\views\basic\" />
     <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--<Reference Include="Snail.Web">
+      <HintPath>..\..\Snail\Snail\Snail.Web\bin\Debug\netcoreapp3.1\Snail.Web.dll</HintPath>
+    </Reference>-->
   </ItemGroup>
 
   <ItemGroup>

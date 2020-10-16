@@ -4,6 +4,8 @@ using Autofac.Extras.DynamicProxy;
 using Infrastructure;
 using Service;
 using Snail.Web.Services;
+using System.Collections.Generic;
+using System.Reflection;
 using Module = Autofac.Module;
 namespace Web.AutoFacModule
 {
@@ -15,7 +17,15 @@ namespace Web.AutoFacModule
         protected override void Load(ContainerBuilder builder)
         {
             //所有的IService的注册，并启动用属性注册
-            builder.RegisterAssemblyTypes(typeof(ServiceContext).Assembly, typeof(AppDbContext).Assembly, typeof(Startup).Assembly).Where(a => typeof(IService).IsAssignableFrom(a)).AsSelf().AsImplementedInterfaces().PropertiesAutowired().EnableClassInterceptors();
+            var assemblies = new List<Assembly>
+            {
+                Assembly.Load("ApplicationCore"),
+                Assembly.Load("Service"),
+                Assembly.Load("Infrastructure"),
+                Assembly.Load("Web"),
+                Assembly.Load("Snail.Web")
+            };
+            builder.RegisterAssemblyTypes(assemblies.ToArray()).Where(a => typeof(IService).IsAssignableFrom(a)).AsSelf().AsImplementedInterfaces().PropertiesAutowired().EnableClassInterceptors();
         }
     }
 }
