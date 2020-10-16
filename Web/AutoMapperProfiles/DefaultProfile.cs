@@ -20,6 +20,7 @@ namespace Web.AutoMapperProfiles
 
         private void MapEntityAndDto()
         {
+            
             var assemblies = new List<Assembly>
             {
                 Assembly.Load("ApplicationCore"),
