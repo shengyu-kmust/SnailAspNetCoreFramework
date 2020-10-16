@@ -35,6 +35,7 @@ namespace Service
         public void Invoke()
         {
             InitPermission();
+            InitTableData();
         }
 
         /// <summary>
@@ -60,6 +61,14 @@ namespace Service
             {
                 _logger.LogError(ex, "");
             }
+        }
+        
+        /// <summary>
+        /// 初始化数据
+        /// </summary>
+        private void InitTableData()
+        {
+
         }
     }
 }

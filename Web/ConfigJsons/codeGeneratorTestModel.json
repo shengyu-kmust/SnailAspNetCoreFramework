@@ -1,0 +1,50 @@
+{
+  "BasePath": "D:\\我的框架\\SnailAspNetCoreFramework",
+  "Entities": [
+    {
+      "name": "Demo",
+      "tableName": "T_DB_Demo",
+      "comment": "示例表",
+      "columns": [
+        "Name,string,姓名,50",
+        "Gender,EGenderTest,性别",
+        "Age,int,年龄",
+        "Birthday,DateTime,出生日期",
+        "Enabled,bool,是否有效"
+      ]
+    },
+    {
+      "name": "Plane",
+      "tableName": "T_BD_Plane",
+      "comment": "飞机信息表",
+      "columns": [
+        "RegistrationNum,string,注册号,10",
+        "Possessor,string,所属公司,50",
+        "SerialNum,string,序列号,20",
+        "ProduceOn,DateTime,生产日期",
+        "IntroduceOn,DateTime,引进日期",
+        "PlaneTypeId,string,机型ID,50"
+      ]
+    },
+    {
+      "name": "PlaneType",
+      "tableName": "T_BD_PlaneType",
+      "comment": "机型表",
+      "columns": [
+        "EnglishName,string,英文名,20",
+        "ChineseName,string,中文名,20",
+        "InternationalCode,string,国际代码,20",
+        "FunctionalCode,string,性能编码,20",
+        "Producer,string,生产厂家,50",
+        "RestrictedInfo,string,限制信息",
+        "FirstClassNum,int,头等舱座位数",
+        "BusinessClassNum,int,商务舱座位数",
+        "EconomyClassNum,int,经济舱座位数"
+      ]
+    }
+  ],
+  "Enums": [
+    "EGenderTest,性别,Female,女,Male,男"
+  ]
+}
+
