@@ -45,6 +45,8 @@
   ],
   "Enums": [
     "EGenderTest,性别,Female,女,Male,男"
-  ]
+  ],
+  "ExceptServices": [],
+  "ExceptApis": []
 }
 
