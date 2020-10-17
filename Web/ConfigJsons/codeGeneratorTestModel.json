@@ -1,5 +1,5 @@
 {
-  "BasePath": "G:\\mywork\\SnailAspNetCoreFramework",
+  "BasePath": "D:\\我的框架\\SnailAspNetCoreFramework",
   "Entities": [
     {
       "name": "Queue",
@@ -135,5 +135,5 @@
     "EExternalDataType,外部数据类型,Queue,队列,User,用户,Target,目标"
   ],
   "ExceptServices": [ "Called", "ToCall" ],
-  "ExceptApis": [ "Called","ToCall" ]
+  "ExceptApis": [ "Called", "ToCall" ]
 }
