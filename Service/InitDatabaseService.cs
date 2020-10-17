@@ -51,9 +51,9 @@ namespace Service
                 var now = DateTime.Now;
                 if (!_db.Users.Any() && !_db.Roles.Any() && !_db.UserRoles.Any())
                 {
-                    _db.Users.Add(new User { Id = userId, Account = "SuperAdmin", CreateTime = now, IsDeleted = false, Name = "超级管理员", Pwd = pwdHash });
-                    _db.Roles.Add(new Role { Id = roleId, Name = "SuperAdmin", CreateTime = now, IsDeleted = false });
-                    _db.UserRoles.Add(new UserRole { Id = IdGenerator.Generate<string>(), IsDeleted = false, RoleId = roleId, UserId = userId, CreateTime = now });
+                    _db.Users.Add(new PermissionDefaultUser { Id = userId, Account = "SuperAdmin", CreateTime = now, IsDeleted = false, Name = "超级管理员", Pwd = pwdHash });
+                    _db.Roles.Add(new PermissionDefaultRole { Id = roleId, Name = "SuperAdmin", CreateTime = now, IsDeleted = false });
+                    _db.UserRoles.Add(new PermissionDefaultUserRole { Id = IdGenerator.Generate<string>(), IsDeleted = false, RoleId = roleId, UserId = userId, CreateTime = now });
                 }
                 _db.SaveChanges();
             }

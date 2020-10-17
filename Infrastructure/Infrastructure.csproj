@@ -6,23 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="EFValueConverter\**" />
     <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="EFValueConverter\**" />
     <EmbeddedResource Remove="Services\**" />
+    <None Remove="EFValueConverter\**" />
     <None Remove="Services\**" />
   </ItemGroup>
 
   <ItemGroup>
-	  <!--<PackageReference Include="Snail.Web" Version="1.0.16" />-->
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\Snail\Snail.Web\Snail.Web.csproj" />
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
-	  <ProjectReference Include="..\..\Snail\Snail\Snail.Web\Snail.Web.csproj" />
 
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="EFValueConverter\" />
   </ItemGroup>
 
 </Project>
