@@ -12,6 +12,7 @@ using Snail.Core.Default;
 using Snail.Web;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Web.AutoMapperProfiles;
 
@@ -43,13 +44,7 @@ namespace Web
             #region 增加enum转keyValue功能
             services.AddEnumKeyValueService(option =>
             {
-                option.Assemblies = new List<Assembly>
-                {
-                    Assembly.Load("ApplicationCore"),
-                    Assembly.Load("Service"),
-                    Assembly.Load("Infrastructure"),
-                    Assembly.Load("Web")
-                };
+                option.Assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
             });
             #endregion
 
