@@ -20,7 +20,6 @@ namespace Web
     public class Startup
     {
         private readonly IWebHostEnvironment _environment;
-
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
