@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Snail\Snail.Web\Snail.Web.csproj" />
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
 
   </ItemGroup>

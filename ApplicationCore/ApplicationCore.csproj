@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -29,7 +29,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Snail\Snail.Core\Snail.Core.csproj" />
+    <ProjectReference Include="..\..\Snail\Snail\Snail.Web\Snail.Web.csproj" />
   </ItemGroup>
 
 </Project>
