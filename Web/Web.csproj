@@ -49,7 +49,6 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\views\basic\" />
-    <Folder Include="Controllers\" />
     <Folder Include="ConfigJsons\" />
   </ItemGroup>
 
