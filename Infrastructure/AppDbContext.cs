@@ -1,5 +1,6 @@
 ﻿using DotNetCore.CAP;
 using Microsoft.EntityFrameworkCore;
+using Snail.Permission.Entity;
 using Snail.Web;
 
 namespace Infrastructure
@@ -7,14 +8,15 @@ namespace Infrastructure
     /// <summary>
     /// 数据库上下文
     /// </summary>
-    public partial class AppDbContext : BaseAppDbContext
+    public partial class AppDbContext :
+        BaseAppDbContext<PermissionDefaultUser, PermissionDefaultRole, PermissionDefaultResource, PermissionDefaultUserRole, PermissionDefaultRoleResource, PermissionDefaultOrg, PermissionDefaultUserOrg>
     {
         /// <summary>
         /// AppDbContext
         /// </summary>
         /// <param name="options"></param>
         /// <param name="publisher"></param>
-        public AppDbContext(DbContextOptions<AppDbContext> options, ICapPublisher publisher):base(options, publisher)
+        public AppDbContext(DbContextOptions<AppDbContext> options, ICapPublisher publisher) : base(options, publisher)
         {
         }
 
@@ -22,7 +24,7 @@ namespace Infrastructure
         /// AppDbContext
         /// </summary>
         /// <param name="options"></param>
-        public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 

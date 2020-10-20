@@ -5,13 +5,21 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Const\**" />
+    <Compile Remove="Utilities\**" />
+    <EmbeddedResource Remove="Const\**" />
+    <EmbeddedResource Remove="Utilities\**" />
+    <None Remove="Const\**" />
+    <None Remove="Utilities\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <Folder Include="Dtos\" />
     <Folder Include="Entities\" />
-    <Folder Include="Utilities\" />
     <Folder Include="Enums\" />
-    <Folder Include="Const\" />
+    <Folder Include="interfaces\" />
   </ItemGroup>
 
 
@@ -21,9 +29,7 @@
 
 
   <ItemGroup>
-    <Reference Include="Snail.Core">
-      <HintPath>..\..\Snail\Snail\Snail.Core\bin\Debug\netstandard2.0\Snail.Core.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\Snail\Snail.Core\Snail.Core.csproj" />
   </ItemGroup>
 
 </Project>
