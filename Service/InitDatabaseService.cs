@@ -1,4 +1,5 @@
-﻿using ApplicationCore.IServices;
+﻿using ApplicationCore.Entity;
+using ApplicationCore.IServices;
 using Infrastructure;
 using Microsoft.Extensions.Logging;
 using Snail.Common;
@@ -11,7 +12,7 @@ using System.Text;
 namespace Service
 {
     /// <summary>
-    /// InitDatabaseService
+    /// 数据库初始化服务，用于初始化权限数据、其它业务数据
     /// </summary>
     public class InitDatabaseService : IService
     {
@@ -39,7 +40,7 @@ namespace Service
         }
 
         /// <summary>
-        /// InitPermission
+        /// 初始化权限数据
         /// </summary>
         private void InitPermission()
         {
@@ -51,7 +52,8 @@ namespace Service
                 var now = DateTime.Now;
                 if (!_db.Users.Any() && !_db.Roles.Any() && !_db.UserRoles.Any())
                 {
-                    _db.Users.Add(new PermissionDefaultUser { Id = userId, Account = "SuperAdmin", CreateTime = now, IsDeleted = false, Name = "超级管理员", Pwd = pwdHash });
+                    // 如果权限表不是默认的，下面要修改成自己的表
+                    _db.Users.Add(new User { Id = userId, LoginName = "SuperAdmin", CreateTime = now, IsDeleted = false, Name = "超级管理员", Pwd = pwdHash });
                     _db.Roles.Add(new PermissionDefaultRole { Id = roleId, Name = "SuperAdmin", CreateTime = now, IsDeleted = false });
                     _db.UserRoles.Add(new PermissionDefaultUserRole { Id = IdGenerator.Generate<string>(), IsDeleted = false, RoleId = roleId, UserId = userId, CreateTime = now });
                 }
@@ -64,7 +66,7 @@ namespace Service
         }
         
         /// <summary>
-        /// 初始化数据
+        /// 初始化业务数据，建议从json文件里读取
         /// </summary>
         private void InitTableData()
         {
