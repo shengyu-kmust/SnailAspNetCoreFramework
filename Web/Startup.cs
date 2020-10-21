@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using ApplicationCore.Entity;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Hangfire;
@@ -37,7 +38,7 @@ namespace Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigSnailWebServices<AppDbContext>(Configuration, _environment);
+            services.ConfigSnailWebServices<AppDbContext,User>(Configuration, _environment);
             services.ConfigAutoMapper();//AddAutoMapper只能用一次，否则后面的会不走作用
 
             #region 增加enum转keyValue功能
