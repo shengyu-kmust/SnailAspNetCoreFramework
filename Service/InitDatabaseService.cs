@@ -1,5 +1,4 @@
-﻿using ApplicationCore.Entity;
-using ApplicationCore.IServices;
+﻿using ApplicationCore.IServices;
 using Infrastructure;
 using Microsoft.Extensions.Logging;
 using Snail.Common;
@@ -53,7 +52,7 @@ namespace Service
                 if (!_db.Users.Any() && !_db.Roles.Any() && !_db.UserRoles.Any())
                 {
                     // 如果权限表不是默认的，下面要修改成自己的表
-                    _db.Users.Add(new User { Id = userId, LoginName = "SuperAdmin", CreateTime = now, IsDeleted = false, Name = "超级管理员", Pwd = pwdHash });
+                    _db.Users.Add(new PermissionDefaultUser { Id = userId, Account = "SuperAdmin", CreateTime = now, IsDeleted = false, Name = "超级管理员", Pwd = pwdHash });
                     _db.Roles.Add(new PermissionDefaultRole { Id = roleId, Name = "SuperAdmin", CreateTime = now, IsDeleted = false });
                     _db.UserRoles.Add(new PermissionDefaultUserRole { Id = IdGenerator.Generate<string>(), IsDeleted = false, RoleId = roleId, UserId = userId, CreateTime = now });
                 }

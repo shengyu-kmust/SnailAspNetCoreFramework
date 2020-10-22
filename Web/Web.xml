@@ -25,6 +25,50 @@
             默认的automapper配置，只配置entity和dto的相互映射，其它的请用AutoMapAttribute设置
             </summary>
         </member>
+        <member name="M:Web.Controllers.CommonUseController.ExportExcel">
+            <summary>
+            文件下载
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.CommonUseController.ImportExcel(Microsoft.AspNetCore.Http.IFormFileCollection)">
+            <summary>
+            文件上传，form-data里的key必须为formFiles才能正确绑定文件到对象
+            </summary>
+            <param name="formFiles"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.CommonUseController.GenerateLicense(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            生成license
+            </summary>
+            <param name="licenseInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.CommonUseController.GetComputerFinger">
+            <summary>
+            获取机器码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Web.Controllers.TestController">
+            <summary>
+            测试用
+            </summary>
+        </member>
+        <member name="M:Web.Controllers.TestController.GetCurrentUserId">
+            <summary>
+            获取当前登录人
+            </summary>
+            <returns>返回登录人的id</returns>
+        </member>
+        <member name="M:Web.Controllers.TestController.SyncReturn(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:Web.Program.CreateHostBuilder(System.String[])">
             <summary>
             

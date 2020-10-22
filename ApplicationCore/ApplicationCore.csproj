@@ -16,6 +16,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Dtos\" />
     <Folder Include="Entities\" />
     <Folder Include="Enums\" />
     <Folder Include="interfaces\" />
@@ -28,7 +29,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Snail\Snail\Snail.Web\Snail.Web.csproj" />
+    <ProjectReference Include="..\..\Snail\Snail.Web\Snail.Web.csproj" />
   </ItemGroup>
 
 </Project>

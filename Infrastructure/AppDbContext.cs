@@ -1,5 +1,4 @@
-﻿using ApplicationCore.Entity;
-using DotNetCore.CAP;
+﻿using DotNetCore.CAP;
 using Microsoft.EntityFrameworkCore;
 using Snail.Permission.Entity;
 using Snail.Web;
@@ -11,7 +10,7 @@ namespace Infrastructure
     /// 数据库上下文
     /// </summary>
     public partial class AppDbContext :
-        BaseAppDbContext<User, PermissionDefaultRole, PermissionDefaultResource, PermissionDefaultUserRole, PermissionDefaultRoleResource, PermissionDefaultOrg, PermissionDefaultUserOrg>
+        BaseAppDbContext<PermissionDefaultUser, PermissionDefaultRole, PermissionDefaultResource, PermissionDefaultUserRole, PermissionDefaultRoleResource, PermissionDefaultOrg, PermissionDefaultUserOrg>
     {
         /// <summary>
         /// AppDbContext
