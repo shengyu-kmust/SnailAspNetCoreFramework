@@ -1,5 +1,5 @@
 {
-  "BasePath": "G:/mywork/SnailAspNetCoreFramework",
+  "BasePath": "D:/我的框架/SnailAspNetCoreFramework",
   "Entities": [
     {
       "name": "Queue",

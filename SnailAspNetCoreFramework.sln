@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nlog.md = nlog.md
 		README.md = README.md
 		spa.md = spa.md
+		todo.md = todo.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationCore", "ApplicationCore\ApplicationCore.csproj", "{64BE680E-5170-4D39-BF92-7DAF9A5C9446}"
@@ -26,6 +27,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{E0CEF211-8720-4CC6-96F4-4965B16C3CE2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snail.Web", "..\Snail\Snail.Web\Snail.Web.csproj", "{8F1E398C-22A2-48B3-AC26-35565FE5380A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snail.Permission", "..\Snail\Snail.Permission\Snail.Permission.csproj", "{B2FBA7E2-E59E-4F4A-9AD6-3176938CB9F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +60,10 @@ Global
 		{8F1E398C-22A2-48B3-AC26-35565FE5380A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F1E398C-22A2-48B3-AC26-35565FE5380A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F1E398C-22A2-48B3-AC26-35565FE5380A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2FBA7E2-E59E-4F4A-9AD6-3176938CB9F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2FBA7E2-E59E-4F4A-9AD6-3176938CB9F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2FBA7E2-E59E-4F4A-9AD6-3176938CB9F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2FBA7E2-E59E-4F4A-9AD6-3176938CB9F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

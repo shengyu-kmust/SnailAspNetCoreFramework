@@ -1,14 +1,14 @@
 <template>
   <div style="width:100%">
-    <snail-simple-crud search-api="userQueryPage"
-                       add-api="userSave"
-                       edit-api="userSave"
-                       remove-api="userRemove"
+    <snail-simple-list-crud search-api="getAllUserInfo"
+                       add-api="saveUser"
+                       edit-api="saveUser"
+                       remove-api="removeUser"
                        :search-fields="searchFields"
                        :fields="fields"
                        :form-rules="rules"
-                       :form-fields="fields">
-    </snail-simple-crud>
+                       :form-fields="formFields">
+    </snail-simple-list-crud>
   </div>
 </template>
 
@@ -43,33 +43,28 @@
             label: '账号',
             type: 'string',
             span: 12
-          },
+          }
+        ]
+      },
+      formFields() {
+        return [
           {
-            name: 'phone',
-            label: '电话',
-            type: 'string',
-            span: 12
-
-          },
-          {
-            name: 'email',
-            label: '邮箱',
+            name: 'name',
+            label: '姓名',
             type: 'string',
             span: 12
           },
           {
-            name: 'gender',
-            label: '性别',
-            type: 'select',
-            span: 12,
-            keyValues: this.$config.genderKeyValue
+            name: 'account',
+            label: '账号',
+            type: 'string',
+            span: 12
           },
           {
             name: 'pwd',
             label: '密码',
             type: 'string',
-            span: 12,
-            noForTable: true
+            span: 12
           }
         ]
       },

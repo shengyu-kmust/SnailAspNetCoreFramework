@@ -11,7 +11,7 @@ const user = () => import('@/views/system/user')
 const role = () => import('@/views/system/role')
 const userRole = () => import('@/views/system/userRole')
 const resource = () => import('@/views/system/resource')
-const roleResource = () => import('@/views/system/roleResource')
+const userRoleResource = () => import('@/views/system/userRoleResource')
 const config = () => import('@/views/system/config')
 
 const systemRouters = {
@@ -50,13 +50,13 @@ const systemRouters = {
       meta: { title: '权限资源管理',resourceCode: 'ResourceController'  }
     },
     {
-      path: 'config',
-      component: roleResource,
-      name: 'roleResource',
-      meta: { title: '角色授权',resourceCode: 'Permission_SetRoleResources'  }
+      path: 'userRoleResource',
+      component: userRoleResource,
+      name: 'userRoleResource',
+      meta: { title: '用户角色授权',resourceCode: 'Permission_SetRoleResources'  }
     },
     {
-      path: 'config1',
+      path: 'config',
       component: config,
       name: 'config',
       meta: { title: '配置', resourceCode: 'ConfigController' }

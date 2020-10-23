@@ -45,26 +45,6 @@ export const configFind = data => request.post('/api/config/find', data)
 export const configRemove = data => request.post('/api/config/remove', data)
 export const configSave = data => request.post('/api/config/save', data)
 
-// 用户管理
-export const userQueryPage = params => request.get('/api/user/queryPage', { params })
-export const userQueryList = params => request.get('/api/user/QueryList', { params })
-export const userFind = data => request.post('/api/user/find', data)
-export const userRemove = data => request.post('/api/user/remove', data)
-export const userSave = data => request.post('/api/user/save', data)
-
-// 角色管理
-export const roleQueryPage = params => request.get('/api/role/queryPage', { params })
-export const roleQueryList = params => request.get('/api/role/queryList', { params })
-export const roleFind = data => request.post('/api/role/find', data)
-export const roleRemove = data => request.post('/api/role/remove', data)
-export const roleSave = data => request.post('/api/role/save', data)
-
-// 资源管理
-export const resourceQueryListTree = params => request.get('/api/permission/getAllResourceTreeInfo', { params })
-export const resourceFind = data => request.post('/api/permission/find', data)
-export const resourceRemove = data => request.post('/api/permission/remove', data)
-export const resourceSave = data => request.post('/api/permission/save', data)
-
 // 其它权限相关
 export const login = data => request.post('/api/permission/login', data)
 export const logout = data => request.post('/api/permission/logout', data)

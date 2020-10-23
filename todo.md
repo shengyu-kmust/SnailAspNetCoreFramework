@@ -1,0 +1,1 @@
+# web项目有时permissioncontroller未加到swagger

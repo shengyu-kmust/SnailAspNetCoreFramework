@@ -2,7 +2,7 @@
   <div style="display:flex;flex:1">
     <el-row style="width:100%">
       <el-col :span="8" style="height:600px">
-        <el-input placeholder="搜索用户"></el-input>
+        <el-input placeholder="搜索用户" v-model="userSearchKey" @input="userSearch"></el-input>
         <snail-table
           ref="user"
           :rows="users"
@@ -45,13 +45,15 @@ export default {
       roleResources: [], // 记录角色的资源id
       userRoles: [], // 记录人员的角色
       roles: [], // 所有角色列表
-      users: [], // 所有用户列表
+      allUsers: [], // 所有用户列表
+      users:[],//table里的user
       treeProps: {
         children: 'children',
         label: 'name'
       },
       currentUserRow: {},
-      currentRoleRows:[]
+      currentRoleRows:[],
+      userSearchKey:''
     }
   },
   computed: {
@@ -89,8 +91,10 @@ export default {
     this.init()
   },
   methods: {
+    userSearch(){
+      this.users=this.allUsers.filter(v=>v.name.indexOf(this.userSearchKey)>-1 || v.account.indexOf(this.userSearchKey)>-1);
+    },
     saveUserRole(){
-      debugger
       var roleKeys = (this.currentRoleRows || []).map(v=>v.id);
       this.$api.setUserRoles({
         userKey: this.currentUserRow.id,
@@ -108,7 +112,7 @@ export default {
           resourceKeys: resourceKeys
         }).then(res => {
           this.$message.success('保存成功')
-          this.selectRole(this.currentRoleRows[0])
+          this.selectRoles(this.currentRoleRows[0])
         })
       }else{
         this.$$message.warn("一次只能对一个角色进行资源授权")
@@ -116,10 +120,10 @@ export default {
       
     },
     selectRoles(section){
-      this.currentRoleRows=section;
+      this.currentRoleRows=section || [];
       console.log('currentRoleRows')
       console.log(this.currentRoleRows)
-       if(section.length=1){
+       if(section.length==1 && section[0] && section[0].id){
         this.$api.getRoleResources({ roleKey: section[0].id }).then(res => {
         this.roleResources = res.data.resourceKeys || []
         this.$refs.tree.setCheckedKeys(this.roleResources)
@@ -135,18 +139,19 @@ export default {
     },
     setRoleSelection(roleKeys){
       if(roleKeys){
-        this.$refs.role.table.clearSelection();
-        var matchRoles=this.roles.filter(v=>roleKeys.findIndex(v.id)>-1);
+        this.$refs.role.$refs.table.clearSelection();
+        var matchRoles=this.roles.filter(v=>roleKeys.findIndex(i=>i===v.id)>-1);
         console.log('matchRoles')
         console.log(matchRoles);
         matchRoles.forEach(role => {
-          this.$refs.role.table.toggleRowSelection(role,true)
+          this.$refs.role.$refs.table.toggleRowSelection(role,true)
         });
       }
     },
     getAllUser(){
       this.$api.getAllUserInfo().then(res => {
-              this.users=res.data
+              this.allUsers=res.data
+              this.users=this.allUsers;
       })
     },
     getAllRole(){
