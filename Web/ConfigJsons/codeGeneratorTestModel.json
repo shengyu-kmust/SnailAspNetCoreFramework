@@ -122,7 +122,7 @@
         "AvatarUrl,string,头像,50",
         "Des,string,描述,50",
         "UserType,EUserType,用户类型,50",
-        "TargetIds, List<string>,所属科室"
+        "TargetIds,List<string>,所属科室"
       ]
     }
   ],
