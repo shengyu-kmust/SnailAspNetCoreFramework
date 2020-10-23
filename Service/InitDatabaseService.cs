@@ -45,16 +45,24 @@ namespace Service
         {
             try
             {
-                var userId = IdGenerator.Generate<string>();
-                var roleId = IdGenerator.Generate<string>();
+                var superUserId = IdGenerator.Generate<string>();
+                var superRoleId = IdGenerator.Generate<string>();
+                var adminUserId = IdGenerator.Generate<string>();
+                var adminRoleId = IdGenerator.Generate<string>();
                 var pwdHash = BitConverter.ToString(HashAlgorithm.Create(HashAlgorithmName.MD5.Name).ComputeHash(Encoding.UTF8.GetBytes("123456"))).Replace("-", "");
                 var now = DateTime.Now;
                 if (!_db.Users.Any() && !_db.Roles.Any() && !_db.UserRoles.Any())
                 {
                     // 如果权限表不是默认的，下面要修改成自己的表
-                    _db.Users.Add(new PermissionDefaultUser { Id = userId, Account = "SuperAdmin", CreateTime = now, IsDeleted = false, Name = "超级管理员", Pwd = pwdHash });
-                    _db.Roles.Add(new PermissionDefaultRole { Id = roleId, Name = "SuperAdmin", CreateTime = now, IsDeleted = false });
-                    _db.UserRoles.Add(new PermissionDefaultUserRole { Id = IdGenerator.Generate<string>(), IsDeleted = false, RoleId = roleId, UserId = userId, CreateTime = now });
+                    _db.Users.AddRange(
+                        new PermissionDefaultUser { Id = superUserId, Account = "superAdmin", CreateTime = now, IsDeleted = false, Name = "超级管理员", Pwd = pwdHash },
+                        new PermissionDefaultUser { Id = adminUserId, Account = "admin", CreateTime = now, IsDeleted = false, Name = "管理员", Pwd = pwdHash });
+                    _db.Roles.AddRange(
+                        new PermissionDefaultRole { Id = superRoleId, Name = "SuperAdmin", CreateTime = now, IsDeleted = false },
+                        new PermissionDefaultRole { Id = adminRoleId, Name = "admin", CreateTime = now, IsDeleted = false });
+                    _db.UserRoles.AddRange(
+                        new PermissionDefaultUserRole { Id = IdGenerator.Generate<string>(), IsDeleted = false, RoleId = superRoleId, UserId = superUserId, CreateTime = now },
+                     new PermissionDefaultUserRole { Id = IdGenerator.Generate<string>(), IsDeleted = false, RoleId = adminRoleId, UserId = adminUserId, CreateTime = now });
                 }
                 _db.SaveChanges();
             }
@@ -63,7 +71,7 @@ namespace Service
                 _logger.LogError(ex, "");
             }
         }
-        
+
         /// <summary>
         /// 初始化业务数据，建议从json文件里读取
         /// </summary>
