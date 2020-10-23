@@ -29,7 +29,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Snail\Snail\Snail.Web\Snail.Web.csproj" />
+    <ProjectReference Include="..\..\Snail\Snail.Web\Snail.Web.csproj" />
   </ItemGroup>
 
 </Project>

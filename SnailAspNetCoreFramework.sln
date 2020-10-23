@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{977FE185-E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{E0CEF211-8720-4CC6-96F4-4965B16C3CE2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snail.Web", "..\Snail\Snail\Snail.Web\Snail.Web.csproj", "{38A63DE5-CAD3-4AA1-A472-B5DCA75A1C1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snail.Web", "..\Snail\Snail.Web\Snail.Web.csproj", "{8F1E398C-22A2-48B3-AC26-35565FE5380A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +53,10 @@ Global
 		{E0CEF211-8720-4CC6-96F4-4965B16C3CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0CEF211-8720-4CC6-96F4-4965B16C3CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0CEF211-8720-4CC6-96F4-4965B16C3CE2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{38A63DE5-CAD3-4AA1-A472-B5DCA75A1C1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{38A63DE5-CAD3-4AA1-A472-B5DCA75A1C1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{38A63DE5-CAD3-4AA1-A472-B5DCA75A1C1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{38A63DE5-CAD3-4AA1-A472-B5DCA75A1C1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F1E398C-22A2-48B3-AC26-35565FE5380A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F1E398C-22A2-48B3-AC26-35565FE5380A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F1E398C-22A2-48B3-AC26-35565FE5380A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F1E398C-22A2-48B3-AC26-35565FE5380A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
