@@ -1,5 +1,5 @@
-﻿using ApplicationCore.IServices;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Snail.Web.IServices;
 using System;
 using System.Linq;
 using Xunit;
