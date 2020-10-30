@@ -61,13 +61,6 @@ module.exports = {
           '^/dev-api': ''
         }
       },
-      '/prod-api': {
-        target: `http://localhost:5000`,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/prod-api': ''
-        }
-      },
       '/queuehub': {
         target: `http://localhost:5000`,
         changeOrigin: true
