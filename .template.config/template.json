@@ -1,0 +1,13 @@
+{
+  // 参考：https://docs.microsoft.com/zh-cn/dotnet/core/tools/custom-templates
+  // 步骤1-安装模板：dotnet new -i G:\mywork\SnailAspNetCoreFramework
+  // 步骤2-通过模板创建项目：dotnet new snailweb -n snailWebProjectName
+  // 注意：创建项目会根据源项目模板的内容进行创建，如果源项目太大，会影响创建的时间，所以要将无用的文件删除以提高效率，如果将node_modules和obj里的文件先删除
+  "$schema": "http://json.schemastore.org/template",
+  "author": "zhoujing",
+  "classifications": [ "Web" ],
+  "identity": "SnaiAspNetCoreFramework",
+  "name": "SnaiAspNetCoreFramework",
+  "shortName": "SnailWeb",
+  "preferNameDirectory": "true"
+}
