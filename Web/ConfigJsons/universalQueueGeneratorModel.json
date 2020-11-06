@@ -1,0 +1,139 @@
+{
+  "BasePath": "D:/我的框架/SnailAspNetCoreFramework",
+  "Entities": [
+    {
+      "name": "Queue",
+      "tableName": "Queue",
+      "comment": "排队队列",
+      "columns": [
+        "SourceType,string,队列数据来源类型,50",
+        "SourceId,string,队列在来源方的唯一ID,50",
+        "PersonId,string,排队人ID,50",
+        "PersonName,string,排队人姓名,50",
+        "PersonGender,EGender,排队人性别",
+        "Date,DateTime,队列日期",
+        "TimeSeg,ETimeSeg,队列时间段",
+        "BusinessId,string,要办理的业务Id,50",
+        "BusinessName,string,要办理的业务名",
+        "QueueType,EQueueType,队列类型",
+        "TargetId,string,目标id,50",
+        "UserId,string,处理人id,50",
+        "Status,EQueueStatus,状态",
+        "CallUserId,string,叫号人,50",
+        "CallerDeviceId,string,叫号设备,50",
+        "ActiveTime,DateTime?,激活时间",
+        "CallTime,DateTime?,叫号时间",
+        "EndTime,DateTime?,完成时间",
+        "OrderNo,int?,队列排队号",
+        "JumpNo,int?,跳号数",
+        "Sort,int?,排队权重",
+        "IsBooking,bool,是否为预约",
+        "BookingId,string,预约id,50"
+      ]
+    },
+    {
+      "name": "Called",
+      "tableName": "Called",
+      "comment": "已经叫号记录",
+      "columns": [
+        "QueueId,string,队列id,50",
+        "Content,string,叫号内容,50",
+        "TargetId,string,目标id,50",
+        "CallTime,DateTime?,叫号时间,50",
+        "CallDeviceId,string,叫号设备,50"
+      ]
+    },
+    {
+      "name": "ToCall",
+      "tableName": "ToCall",
+      "comment": "待叫号",
+      "columns": [
+        "QueueId,string,队列id,50",
+        "Content,string,叫号内容,50",
+        "TargetId,string,目标id,50"
+      ]
+    },
+    {
+      "name": "Device",
+      "tableName": "Device",
+      "comment": "设备",
+      "columns": [
+        "Type,EDeviceType,设备类型,20",
+        "Name,string,设备名,50",
+        "Des,string,描述,50",
+        "Mac,string,Mac,50",
+        "Ip,string,IP,50",
+        "Address,string,地址,50",
+        "LoginUserId,string,当前登录用户,50",
+        "LoginTime,DateTime?,最近登录时间,50",
+        "QueueType,EDeviceQueueType,队列类型,50",
+        "TargetIds,List<string>,关联目标",
+        "QueueDeviceIds,List<string>,关联设备",
+        "TemplateId,string,设备的显示模板id,50",
+        "SpeakConfigId,string,设备的叫号配置id,50"
+      ]
+    },
+    {
+      "name": "ExternalDataSqlConfig",
+      "tableName": "ExternalDataSqlConfig",
+      "comment": "外部数据源sql配置",
+      "columns": [
+        "Name,string,配置名,50",
+        "DbType,EDatabaseType,数据库类型,50",
+        "Sql,string,sql,50",
+        "Connect,string,连接字符串,50",
+        "ExternalDataType,string,数据类型,50",
+        "Cron,string,定时任务,50"
+      ]
+    },
+    {
+      "name": "Target",
+      "tableName": "Target",
+      "comment": "排班目标",
+      "columns": [
+        "ParentId,string,父id,50",
+        "Name,string,名称,50",
+        "Des,string,描述,50"
+      ]
+    },
+    {
+      "name": "Template",
+      "tableName": "Template",
+      "comment": "前端界面模板",
+      "columns": [
+        "Name,string,模板名,50",
+        "Type,EDeviceType,模板类型,50",
+        "Des,string,描述,200",
+        "Uri,string,地址,200"
+      ]
+    },
+    {
+      "name": "User",
+      "tableName": "User",
+      "comment": "用户",
+      "columns": [
+        "Name,string,姓名,50",
+        "LoginName,string,登录账号,50",
+        "BirthDate,DateTime?,出生日期,50",
+        "Gender,EGender,性别,50",
+        "Pwd,string,密码,50",
+        "Position,string,职务,50",
+        "Title,string,职称,50",
+        "AvatarUrl,string,头像,50",
+        "Des,string,描述,50",
+        "UserType,EUserType,用户类型,50",
+        "TargetIds,List<string>,所属科室"
+      ]
+    }
+  ],
+  "Enums": [
+    "ETimeSeg,性别,Am,上午,Pm,下午,Night,晚上",
+    "EQueueType,队列类型,User,排队到处理人,Target,排队到目标",
+    "EQueueStatus,状态,NotActive,未激活,Wait,进入队列,Next,下一个,Now,当前,Finish,完成,Miss,未到过号",
+    "EDeviceType,设备类型,Caller,叫号器,Room,房间屏,Hall,大厅屏,Workstation,工作站,ReportMachine,报到机",
+    "EDeviceQueueType,设备队列类型,Target,目标,LoginUser,当前登录用户,LoginUserAndTarget,用户及目标,Device,设备",
+    "EExternalDataType,外部数据类型,Queue,队列,User,用户,Target,目标"
+  ],
+  "ExceptServices": [ "Called", "ToCall" ],
+  "ExceptApis": [ "Called", "ToCall" ]
+}

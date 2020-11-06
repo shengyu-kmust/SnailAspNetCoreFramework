@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Service;
 using Snail.Core.Interface;
+using Snail.Web;
+using Snail.Web.Services;
 using System;
 using System.Reflection;
 
@@ -17,7 +19,7 @@ namespace Web
         private IServiceProvider _serviceProvider;
         private ILogger _logger;
         private static object _locker = new object();
-        public RunWhenServerStartService(IEntityCacheManager entityCacheManager, IServiceProvider serviceProvider,ILogger<RunWhenServerStartService> logger)
+        public RunWhenServerStartService(IEntityCacheManager entityCacheManager, IServiceProvider serviceProvider, ILogger<RunWhenServerStartService> logger)
         {
             _entityCacheManager = entityCacheManager;
             _serviceProvider = serviceProvider;
@@ -38,18 +40,27 @@ namespace Web
                 // 初始化数据库
                 InitDatabase();
             }
-     
+
         }
 
         private void InitDatabase()
         {
             try
             {
-                _serviceProvider.GetService<InitDatabaseService>().Invoke();
+                var initDatabaseService = _serviceProvider.GetService<InitDatabaseService>();
+                if (initDatabaseService != null)
+                {
+                    initDatabaseService.Invoke();
+                }
+                else
+                {
+                    _logger.LogError("初始化数据库出错，未注册InitDatabaseService");
+                }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "初始化数据库出错");
+                _logger.LogError(ex, "初始化数据库出错，内部异常为：{0}", ex.InnerException);
+                throw;
             }
         }
     }

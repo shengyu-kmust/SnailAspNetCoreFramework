@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Service;
+using Snail.Web.Controllers;
+using Snail.Web.Filter;
+using Snail.Web.Services;
 using System.Threading.Tasks;
-using Web.Filter;
 
 namespace Web.Controllers
 {
@@ -11,7 +12,7 @@ namespace Web.Controllers
     public class TestController : DefaultBaseController
     {
         private IInterceptorService interceptorService;
-        public TestController(ControllerContext controllerContext, IInterceptorService service) : base(controllerContext)
+        public TestController(SnailControllerContext controllerContext, IInterceptorService service) : base(controllerContext)
         {
             this.interceptorService = service;
 

@@ -13,7 +13,7 @@ export const getAllResourceRoles = () => request.get('/api/permission/getAllReso
 
 export function logout() {
   return request({
-    url: '/user/logout',
+    url: '/api/permission/logout',
     method: 'post'
   })
 }

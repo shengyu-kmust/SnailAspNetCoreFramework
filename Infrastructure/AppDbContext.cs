@@ -1,65 +1,50 @@
-﻿using ApplicationCore;
-using ApplicationCore.Entities;
-using ApplicationCore.Entity;
-using Autofac;
-using DotNetCore.CAP;
+﻿using DotNetCore.CAP;
 using Microsoft.EntityFrameworkCore;
-using Snail.Core.Default;
-using Snail.FileStore;
-using System;
-using System.Linq;
+using Snail.Permission.Entity;
+using Snail.Web;
 using System.Reflection;
 
 namespace Infrastructure
 {
-    public partial class AppDbContext : DbContext
+    /// <summary>
+    /// 数据库上下文
+    /// </summary>
+    public partial class AppDbContext :
+        BaseAppDbContext<PermissionDefaultUser, PermissionDefaultRole, PermissionDefaultResource, PermissionDefaultUserRole, PermissionDefaultRoleResource, PermissionDefaultOrg, PermissionDefaultUserOrg>
     {
-        #region 通用权限表
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<Resource> Resources { get; set; }
-        public DbSet<RoleResource> RoleResources { get; set; }
-        public DbSet<ApplicationCore.Entity.Org> Orgs { get; set; }
-        public DbSet<UserOrg> UserOrgs { get; set; }
-        #endregion
-        #region 公共表
-        public DbSet<Config> Configs { get; set; }
-        public DbSet<FileInfo> FileInfos { get; set; }
-        #endregion
-
-        private ICapPublisher _publisher;
-        public AppDbContext(DbContextOptions<AppDbContext> options, ICapPublisher publisher)
-            : base(options)
-        {
-            _publisher = publisher;
-        }
-
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-          : base(options)
+        /// <summary>
+        /// AppDbContext
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="publisher"></param>
+        public AppDbContext(DbContextOptions<AppDbContext> options, ICapPublisher publisher) : base(options, publisher)
         {
         }
 
+        /// <summary>
+        /// AppDbContext
+        /// </summary>
+        /// <param name="options"></param>
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+        }
 
-
-
-
+        /// <summary>
+        /// OnModelCreating
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // 自动应用所有的IEntityTypeConfiguration配置
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.Load("Infrastructure"));
+            base.OnModelCreating(modelBuilder);
         }
+
+        /// <summary>
+        /// SaveChanges
+        /// </summary>
+        /// <returns></returns>
         public override int SaveChanges()
         {
-            //统一在数据库上下文的操作前，触发缓存实体的数据清空。
-            if (_publisher != null)
-            {
-                this.ChangeTracker.Entries().Where(a =>(a.State == EntityState.Added || a.State == EntityState.Modified || a.State == EntityState.Deleted) && Attribute.IsDefined(a.Entity.GetType(), typeof(EnableEntityCacheAttribute))).Select(a => a.Entity.GetType().Name).Distinct().ToList().ForEach(entityName =>
-                {
-                    _publisher.Publish(EntityCacheManager.EntityCacheEventName, new EntityChangeEvent { EntityName = entityName });
-                });
-            }
-
             return base.SaveChanges();
         }
     }

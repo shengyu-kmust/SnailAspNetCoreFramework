@@ -35,56 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="5.1.2" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="5.0.0" />
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="BouncyCastle.NetCore" Version="1.8.5" />
-    <PackageReference Include="Castle.Core.AsyncInterceptor" Version="1.7.0" />
-    <PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.0.2" />
-    <PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="3.0.2" />
-    <PackageReference Include="EasyCaching.InMemory" Version="0.8.6" />
-    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.9" />
-    <PackageReference Include="HangFire.Autofac" Version="2.3.1" />
-    <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
-    <PackageReference Include="Hangfire.MySqlStorage" Version="2.0.2" />
-    <PackageReference Include="Hangfire.SQLite" Version="1.4.2" />
-    <PackageReference Include="Hangfire.SqlServer" Version="1.7.9" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
-    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.1.0" />
-    <PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="4.1.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
-    <PackageReference Include="NSwag.AspNetCore" Version="13.2.5" />
-    <PackageReference Include="Refit.HttpClientFactory" Version="5.1.67" />
-    <PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.0.0" />
-    <PackageReference Include="Snail.Common" Version="1.0.9" />
-    <PackageReference Include="Snail.FileStore" Version="1.0.12" />
-	  <PackageReference Include="Snail.Office" Version="1.0.12" />
-	  <PackageReference Include="Snail.Cache" Version="1.0.1" />
-    <PackageReference Include="System.CodeDom" Version="4.7.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="System.Management" Version="4.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Snail\Snail.Permission\Snail.Permission.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 
@@ -96,54 +47,15 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\views\basic\" />
-    <Folder Include="Permission\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="CodeGenerater\ControllerTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ControllerTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="CodeGenerater\EnumJsTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>EnumJsTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="CodeGenerater\EnumTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>EnumTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="CodeGenerater\VueRouterTemplate.tt">
-      <LastGenOutput>VueRouterTemplate.cs</LastGenOutput>
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-    </None>
-    <None Update="CodeGenerater\VueApiTemplate.tt">
-      <LastGenOutput>VueApiTemplate.cs</LastGenOutput>
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-    </None>
-    <None Update="CodeGenerater\VueTemplate.tt">
-      <LastGenOutput>VueTemplate.cs</LastGenOutput>
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-    </None>
-    <None Update="CodeGenerater\DtoTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>DtoTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="CodeGenerater\AppDbContextTemplate.tt">
-      <LastGenOutput>AppDbContextTemplate.cs</LastGenOutput>
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-    </None>
-    <None Update="CodeGenerater\EntityConfigTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>EntityConfigTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="CodeGenerater\EntityTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>EntityTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="CodeGenerater\ServiceTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ServiceTemplate.cs</LastGenOutput>
-    </None>
+    <!--<Reference Include="Snail.Web">
+      <HintPath>..\..\Snail\Snail\Snail.Web\bin\Debug\netcoreapp3.1\Snail.Web.dll</HintPath>
+    </Reference>-->
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Dockerfile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -166,85 +78,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="CodeGenerater\AppDbContextTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>AppDbContextTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="CodeGenerater\ControllerTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ControllerTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="CodeGenerater\DtoTemplate.cs">
-      <DependentUpon>DtoTemplate.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="CodeGenerater\DtoTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DtoTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="CodeGenerater\EnumJsTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EnumJsTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="CodeGenerater\EnumTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EnumTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="CodeGenerater\VueApiTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>VueApiTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="CodeGenerater\VueRouterTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>VueRouterTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="CodeGenerater\VueTemplate.cs">
-      <DependentUpon>VueTemplate.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="CodeGenerater\VueTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>VueTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="CodeGenerater\EntityConfigTemplate.cs">
-      <DependentUpon>EntityConfigTemplate.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="CodeGenerater\EntityConfigTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EntityConfigTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="CodeGenerater\EntityTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EntityTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="CodeGenerater\ServiceTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ServiceTemplate.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-
   <!--SPA的配置，在每次编译前，确保node已经安装，相关的npm包也已经安装-->
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
      <!--Ensure Node.js is installed--> 

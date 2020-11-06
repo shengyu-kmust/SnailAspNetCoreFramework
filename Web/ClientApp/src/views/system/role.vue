@@ -1,17 +1,17 @@
 <template>
   <div style="display:flex;flex:1">
-    <snail-simple-crud
-      search-api="roleQueryPage"
-      add-api="roleSave"
-      edit-api="roleSave"
-      remove-api="roleRemove"
+    <snail-simple-list-crud 
+      search-api="getAllRole"
+      add-api="saveRole"
+      edit-api="saveRole"
+      remove-api="removeRole"
       :search-fields="searchFields"
       :fields="fields"
       :search-rules="rules"
       :form-rules="rules"
       :form-fields="fields"
     >
-    </snail-simple-crud>
+    </snail-simple-list-crud >
   </div>
 </template>
 

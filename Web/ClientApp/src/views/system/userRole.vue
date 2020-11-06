@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="18">
         <snail-search-table
-          search-api="userQueryList"
+          search-api="getAllUserInfo"
           :search-fields="searchFields"
           :fields="fields"
           :search-rules="rules"

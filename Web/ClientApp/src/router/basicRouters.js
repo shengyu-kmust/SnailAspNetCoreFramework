@@ -9,12 +9,7 @@ const basicRouters = {
     iconClass: 'el-icon-setting'
   },
   children: [
-    {
-      path: 'user',
-      component: () => import('@/views/system/user'),
-      name: 'user',
-      meta: { title: '用户管理' }
-    }
+   
   ]
 }
 

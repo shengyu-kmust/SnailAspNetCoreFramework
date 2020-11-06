@@ -1,0 +1,119 @@
+{
+  "BasePath": "G:/mywork/SnailAspNetCoreFramework",
+  "Entities": [
+    {
+      "name": "Question",
+      "tableName": "Question",
+      "comment": "题目",
+      "columns": [
+        "Content,string,题目内容",
+        "QuestionType,EQuestionType,题目类型",
+        "RightAnswerComment,string,解题说明"
+      ]
+    },
+    {
+      "name": "Answer",
+      "tableName": "Answer",
+      "comment": "答案",
+      "columns": [
+        "QuestionId,string,所属题目",
+        "Option,string,默认选项",
+        "Content,string,答案内容",
+        "IsRight,bool,是否为正确答案"
+      ]
+    },
+    {
+      "name": "Paper",
+      "tableName": "Paper",
+      "comment": "试卷",
+      "columns": [
+        "Name,string,试卷名称,100",
+        "PaperType,EPaperType,试卷类型",
+        "TotalScore,int,总分"
+      ]
+    },
+    {
+      "name": "PaperQuestion",
+      "tableName": "PaperQuestion",
+      "comment": "试卷题目",
+      "columns": [
+        "PaperId,string,试卷,50",
+        "QuestionId,string,题目id,50",
+        "Score,int,分数"
+      ]
+    },
+    {
+      "name": "PaperDynamicQuestion",
+      "tableName": "PaperDynamicQuestion",
+      "comment": "动态试卷题/先不用",
+      "columns": [
+        "PaperId,string,试卷id",
+        "QuestionStoreIds,string,题库",
+        "QuestionType,EQuestionType,题型",
+        "Count,int,题数",
+        "Score,int,每题分数"
+      ]
+    },
+    {
+      "name": "QuestionStore",
+      "tableName": "QuestionStore",
+      "comment": "题库",
+      "columns": [
+        "Name,string,题库名,200",
+        "ParentId,string,父id,50"
+      ]
+    },
+    {
+      "name": "QuestionStoreRelation",
+      "tableName": "QuestionStoreRelation",
+      "comment": "题和题库关系",
+      "columns": [
+        "QuestionId,string,题目id,50",
+        "QuestionStoreId,string,题库id,50"
+      ]
+    },
+    {
+      "name": "UserPaper",
+      "tableName": "UserPaper",
+      "comment": "用户试卷",
+      "columns": [
+        "PaperId,string,试卷id,50",
+        "UserId,string,用户id,50",
+        "ExamId,string,考试id,50",
+      ]
+    },
+    {
+      "name": "UserPaperAnswer",
+      "tableName": "UserPaperAnswer",
+      "comment": "用户试卷答题",
+      "columns": [
+        "UserPaperId,string,用户试卷Id,50",
+        "QuestionId,string,试卷Id,50",
+        "Answers,string,答案,50"
+      ]
+    },
+    {
+      "name": "test",
+      "tableName": "test",
+      "comment": "test",
+      "columns": [
+        "test,string,test,50"
+      ]
+    },
+    {
+      "name": "test",
+      "tableName": "test",
+      "comment": "test",
+      "columns": [
+        "test,string,test,50"
+      ]
+    }
+  ],
+  "Enums": [
+    "EQuestionType,SingleChoice,单选题,MultiChoice,多选题,Judge,判断题,Completion,填空题,ShortAnswer,简答题",
+    "EPaperType,Static,固定试卷,Dynamic,动态试卷"
+  ],
+  "ExceptServices": [],
+  "ExceptApis": []
+}
+        
