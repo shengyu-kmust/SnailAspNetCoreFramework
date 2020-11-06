@@ -145,28 +145,28 @@
 [SnailAspNetCoreFramework框架系列博客](https://www.cnblogs.com/shengyu-kmust/p/13397738.html)  
 [1.框架内各项目及目录的介绍和总设计思路——SnailAspNetCoreFramework快速开发框架](https://www.cnblogs.com/shengyu-kmust/p/13453773.html)  
 [2.接口输入校验、输出格式、及异常处理——SnailAspNetCoreFramework快速开发框架之后端设计](https://www.cnblogs.com/shengyu-kmust/p/13453791.html)  
-[3.通用权限设计——SnailAspNetCoreFramework快速开发框架之后端设计](https://www.cnblogs.com/shengyu-kmust/p/13453799.html)  
-[4.如何提供给前端良好的接口文档（Swagger）——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[5.各场景下的缓存使用——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[6.基于castle的AOP设计和常用缓存、性能、日志拦截器实现——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[7.依赖注入介绍之autofac——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[8.为什么用Eventbus，怎么用——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[9.日志组件之Nlog介绍——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[10.Mediatr介绍——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[11.controller、service、dal层的通用CRUD设计——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[12.对象映射之利器automapper——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[13.如何监控ef生成的sql语句——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[14..net core的几种部署方式介绍——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[15.实时通讯之signalr——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[16.如何用ef code first进行项目的数据库版本持续迭代——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[17.代码自动生成功能介绍——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[18.如何监控项目的各个功能是否正常(HealthCheck)——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[19.定时任务之hangfire介绍——SnailAspNetCoreFramework快速开发框架之后端设计]()  
-[20.前端总体介绍——SnailAspNetCoreFramework快速开发框架之前端设计]()  
-[21.再也不用跪求后端接口了（MOCK的使用）——SnailAspNetCoreFramework快速开发框架之前端设计]()  
-[22.前端的权限控制——SnailAspNetCoreFramework快速开发框架之前端设计]()  
-[23.如何避免重复写前端的CRUD代码（前端各种SnailXXX组件介绍和使用）——SnailAspNetCoreFramework快速开发框架之前端设计]()  
-[24.请求代理介绍——SnailAspNetCoreFramework快速开发框架之前端设计]()  
+[3.通用权限设计——SnailAspNetCoreFramework快速开发框架之后端设计](https://www.cnblogs.com/shengyu-kmust/p/13453799.html)    
+4.如何提供给前端良好的接口文档（Swagger）——SnailAspNetCoreFramework快速开发框架之后端设计  
+5.各场景下的缓存使用——SnailAspNetCoreFramework快速开发框架之后端设计  
+6.基于castle的AOP设计和常用缓存、性能、日志拦截器实现——SnailAspNetCoreFramework快速开发框架之后端设计  
+7.依赖注入介绍之autofac——SnailAspNetCoreFramework快速开发框架之后端设计  
+8.为什么用Eventbus，怎么用——SnailAspNetCoreFramework快速开发框架之后端设计  
+9.日志组件之Nlog介绍——SnailAspNetCoreFramework快速开发框架之后端设计  
+10.Mediatr介绍——SnailAspNetCoreFramework快速开发框架之后端设计  
+11.controller、service、dal层的通用CRUD设计——SnailAspNetCoreFramework快速开发框架之后端设计  
+12.对象映射之利器automapper——SnailAspNetCoreFramework快速开发框架之后端设计  
+13.如何监控ef生成的sql语句——SnailAspNetCoreFramework快速开发框架之后端设计  
+14..net core的几种部署方式介绍——SnailAspNetCoreFramework快速开发框架之后端设计  
+15.实时通讯之signalr——SnailAspNetCoreFramework快速开发框架之后端设计  
+16.如何用ef code first进行项目的数据库版本持续迭代——SnailAspNetCoreFramework快速开发框架之后端设计  
+17.代码自动生成功能介绍——SnailAspNetCoreFramework快速开发框架之后端设计  
+18.如何监控项目的各个功能是否正常(HealthCheck)——SnailAspNetCoreFramework快速开发框架之后端设计  
+19.定时任务之hangfire介绍——SnailAspNetCoreFramework快速开发框架之后端设计  
+20.前端总体介绍——SnailAspNetCoreFramework快速开发框架之前端设计  
+21.再也不用跪求后端接口了（MOCK的使用）——SnailAspNetCoreFramework快速开发框架之前端设计  
+22.前端的权限控制——SnailAspNetCoreFramework快速开发框架之前端设计  
+23.如何避免重复写前端的CRUD代码（前端各种SnailXXX组件介绍和使用）——SnailAspNetCoreFramework快速开发框架之前端设计  
+24.请求代理介绍——SnailAspNetCoreFramework快速开发框架之前端设计  
  
 
 
