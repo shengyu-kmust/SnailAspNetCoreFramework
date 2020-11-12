@@ -1,9 +1,6 @@
-﻿using ApplicationCore.IServices;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
-using Infrastructure;
-using Service;
-using Snail.Web.Services;
+using Snail.Web.IServices;
 using System.Collections.Generic;
 using System.Reflection;
 using Module = Autofac.Module;

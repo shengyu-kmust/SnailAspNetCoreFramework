@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nlog.md = nlog.md
 		README.md = README.md
 		spa.md = spa.md
+		.template.config\template.json = .template.config\template.json
 		todo.md = todo.md
 	EndProjectSection
 EndProject
