@@ -39,8 +39,8 @@
         "QueueId,string,队列id,50",
         "Content,string,叫号内容,50",
         "TargetId,string,目标id,50",
-        "CallTime,DateTime?,叫号时间,50",
-        "CallDeviceId,string,叫号设备,50"
+        "CallTime,DateTime?,叫号时间",
+        "CallDeviceId,string,叫号设备"
       ]
     },
     {
@@ -65,7 +65,7 @@
         "Ip,string,IP,50",
         "Address,string,地址,50",
         "LoginUserId,string,当前登录用户,50",
-        "LoginTime,DateTime?,最近登录时间,50",
+        "LoginTime,DateTime?,最近登录时间",
         "QueueType,EDeviceQueueType,队列类型,50",
         "TargetIds,List<string>,关联目标",
         "QueueDeviceIds,List<string>,关联设备",
@@ -114,7 +114,7 @@
       "columns": [
         "Name,string,姓名,50",
         "LoginName,string,登录账号,50",
-        "BirthDate,DateTime?,出生日期,50",
+        "BirthDate,DateTime?,出生日期",
         "Gender,EGender,性别,50",
         "Pwd,string,密码,50",
         "Position,string,职务,50",
