@@ -1,6 +1,6 @@
-﻿using DotNetCore.CAP;
+﻿using ApplicationCore.Entities;
+using DotNetCore.CAP;
 using Microsoft.EntityFrameworkCore;
-using Snail.Permission.Entity;
 using Snail.Web;
 using System.Reflection;
 
@@ -10,7 +10,7 @@ namespace Infrastructure
     /// 数据库上下文
     /// </summary>
     public partial class AppDbContext :
-        BaseAppDbContext<PermissionDefaultUser, PermissionDefaultRole, PermissionDefaultResource, PermissionDefaultUserRole, PermissionDefaultRoleResource, PermissionDefaultOrg, PermissionDefaultUserOrg>
+        BaseAppDbContext<User, Role, Resource, UserRole, RoleResource, ApplicationCore.Entities.Org, UserOrg>
     {
         /// <summary>
         /// AppDbContext
@@ -35,7 +35,7 @@ namespace Infrastructure
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.Load("Infrastructure"));
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.Load("Infrastructure"));//应用infrastructure里的EntityTypeConfiguration
             base.OnModelCreating(modelBuilder);
         }
 

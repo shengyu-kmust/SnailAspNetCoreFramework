@@ -1,7 +1,7 @@
-﻿using Infrastructure;
+﻿using ApplicationCore.Entities;
+using Infrastructure;
 using Microsoft.Extensions.Logging;
 using Snail.Common;
-using Snail.Permission.Entity;
 using Snail.Web.IServices;
 using System;
 using System.Linq;
@@ -55,14 +55,14 @@ namespace Service
                 {
                     // 如果权限表不是默认的，下面要修改成自己的表
                     _db.Users.AddRange(
-                        new PermissionDefaultUser { Id = superUserId, Account = "superAdmin", CreateTime = now, IsDeleted = false, Name = "超级管理员", Pwd = pwdHash },
-                        new PermissionDefaultUser { Id = adminUserId, Account = "admin", CreateTime = now, IsDeleted = false, Name = "管理员", Pwd = pwdHash });
+                        new User { Id = superUserId, Account = "superAdmin", CreateTime = now, IsDeleted = false, Name = "超级管理员", Pwd = pwdHash },
+                        new User { Id = adminUserId, Account = "admin", CreateTime = now, IsDeleted = false, Name = "管理员", Pwd = pwdHash });
                     _db.Roles.AddRange(
-                        new PermissionDefaultRole { Id = superRoleId, Name = "SuperAdmin", CreateTime = now, IsDeleted = false },
-                        new PermissionDefaultRole { Id = adminRoleId, Name = "admin", CreateTime = now, IsDeleted = false });
+                        new Role { Id = superRoleId, Name = "SuperAdmin", CreateTime = now, IsDeleted = false },
+                        new Role { Id = adminRoleId, Name = "admin", CreateTime = now, IsDeleted = false });
                     _db.UserRoles.AddRange(
-                        new PermissionDefaultUserRole { Id = IdGenerator.Generate<string>(), IsDeleted = false, RoleId = superRoleId, UserId = superUserId, CreateTime = now },
-                     new PermissionDefaultUserRole { Id = IdGenerator.Generate<string>(), IsDeleted = false, RoleId = adminRoleId, UserId = adminUserId, CreateTime = now });
+                        new UserRole { Id = IdGenerator.Generate<string>(), IsDeleted = false, RoleId = superRoleId, UserId = superUserId, CreateTime = now },
+                     new UserRole { Id = IdGenerator.Generate<string>(), IsDeleted = false, RoleId = adminRoleId, UserId = adminUserId, CreateTime = now });
                 }
                 _db.SaveChanges();
             }

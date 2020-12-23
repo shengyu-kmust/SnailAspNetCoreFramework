@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using ApplicationCore.Entities;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Hangfire;
 using Infrastructure;
@@ -7,7 +8,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Snail.Core.Default;
-using Snail.Permission.Entity;
 using Snail.Web;
 using System;
 using System.Linq;
@@ -34,7 +34,8 @@ namespace Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigSnailWebServices<AppDbContext,PermissionDefaultUser>(Configuration, _environment);
+            services.ConfigSnailWebServices(Configuration, _environment);
+            services.ConfigSnailWebDbAndPermission<AppDbContext,User, Role, UserRole, Resource, RoleResource > (Configuration);
             services.ConfigAutoMapper();//AddAutoMapper只能用一次，否则后面的会不走作用
 
             #region 增加enum转keyValue功能
