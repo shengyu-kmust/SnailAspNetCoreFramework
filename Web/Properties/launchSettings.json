@@ -11,8 +11,8 @@
   "profiles": {
     "Development": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "swagger/index.html",
+      //"launchBrowser": true,
+      //"launchUrl": "swagger/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -20,7 +20,6 @@
     },
     "Production": {
       "commandName": "Project",
-      "launchUrl": "swagger/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
       },
@@ -28,7 +27,6 @@
     },
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchUrl": "api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ApplicationCore.Entities
 {
     [Table("User")]
-    public partial class User : DefaultBaseEntity, IUser
+    public partial class User : DefaultBaseEntityWithTenant, IUser
     {
         public string Account { get; set; }
         public string Name { get; set; }

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ApplicationCore.Entities
 {
     [Table("Role")]
-    public class Role : DefaultBaseEntity, IRole
+    public class Role : DefaultBaseEntityWithTenant, IRole
     {
         public string Name { get; set; }
 

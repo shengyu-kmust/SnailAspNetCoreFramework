@@ -4,6 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApplicationCore.Entities
 {
+    /// <summary>
+    /// 权限资源
+    /// </summary>
+    /// <remarks>
+    /// 权限资源是不分租户的
+    /// </remarks>
     [Table("Resource")]
     public class Resource : DefaultBaseEntity, IResource
     {

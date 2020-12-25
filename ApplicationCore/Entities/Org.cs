@@ -1,4 +1,5 @@
-﻿using Snail.Core.Entity;
+﻿using Snail.Core;
+using Snail.Core.Entity;
 using Snail.Core.Permission;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,7 +10,7 @@ namespace ApplicationCore.Entities
     /// </summary>
     [Table("Org")]
 
-    public class Org : DefaultBaseEntity, IOrg
+    public class Org : DefaultBaseEntityWithTenant, IOrg
     {
         public string ParentId { get; set; }
         public string Name { get; set; }
