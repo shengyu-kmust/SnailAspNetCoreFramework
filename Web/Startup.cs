@@ -35,7 +35,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigSnailWebServices(Configuration, _environment);
-            services.ConfigSnailWebDbAndPermission<AppDbContext,User, Role, UserRole, Resource, RoleResource > (Configuration);
+            services.ConfigSnailWebDbAndPermission<AppDbContext,User, Role, UserRole, Resource, RoleResource,string> (Configuration);
             services.ConfigAutoMapper();//AddAutoMapper只能用一次，否则后面的会不走作用
 
             #region 增加enum转keyValue功能

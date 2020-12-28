@@ -10,7 +10,7 @@ namespace Infrastructure
     /// <summary>
     /// 权限存储实现
     /// </summary>
-    public class DefaultPermissionStore : BasePermissionStore<DbContext, User, Role, UserRole, Resource, RoleResource>
+    public class DefaultPermissionStore : BasePermissionStore<DbContext, User, Role, UserRole, Resource, RoleResource,string>
     {
         /// <summary>
         /// DefaultPermissionStore
