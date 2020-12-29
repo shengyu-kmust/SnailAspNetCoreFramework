@@ -15,7 +15,6 @@ namespace Web.Controllers
         public TestController(SnailControllerContext controllerContext, IInterceptorService service) : base(controllerContext)
         {
             this.interceptorService = service;
-
         }
 
         /// <summary>
