@@ -37,6 +37,9 @@ namespace Infrastructure
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.Load("Infrastructure"));//应用infrastructure里的EntityTypeConfiguration
             base.OnModelCreating(modelBuilder);
+
+            // todo 可用queryFilter对租户进行实现，参考：https://github.com/dotnet/EntityFramework.Docs/blob/master/samples/core/Querying/QueryFilters/BloggingContext.cs
+
         }
 
         /// <summary>

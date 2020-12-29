@@ -59,11 +59,13 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           '^/dev-api': ''
-        }
+        },
+        logLevel: 'debug'
       },
       '/queuehub': {
         target: `http://localhost:5000`,
-        changeOrigin: true
+        changeOrigin: true,
+        logLevel: 'debug'
       }
     }
   },
