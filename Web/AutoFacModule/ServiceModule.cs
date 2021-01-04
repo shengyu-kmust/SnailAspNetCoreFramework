@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
+using Snail.Core.Service;
 using Snail.Web.IServices;
 using System.Collections.Generic;
 using System.Reflection;
