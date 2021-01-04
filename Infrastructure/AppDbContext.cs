@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using DotNetCore.CAP;
 using Microsoft.EntityFrameworkCore;
+using Snail.Core.Default;
 using Snail.Web;
 using System.Reflection;
 

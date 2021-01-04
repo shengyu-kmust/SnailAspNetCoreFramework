@@ -1,7 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Snail.Web.EntityTypeConfiguration;
+using Snail.Core.Default;
 
 namespace Infrastructure.EntityTypeConfigurations
 {
