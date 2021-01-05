@@ -82,9 +82,16 @@
         })
       },
       handleLogin() {
+        var tenantId = this.$route.query.tenantId;
+        if (tenantId) {
+          window.sessionStorage.setItem("tenantId", tenantId);
+        }
         this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.loading = true
+            if (tenantId) {
+              this.loginForm.tenantId = tenantId;
+            }
             this.$store.dispatch('user/login', this.loginForm).then(() => {
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false

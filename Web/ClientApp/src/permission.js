@@ -45,7 +45,12 @@ router.beforeEach(async(to, from, next) => {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
-          next(`/login?redirect=${to.path}`)
+          var tenantId = window.sessionStorage.getItem('tenantId')
+          if (tenantId) {
+            next(`/login?redirect=${to.path}&tenantId=${tenantId}`)
+          } else {
+            next(`/login?redirect=${to.path}`)
+          }
           NProgress.done()
         }
     }
