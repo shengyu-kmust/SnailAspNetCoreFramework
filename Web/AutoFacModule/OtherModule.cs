@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using Infrastructure;
+using Service;
 using Snail.Core.Default.Service;
 using Snail.Core.Service;
-using Snail.Web.IServices;
-using Snail.Web.Services;
+using Snail.Web;
 using System;
 using System.Collections.Generic;
 using Module = Autofac.Module;
@@ -24,8 +24,19 @@ namespace Web.AutoFacModule
             var exceptTypes = new List<Type>
             {
             };
+
             //所有的非IService的注册，并启动用属性注册
-            builder.RegisterAssemblyTypes(typeof(IService).Assembly, typeof(AppDbContext).Assembly, typeof(Startup).Assembly, typeof(ServiceContext).Assembly).Where(a => !typeof(IService).IsAssignableFrom(a) && !exceptTypes.Contains(a)).AsSelf().AsImplementedInterfaces().PropertiesAutowired();
+            builder.RegisterAssemblyTypes(
+                typeof(Startup).Assembly,
+                typeof(InitDatabaseService).Assembly, 
+                typeof(AppDbContext).Assembly,
+                typeof(SnailWebConfigureServicesExtenssions).Assembly,
+                typeof(ServiceContext).Assembly
+                )
+                .Where(a => !typeof(IService).IsAssignableFrom(a) && !exceptTypes.Contains(a))
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .PropertiesAutowired();
 
         }
     }

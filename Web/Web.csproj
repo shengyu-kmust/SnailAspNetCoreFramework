@@ -49,9 +49,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!--<Reference Include="Snail.Web">
-      <HintPath>..\..\Snail\Snail\Snail.Web\bin\Debug\netcoreapp3.1\Snail.Web.dll</HintPath>
-    </Reference>-->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
