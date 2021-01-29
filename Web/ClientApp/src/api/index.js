@@ -1,3 +1,4 @@
+// 此文件不要修改，如果要增加接口，请增加其它js，并在此引入 
 // axios用法
 // axios.request(config)
 // axios.get(url[, config])

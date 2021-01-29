@@ -22,20 +22,20 @@ const systemRouters = {
   meta: {
     title: '系统管理',
     iconClass: 'el-icon-setting',
-    resourceCode: 'PermissionController'
+    // resourceCode: 'PermissionController'//由于element ui的父节点不能单独选择，所有菜单父项都不做控制 
   },
   children: [
     {
       path: 'user',
       component: user,
       name: 'user',
-      meta: { title: '用户管理',resourceCode: 'UserController' }
+      meta: { title: '用户管理',resourceCode: 'Permission_SaveUser' }
     },
     {
       path: 'role',
       component: role,
       name: 'role',
-      meta: { title: '角色管理',resourceCode: 'RoleController'  }
+      meta: { title: '角色管理',resourceCode: 'Permission_SaveRole'  }
     },
     {
       path: 'userRole',

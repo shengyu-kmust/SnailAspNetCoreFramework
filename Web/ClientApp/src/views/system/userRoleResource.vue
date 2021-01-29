@@ -160,7 +160,7 @@ export default {
       })
     },
     getAllResource(){
-       this.$api.resourceQueryListTree().then(res => {
+       this.$api.getAllResourceTreeInfo().then(res => {
         this.resources = res.data
       })
     },

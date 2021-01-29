@@ -1,3 +1,4 @@
+// todo 要优化一下，有点乱，整理
 // 在路由变化时触发权限
 import router from './router'
 import store from './store'
@@ -11,7 +12,6 @@ import checkPermission from '@/utils/permission'
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
-
 router.beforeEach(async(to, from, next) => {
   // start progress bar
   NProgress.start()

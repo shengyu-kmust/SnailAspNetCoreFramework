@@ -1,28 +1,27 @@
+/**
+ * 请不要修改，为框架通用配置，便于统一更新  
+ */
 import Vue from 'vue'
-
 import Cookies from 'js-cookie'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
-
 import ElementUI from 'element-ui'
 import './styles/element-variables.scss'
 import '@/styles/index.scss' // global css
-
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
-
 import App from './App'
-import store from './store'
-import router from './router'
-import setVm from '@/utils/setVm'
-import permission from '@/directive/permission'
-setVm(Vue)
-permission.install(Vue)
+import store from './store' // vuex
+import router from './router'// router
 import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
 import * as filters from './filters' // global filters
+import setVm from '@/utils/setVm'
+import permission from '@/directive/permission'
+import '@/utils/registerComponent'// 下面开始注册全局组件
 
-// 下面开始注册全局组件
-import '@/utils/registerComponent'
+setVm(Vue) // 将常用的挂载到vue对象
+permission.install(Vue) // 权限指令
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

@@ -45,6 +45,7 @@ namespace Web
             });
             #endregion
 
+            services.ConfigAndOptionSetting(Configuration);
 
         }
 

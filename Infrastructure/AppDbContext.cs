@@ -2,6 +2,7 @@
 using DotNetCore.CAP;
 using Microsoft.EntityFrameworkCore;
 using Snail.Core.Default;
+using Snail.Core.Interface;
 using System.Reflection;
 
 namespace Infrastructure
@@ -17,7 +18,8 @@ namespace Infrastructure
         /// </summary>
         /// <param name="options"></param>
         /// <param name="publisher"></param>
-        public AppDbContext(DbContextOptions<AppDbContext> options, ICapPublisher publisher) : base(options, publisher)
+        /// <param name="applicationContext"></param>
+        public AppDbContext(DbContextOptions<AppDbContext> options, ICapPublisher publisher,IApplicationContext applicationContext) : base(options, publisher,applicationContext)
         {
         }
 
@@ -39,7 +41,7 @@ namespace Infrastructure
             base.OnModelCreating(modelBuilder);
 
             // todo 可用queryFilter对租户进行实现，参考：https://github.com/dotnet/EntityFramework.Docs/blob/master/samples/core/Querying/QueryFilters/BloggingContext.cs
-
+            modelBuilder.Entity("").HasQueryFilter()
         }
 
         /// <summary>

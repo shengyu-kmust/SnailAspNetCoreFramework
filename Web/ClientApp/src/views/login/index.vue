@@ -54,8 +54,8 @@
           password: '123456'
         },
         loginRules: {
-          username: [{ required: true, trigger: 'blur' }],
-          password: [{ required: true, trigger: 'blur' }]
+          username: [{ required: true, trigger: 'blur', message: '请填写账号' }],
+          password: [{ required: true, trigger: 'blur', message: '请填写密码' }]
         },
         loading: false,
         passwordType: 'password',
