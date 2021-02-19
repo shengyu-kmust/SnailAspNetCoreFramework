@@ -80,6 +80,12 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error) // for debug
+    var msg;
+    if(error && error.response && error.response.status==403){
+      msg='您没有授权访问，请联系管理员开通授权';
+    }else{
+      msg=error.message;
+    }
     Message({
       message: error.message,
       type: 'error',

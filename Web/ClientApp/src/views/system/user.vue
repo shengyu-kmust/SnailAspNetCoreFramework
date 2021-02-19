@@ -1,3 +1,4 @@
+<!-- 通用权限系统的用户管理 -->
 <template>
   <div style="width:100%">
     <snail-simple-list-crud search-api="getAllUserInfo"
