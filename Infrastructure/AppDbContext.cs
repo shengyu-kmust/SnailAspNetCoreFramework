@@ -41,7 +41,7 @@ namespace Infrastructure
             base.OnModelCreating(modelBuilder);
 
             // todo 可用queryFilter对租户进行实现，参考：https://github.com/dotnet/EntityFramework.Docs/blob/master/samples/core/Querying/QueryFilters/BloggingContext.cs
-            modelBuilder.Entity("").HasQueryFilter()
+            //modelBuilder.Entity("").HasQueryFilter()
         }
 
         /// <summary>

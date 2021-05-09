@@ -63,7 +63,13 @@
   import { TableBaseMixin } from '../Table/tableBase.js'
   import { simpleCrudBaseMixin } from './simpleCrudBase.js'
   export default {
-    mixins: [TableBaseMixin,simpleCrudBaseMixin],
+    mixins: [TableBaseMixin, simpleCrudBaseMixin],
+    props: {
+      hasPagination: {
+        type: Boolean,
+        default: false
+      }
+    }
   }
 </script>
 <style lang="scss" scoped>

@@ -18,16 +18,14 @@
     </div>
 
     <div style="flex:1;">
-      <el-table
-        ref="table"
-        border
-        :height="tableHeight"
-        :data="tableDatas"
-        :highlight-current-row="highlightCurrentRow"
-        @current-change="(currentRow)=>emitEventHandler('current-change',currentRow)"
-        @selection-change="(selecttion)=>emitEventHandler('selection-change',selecttion)"
-        @row-click="(row, column, event)=>emitEventHandler('row-click',row, column, event)"
-      >
+      <el-table ref="table"
+                border
+                :height="tableHeight"
+                :data="tableDatas"
+                :highlight-current-row="highlightCurrentRow"
+                @current-change="(currentRow)=>emitEventHandler('current-change',currentRow)"
+                @selection-change="(selecttion)=>emitEventHandler('selection-change',selecttion)"
+                @row-click="(row, column, event)=>emitEventHandler('row-click',row, column, event)">
         <el-table-column v-if="multiSelect" type="selection"></el-table-column>
         <el-table-column v-if="showTableIndex" type="index" width="50">
           <template slot="header">
@@ -47,19 +45,17 @@
         </template>
       </el-table>
     </div>
-    <el-pagination
-      ref="pagination"
-      style="margin-top: 10px;text-align: right;"
-      :current-page="pagination.pageIndex"
-      :page-size="pagination.pageSize"
-      :total="pagination.total"
-      :page-sizes="pageSizes"
-      :layout="layout"
-      @size-change="(pageSize)=>emitEventHandler('pagination-size-change',pageSize)"
-      @current-change="(pageIndex )=>emitEventHandler('pagination-current-change',pageIndex )"
-      @next-click="(pageIndex)=>emitEventHandler('pagination-next-click',pageIndex)"
-      @prev-click="(pageIndex)=>emitEventHandler('pagination-prev-click',pageIndex)"
-    ></el-pagination>
+    <el-pagination ref="pagination"
+                   style="margin-top: 10px;text-align: right;"
+                   :current-page="pagination.pageIndex"
+                   :page-size="pagination.pageSize"
+                   :total="pagination.total"
+                   :page-sizes="pageSizes"
+                   :layout="layout"
+                   @size-change="(pageSize)=>emitEventHandler('pagination-size-change',pageSize)"
+                   @current-change="(pageIndex )=>emitEventHandler('pagination-current-change',pageIndex )"
+                   @next-click="(pageIndex)=>emitEventHandler('pagination-next-click',pageIndex)"
+                   @prev-click="(pageIndex)=>emitEventHandler('pagination-prev-click',pageIndex)"></el-pagination>
     <!-- table分页 -->
     <!-- 这一段和 snailTable是一样的-->
     <!-- form表单 -->
@@ -77,10 +73,16 @@
 </template>
 
 <script>
-import { TableBaseMixin } from '../Table/tableBase'
-import { simpleCrudBaseMixin } from './simpleCrudBase.js'
+  import { TableBaseMixin } from '../Table/tableBase'
+  import { simpleCrudBaseMixin } from './simpleCrudBase.js'
 
-export default {
-    mixins: [TableBaseMixin,simpleCrudBaseMixin],
-}
+  export default {
+    mixins: [TableBaseMixin, simpleCrudBaseMixin],
+    props: {
+      hasPagination: {
+        type: Boolean,
+        default: true
+      }
+    }
+  }
 </script>
