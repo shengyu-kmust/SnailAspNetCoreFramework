@@ -1,4 +1,5 @@
 
+const Mock = require('mockjs')
 const tokens = {
   admin: {
     token: 'admin-token'
@@ -23,7 +24,7 @@ const users = {
   }
 }
 
-export default [
+module.exports = [
   // user login
   {
     url: '/user/login',

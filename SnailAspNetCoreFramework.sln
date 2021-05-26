@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snail.EntityFrameworkCore",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snail.Core", "..\Snail\Snail.Core\Snail.Core.csproj", "{7D0D586D-8FE7-431E-A6F9-8A8D8AECF2D7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snail.Core.Default", "..\Snail\Snail.Core.Default\Snail.Core.Default.csproj", "{F7E396AB-C282-4149-840C-AD1FF710B43A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{7D0D586D-8FE7-431E-A6F9-8A8D8AECF2D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D0D586D-8FE7-431E-A6F9-8A8D8AECF2D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D0D586D-8FE7-431E-A6F9-8A8D8AECF2D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7E396AB-C282-4149-840C-AD1FF710B43A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7E396AB-C282-4149-840C-AD1FF710B43A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7E396AB-C282-4149-840C-AD1FF710B43A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7E396AB-C282-4149-840C-AD1FF710B43A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

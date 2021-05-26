@@ -1,5 +1,5 @@
 /**
- * 请不要修改，为框架通用配置，便于统一更新  
+ * 请不要修改，为框架通用配置，便于统一更新
  */
 import Vue from 'vue'
 import Cookies from 'js-cookie'
@@ -22,17 +22,9 @@ import '@/utils/registerComponent'// 下面开始注册全局组件
 setVm(Vue) // 将常用的挂载到vue对象
 permission.install(Vue) // 权限指令
 
-/**
- * If you don't want to use mock-server
- * you want to use MockJs for mock api
- * you can execute: mockXHR()
- *
- * Currently MockJs will be used in the production environment,
- * please remove it before going online! ! !
- */
 // 如果要用mock本地，打开下面的，项目的其它配置不要变。本项目mock和两种，一个是mock server，一个是下面的mock本地（即MOCK XHR）
 // 如果用mock本地，在chrome的network里是看不到请求的
-// 如果要用mock server，要注释下面的，并要在vue.config.js里的devServer的proxy和after进行配置
+// 如果要用mock server，要注释下面的，并用npm run dev:mock运行项目
 // import { mockXHR } from '../mock'
 // if (process.env.NODE_ENV === 'development') {
 //   console.log('-------------------mockXHR-----------------')

@@ -107,7 +107,6 @@ export const simpleCrudBaseMixin = {
   },
   methods: {
     remove() {
-      debugger;
       var ids = []
       var currentRow = this.currentRow
       var selection = this.selection
@@ -171,7 +170,6 @@ export const simpleCrudBaseMixin = {
       this.visible = true
     },
     submit() {
-      debugger;
       const { submitHandler } = this
       if (submitHandler) {
         submitHandler()
@@ -250,11 +248,10 @@ export const simpleCrudBaseMixin = {
             }
           })
         }
-
       }
     },
-     // 这个是SnailPageTable里的方法
-     getPagination() {
+    // 这个是SnailPageTable里的方法
+    getPagination() {
       return {
         pageIndex: this.$refs.pagination.internalCurrentPage,
         pageSize: this.$refs.pagination.internalPageSize

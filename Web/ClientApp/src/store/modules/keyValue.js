@@ -13,12 +13,10 @@ const actions = {
   async getKeyValue({ commit, state }, key) {
     const keyValues = state.keyValues
     var list = keyValues[key]
-    debugger
     if (list) {
       return list
     }
     try {
-      debugger
       const data = await getKeyValue(key)
       commit('SET_ENUM_LIST', { data, key })
       return state.keyValues[key]
@@ -28,7 +26,6 @@ const actions = {
     }
   },
   keyValueTestAction() {
-    debugger
   }
 }
 

@@ -36,23 +36,10 @@ module.exports = {
       warnings: false,
       errors: true
     },
+    // 用express在http://localhost:9528/mock-api/下挂载mock数据服务，如下用http://localhost:9528/mock-api/api/mock/list
+    before: require('./mock/mock-server.js'),
 
-    // 下面是开启mock server的方式
-    // proxy: {
-    //   // 下面这是将xxx-api开头的地址转到mock地址，xxx-api在.env.xxx的文件里有配置，如.env.development文件
-    //   // change xxx-api/login => mock/login
-    //   // detail: https://cli.vuejs.org/config/#devserver-proxy
-    //   [process.env.VUE_APP_BASE_API]: {
-    //     target: `http://127.0.0.1:${port}/mock`,
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       ['^' + process.env.VUE_APP_BASE_API]: ''
-    //     }
-    //   }
-    // },
-    // after: require('./mock/mock-server.js')
-
-    // 下面为开发时用后台数据接口的配置，即将所有http:xxx:yyy/dev-api代码为http://localhost:5000/
+    // 下面为开发时用后台数据接口的配置，即将所有http:xxx:yyy/dev-api/xxx代理到http://localhost:5000/xxx
     proxy: {
       '/dev-api': {
         target: `http://localhost:5000`,

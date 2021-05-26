@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Snail.Web.Controllers;
 using Snail.Web.Filter;
 using Snail.Web.Services;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Web.Controllers
@@ -25,6 +28,25 @@ namespace Web.Controllers
         {
             return currentUserId;
         }
+        #region 配合前端做数据mock测试
+        [AllowAnonymous]
+        [HttpGet("/api/mock/list")]
+        public List<MockListTest> GetMockListTests()
+        {
+            return new List<MockListTest>
+            {
+               new MockListTest(){Age=30,Name="周晶"},
+               new MockListTest(){Age=29,Name="张三"},
+            };
+        }
+
+        [AllowAnonymous]
+        [HttpPost("/api/mock/post")]
+        public string PostMock()
+        {
+            return $"success-{DateTime.Now}";
+        }
+        #endregion
 
         #region interceptor
 
@@ -80,5 +102,10 @@ namespace Web.Controllers
         }
         
         #endregion
+    }
+    public class MockListTest
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
     }
 }

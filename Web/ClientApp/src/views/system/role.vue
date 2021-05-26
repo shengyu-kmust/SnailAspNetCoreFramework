@@ -1,6 +1,6 @@
 <template>
-  <div style="display:flex;flex:1">
-    <snail-simple-list-crud 
+  <div style="width:100%">
+    <snail-simple-list-crud
       search-api="getAllRole"
       add-api="saveRole"
       edit-api="saveRole"
@@ -11,7 +11,7 @@
       :form-rules="rules"
       :form-fields="fields"
     >
-    </snail-simple-list-crud >
+    </snail-simple-list-crud>
   </div>
 </template>
 

@@ -1,4 +1,4 @@
-import Mock from 'mockjs'
+const Mock = require('mockjs')
 const successCode = 20000
 const list = Mock.mock({
   'array|100': [{
@@ -10,7 +10,8 @@ const list = Mock.mock({
     'multiSelect': ['yes', 'no']
   }]
 }).array
-export default [
+
+module.exports = [
   {
     url: '/api/crudSample/getList',
     type: 'get',

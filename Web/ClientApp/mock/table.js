@@ -1,4 +1,4 @@
-import Mock from 'mockjs'
+const Mock = require('mockjs')
 const list = Mock.mock({
   'array|10': [{
     'string': '@cname',
@@ -8,7 +8,7 @@ const list = Mock.mock({
     'multiselect': ['yes', 'no']
   }]
 }).array
-export default [
+module.exports = [
   {
     url: '/table/list',
     type: 'get',

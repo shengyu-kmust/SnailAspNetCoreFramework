@@ -10,7 +10,7 @@ const Layout = () => {
   // if (iframeRuntime()) {
   //   return import('@/layout/noLayout')
   // }
-    return import('@/layout')
+  return import('@/layout')
 }
 
 /** 定义界面 */
@@ -51,6 +51,17 @@ import basicRouters from './basicRouters'
  */
 export const constantRoutes = [
   {
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    children: [{
+      path: 'dashboard',
+      name: 'dashboard',
+      component: dashboard,
+      meta: { title: '控制台', icon: 'dashboard' }
+    }]
+  },
+  {
     path: '/redirect', // 不要删除 ，这是用来配合刷新当前路由页面
     component: Layout,
     hidden: true,
@@ -78,16 +89,16 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'dashboard',
-      component: dashboard,
-      meta: { title: '控制台', icon: 'dashboard' }
-    }]
+    path: '/crudSample',
+    component: () => import('@/views/crudSample'),
+    hidden: true
+  },
+  {
+    path: '/mocktest',
+    component: () => import('@/views/test/mocktest'),
+    hidden: true
   }
+
   // 404 page must be placed at the end !!!
   // { path: '*', redirect: '/404', hidden: true } //如果此句打开后，页面刷新会直接到404页面，暂不知道原因， todo
 ]

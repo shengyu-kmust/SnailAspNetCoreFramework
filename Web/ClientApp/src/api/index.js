@@ -1,4 +1,4 @@
-// 此文件不要修改，如果要增加接口，请增加其它js，并在此引入 
+// 此文件不要修改，如果要增加接口，请增加其它js，并在此引入
 // axios用法
 // axios.request(config)
 // axios.get(url[, config])
@@ -19,6 +19,7 @@
 
 import request from '@/utils/request'
 export * from '@/api/basic'
+export * from '@/api/testapi'
 
 // crudSample接口
 // axios.request(config)
@@ -36,7 +37,7 @@ export const edit = data => request.post('/api/crudSample/save', data)
 export const remove = ids => request.delete('/api/crudSample/delete', { data: ids })
 
 // keyvalue
-export const getKeyValue = key => request.get('/api/keyValue/Get', { params: { key } })
+export const getKeyValue = key => request.get('/api/keyValue/Get', { params: { key }})
 
 // 配置管理
 export const configQueryPage = params => request.get('/api/config/queryPage', { params })
