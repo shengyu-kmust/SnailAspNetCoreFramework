@@ -47,10 +47,11 @@ const responseFake = (url, type, respond) => {
 module.exports = app => {
   // parse app.body
   // https://expressjs.com/en/4x/api.html#req.body
-  app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({
-    extended: true
-  }))
+  // 如mock server不是单独开启而是挂载在webpack devserver的before上，则不能修改request body以免影响传到后端的原始请求
+  // app.use(bodyParser.json())
+  // app.use(bodyParser.urlencoded({
+  //   extended: true
+  // }))
 
   const mockRoutes = registerRoutes(app)
   var mockRoutesLength = mockRoutes.mockRoutesLength
