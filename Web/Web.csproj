@@ -58,19 +58,19 @@
     <None Update="Dockerfile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="serviceCreate.bat">
+    <None Update="deployScripts\windows\serviceCreate.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="serviceRemove.bat">
+    <None Update="deployScripts\windows\serviceRemove.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="serviceStart.bat">
+    <None Update="deployScripts\windows\serviceStart.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="serviceStop.bat">
+    <None Update="deployScripts\windows\serviceStop.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="start.bat">
+    <None Update="deployScripts\windows\start.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="staticFile\staticFileReadme.md">
@@ -91,8 +91,8 @@
   <!--SPA的配置，编译前端界面，并加入到发布文件-->
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
      <!--As part of publishing, ensure the JS resources are freshly built in production mode--> 
-    <!--<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:prod" />-->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:prod" />
 
      <!--Include the newly-built files in the publish output--> 
     <ItemGroup>

@@ -6,6 +6,14 @@
 * 前端技术栈：vue-element-admin,crud快速开发模块组件,mock
 * 实现的功能：基于角色的权限控制，项目分层约定，代码自动生成，日志记录，性能监控，aop等
 
+# 如何运行项目
+```
+git clone git@github.com:shengyu-kmust/SnailAspNetCoreFramework.git
+git clone git@github.com:shengyu-kmust/Snail.git
+cd SnailAspNetCoreFramework
+dotnet build
+```
+
 # 项目演示
 **如下是基于v1.0版本的演示图**
 * 1、下载和运行项目

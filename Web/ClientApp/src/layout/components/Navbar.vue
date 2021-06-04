@@ -24,6 +24,9 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>
+            <span>{{ name }}</span>
+          </el-dropdown-item>
           <router-link to="/">
             <el-dropdown-item>主页</el-dropdown-item>
           </router-link>
@@ -62,7 +65,8 @@ export default {
     ...mapGetters([
       'sidebar',
       'avatar',
-      'device'
+      'device',
+      'name'
     ])
   },
   methods: {

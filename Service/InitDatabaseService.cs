@@ -71,8 +71,8 @@ namespace Service
             var userRoles = new List<UserRole>();
             if (typeof(ITenant<string>).IsAssignableFrom(typeof(User)))
             {
-                var tenantUserRoleData1 = buildUserAndRoleDataInternal("1");
-                var tenantUserRoleData2=buildUserAndRoleDataInternal("2");
+                var tenantUserRoleData1 = buildUserAndRoleDataInternal("tenant1");
+                var tenantUserRoleData2=buildUserAndRoleDataInternal("tenant2");
                 users.AddRange(tenantUserRoleData1.users);
                 users.AddRange(tenantUserRoleData2.users);
                 roles.AddRange(tenantUserRoleData1.roles);

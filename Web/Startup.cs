@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Snail.Core.Default;
 using Snail.Web;
 using System;
+using System.IO;
 using System.Linq;
 using Web.AutoMapperProfiles;
 
@@ -46,6 +48,7 @@ namespace Web
             #endregion
 
             services.ConfigAndOptionSetting(Configuration);
+            services.AddSpaStaticFiles(cfg=>cfg.RootPath= "ClientApp/dist");
 
         }
 
@@ -68,9 +71,13 @@ namespace Web
         // here if you need to resolve things from the container.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
-            this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+            Console.WriteLine($"==================当前环境:{env.EnvironmentName}==================");
+
+            app.UseSpaStaticFiles();
 
             app.ConfigSnailWebApplicationBuilder(env, serviceProvider, Configuration);
+
+            this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
             using (var scope = AutofacContainer.BeginLifetimeScope())
             {
                 //下面两种方法用一种即可 // todo 下面配置成可切换
