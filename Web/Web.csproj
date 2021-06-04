@@ -55,6 +55,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="deployScripts\linux\SnailWeb.service">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="deployScripts\linux\winPubToLinux.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Dockerfile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
